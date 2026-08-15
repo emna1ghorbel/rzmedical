@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+
+}
+
+enum TypeUtilisateur {
+  ADMIN
+  CLIENT
+}
+
+enum StatutCommande {
+  EN_ATTENTE
+  PAYEE
+  EXPEDIEE
+  LIVREE
+  ANNULEE
+}
+
+enum TypeFacture {
+  FACTURE
+  AVOIR
+}
+
+enum StatutFacture {
+  BROUILLON
+  EMISE
+  PAYEE
+  PARTIELLEMENT_PAYEE
+  ANNULEE
+}
+
+enum OrigineFacture {
+  APP
+  ERP
+}
+
+model Utilisateur {
+  id              Int             @id @default(autoincrement())
+  email           String          @unique
+  motDePasseHash  String
+  prenom          String?
+  nom             String?
+  telephone       String?
+  typeUtilisateur TypeUtilisateur @default(CLIENT)
+  creeLe          DateTime        @default(now())
+  misAJourLe      DateTime        @updatedAt
+
+  commandes       Commande[]
+
+  @@map("utilisateurs")
+}
+
+model Categorie {
+  id             Int             @id @default(autoincrement())
+  nom            String          @unique
+  creeLe         DateTime        @default(now())
+  misAJourLe     DateTime        @updatedAt
+
+  sousCategories SousCategorie[]
+  marques        Marque[]
+
+  @@map("categories")
+}
+
+model SousCategorie {
+  id          Int       @id @default(autoincrement())
+  nom         String
+  image       String?
+  categorieId Int
+  categorie   Categorie @relation(fields: [categorieId], references: [id])
+  creeLe      DateTime  @default(now())
+  misAJourLe  DateTime  @updatedAt
+
+  produits    Produit[]
+
+  @@unique([nom, categorieId])
+  @@map("sous_categories")
+}
+
+model Marque {
+  id          Int       @id @default(autoincrement())
+  nom         String
+  logo        String?
+  categorieId Int
+  categorie   Categorie @relation(fields: [categorieId], references: [id])
+  creeLe      DateTime  @default(now())
+  misAJourLe  DateTime  @updatedAt
+
+  produits    Produit[]
+
+  @@unique([nom, categorieId])
+  @@map("marques")
+}
+
+model Produit {
+  id              Int             @id @default(autoincrement())
+  nom             String
+  reference       String          @unique
+  description     String?
+  prix            Decimal         @db.Decimal(10, 2)
+  stock           Int             @default(0)
+  image           String?
+  ficheTechnique  String?
+  disponible      Boolean         @default(true)
+  sousCategorieId Int
+  sousCategorie   SousCategorie   @relation(fields: [sousCategorieId], references: [id])
+  marqueId        Int
+  marque          Marque          @relation(fields: [marqueId], references: [id])
+  creeLe          DateTime        @default(now())
+  misAJourLe      DateTime        @updatedAt
+
+  lignesCommande  LigneCommande[]
+
+  @@index([sousCategorieId])
+  @@index([marqueId])
+  @@map("produits")
+}
+
+model Commande {
+  id            Int             @id @default(autoincrement())
+  utilisateurId Int
+  utilisateur   Utilisateur     @relation(fields: [utilisateurId], references: [id])
+  statut        StatutCommande  @default(EN_ATTENTE)
+  total         Decimal         @db.Decimal(10, 2)
+  creeLe        DateTime        @default(now())
+  misAJourLe    DateTime        @updatedAt
+
+  lignes        LigneCommande[]
+  factures      Facture[]
+
+  @@index([utilisateurId])
+  @@map("commandes")
+}
+
+model LigneCommande {
+  id           Int      @id @default(autoincrement())
+  commandeId   Int
+  commande     Commande @relation(fields: [commandeId], references: [id])
+  produitId    Int
+  produit      Produit  @relation(fields: [produitId], references: [id])
+  quantite     Int
+  prixUnitaire Decimal  @db.Decimal(10, 2)
+
+  @@index([commandeId])
+  @@index([produitId])
+  @@map("lignes_commande")
+}
+
+model Facture {
+  id             Int           @id @default(autoincrement())
+  numero         String        @unique
+  type           TypeFacture   @default(FACTURE)
+  statut         StatutFacture @default(BROUILLON)
+  commandeId     Int
+  commande       Commande      @relation(fields: [commandeId], references: [id])
+  dateEmission   DateTime      @default(now())
+  dateEcheance   DateTime?
+  montantHT      Decimal       @db.Decimal(10, 2)
+  tauxTVA        Decimal       @db.Decimal(5, 2) @default(19)
+  montantTVA     Decimal       @db.Decimal(10, 2)
+  montantTTC     Decimal       @db.Decimal(10, 2)
+  referenceERP   String?       @unique
+  origine        OrigineFacture @default(APP)
+  synchroniseLe  DateTime?
+  enErreurSync   Boolean       @default(false)
+  messageErreurSync String?
+  fichierPdf     String?
+  creeLe         DateTime      @default(now())
+  misAJourLe     DateTime      @updatedAt
+
+  @@index([commandeId])
+  @@index([statut])
+  @@index([origine])
+  @@map("factures")
+}

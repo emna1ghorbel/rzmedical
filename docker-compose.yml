@@ -1,0 +1,62 @@
+services:
+  db:
+    image: postgres:16
+    container_name: rzmedical_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rzmedical_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rzmedical_backend
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/generated
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/rzmedical_db?schema=public
+      PORT: 4000
+      JWT_SECRET: rzmedical_super_secret_jwt_key_2024_change_me
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USER: emnaghorbel56@gmail.com
+      EMAIL_PASS: buqdxucfnarjgpqt
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  admin:
+    build:
+      context: ./admin-panel
+      dockerfile: Dockerfile
+    container_name: rzmedical_admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./admin-panel:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+    depends_on:
+      - backend
+    restart: on-failure
+
+volumes:
+  pgdata:
