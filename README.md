@@ -85,7 +85,7 @@ docker compose up -d db
 En local, utilisez une URL PostgreSQL équivalente à :
 
 ```text
-postgresql://postgres:password@localhost:5432/rzmedical_db?schema=public
+-
 ```
 
 ### 2. Installer et configurer le backend
@@ -98,14 +98,14 @@ npm install
 Créez `backend/.env` :
 
 ```dotenv
-DATABASE_URL="postgresql://postgres:password@localhost:5432/rzmedical_db?schema=public"
+-
 PORT=4000
 JWT_SECRET="changez-cette-valeur-en-developpement"
 EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT=587
 EMAIL_USER=""
 EMAIL_PASS=""
-ADMIN_EMAIL="admin@rzmedical.com"
+ADMIN_EMAIL=-
 ADMIN_PASSWORD="changez-ce-mot-de-passe"
 ```
 
