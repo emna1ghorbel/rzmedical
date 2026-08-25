@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type Utilisateur = Prisma.UtilisateurModel
 /**
+ * Model TicketSupport
+ * 
+ */
+export type TicketSupport = Prisma.TicketSupportModel
+/**
+ * Model MessageSupport
+ * 
+ */
+export type MessageSupport = Prisma.MessageSupportModel
+/**
  * Model Categorie
  * 
  */
@@ -57,3 +67,23 @@ export type LigneCommande = Prisma.LigneCommandeModel
  * 
  */
 export type Facture = Prisma.FactureModel
+/**
+ * Model LigneFacture
+ * 
+ */
+export type LigneFacture = Prisma.LigneFactureModel
+/**
+ * Model AnnonceSite
+ * 
+ */
+export type AnnonceSite = Prisma.AnnonceSiteModel
+/**
+ * Model BanniereSite
+ * 
+ */
+export type BanniereSite = Prisma.BanniereSiteModel
+/**
+ * Model VideoHero
+ * 
+ */
+export type VideoHero = Prisma.VideoHeroModel

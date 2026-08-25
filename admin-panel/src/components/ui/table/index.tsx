@@ -29,36 +29,42 @@ interface TableCellProps {
   children: ReactNode; // Cell content
   isHeader?: boolean; // If true, renders as <th>, otherwise <td>
   className?: string; // Optional className for styling
+  colSpan?: number; // Optional colSpan
 }
 
 // Table Component
-const Table: React.FC<TableProps> = ({ children, className }) => {
-  return <table className={`min-w-full  ${className}`}>{children}</table>;
+const Table: React.FC<TableProps> = ({ children, className = "" }) => {
+  return <table className={`min-w-full text-left text-sm ${className}`}>{children}</table>;
 };
 
 // TableHeader Component
-const TableHeader: React.FC<TableHeaderProps> = ({ children, className }) => {
-  return <thead className={className}>{children}</thead>;
+const TableHeader: React.FC<TableHeaderProps> = ({ children, className = "" }) => {
+  return <thead className={`border-b bg-gray-50 text-xs uppercase text-gray-500 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-400 ${className}`}>{children}</thead>;
 };
 
 // TableBody Component
-const TableBody: React.FC<TableBodyProps> = ({ children, className }) => {
-  return <tbody className={className}>{children}</tbody>;
+const TableBody: React.FC<TableBodyProps> = ({ children, className = "" }) => {
+  return <tbody className={`divide-y divide-gray-100 dark:divide-gray-800 ${className}`}>{children}</tbody>;
 };
 
 // TableRow Component
-const TableRow: React.FC<TableRowProps> = ({ children, className }) => {
-  return <tr className={className}>{children}</tr>;
+const TableRow: React.FC<TableRowProps> = ({ children, className = "" }) => {
+  return <tr className={`transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/30 ${className}`}>{children}</tr>;
 };
 
 // TableCell Component
 const TableCell: React.FC<TableCellProps> = ({
   children,
   isHeader = false,
-  className,
+  className = "",
+  colSpan,
 }) => {
   const CellTag = isHeader ? "th" : "td";
-  return <CellTag className={` ${className}`}>{children}</CellTag>;
+  const baseClasses = isHeader 
+    ? "px-4 py-3 font-semibold tracking-wide text-left" 
+    : "px-4 py-3 align-middle";
+    
+  return <CellTag colSpan={colSpan} className={`${baseClasses} ${className}`}>{children}</CellTag>;
 };
 
 export { Table, TableHeader, TableBody, TableRow, TableCell };

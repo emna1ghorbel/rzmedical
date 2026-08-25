@@ -1,9 +1,10 @@
 "use client";
+import { getApiUrl } from "@/utils/api";
 import React, { useEffect, useState } from "react";
 import Badge from "../ui/badge/Badge";
 import { BoxIconLine, GroupIcon } from "@/icons";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_URL = getApiUrl();
 
 interface Stats {
   totalProduits: number;
@@ -12,6 +13,7 @@ interface Stats {
   totalSousCategories: number;
   produitsDisponibles: number;
   produitsRupture: number;
+  produitsIndisponibles: number;
 }
 
 export const EcommerceMetrics = () => {
@@ -48,7 +50,7 @@ export const EcommerceMetrics = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
       <MetricCard
         icon={<BoxIconLine className="text-gray-800 dark:text-white/90" />}
         label="Total Produits"
@@ -67,8 +69,15 @@ export const EcommerceMetrics = () => {
         icon={<GroupIcon className="text-gray-800 size-6 dark:text-white/90" />}
         label="Marques"
         value={stats?.totalMarques ?? 0}
-        sub={stats?.produitsDisponibles ? `${stats.produitsDisponibles} produits actifs` : undefined}
+        sub={stats?.produitsDisponibles ? `${stats.produitsDisponibles} actifs` : undefined}
         subColor="success"
+      />
+      <MetricCard
+        icon={<BoxIconLine className="text-gray-800 dark:text-white/90" />}
+        label="Produits Indisponibles"
+        value={stats?.produitsIndisponibles ?? 0}
+        sub={stats?.produitsIndisponibles ? `masqués` : undefined}
+        subColor="error"
       />
     </div>
   );

@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,10 +16,12 @@
 
 # next.js
 /.next/
+**/.next/
 /out/
 
 # production
 /build
+**/dist/
 
 # misc
 .DS_Store
@@ -50,3 +53,6 @@ implementation_plan*.md
 .claude/
 .windsurf/
 .agents/
+
+# Local runtime data
+/backend/uploads/

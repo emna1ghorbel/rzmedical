@@ -39,6 +39,7 @@ export type SousCategorieSumAggregateOutputType = {
 export type SousCategorieMinAggregateOutputType = {
   id: number | null
   nom: string | null
+  description: string | null
   image: string | null
   categorieId: number | null
   creeLe: Date | null
@@ -48,6 +49,7 @@ export type SousCategorieMinAggregateOutputType = {
 export type SousCategorieMaxAggregateOutputType = {
   id: number | null
   nom: string | null
+  description: string | null
   image: string | null
   categorieId: number | null
   creeLe: Date | null
@@ -57,6 +59,7 @@ export type SousCategorieMaxAggregateOutputType = {
 export type SousCategorieCountAggregateOutputType = {
   id: number
   nom: number
+  description: number
   image: number
   categorieId: number
   creeLe: number
@@ -78,6 +81,7 @@ export type SousCategorieSumAggregateInputType = {
 export type SousCategorieMinAggregateInputType = {
   id?: true
   nom?: true
+  description?: true
   image?: true
   categorieId?: true
   creeLe?: true
@@ -87,6 +91,7 @@ export type SousCategorieMinAggregateInputType = {
 export type SousCategorieMaxAggregateInputType = {
   id?: true
   nom?: true
+  description?: true
   image?: true
   categorieId?: true
   creeLe?: true
@@ -96,6 +101,7 @@ export type SousCategorieMaxAggregateInputType = {
 export type SousCategorieCountAggregateInputType = {
   id?: true
   nom?: true
+  description?: true
   image?: true
   categorieId?: true
   creeLe?: true
@@ -192,6 +198,7 @@ export type SousCategorieGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type SousCategorieGroupByOutputType = {
   id: number
   nom: string
+  description: string | null
   image: string | null
   categorieId: number
   creeLe: Date
@@ -224,6 +231,7 @@ export type SousCategorieWhereInput = {
   NOT?: Prisma.SousCategorieWhereInput | Prisma.SousCategorieWhereInput[]
   id?: Prisma.IntFilter<"SousCategorie"> | number
   nom?: Prisma.StringFilter<"SousCategorie"> | string
+  description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -235,6 +243,7 @@ export type SousCategorieWhereInput = {
 export type SousCategorieOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nom?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -250,6 +259,7 @@ export type SousCategorieWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SousCategorieWhereInput[]
   NOT?: Prisma.SousCategorieWhereInput | Prisma.SousCategorieWhereInput[]
   nom?: Prisma.StringFilter<"SousCategorie"> | string
+  description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -261,6 +271,7 @@ export type SousCategorieWhereUniqueInput = Prisma.AtLeast<{
 export type SousCategorieOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nom?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -278,6 +289,7 @@ export type SousCategorieScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SousCategorieScalarWhereWithAggregatesInput | Prisma.SousCategorieScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"SousCategorie"> | number
   nom?: Prisma.StringWithAggregatesFilter<"SousCategorie"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"SousCategorie"> | string | null
   categorieId?: Prisma.IntWithAggregatesFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"SousCategorie"> | Date | string
@@ -286,6 +298,7 @@ export type SousCategorieScalarWhereWithAggregatesInput = {
 
 export type SousCategorieCreateInput = {
   nom: string
+  description?: string | null
   image?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -296,6 +309,7 @@ export type SousCategorieCreateInput = {
 export type SousCategorieUncheckedCreateInput = {
   id?: number
   nom: string
+  description?: string | null
   image?: string | null
   categorieId: number
   creeLe?: Date | string
@@ -305,6 +319,7 @@ export type SousCategorieUncheckedCreateInput = {
 
 export type SousCategorieUpdateInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -315,6 +330,7 @@ export type SousCategorieUpdateInput = {
 export type SousCategorieUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -325,6 +341,7 @@ export type SousCategorieUncheckedUpdateInput = {
 export type SousCategorieCreateManyInput = {
   id?: number
   nom: string
+  description?: string | null
   image?: string | null
   categorieId: number
   creeLe?: Date | string
@@ -333,6 +350,7 @@ export type SousCategorieCreateManyInput = {
 
 export type SousCategorieUpdateManyMutationInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,6 +359,7 @@ export type SousCategorieUpdateManyMutationInput = {
 export type SousCategorieUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,6 +384,7 @@ export type SousCategorieNomCategorieIdCompoundUniqueInput = {
 export type SousCategorieCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nom?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   image?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -379,6 +399,7 @@ export type SousCategorieAvgOrderByAggregateInput = {
 export type SousCategorieMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nom?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   image?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -388,6 +409,7 @@ export type SousCategorieMaxOrderByAggregateInput = {
 export type SousCategorieMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nom?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   image?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -462,6 +484,7 @@ export type SousCategorieUpdateOneRequiredWithoutProduitsNestedInput = {
 
 export type SousCategorieCreateWithoutCategorieInput = {
   nom: string
+  description?: string | null
   image?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -471,6 +494,7 @@ export type SousCategorieCreateWithoutCategorieInput = {
 export type SousCategorieUncheckedCreateWithoutCategorieInput = {
   id?: number
   nom: string
+  description?: string | null
   image?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -509,6 +533,7 @@ export type SousCategorieScalarWhereInput = {
   NOT?: Prisma.SousCategorieScalarWhereInput | Prisma.SousCategorieScalarWhereInput[]
   id?: Prisma.IntFilter<"SousCategorie"> | number
   nom?: Prisma.StringFilter<"SousCategorie"> | string
+  description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -517,6 +542,7 @@ export type SousCategorieScalarWhereInput = {
 
 export type SousCategorieCreateWithoutProduitsInput = {
   nom: string
+  description?: string | null
   image?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -526,6 +552,7 @@ export type SousCategorieCreateWithoutProduitsInput = {
 export type SousCategorieUncheckedCreateWithoutProduitsInput = {
   id?: number
   nom: string
+  description?: string | null
   image?: string | null
   categorieId: number
   creeLe?: Date | string
@@ -550,6 +577,7 @@ export type SousCategorieUpdateToOneWithWhereWithoutProduitsInput = {
 
 export type SousCategorieUpdateWithoutProduitsInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -559,6 +587,7 @@ export type SousCategorieUpdateWithoutProduitsInput = {
 export type SousCategorieUncheckedUpdateWithoutProduitsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -568,6 +597,7 @@ export type SousCategorieUncheckedUpdateWithoutProduitsInput = {
 export type SousCategorieCreateManyCategorieInput = {
   id?: number
   nom: string
+  description?: string | null
   image?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -575,6 +605,7 @@ export type SousCategorieCreateManyCategorieInput = {
 
 export type SousCategorieUpdateWithoutCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -584,6 +615,7 @@ export type SousCategorieUpdateWithoutCategorieInput = {
 export type SousCategorieUncheckedUpdateWithoutCategorieInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -593,6 +625,7 @@ export type SousCategorieUncheckedUpdateWithoutCategorieInput = {
 export type SousCategorieUncheckedUpdateManyWithoutCategorieInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nom?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -632,6 +665,7 @@ export type SousCategorieCountOutputTypeCountProduitsArgs<ExtArgs extends runtim
 export type SousCategorieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nom?: boolean
+  description?: boolean
   image?: boolean
   categorieId?: boolean
   creeLe?: boolean
@@ -644,6 +678,7 @@ export type SousCategorieSelect<ExtArgs extends runtime.Types.Extensions.Interna
 export type SousCategorieSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nom?: boolean
+  description?: boolean
   image?: boolean
   categorieId?: boolean
   creeLe?: boolean
@@ -654,6 +689,7 @@ export type SousCategorieSelectCreateManyAndReturn<ExtArgs extends runtime.Types
 export type SousCategorieSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nom?: boolean
+  description?: boolean
   image?: boolean
   categorieId?: boolean
   creeLe?: boolean
@@ -664,13 +700,14 @@ export type SousCategorieSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type SousCategorieSelectScalar = {
   id?: boolean
   nom?: boolean
+  description?: boolean
   image?: boolean
   categorieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type SousCategorieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "image" | "categorieId" | "creeLe" | "misAJourLe", ExtArgs["result"]["sousCategorie"]>
+export type SousCategorieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "description" | "image" | "categorieId" | "creeLe" | "misAJourLe", ExtArgs["result"]["sousCategorie"]>
 export type SousCategorieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categorie?: boolean | Prisma.CategorieDefaultArgs<ExtArgs>
   produits?: boolean | Prisma.SousCategorie$produitsArgs<ExtArgs>
@@ -692,6 +729,7 @@ export type $SousCategoriePayload<ExtArgs extends runtime.Types.Extensions.Inter
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     nom: string
+    description: string | null
     image: string | null
     categorieId: number
     creeLe: Date
@@ -1123,6 +1161,7 @@ export interface Prisma__SousCategorieClient<T, Null = never, ExtArgs extends ru
 export interface SousCategorieFieldRefs {
   readonly id: Prisma.FieldRef<"SousCategorie", 'Int'>
   readonly nom: Prisma.FieldRef<"SousCategorie", 'String'>
+  readonly description: Prisma.FieldRef<"SousCategorie", 'String'>
   readonly image: Prisma.FieldRef<"SousCategorie", 'String'>
   readonly categorieId: Prisma.FieldRef<"SousCategorie", 'Int'>
   readonly creeLe: Prisma.FieldRef<"SousCategorie", 'DateTime'>

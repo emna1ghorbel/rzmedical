@@ -7,15 +7,10 @@ import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../hooks/useAuth";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
-  PageIcon,
-  PieChartIcon,
-  PlugInIcon,
-  TableIcon,
   UserCircleIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
@@ -42,6 +37,16 @@ const navItems: NavItem[] = [
       { name: "Marques", path: "/brands", pro: false },
       { name: "Produits", path: "/products", pro: false },
     ],
+  },
+  {
+    name: "Contenu du site",
+    icon: <GridIcon />,
+    path: "/site-content",
+  },
+  {
+    name: "Support",
+    icon: <ListIcon />,
+    path: "/support",
   },
   {
     name: "Ventes",
@@ -80,7 +85,7 @@ const othersItems: NavItem[] = [
 ];
 
 const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleMobileSidebar } = useSidebar();
   const pathname = usePathname();
 
   const renderMenuItems = (
@@ -130,6 +135,9 @@ const AppSidebar: React.FC = () => {
             nav.path && (
               <Link
                 href={nav.path}
+                onClick={() => {
+                  if (isMobileOpen) toggleMobileSidebar();
+                }}
                 className={`menu-item group ${
                   isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
                 }`}
@@ -167,6 +175,9 @@ const AppSidebar: React.FC = () => {
                   <li key={subItem.name}>
                     <Link
                       href={subItem.path}
+                      onClick={() => {
+                        if (isMobileOpen) toggleMobileSidebar();
+                      }}
                       className={`menu-dropdown-item ${
                         isActive(subItem.path)
                           ? "menu-dropdown-item-active"

@@ -1,12 +1,13 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useAuth } from "@/hooks/useAuth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
-const BASE_URL = API_URL.replace("/api", "");
+const API_URL = getApiUrl();
+const BASE_URL = getBaseUrl();
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,7 +93,7 @@ export default function UserDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="absolute right-0 mt-3 flex w-[260px] max-w-[calc(100vw-24px)] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-2xl dark:border-gray-800 dark:bg-gray-900 z-50"
       >
         <div className="px-2 py-1.5 border-b border-gray-100 dark:border-gray-800 mb-2">
           <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90 truncate">

@@ -1,0 +1,108 @@
+import { Response } from 'express';
+import { AuthRequest } from '../auth/auth.middleware';
+import * as service from './orders.service';
+import { OrderError } from './orders.service';
+
+// Sérialise les Decimal (total, prixUnitaire) en Number pour la réponse JSON
+export const serializeOrder = (order: any) => ({
+  ...order,
+  total: Number(order.total),
+  lignes: Array.isArray(order.lignes)
+    ? order.lignes.map((l: any) => ({ ...l, prixUnitaire: Number(l.prixUnitaire) }))
+    : order.lignes,
+});
+
+export const create = async (req: AuthRequest, res: Response) => {
+  try {
+    const { lignes } = req.body;
+    const order = await service.createOrder(req.user!.id, lignes);
+    res.status(201).json(serializeOrder(order));
+  } catch (err: unknown) {
+    if (err instanceof OrderError) {
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+    console.error('POST /api/orders error:', err);
+    res.status(500).json({ error: 'Erreur lors de la création de la commande' });
+  }
+};
+
+export const list = async (req: AuthRequest, res: Response) => {
+  try {
+    const orders = await service.getMyOrders(req.user!.id);
+    res.json(orders.map(serializeOrder));
+  } catch (err: unknown) {
+    console.error('GET /api/orders error:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des commandes' });
+  }
+};
+
+export const getOne = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Identifiant de commande invalide' });
+    }
+    const order = await service.getOrder(req.user!.id, id);
+    if (!order) {
+      return res.status(404).json({ error: 'Commande non trouvée' });
+    }
+    res.json(serializeOrder(order));
+  } catch (err: unknown) {
+    console.error('GET /api/orders/:id error:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération de la commande' });
+  }
+};
+
+// --- Admin methods ---
+
+export const listAll = async (req: AuthRequest, res: Response) => {
+  try {
+    const status = req.query.status as string | undefined;
+    const orders = await service.getAllOrders(status);
+    res.json(orders.map(serializeOrder));
+  } catch (err: unknown) {
+    console.error('GET /api/orders/admin error:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des commandes' });
+  }
+};
+
+export const updateStatus = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const { status } = req.body;
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Identifiant de commande invalide' });
+    }
+    if (!status) {
+      return res.status(400).json({ error: 'Statut requis' });
+    }
+    const order = await service.updateOrderStatus(id, status);
+    res.json(serializeOrder(order));
+  } catch (err: unknown) {
+    if (err instanceof OrderError) {
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+    console.error('PATCH /api/orders/admin/:id/status error:', err);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la commande' });
+  }
+};
+export const updateItems = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const { lignes } = req.body;
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Identifiant de commande invalide' });
+    }
+    if (!Array.isArray(lignes)) {
+      return res.status(400).json({ error: 'Un tableau de lignes est requis' });
+    }
+    const order = await service.updateOrderItems(id, lignes);
+    res.json(serializeOrder(order));
+  } catch (err: unknown) {
+    if (err instanceof OrderError) {
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+    console.error('PATCH /api/orders/admin/:id/items error:', err);
+    res.status(500).json({ error: 'Erreur lors de la modification des lignes de la commande' });
+  }
+};

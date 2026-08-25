@@ -62,7 +62,7 @@ router.get('/', requireAuth, async (req: Request, res: Response) => {
     }
 
     try {
-      const latestMessageSeq = client.mailbox.exists;
+      const latestMessageSeq = client.mailbox && (client.mailbox as any).exists ? (client.mailbox as any).exists : 0;
       if (latestMessageSeq === 0) return res.json([]); // Pas d'emails
 
       const startSeq = Math.max(1, latestMessageSeq - 19); // 20 derniers
@@ -99,7 +99,7 @@ router.get('/', requireAuth, async (req: Request, res: Response) => {
 
 // 2. GET SINGLE EMAIL DETAILS
 router.get('/:uid', requireAuth, async (req: Request, res: Response) => {
-  const uid = req.params.uid;
+  const uid = req.params.uid as string;
   const folder = (req.query.folder as string) || 'Inbox';
   const client = getClient();
 
@@ -117,8 +117,8 @@ router.get('/:uid', requireAuth, async (req: Request, res: Response) => {
       res.json({
         id: message.uid,
         subject: parsed.subject,
-        from: parsed.from?.text,
-        to: parsed.to?.text,
+        from: (parsed.from as any)?.text || 'Inconnu',
+        to: (parsed.to as any)?.text || undefined,
         date: parsed.date?.toISOString(),
         html: parsed.html || parsed.textAsHtml || parsed.text,
       });

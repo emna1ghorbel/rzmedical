@@ -1,5 +1,6 @@
 import app from './app';
 import os from 'os';
+// Prisma client regenerated - remise field added
 
 const PORT = process.env.PORT || 4000;
 

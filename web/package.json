@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:https": "next dev --experimental-https --hostname 0.0.0.0 --experimental-https-key certificates/localhost-key.pem --experimental-https-cert certificates/localhost.pem",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -11,6 +12,8 @@
   "dependencies": {
     "@prisma/client": "^7.9.1",
     "next": "16.3.1",
+    "ollama": "^0.6.3",
+    "pdfjs-dist": "^6.2.108",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

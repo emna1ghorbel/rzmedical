@@ -1,0 +1,278 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { Container } from "@/components/ui/Container";
+import { buttonVariants } from "@/components/ui/Button";
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  ShieldCheckIcon,
+  TruckIcon,
+} from "@/components/ui/icons";
+import { imageUrl } from "@/lib/api";
+import type { VideoHero } from "@/lib/types";
+
+const TRUST = [
+  "Matériel professionnel certifié & conforme aux normes",
+  "Expédition rapide sécurisée sur toute la Tunisie",
+  "Facturation transparente & paiement à la livraison",
+];
+
+const STATS = [
+  { value: "500+", label: "Produits" },
+  { value: "50+", label: "Marques" },
+  { value: "24h", label: "Livraison" },
+];
+
+/** Section d'accroche de la page d'accueil (proposition de valeur + CTA). */
+export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
+  const [videoFailed, setVideoFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const showVideo = !!(videoHero && videoHero.actif && !videoFailed);
+
+  if (showVideo) {
+    return (
+      <section className="relative overflow-hidden min-h-[90vh] lg:min-h-screen flex items-center pt-8 lg:pt-10">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={videoHero!.posterUrl ? imageUrl(videoHero!.posterUrl) : undefined}
+          onError={() => setVideoFailed(true)}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src={imageUrl(videoHero!.videoUrl)} type="video/mp4" />
+          <source src={imageUrl(videoHero!.videoUrl)} type="video/webm" />
+        </video>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-960/70 via-navy-950/50 to-navy-960/80 z-10 pointer-events-none" />
+
+        <Container className="relative z-20 py-12">
+          <div className="max-w-3xl">
+            <HeroContent isTransparent />
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // Premium light 3D hero
+  return (
+    <section className="relative overflow-hidden bg-slate-50 min-h-[85vh] flex items-center">
+
+      {/* === Background atmosphere === */}
+      {/* Grid pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-[0.12] pointer-events-none" />
+
+      {/* Ambient orbs */}
+      <div className="absolute -top-24 -right-24 w-[600px] h-[600px] orb-azure opacity-20 pointer-events-none" />
+      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] rounded-full bg-slate-300/40 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-azure-200/30 blur-[80px] pointer-events-none" />
+
+      {/* Animated scan line */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-azure-500/20 to-transparent animate-[scanLine_6s_ease-in-out_infinite]" />
+      </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none" />
+
+      <Container className="relative z-10 py-16 lg:py-24">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+          {/* === Left: Content === */}
+          <div className="animate-reveal-up">
+            {/* Eyebrow pill */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-azure-200 bg-azure-50 px-4 py-1.5 mb-6 select-none shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-azure-500 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-500" />
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-azure-700">
+                Matériel médical & dentaire
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="font-display font-black leading-[1.06] tracking-tight text-navy-900 mb-6">
+              L&apos;équipement médical{" "}
+              <br className="hidden sm:block" />
+              de référence,{" "}
+              <span className="text-azure-600">
+                livré en confiance
+              </span>
+              .
+            </h1>
+
+            <p className="text-[16px] sm:text-lg leading-relaxed text-slate-600 mb-8 max-w-lg">
+              RZmedical accompagne les professionnels de santé en Tunisie avec une
+              sélection d&apos;équipements de pointe, consommables et instruments choisis
+              pour leur rigueur et leur conformité clinique.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-3 sm:flex-row mb-8">
+              <Link
+                href="/catalogue"
+                className={buttonVariants({ variant: "accent", size: "xl" })}
+              >
+                Explorer le catalogue
+                <ArrowRightIcon size={18} />
+              </Link>
+              <Link
+                href="/catalogue?promo=1"
+                className="inline-flex h-14 items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-8 text-base font-semibold text-navy-800 transition-all duration-200 hover:bg-slate-50 hover:border-azure-300 hover:-translate-y-[1px] hover:shadow-md active:translate-y-0 shadow-sm"
+              >
+                Voir les promotions
+              </Link>
+            </div>
+
+            {/* Trust list */}
+            <ul className="flex flex-col gap-2.5">
+              {TRUST.map((t, i) => (
+                <li
+                  key={t}
+                  className="flex items-start gap-3 text-[14px] font-medium text-slate-600"
+                  style={{ animationDelay: `${(i + 1) * 100}ms` }}
+                >
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 mt-0.5 shadow-sm">
+                    <CheckIcon size={11} strokeWidth={3} />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+
+            {/* Stats row */}
+            <div className="mt-10 pt-8 border-t border-slate-200 flex gap-8">
+              {STATS.map(({ value, label }) => (
+                <div key={label}>
+                  <p className="font-display text-2xl font-black text-navy-900">{value}</p>
+                  <p className="text-xs font-medium text-slate-500 mt-0.5">{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* === Right: 3D Visual Card === */}
+          <div
+            className="relative hidden lg:block animate-reveal-up"
+            style={{ animationDelay: "180ms" }}
+          >
+            {/* Floating glow behind card */}
+            <div className="absolute inset-0 -m-8 rounded-[2rem] bg-azure-200/50 blur-3xl pointer-events-none" />
+
+            {/* Main image card */}
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.1),0_0_60px_rgba(14,165,233,0.15)]">
+              {/* Top gloss line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent z-10 pointer-events-none" />
+
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <Image
+                  src="/images/medical_hero.jpg"
+                  alt="Cabinet médical moderne équipé par RZmedical"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
+              </div>
+
+              {/* Floating info badges */}
+              <div className="absolute bottom-6 left-6 right-6 flex gap-3 pointer-events-none select-none">
+                {/* Badge 1 */}
+                <div className="flex-1 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-lg backdrop-blur-xl">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-azure-50 border border-azure-200 text-azure-600">
+                      <ShieldCheckIcon size={18} />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold text-navy-900">Produits Certifiés</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Normes CE & traçabilité</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Badge 2 */}
+                <div className="flex-1 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-lg backdrop-blur-xl">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-azure-50 border border-azure-200 text-azure-600">
+                      <TruckIcon size={18} />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold text-navy-900">Livraison 24-48h</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Toute la Tunisie</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating stat card — top right */}
+            <div className="absolute -top-4 -right-4 rounded-2xl border border-white/60 bg-white/95 px-5 py-3.5 shadow-xl backdrop-blur-xl animate-float">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">En stock</p>
+              <p className="font-display text-2xl font-black text-navy-900 mt-0.5">500<span className="text-azure-600">+</span></p>
+              <p className="text-[11px] text-slate-500 mt-0.5">produits disponibles</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function HeroContent({ isTransparent = false }: { isTransparent?: boolean }) {
+  return (
+    <>
+      <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5 mb-6 select-none">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-azure-400 opacity-75 animate-ping" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-400" />
+        </span>
+        <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/90">
+          Matériel médical & dentaire
+        </span>
+      </div>
+
+      <h1 className="font-display font-black leading-[1.06] tracking-tight text-white drop-shadow-lg mb-6">
+        L&apos;équipement médical de référence,{" "}
+        <span className="text-azure-300">livré en confiance</span>.
+      </h1>
+
+      <p className="text-[16px] sm:text-lg leading-relaxed text-white/80 drop-shadow mb-8 max-w-xl">
+        RZmedical accompagne les professionnels de santé en Tunisie avec une
+        sélection d&apos;équipements de pointe.
+      </p>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <Link href="/catalogue" className={buttonVariants({ variant: "accent", size: "xl" })}>
+          Explorer le catalogue
+          <ArrowRightIcon size={18} />
+        </Link>
+        <Link
+          href="/catalogue?promo=1"
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:border-white/40"
+        >
+          Voir les promotions
+        </Link>
+      </div>
+
+      <ul className="mt-6 flex flex-col gap-2.5">
+        {TRUST.map((t) => (
+          <li key={t} className="flex items-start gap-3 text-sm font-medium text-white/85">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-azure-500/20 border border-azure-400/30 text-azure-300 mt-0.5">
+              <CheckIcon size={11} strokeWidth={3} />
+            </span>
+            {t}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}

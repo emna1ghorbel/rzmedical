@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Utilisateur'
+export type * from './models/TicketSupport'
+export type * from './models/MessageSupport'
 export type * from './models/Categorie'
 export type * from './models/SousCategorie'
 export type * from './models/Marque'
@@ -16,4 +18,8 @@ export type * from './models/Produit'
 export type * from './models/Commande'
 export type * from './models/LigneCommande'
 export type * from './models/Facture'
+export type * from './models/LigneFacture'
+export type * from './models/AnnonceSite'
+export type * from './models/BanniereSite'
+export type * from './models/VideoHero'
 export type * from './commonInputTypes'

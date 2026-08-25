@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
@@ -7,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_URL = getApiUrl();
 
 export default function SignInForm() {
   const router = useRouter();

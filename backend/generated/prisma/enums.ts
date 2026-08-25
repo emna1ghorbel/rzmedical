@@ -28,28 +28,37 @@ export const StatutCommande = {
 export type StatutCommande = (typeof StatutCommande)[keyof typeof StatutCommande]
 
 
-export const TypeFacture = {
-  FACTURE: 'FACTURE',
-  AVOIR: 'AVOIR'
-} as const
-
-export type TypeFacture = (typeof TypeFacture)[keyof typeof TypeFacture]
-
-
 export const StatutFacture = {
   BROUILLON: 'BROUILLON',
   EMISE: 'EMISE',
-  PAYEE: 'PAYEE',
-  PARTIELLEMENT_PAYEE: 'PARTIELLEMENT_PAYEE',
   ANNULEE: 'ANNULEE'
 } as const
 
 export type StatutFacture = (typeof StatutFacture)[keyof typeof StatutFacture]
 
 
-export const OrigineFacture = {
-  APP: 'APP',
-  ERP: 'ERP'
+export const StatutSupport = {
+  NOUVEAU: 'NOUVEAU',
+  EN_COURS: 'EN_COURS',
+  REPONDU: 'REPONDU',
+  FERME: 'FERME'
 } as const
 
-export type OrigineFacture = (typeof OrigineFacture)[keyof typeof OrigineFacture]
+export type StatutSupport = (typeof StatutSupport)[keyof typeof StatutSupport]
+
+
+export const CanalSupport = {
+  SUPPORT: 'SUPPORT',
+  EMAIL: 'EMAIL',
+  TELEPHONE: 'TELEPHONE'
+} as const
+
+export type CanalSupport = (typeof CanalSupport)[keyof typeof CanalSupport]
+
+
+export const AuteurSupport = {
+  CLIENT: 'CLIENT',
+  ADMIN: 'ADMIN'
+} as const
+
+export type AuteurSupport = (typeof AuteurSupport)[keyof typeof AuteurSupport]

@@ -22,9 +22,9 @@ export const getById = async (req: Request, res: Response) => {
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const { nom, categorieId, image } = req.body;
+    const { nom, categorieId, image, description } = req.body;
     if (!nom || !categorieId) return res.status(400).json({ error: 'Nom et categorieId sont requis' });
-    const data = await service.create({ nom, categorieId: Number(categorieId), image });
+    const data = await service.create({ nom, categorieId: Number(categorieId), image, description });
     res.status(201).json(data);
   } catch (err: any) {
     if (err.code === 'P2002') return res.status(409).json({ error: 'Cette sous-catégorie existe déjà pour cette catégorie' });
@@ -34,9 +34,10 @@ export const create = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const { nom, categorieId, image } = req.body;
+    const { nom, categorieId, image, description } = req.body;
     const data = await service.update(Number(req.params.id), {
       nom,
+      description,
       ...(categorieId ? { categorieId: Number(categorieId) } : {}),
       image
     });

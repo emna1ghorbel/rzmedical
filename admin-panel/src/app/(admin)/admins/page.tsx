@@ -1,10 +1,11 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import React, { useCallback, useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
 import { useAuth } from "@/hooks/useAuth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_URL = getApiUrl();
 
 interface Admin {
   id: number;
@@ -143,37 +144,56 @@ export default function AdminsPage() {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 backdrop-blur-sm">
-          <div className="flex min-h-full items-center justify-center px-4 py-8">
-            <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6">
-              <h4 className="text-lg font-semibold mb-5">Nouvel Administrateur</h4>
-              <form onSubmit={handleCreate}>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Prénom</label>
-                    <input type="text" value={formPrenom} onChange={e => setFormPrenom(e.target.value)} className="w-full rounded-lg border border-gray-300 p-2.5 dark:bg-gray-800" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Nom</label>
-                    <input type="text" value={formNom} onChange={e => setFormNom(e.target.value)} className="w-full rounded-lg border border-gray-300 p-2.5 dark:bg-gray-800" />
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1.5">Email *</label>
-                  <input type="email" value={formEmail} onChange={e => setFormEmail(e.target.value)} className="w-full rounded-lg border border-gray-300 p-2.5 dark:bg-gray-800" required />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1.5">Mot de passe *</label>
-                  <input type="password" value={formPassword} onChange={e => setFormPassword(e.target.value)} className="w-full rounded-lg border border-gray-300 p-2.5 dark:bg-gray-800" required minLength={8} />
-                  <p className="text-xs text-gray-400 mt-1">Minimum 8 caractères</p>
-                </div>
-                {formError && <p className="text-sm text-red-500 mb-4">{formError}</p>}
-                <div className="flex justify-end gap-3">
-                  <button type="button" onClick={() => setShowModal(false)} className="rounded-lg border px-4 py-2 text-sm">Annuler</button>
-                  <button type="submit" disabled={saving} className="rounded-lg bg-brand-500 px-4 py-2 text-sm text-white disabled:opacity-60">{saving ? "Création..." : "Créer"}</button>
-                </div>
-              </form>
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowModal(false);
+          }}
+          className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md rounded-3xl bg-white dark:bg-gray-900 shadow-2xl p-6 border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-150 relative"
+          >
+            <div className="flex items-center justify-between mb-5">
+              <h4 className="text-lg font-bold text-gray-800 dark:text-white">Nouvel Administrateur</h4>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors"
+                aria-label="Fermer"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
             </div>
+            <form onSubmit={handleCreate}>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Prénom</label>
+                  <input type="text" value={formPrenom} onChange={e => setFormPrenom(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Nom</label>
+                  <input type="text" value={formNom} onChange={e => setFormNom(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                </div>
+              </div>
+              <div className="mb-4">
+                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Email *</label>
+                <input type="email" value={formEmail} onChange={e => setFormEmail(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" required />
+              </div>
+              <div className="mb-4">
+                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Mot de passe *</label>
+                <input type="password" value={formPassword} onChange={e => setFormPassword(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" required minLength={8} />
+                <p className="text-xs text-gray-400 mt-1">Minimum 8 caractères</p>
+              </div>
+              {formError && <p className="text-xs text-red-500 font-medium mb-4">{formError}</p>}
+              <div className="flex justify-end gap-3 pt-2 border-t border-gray-100 dark:border-gray-800">
+                <button type="button" onClick={() => setShowModal(false)} className="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Annuler</button>
+                <button type="submit" disabled={saving} className="rounded-xl bg-brand-500 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-600 disabled:opacity-60 transition-colors">{saving ? "Création..." : "Créer"}</button>
+              </div>
+            </form>
           </div>
         </div>
       )}

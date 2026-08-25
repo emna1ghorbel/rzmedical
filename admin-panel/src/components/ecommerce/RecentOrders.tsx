@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import React, { useEffect, useState } from "react";
 import {
   Table, TableBody, TableCell, TableHeader, TableRow,
@@ -6,8 +7,8 @@ import {
 import Badge from "../ui/badge/Badge";
 import Link from "next/link";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
-const BASE_URL = API_URL.replace("/api", "");
+const API_URL = getApiUrl();
+const BASE_URL = getBaseUrl();
 
 interface Produit {
   id: number;
@@ -48,7 +49,7 @@ export default function RecentOrders() {
       <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            {tab === "recent" ? "Derniers Produits Ajoutés" : "⚠️ Alertes Stock Faible"}
+            {tab === "recent" ? "Derniers Produits Ajoutés" : "Alertes Stock Faible"}
           </h3>
         </div>
         <div className="flex items-center gap-3">

@@ -21,49 +21,95 @@ enum StatutCommande {
   ANNULEE
 }
 
-enum TypeFacture {
-  FACTURE
-  AVOIR
-}
-
 enum StatutFacture {
   BROUILLON
   EMISE
-  PAYEE
-  PARTIELLEMENT_PAYEE
   ANNULEE
 }
 
-enum OrigineFacture {
-  APP
-  ERP
+enum StatutSupport {
+  NOUVEAU
+  EN_COURS
+  REPONDU
+  FERME
+}
+
+enum CanalSupport {
+  SUPPORT
+  EMAIL
+  TELEPHONE
+}
+
+enum AuteurSupport {
+  CLIENT
+  ADMIN
 }
 
 model Utilisateur {
-  id              Int             @id @default(autoincrement())
-  email           String          @unique
-  motDePasseHash  String
-  prenom          String?
-  nom             String?
-  telephone       String?
-  photo           String?
-  adresse         String?
-  dateNaissance   DateTime?
-  typeUtilisateur TypeUtilisateur @default(CLIENT)
-  otpCode         String?
-  otpExpire       DateTime?
-  dernierLogin    DateTime?
-  creeLe          DateTime        @default(now())
-  misAJourLe      DateTime        @updatedAt
+  id               Int             @id @default(autoincrement())
+  email            String          @unique
+  motDePasseHash   String
+  prenom           String?
+  nom              String?
+  telephone        String?
+  photo            String?
+  adresse          String?
+  dateNaissance    DateTime?
+  typeUtilisateur  TypeUtilisateur @default(CLIENT)
+  remise           Decimal         @default(0) @db.Decimal(5, 2)
+  matriculeFiscale String?
+  activite         String?
+  otpCode          String?
+  otpExpire        DateTime?
+  dernierLogin     DateTime?
+  creeLe           DateTime        @default(now())
+  misAJourLe       DateTime        @updatedAt
 
   commandes Commande[]
+  ticketsSupport TicketSupport[]
 
   @@map("utilisateurs")
+}
+
+model TicketSupport {
+  id              Int           @id @default(autoincrement())
+  utilisateurId   Int?
+  utilisateur     Utilisateur?  @relation(fields: [utilisateurId], references: [id])
+  nomContact      String?
+  emailContact    String?
+  telephoneContact String?
+  sujet           String
+  message         String
+  statut          StatutSupport @default(NOUVEAU)
+  canalReponse    CanalSupport  @default(SUPPORT)
+  reponse         String?
+  reponduLe       DateTime?
+  creeLe          DateTime      @default(now())
+  misAJourLe      DateTime      @updatedAt
+  messages        MessageSupport[]
+
+  @@index([utilisateurId])
+  @@index([statut])
+  @@map("tickets_support")
+}
+
+model MessageSupport {
+  id            Int           @id @default(autoincrement())
+  ticketId      Int
+  ticket        TicketSupport @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  auteur        AuteurSupport
+  contenu       String
+  canal         CanalSupport  @default(SUPPORT)
+  creeLe        DateTime      @default(now())
+
+  @@index([ticketId, creeLe])
+  @@map("messages_support")
 }
 
 model Categorie {
   id         Int      @id @default(autoincrement())
   nom        String   @unique
+  visible    Boolean  @default(true)
   creeLe     DateTime @default(now())
   misAJourLe DateTime @updatedAt
 
@@ -76,6 +122,7 @@ model Categorie {
 model SousCategorie {
   id          Int       @id @default(autoincrement())
   nom         String
+  description String?
   image       String?
   categorieId Int
   categorie   Categorie @relation(fields: [categorieId], references: [id])
@@ -104,23 +151,25 @@ model Marque {
 }
 
 model Produit {
-  id              Int           @id @default(autoincrement())
-  nom             String
-  reference       String        @unique
-  description     String?
-  prix            Decimal       @db.Decimal(10, 2)
-  stock           Int           @default(0)
-  images          String[]
-  video           String?
-  motsCles        String[]
-  ficheTechnique  String?
-  disponible      Boolean       @default(true)
+  id             Int           @id @default(autoincrement())
+  nom            String
+  reference      String        @unique
+  description    String?
+  expirationDate DateTime?
+  prix           Decimal       @db.Decimal(10, 2)
+  stock          Int           @default(0)
+  images         String[]
+  video          String?
+  motsCles       String[]
+  ficheTechnique String?
+  remise         Decimal       @default(0) @db.Decimal(10, 2)
+  disponible     Boolean       @default(true)
   sousCategorieId Int
-  sousCategorie   SousCategorie @relation(fields: [sousCategorieId], references: [id])
-  marqueId        Int
-  marque          Marque        @relation(fields: [marqueId], references: [id])
-  creeLe          DateTime      @default(now())
-  misAJourLe      DateTime      @updatedAt
+  sousCategorie  SousCategorie @relation(fields: [sousCategorieId], references: [id])
+  marqueId       Int
+  marque         Marque        @relation(fields: [marqueId], references: [id])
+  creeLe         DateTime      @default(now())
+  misAJourLe     DateTime      @updatedAt
 
   lignesCommande LigneCommande[]
 
@@ -138,8 +187,8 @@ model Commande {
   creeLe        DateTime       @default(now())
   misAJourLe    DateTime       @updatedAt
 
-  lignes   LigneCommande[]
-  factures Facture[]
+  lignes  LigneCommande[]
+  facture Facture?
 
   @@index([utilisateurId])
   @@map("commandes")
@@ -160,29 +209,85 @@ model LigneCommande {
 }
 
 model Facture {
-  id                Int            @id @default(autoincrement())
-  numero            String         @unique
-  type              TypeFacture    @default(FACTURE)
-  statut            StatutFacture  @default(BROUILLON)
-  commandeId        Int
-  commande          Commande       @relation(fields: [commandeId], references: [id])
-  dateEmission      DateTime       @default(now())
-  dateEcheance      DateTime?
-  montantHT         Decimal        @db.Decimal(10, 2)
-  tauxTVA           Decimal        @default(19) @db.Decimal(5, 2)
-  montantTVA        Decimal        @db.Decimal(10, 2)
-  montantTTC        Decimal        @db.Decimal(10, 2)
-  referenceERP      String?        @unique
-  origine           OrigineFacture @default(APP)
-  synchroniseLe     DateTime?
-  enErreurSync      Boolean        @default(false)
-  messageErreurSync String?
-  fichierPdf        String?
-  creeLe            DateTime       @default(now())
-  misAJourLe        DateTime       @updatedAt
+  id               Int           @id @default(autoincrement())
+  numero           String        @unique
+  statut           StatutFacture @default(EMISE)
+  commandeId       Int           @unique
+  commande         Commande      @relation(fields: [commandeId], references: [id])
+  dateEmission     DateTime
 
-  @@index([commandeId])
+  // Snapshot client (immuable après finalisation)
+  clientNom        String
+  clientMF         String?
+  clientAdresse    String?
+  clientTelephone  String?
+  clientEmail      String?
+
+  // Fiscalité (3 décimales TND)
+  timbreFiscal     Decimal       @default(1.000) @db.Decimal(10, 3)
+  montantHT        Decimal       @db.Decimal(10, 3)
+  montantTVA       Decimal       @db.Decimal(10, 3)
+  montantTTC       Decimal       @db.Decimal(10, 3)
+  montantEnLettres String?
+
+  fichierPdf       String?
+  creeLe           DateTime      @default(now())
+  misAJourLe       DateTime      @updatedAt
+
+  lignes           LigneFacture[]
+
   @@index([statut])
-  @@index([origine])
   @@map("factures")
+}
+
+model LigneFacture {
+  id             Int     @id @default(autoincrement())
+  factureId      Int
+  facture        Facture @relation(fields: [factureId], references: [id], onDelete: Cascade)
+  designation    String
+  quantite       Decimal @db.Decimal(10, 3)
+  prixUnitaireHT Decimal @db.Decimal(10, 3)
+  tauxTVA        Decimal @db.Decimal(5, 2)
+  totalHT        Decimal @db.Decimal(10, 3)
+
+  @@index([factureId])
+  @@map("lignes_facture")
+}
+
+model AnnonceSite {
+  id            Int      @id @default(autoincrement())
+  texte         String
+  actif         Boolean  @default(true)
+  ordre         Int      @default(0)
+  dureeSecondes Int      @default(5)
+  creeLe        DateTime @default(now())
+  misAJourLe    DateTime @updatedAt
+  @@map("annonces_site")
+}
+
+model BanniereSite {
+  id          Int       @id @default(autoincrement())
+  image       String
+  titre       String?
+  description String?
+  lien        String?
+  hauteur     Int       @default(420)
+  actif       Boolean   @default(true)
+  ordre       Int       @default(0)
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  creeLe      DateTime  @default(now())
+  misAJourLe  DateTime  @updatedAt
+  @@map("bannieres_site")
+}
+
+model VideoHero {
+  id         Int      @id @default(autoincrement())
+  videoUrl   String
+  posterUrl  String?
+  titre      String?
+  actif      Boolean  @default(false)
+  creeLe     DateTime @default(now())
+  misAJourLe DateTime @updatedAt
+  @@map("videos_hero")
 }

@@ -13,6 +13,7 @@ router.get('/overview', async (req: Request, res: Response) => {
       totalSousCategories,
       produitsDisponibles,
       produitsRupture,
+      produitsIndisponibles,
     ] = await Promise.all([
       prisma.produit.count(),
       prisma.categorie.count(),
@@ -20,6 +21,7 @@ router.get('/overview', async (req: Request, res: Response) => {
       prisma.sousCategorie.count(),
       prisma.produit.count({ where: { disponible: true } }),
       prisma.produit.count({ where: { stock: 0 } }),
+      prisma.produit.count({ where: { disponible: false } }),
     ]);
 
     res.json({
@@ -29,6 +31,7 @@ router.get('/overview', async (req: Request, res: Response) => {
       totalSousCategories,
       produitsDisponibles,
       produitsRupture,
+      produitsIndisponibles,
     });
   } catch (err) {
     res.status(500).json({ error: 'Erreur serveur' });

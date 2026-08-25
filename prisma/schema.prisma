@@ -46,6 +46,9 @@ model Utilisateur {
   nom             String?
   telephone       String?
   typeUtilisateur TypeUtilisateur @default(CLIENT)
+  remise         Decimal         @default(0) @db.Decimal(5, 2)
+  matriculeFiscale String?
+  activite       String?
   creeLe          DateTime        @default(now())
   misAJourLe      DateTime        @updatedAt
 
@@ -57,6 +60,7 @@ model Utilisateur {
 model Categorie {
   id             Int             @id @default(autoincrement())
   nom            String          @unique
+  visible        Boolean         @default(true)
   creeLe         DateTime        @default(now())
   misAJourLe     DateTime        @updatedAt
 
@@ -69,6 +73,7 @@ model Categorie {
 model SousCategorie {
   id          Int       @id @default(autoincrement())
   nom         String
+  description String?
   image       String?
   categorieId Int
   categorie   Categorie @relation(fields: [categorieId], references: [id])
@@ -101,6 +106,7 @@ model Produit {
   nom             String
   reference       String          @unique
   description     String?
+  expirationDate  DateTime?
   prix            Decimal         @db.Decimal(10, 2)
   stock           Int             @default(0)
   image           String?

@@ -1,10 +1,11 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
-const BASE_URL = API_URL.replace("/api", "");
+const API_URL = getApiUrl();
+const BASE_URL = getBaseUrl();
 
 export default function ProfilePage() {
   const router = useRouter();

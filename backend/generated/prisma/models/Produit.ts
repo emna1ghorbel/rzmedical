@@ -30,6 +30,7 @@ export type ProduitAvgAggregateOutputType = {
   id: number | null
   prix: runtime.Decimal | null
   stock: number | null
+  remise: runtime.Decimal | null
   sousCategorieId: number | null
   marqueId: number | null
 }
@@ -38,6 +39,7 @@ export type ProduitSumAggregateOutputType = {
   id: number | null
   prix: runtime.Decimal | null
   stock: number | null
+  remise: runtime.Decimal | null
   sousCategorieId: number | null
   marqueId: number | null
 }
@@ -47,10 +49,12 @@ export type ProduitMinAggregateOutputType = {
   nom: string | null
   reference: string | null
   description: string | null
+  expirationDate: Date | null
   prix: runtime.Decimal | null
   stock: number | null
   video: string | null
   ficheTechnique: string | null
+  remise: runtime.Decimal | null
   disponible: boolean | null
   sousCategorieId: number | null
   marqueId: number | null
@@ -63,10 +67,12 @@ export type ProduitMaxAggregateOutputType = {
   nom: string | null
   reference: string | null
   description: string | null
+  expirationDate: Date | null
   prix: runtime.Decimal | null
   stock: number | null
   video: string | null
   ficheTechnique: string | null
+  remise: runtime.Decimal | null
   disponible: boolean | null
   sousCategorieId: number | null
   marqueId: number | null
@@ -79,12 +85,14 @@ export type ProduitCountAggregateOutputType = {
   nom: number
   reference: number
   description: number
+  expirationDate: number
   prix: number
   stock: number
   images: number
   video: number
   motsCles: number
   ficheTechnique: number
+  remise: number
   disponible: number
   sousCategorieId: number
   marqueId: number
@@ -98,6 +106,7 @@ export type ProduitAvgAggregateInputType = {
   id?: true
   prix?: true
   stock?: true
+  remise?: true
   sousCategorieId?: true
   marqueId?: true
 }
@@ -106,6 +115,7 @@ export type ProduitSumAggregateInputType = {
   id?: true
   prix?: true
   stock?: true
+  remise?: true
   sousCategorieId?: true
   marqueId?: true
 }
@@ -115,10 +125,12 @@ export type ProduitMinAggregateInputType = {
   nom?: true
   reference?: true
   description?: true
+  expirationDate?: true
   prix?: true
   stock?: true
   video?: true
   ficheTechnique?: true
+  remise?: true
   disponible?: true
   sousCategorieId?: true
   marqueId?: true
@@ -131,10 +143,12 @@ export type ProduitMaxAggregateInputType = {
   nom?: true
   reference?: true
   description?: true
+  expirationDate?: true
   prix?: true
   stock?: true
   video?: true
   ficheTechnique?: true
+  remise?: true
   disponible?: true
   sousCategorieId?: true
   marqueId?: true
@@ -147,12 +161,14 @@ export type ProduitCountAggregateInputType = {
   nom?: true
   reference?: true
   description?: true
+  expirationDate?: true
   prix?: true
   stock?: true
   images?: true
   video?: true
   motsCles?: true
   ficheTechnique?: true
+  remise?: true
   disponible?: true
   sousCategorieId?: true
   marqueId?: true
@@ -252,12 +268,14 @@ export type ProduitGroupByOutputType = {
   nom: string
   reference: string
   description: string | null
+  expirationDate: Date | null
   prix: runtime.Decimal
   stock: number
   images: string[]
   video: string | null
   motsCles: string[]
   ficheTechnique: string | null
+  remise: runtime.Decimal
   disponible: boolean
   sousCategorieId: number
   marqueId: number
@@ -293,12 +311,14 @@ export type ProduitWhereInput = {
   nom?: Prisma.StringFilter<"Produit"> | string
   reference?: Prisma.StringFilter<"Produit"> | string
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
+  expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFilter<"Produit"> | number
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
   ficheTechnique?: Prisma.StringNullableFilter<"Produit"> | string | null
+  remise?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFilter<"Produit"> | boolean
   sousCategorieId?: Prisma.IntFilter<"Produit"> | number
   marqueId?: Prisma.IntFilter<"Produit"> | number
@@ -314,12 +334,14 @@ export type ProduitOrderByWithRelationInput = {
   nom?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   motsCles?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrderInput | Prisma.SortOrder
+  remise?: Prisma.SortOrder
   disponible?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -338,12 +360,14 @@ export type ProduitWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProduitWhereInput | Prisma.ProduitWhereInput[]
   nom?: Prisma.StringFilter<"Produit"> | string
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
+  expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFilter<"Produit"> | number
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
   ficheTechnique?: Prisma.StringNullableFilter<"Produit"> | string | null
+  remise?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFilter<"Produit"> | boolean
   sousCategorieId?: Prisma.IntFilter<"Produit"> | number
   marqueId?: Prisma.IntFilter<"Produit"> | number
@@ -359,12 +383,14 @@ export type ProduitOrderByWithAggregationInput = {
   nom?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   motsCles?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrderInput | Prisma.SortOrder
+  remise?: Prisma.SortOrder
   disponible?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -385,12 +411,14 @@ export type ProduitScalarWhereWithAggregatesInput = {
   nom?: Prisma.StringWithAggregatesFilter<"Produit"> | string
   reference?: Prisma.StringWithAggregatesFilter<"Produit"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Produit"> | string | null
+  expirationDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntWithAggregatesFilter<"Produit"> | number
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableWithAggregatesFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
   ficheTechnique?: Prisma.StringNullableWithAggregatesFilter<"Produit"> | string | null
+  remise?: Prisma.DecimalWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolWithAggregatesFilter<"Produit"> | boolean
   sousCategorieId?: Prisma.IntWithAggregatesFilter<"Produit"> | number
   marqueId?: Prisma.IntWithAggregatesFilter<"Produit"> | number
@@ -402,12 +430,14 @@ export type ProduitCreateInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -421,12 +451,14 @@ export type ProduitUncheckedCreateInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   sousCategorieId: number
   marqueId: number
@@ -439,12 +471,14 @@ export type ProduitUpdateInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -458,12 +492,14 @@ export type ProduitUncheckedUpdateInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -477,12 +513,14 @@ export type ProduitCreateManyInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   sousCategorieId: number
   marqueId: number
@@ -494,12 +532,14 @@ export type ProduitUpdateManyMutationInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,12 +550,14 @@ export type ProduitUncheckedUpdateManyInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -546,12 +588,14 @@ export type ProduitCountOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrder
   motsCles?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrder
+  remise?: Prisma.SortOrder
   disponible?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -563,6 +607,7 @@ export type ProduitAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  remise?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
 }
@@ -572,10 +617,12 @@ export type ProduitMaxOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
   video?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrder
+  remise?: Prisma.SortOrder
   disponible?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -588,10 +635,12 @@ export type ProduitMinOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
   video?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrder
+  remise?: Prisma.SortOrder
   disponible?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -603,6 +652,7 @@ export type ProduitSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   prix?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  remise?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
 }
@@ -704,14 +754,6 @@ export type ProduitCreatemotsClesInput = {
   set: string[]
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type ProduitUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
@@ -720,10 +762,6 @@ export type ProduitUpdateimagesInput = {
 export type ProduitUpdatemotsClesInput = {
   set?: string[]
   push?: string | string[]
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type ProduitCreateNestedOneWithoutLignesCommandeInput = {
@@ -744,12 +782,14 @@ export type ProduitCreateWithoutSousCategorieInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -762,12 +802,14 @@ export type ProduitUncheckedCreateWithoutSousCategorieInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   marqueId: number
   creeLe?: Date | string
@@ -809,12 +851,14 @@ export type ProduitScalarWhereInput = {
   nom?: Prisma.StringFilter<"Produit"> | string
   reference?: Prisma.StringFilter<"Produit"> | string
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
+  expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFilter<"Produit"> | number
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
   ficheTechnique?: Prisma.StringNullableFilter<"Produit"> | string | null
+  remise?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFilter<"Produit"> | boolean
   sousCategorieId?: Prisma.IntFilter<"Produit"> | number
   marqueId?: Prisma.IntFilter<"Produit"> | number
@@ -826,12 +870,14 @@ export type ProduitCreateWithoutMarqueInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -844,12 +890,14 @@ export type ProduitUncheckedCreateWithoutMarqueInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   sousCategorieId: number
   creeLe?: Date | string
@@ -887,12 +935,14 @@ export type ProduitCreateWithoutLignesCommandeInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -905,12 +955,14 @@ export type ProduitUncheckedCreateWithoutLignesCommandeInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   sousCategorieId: number
   marqueId: number
@@ -938,12 +990,14 @@ export type ProduitUpdateWithoutLignesCommandeInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -956,12 +1010,14 @@ export type ProduitUncheckedUpdateWithoutLignesCommandeInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -974,12 +1030,14 @@ export type ProduitCreateManySousCategorieInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   marqueId: number
   creeLe?: Date | string
@@ -990,12 +1048,14 @@ export type ProduitUpdateWithoutSousCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1008,12 +1068,14 @@ export type ProduitUncheckedUpdateWithoutSousCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1026,12 +1088,14 @@ export type ProduitUncheckedUpdateManyWithoutSousCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1043,12 +1107,14 @@ export type ProduitCreateManyMarqueInput = {
   nom: string
   reference: string
   description?: string | null
+  expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: number
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
   ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: boolean
   sousCategorieId: number
   creeLe?: Date | string
@@ -1059,12 +1125,14 @@ export type ProduitUpdateWithoutMarqueInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1077,12 +1145,14 @@ export type ProduitUncheckedUpdateWithoutMarqueInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1095,12 +1165,14 @@ export type ProduitUncheckedUpdateManyWithoutMarqueInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
   ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1143,12 +1215,14 @@ export type ProduitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   nom?: boolean
   reference?: boolean
   description?: boolean
+  expirationDate?: boolean
   prix?: boolean
   stock?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
   ficheTechnique?: boolean
+  remise?: boolean
   disponible?: boolean
   sousCategorieId?: boolean
   marqueId?: boolean
@@ -1165,12 +1239,14 @@ export type ProduitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   nom?: boolean
   reference?: boolean
   description?: boolean
+  expirationDate?: boolean
   prix?: boolean
   stock?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
   ficheTechnique?: boolean
+  remise?: boolean
   disponible?: boolean
   sousCategorieId?: boolean
   marqueId?: boolean
@@ -1185,12 +1261,14 @@ export type ProduitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   nom?: boolean
   reference?: boolean
   description?: boolean
+  expirationDate?: boolean
   prix?: boolean
   stock?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
   ficheTechnique?: boolean
+  remise?: boolean
   disponible?: boolean
   sousCategorieId?: boolean
   marqueId?: boolean
@@ -1205,12 +1283,14 @@ export type ProduitSelectScalar = {
   nom?: boolean
   reference?: boolean
   description?: boolean
+  expirationDate?: boolean
   prix?: boolean
   stock?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
   ficheTechnique?: boolean
+  remise?: boolean
   disponible?: boolean
   sousCategorieId?: boolean
   marqueId?: boolean
@@ -1218,7 +1298,7 @@ export type ProduitSelectScalar = {
   misAJourLe?: boolean
 }
 
-export type ProduitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "reference" | "description" | "prix" | "stock" | "images" | "video" | "motsCles" | "ficheTechnique" | "disponible" | "sousCategorieId" | "marqueId" | "creeLe" | "misAJourLe", ExtArgs["result"]["produit"]>
+export type ProduitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "reference" | "description" | "expirationDate" | "prix" | "stock" | "images" | "video" | "motsCles" | "ficheTechnique" | "remise" | "disponible" | "sousCategorieId" | "marqueId" | "creeLe" | "misAJourLe", ExtArgs["result"]["produit"]>
 export type ProduitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sousCategorie?: boolean | Prisma.SousCategorieDefaultArgs<ExtArgs>
   marque?: boolean | Prisma.MarqueDefaultArgs<ExtArgs>
@@ -1246,12 +1326,14 @@ export type $ProduitPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     nom: string
     reference: string
     description: string | null
+    expirationDate: Date | null
     prix: runtime.Decimal
     stock: number
     images: string[]
     video: string | null
     motsCles: string[]
     ficheTechnique: string | null
+    remise: runtime.Decimal
     disponible: boolean
     sousCategorieId: number
     marqueId: number
@@ -1687,12 +1769,14 @@ export interface ProduitFieldRefs {
   readonly nom: Prisma.FieldRef<"Produit", 'String'>
   readonly reference: Prisma.FieldRef<"Produit", 'String'>
   readonly description: Prisma.FieldRef<"Produit", 'String'>
+  readonly expirationDate: Prisma.FieldRef<"Produit", 'DateTime'>
   readonly prix: Prisma.FieldRef<"Produit", 'Decimal'>
   readonly stock: Prisma.FieldRef<"Produit", 'Int'>
   readonly images: Prisma.FieldRef<"Produit", 'String[]'>
   readonly video: Prisma.FieldRef<"Produit", 'String'>
   readonly motsCles: Prisma.FieldRef<"Produit", 'String[]'>
   readonly ficheTechnique: Prisma.FieldRef<"Produit", 'String'>
+  readonly remise: Prisma.FieldRef<"Produit", 'Decimal'>
   readonly disponible: Prisma.FieldRef<"Produit", 'Boolean'>
   readonly sousCategorieId: Prisma.FieldRef<"Produit", 'Int'>
   readonly marqueId: Prisma.FieldRef<"Produit", 'Int'>

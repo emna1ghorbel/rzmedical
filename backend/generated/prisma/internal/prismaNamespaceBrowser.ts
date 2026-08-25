@@ -52,13 +52,19 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Utilisateur: 'Utilisateur',
+  TicketSupport: 'TicketSupport',
+  MessageSupport: 'MessageSupport',
   Categorie: 'Categorie',
   SousCategorie: 'SousCategorie',
   Marque: 'Marque',
   Produit: 'Produit',
   Commande: 'Commande',
   LigneCommande: 'LigneCommande',
-  Facture: 'Facture'
+  Facture: 'Facture',
+  LigneFacture: 'LigneFacture',
+  AnnonceSite: 'AnnonceSite',
+  BanniereSite: 'BanniereSite',
+  VideoHero: 'VideoHero'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +94,9 @@ export const UtilisateurScalarFieldEnum = {
   adresse: 'adresse',
   dateNaissance: 'dateNaissance',
   typeUtilisateur: 'typeUtilisateur',
+  remise: 'remise',
+  matriculeFiscale: 'matriculeFiscale',
+  activite: 'activite',
   otpCode: 'otpCode',
   otpExpire: 'otpExpire',
   dernierLogin: 'dernierLogin',
@@ -98,9 +107,41 @@ export const UtilisateurScalarFieldEnum = {
 export type UtilisateurScalarFieldEnum = (typeof UtilisateurScalarFieldEnum)[keyof typeof UtilisateurScalarFieldEnum]
 
 
+export const TicketSupportScalarFieldEnum = {
+  id: 'id',
+  utilisateurId: 'utilisateurId',
+  nomContact: 'nomContact',
+  emailContact: 'emailContact',
+  telephoneContact: 'telephoneContact',
+  sujet: 'sujet',
+  message: 'message',
+  statut: 'statut',
+  canalReponse: 'canalReponse',
+  reponse: 'reponse',
+  reponduLe: 'reponduLe',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type TicketSupportScalarFieldEnum = (typeof TicketSupportScalarFieldEnum)[keyof typeof TicketSupportScalarFieldEnum]
+
+
+export const MessageSupportScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  auteur: 'auteur',
+  contenu: 'contenu',
+  canal: 'canal',
+  creeLe: 'creeLe'
+} as const
+
+export type MessageSupportScalarFieldEnum = (typeof MessageSupportScalarFieldEnum)[keyof typeof MessageSupportScalarFieldEnum]
+
+
 export const CategorieScalarFieldEnum = {
   id: 'id',
   nom: 'nom',
+  visible: 'visible',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
@@ -111,6 +152,7 @@ export type CategorieScalarFieldEnum = (typeof CategorieScalarFieldEnum)[keyof t
 export const SousCategorieScalarFieldEnum = {
   id: 'id',
   nom: 'nom',
+  description: 'description',
   image: 'image',
   categorieId: 'categorieId',
   creeLe: 'creeLe',
@@ -137,12 +179,14 @@ export const ProduitScalarFieldEnum = {
   nom: 'nom',
   reference: 'reference',
   description: 'description',
+  expirationDate: 'expirationDate',
   prix: 'prix',
   stock: 'stock',
   images: 'images',
   video: 'video',
   motsCles: 'motsCles',
   ficheTechnique: 'ficheTechnique',
+  remise: 'remise',
   disponible: 'disponible',
   sousCategorieId: 'sousCategorieId',
   marqueId: 'marqueId',
@@ -179,26 +223,82 @@ export type LigneCommandeScalarFieldEnum = (typeof LigneCommandeScalarFieldEnum)
 export const FactureScalarFieldEnum = {
   id: 'id',
   numero: 'numero',
-  type: 'type',
   statut: 'statut',
   commandeId: 'commandeId',
   dateEmission: 'dateEmission',
-  dateEcheance: 'dateEcheance',
+  clientNom: 'clientNom',
+  clientMF: 'clientMF',
+  clientAdresse: 'clientAdresse',
+  clientTelephone: 'clientTelephone',
+  clientEmail: 'clientEmail',
+  timbreFiscal: 'timbreFiscal',
   montantHT: 'montantHT',
-  tauxTVA: 'tauxTVA',
   montantTVA: 'montantTVA',
   montantTTC: 'montantTTC',
-  referenceERP: 'referenceERP',
-  origine: 'origine',
-  synchroniseLe: 'synchroniseLe',
-  enErreurSync: 'enErreurSync',
-  messageErreurSync: 'messageErreurSync',
+  montantEnLettres: 'montantEnLettres',
   fichierPdf: 'fichierPdf',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
 
 export type FactureScalarFieldEnum = (typeof FactureScalarFieldEnum)[keyof typeof FactureScalarFieldEnum]
+
+
+export const LigneFactureScalarFieldEnum = {
+  id: 'id',
+  factureId: 'factureId',
+  designation: 'designation',
+  quantite: 'quantite',
+  prixUnitaireHT: 'prixUnitaireHT',
+  tauxTVA: 'tauxTVA',
+  totalHT: 'totalHT'
+} as const
+
+export type LigneFactureScalarFieldEnum = (typeof LigneFactureScalarFieldEnum)[keyof typeof LigneFactureScalarFieldEnum]
+
+
+export const AnnonceSiteScalarFieldEnum = {
+  id: 'id',
+  texte: 'texte',
+  actif: 'actif',
+  ordre: 'ordre',
+  dureeSecondes: 'dureeSecondes',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type AnnonceSiteScalarFieldEnum = (typeof AnnonceSiteScalarFieldEnum)[keyof typeof AnnonceSiteScalarFieldEnum]
+
+
+export const BanniereSiteScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  titre: 'titre',
+  description: 'description',
+  lien: 'lien',
+  hauteur: 'hauteur',
+  actif: 'actif',
+  ordre: 'ordre',
+  dateDebut: 'dateDebut',
+  dateFin: 'dateFin',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type BanniereSiteScalarFieldEnum = (typeof BanniereSiteScalarFieldEnum)[keyof typeof BanniereSiteScalarFieldEnum]
+
+
+export const VideoHeroScalarFieldEnum = {
+  id: 'id',
+  videoUrl: 'videoUrl',
+  posterUrl: 'posterUrl',
+  titre: 'titre',
+  actif: 'actif',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type VideoHeroScalarFieldEnum = (typeof VideoHeroScalarFieldEnum)[keyof typeof VideoHeroScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,0 +1,650 @@
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { useAuth } from "@/providers/AuthProvider";
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  timestamp: Date;
+  streaming?: boolean;
+}
+
+// ── Suggestions de démarrage rapide ───────────────────────────────────────────
+
+const QUICK_SUGGESTIONS = [
+  "Quels équipements dentaires proposez-vous ?",
+  "Comment passer une commande ?",
+  "Livraison en Tunisie ?",
+  "Vos marques disponibles ?",
+];
+
+// ── Icônes SVG inline (pas de dépendance externe) ─────────────────────────────
+
+function IconBot() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
+      <rect x="3" y="8" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M12 3v5M9 3h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="9" cy="14" r="1.5" fill="currentColor" />
+      <circle cx="15" cy="14" r="1.5" fill="currentColor" />
+      <path d="M9 18c1 .7 2.5.7 3 0 .5-.7 2 -.7 3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconSend() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
+      <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconClose() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden>
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconChat() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 10h8M8 14h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconMinimize() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
+      <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ── Typing indicator ──────────────────────────────────────────────────────────
+
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 px-1 py-0.5" aria-label="L'assistant rédige une réponse">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full bg-slate-400"
+          style={{
+            animation: "chatDot 1.2s ease-in-out infinite",
+            animationDelay: `${i * 0.2}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── Markdown simplifié ────────────────────────────────────────────────────────
+
+function renderMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<em>$1</em>")
+    .replace(/`(.+?)`/g, '<code class="bg-slate-100 text-slate-700 px-1 py-0.5 rounded text-[11px] font-mono border border-slate-200">$1</code>')
+    .replace(/^### (.+)$/gm, '<p class="font-semibold text-navy-700 mt-2 mb-0.5">$1</p>')
+    .replace(/^## (.+)$/gm, '<p class="font-bold text-navy-800 mt-2 mb-1">$1</p>')
+    .replace(/^- (.+)$/gm, '<li class="ml-3 list-disc text-slate-700">$1</li>')
+    .replace(/(<li[^>]*>[\s\S]*?<\/li>)/g, '<ul class="space-y-0.5 my-1">$1</ul>')
+    .replace(/\n\n/g, '<br class="mb-1" />')
+    .replace(/\n/g, "<br />");
+}
+
+// ── Rendu de Contenu Riche (Cartes Produits & Suggestions) ──────────────────────
+
+function renderMessageContent(content: string, onSuggestionClick?: (text: string) => void) {
+  // Recherche des tags [PRODUCT|Nom|Prix|Reference] ou [SUGGESTION|Texte]
+  const regex = /\[PRODUCT\|(.*?)\|(.*?)\|(.*?)\]|\[SUGGESTION\|(.*?)\]/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(
+        <span
+          key={`text-${lastIndex}`}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(content.slice(lastIndex, match.index)) }}
+        />
+      );
+    }
+
+    if (match[4]) {
+      // C'est un tag SUGGESTION
+      const suggestionText = match[4];
+      parts.push(
+        <button
+          key={`sugg-${match.index}`}
+          onClick={() => onSuggestionClick?.(suggestionText)}
+          className="inline-block mt-2 mr-2 text-[11px] px-2.5 py-1.5 rounded-xl border border-azure-200 bg-azure-50 text-azure-700 hover:bg-azure-100 hover:border-azure-400 hover:text-azure-800 transition-all duration-150 shadow-sm font-medium"
+        >
+          {suggestionText}
+        </button>
+      );
+    } else {
+      // C'est un tag PRODUCT
+      const [, nom, prix, ref] = match;
+      parts.push(
+        <div key={`card-${match.index}`} className="my-2 p-3 border border-azure-200/60 rounded-xl bg-white shadow-sm flex flex-col gap-1 w-[240px]">
+          <div className="flex items-start justify-between gap-2">
+            <span className="font-bold text-navy-800 text-[13px] leading-tight">{nom}</span>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-azure-600 font-bold text-[14px]">{prix} TND</span>
+            <span className="text-[10px] text-slate-400 font-mono">Réf: {ref}</span>
+          </div>
+          <a 
+            href={`/produit/${ref}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1.5 text-[11px] text-center bg-azure-50 text-azure-700 py-1.5 rounded-lg hover:bg-azure-100 transition-colors font-medium border border-azure-200/50"
+          >
+            Voir le produit
+          </a>
+        </div>
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push(
+      <span
+        key={`text-${lastIndex}`}
+        dangerouslySetInnerHTML={{ __html: renderMarkdown(content.slice(lastIndex)) }}
+      />
+    );
+  }
+
+  return parts.length > 0 ? <>{parts}</> : <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
+}
+
+// ── Bubble de message ─────────────────────────────────────────────────────────
+
+function MessageBubble({ msg, onSuggestionClick }: { msg: Message; onSuggestionClick?: (t: string) => void }) {
+  const isUser = msg.role === "user";
+  const time = msg.timestamp.toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return (
+    <div
+      className={`flex items-end gap-2 ${isUser ? "flex-row-reverse" : "flex-row"}`}
+    >
+      {/* Avatar bot */}
+      {!isUser && (
+        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-azure-500 to-navy-800 flex items-center justify-center text-white shadow-sm">
+          <IconBot />
+        </div>
+      )}
+
+      <div className={`flex flex-col gap-0.5 max-w-[82%] ${isUser ? "items-end" : "items-start"}`}>
+        {/* Bulle */}
+        <div
+          className={`rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
+            isUser
+              ? "bg-gradient-to-br from-azure-500 to-navy-700 text-white rounded-br-sm shadow-sm"
+              : "bg-white border border-slate-200 text-slate-700 rounded-bl-sm shadow-sm"
+          }`}
+        >
+          {msg.streaming && msg.content === "" ? (
+            <TypingDots />
+          ) : isUser ? (
+            <span className="whitespace-pre-wrap">{msg.content}</span>
+          ) : (
+            renderMessageContent(msg.content, onSuggestionClick)
+          )}
+        </div>
+
+        {/* Heure */}
+        <span className="text-[10px] text-slate-400 px-1">{time}</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Widget principal ──────────────────────────────────────────────────────────
+
+export function ChatWidget() {
+  const { token } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  // Scroll automatique vers le bas
+  useLayoutEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Focus sur l'input à l'ouverture
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 150);
+      setHasNewMessage(false);
+    }
+  }, [open]);
+
+  // Nettoyage de l'AbortController
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
+
+  const sendMessage = useCallback(
+    async (text: string) => {
+      if (!text.trim() || loading) return;
+
+      const userMsg: Message = {
+        id: `u-${Date.now()}`,
+        role: "user",
+        content: text.trim(),
+        timestamp: new Date(),
+      };
+
+      const assistantMsgId = `a-${Date.now()}`;
+      const assistantMsg: Message = {
+        id: assistantMsgId,
+        role: "assistant",
+        content: "",
+        timestamp: new Date(),
+        streaming: true,
+      };
+
+      setMessages((prev) => [...prev, userMsg, assistantMsg]);
+      setInput("");
+      setLoading(true);
+      setShowSuggestions(false);
+
+      // Construction de l'historique pour l'API
+      const history = [...messages, userMsg].map((m) => ({
+        role: m.role === "user" ? "user" : "model" as "user" | "model",
+        content: m.content,
+      }));
+
+      const ctrl = new AbortController();
+      abortRef.current = ctrl;
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ messages: history }),
+          signal: ctrl.signal,
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(
+            data.error || `Erreur ${res.status} — réessayez dans un instant.`,
+          );
+        }
+
+        if (!res.body) throw new Error("Pas de flux de réponse.");
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let fullText = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            const raw = line.slice(6).trim();
+            if (raw === "[DONE]") break;
+
+            let parsed: { error?: string; text?: string };
+            try {
+              parsed = JSON.parse(raw);
+            } catch {
+              // ligne mal formée, on ignore
+              continue;
+            }
+
+            if (parsed.error) throw new Error(parsed.error);
+            if (parsed.text) {
+              fullText += parsed.text;
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantMsgId
+                    ? { ...m, content: fullText, streaming: true }
+                    : m,
+                ),
+              );
+            }
+          }
+        }
+
+        // Fin du streaming
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantMsgId
+              ? { ...m, streaming: false, timestamp: new Date() }
+              : m,
+          ),
+        );
+
+        if (!open) setHasNewMessage(true);
+      } catch (err) {
+        if ((err as Error).name === "AbortError") return;
+        const errorText =
+          err instanceof Error
+            ? err.message
+            : "Une erreur est survenue. Vérifiez votre connexion.";
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantMsgId
+              ? { ...m, content: `⚠️ ${errorText}`, streaming: false }
+              : m,
+          ),
+        );
+      } finally {
+        setLoading(false);
+        abortRef.current = null;
+      }
+    },
+    [loading, messages, open, token],
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(input);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input);
+    }
+  };
+
+  const handleSuggestion = (s: string) => {
+    sendMessage(s);
+  };
+
+  const clearConversation = () => {
+    abortRef.current?.abort();
+    setMessages([]);
+    setShowSuggestions(true);
+    setLoading(false);
+  };
+
+  return (
+    <>
+      {/* ── Styles d'animation injectés ────────────────────────────────────── */}
+      <style>{`
+        @keyframes chatDot {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+          30% { transform: translateY(-4px); opacity: 1; }
+        }
+        @keyframes chatFadeIn {
+          from { opacity: 0; transform: translateY(16px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0)   scale(1);    }
+        }
+        @keyframes chatPulseRing {
+          0%   { transform: scale(1);    opacity: 0.6; }
+          70%  { transform: scale(1.35); opacity: 0; }
+          100% { transform: scale(1.35); opacity: 0; }
+        }
+        @keyframes chatBounce {
+          0%, 100% { transform: scale(1); }
+          50%       { transform: scale(1.08); }
+        }
+        .chat-window-enter {
+          animation: chatFadeIn 0.28s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        .chat-msg-enter {
+          animation: chatFadeIn 0.2s ease-out forwards;
+        }
+        #rzbot-input::placeholder { color: #94a3b8; }
+        #rzbot-scroll::-webkit-scrollbar { width: 4px; }
+        #rzbot-scroll::-webkit-scrollbar-track { background: transparent; }
+        #rzbot-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+      `}</style>
+
+      {/* ── Fenêtre de chat (thème CLAIR) ──────────────────────────────────── */}
+      {open && (
+        <div
+          id="rzmedical-chatbot-window"
+          role="dialog"
+          aria-label="Assistant RZBot"
+          aria-modal="true"
+          className="chat-window-enter fixed bottom-24 right-4 sm:right-6 z-[110] flex flex-col w-[90vw] max-w-[380px] h-[560px] max-h-[80vh] rounded-2xl overflow-hidden"
+          style={{
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            boxShadow:
+              "0 20px 60px rgba(12,35,64,0.14), 0 4px 16px rgba(12,35,64,0.06)",
+          }}
+        >
+          {/* ── Header navy gradient ─────────────────────────────────────── */}
+          <div
+            className="flex-shrink-0 flex items-center gap-3 px-4 py-3"
+            style={{
+              background: "linear-gradient(135deg, #0c2340 0%, #1a3a6b 100%)",
+            }}
+          >
+            {/* Avatar bot */}
+            <div className="relative flex-shrink-0">
+              <div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center text-white shadow-sm">
+                <IconBot />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0c2340] shadow" />
+            </div>
+
+            {/* Titre */}
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-white tracking-tight leading-none">RZBot</p>
+              <p className="text-[11px] text-sky-200 mt-0.5 truncate">Assistant RZMedical · En ligne</p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-1">
+              {messages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={clearConversation}
+                  title="Effacer la conversation"
+                  className="px-2 py-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors text-[10px] font-medium"
+                >
+                  Effacer
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Réduire le chat"
+                className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <IconMinimize />
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Fermer le chat"
+                className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-red-400/25 transition-colors"
+              >
+                <IconClose />
+              </button>
+            </div>
+          </div>
+
+          {/* ── Zone de messages — fond gris très clair ──────────────────── */}
+          <div
+            id="rzbot-scroll"
+            className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scroll-smooth"
+            style={{ background: "#f8fafc" }}
+          >
+            {/* Message de bienvenue */}
+            {messages.length === 0 && (
+              <div className="chat-msg-enter">
+                <div className="flex items-end gap-2">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-azure-600 to-navy-800 flex items-center justify-center text-white shadow-sm">
+                    <IconBot />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="rounded-2xl rounded-bl-sm px-3.5 py-2.5 text-[13px] leading-relaxed bg-white border border-slate-200 shadow-sm">
+                      <span className="text-slate-700">
+                        👋 Bonjour ! Je suis <strong className="text-navy-900">RZBot</strong>, votre assistant RZMedical.
+                        <br />
+                        Je suis là pour vous aider à trouver vos équipements médico-dentaires. 😊
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 px-1">Maintenant</span>
+                  </div>
+                </div>
+
+                {/* Suggestions */}
+                {showSuggestions && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {QUICK_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => handleSuggestion(s)}
+                        className="text-[11px] px-2.5 py-1.5 rounded-xl border border-azure-200 bg-white text-azure-700 hover:bg-azure-50 hover:border-azure-400 hover:text-azure-800 transition-all duration-150 text-left leading-snug shadow-sm font-medium"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Messages */}
+            {messages.map((msg) => (
+              <div key={msg.id} className="chat-msg-enter">
+                <MessageBubble msg={msg} onSuggestionClick={handleSuggestion} />
+              </div>
+            ))}
+
+            <div ref={bottomRef} />
+          </div>
+
+          {/* ── Zone de saisie — fond blanc ──────────────────────────────── */}
+          <div
+            className="flex-shrink-0 border-t border-slate-100 px-3 py-3"
+            style={{ background: "#ffffff" }}
+          >
+            <form onSubmit={handleSubmit} className="flex items-end gap-2">
+              <textarea
+                ref={inputRef}
+                id="rzbot-input"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 96)}px`;
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Posez votre question…"
+                disabled={loading}
+                rows={1}
+                aria-label="Message à envoyer"
+                className="flex-1 resize-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-[13px] text-slate-800 outline-none focus:border-azure-400 focus:ring-2 focus:ring-azure-100 transition-all disabled:opacity-50 leading-relaxed min-h-[40px]"
+                style={{ scrollbarWidth: "thin" }}
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                aria-label="Envoyer le message"
+                className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-azure-500 to-navy-700 flex items-center justify-center text-white shadow transition-all hover:from-azure-400 hover:to-navy-600 hover:shadow-md disabled:opacity-35 disabled:cursor-not-allowed active:scale-95"
+              >
+                <IconSend />
+              </button>
+            </form>
+
+            <p className="text-[10px] text-slate-400 text-center mt-2">
+              Propulsé par <span className="text-azure-500 font-medium">Google Gemini AI</span>
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ── Bouton FAB ────────────────────────────────────────────────────── */}
+      <div className="fixed bottom-5 right-4 sm:right-6 z-[110]">
+        {!open && (
+          <span
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: "rgba(33, 150, 210, 0.3)",
+              animation: "chatPulseRing 2.2s ease-out infinite",
+            }}
+            aria-hidden
+          />
+        )}
+
+        {hasNewMessage && !open && (
+          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 border-2 border-white shadow-sm animate-bounce" />
+        )}
+
+        <button
+          id="rzbot-fab-button"
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Fermer l'assistant" : "Ouvrir l'assistant RZBot"}
+          aria-expanded={open}
+          aria-controls="rzmedical-chatbot-window"
+          style={{
+            background: open
+              ? "linear-gradient(135deg, #475569 0%, #334155 100%)"
+              : "linear-gradient(135deg, #2196d2 0%, #0c2340 100%)",
+            boxShadow: open
+              ? "0 4px 20px rgba(0,0,0,0.4)"
+              : "0 8px 32px rgba(33,150,210,0.45), 0 2px 8px rgba(0,0,0,0.3)",
+            animation: open ? "none" : "chatBounce 3s ease-in-out infinite 2s",
+          }}
+          className="relative w-14 h-14 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        >
+          <span
+            className="transition-all duration-300"
+            style={{
+              transform: open ? "rotate(90deg) scale(0.85)" : "scale(1)",
+            }}
+          >
+            {open ? <IconClose /> : <IconChat />}
+          </span>
+        </button>
+      </div>
+    </>
+  );
+}

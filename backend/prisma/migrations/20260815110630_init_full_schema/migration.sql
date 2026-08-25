@@ -42,6 +42,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "sous_categories" (
     "id" SERIAL NOT NULL,
     "nom" TEXT NOT NULL,
+    "description" TEXT,
     "image" TEXT,
     "categorieId" INTEGER NOT NULL,
     "creeLe" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

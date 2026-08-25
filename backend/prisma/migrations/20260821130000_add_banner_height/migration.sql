@@ -1,0 +1,1 @@
+ALTER TABLE "bannieres_site" ADD COLUMN "hauteur" INTEGER NOT NULL DEFAULT 420;

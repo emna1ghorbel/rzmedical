@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl, getBaseUrl } from "@/utils/api";
 import React, { useEffect, useState, useCallback } from "react";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_URL = getApiUrl();
 
 interface SousCategorie {
   id: number;
@@ -146,7 +147,7 @@ export default function CategoriesPage() {
           </p>
         </div>
         <button
-          onClick={openAdd}
+          onClick={() => openAdd()}
           className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
@@ -172,7 +173,7 @@ export default function CategoriesPage() {
         ) : categories.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <p className="text-gray-500 dark:text-gray-400">Aucune catégorie trouvée</p>
-            <button onClick={openAdd} className="text-sm text-brand-500 underline">
+            <button onClick={() => openAdd()} className="text-sm text-brand-500 underline">
               Créer la première catégorie
             </button>
           </div>
@@ -256,21 +257,34 @@ export default function CategoriesPage() {
 
       {/* Modale Ajouter / Modifier */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 mx-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeModal();
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md rounded-3xl bg-white dark:bg-gray-900 shadow-2xl p-6 border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-150 relative"
+          >
             <div className="flex items-center justify-between mb-5">
-              <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+              <h4 className="text-lg font-bold text-gray-800 dark:text-white/90">
                 {editing ? "Modifier la catégorie" : "Nouvelle catégorie"}
               </h4>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors"
+                aria-label="Fermer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                Nom de la catégorie
+              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">
+                Nom de la catégorie *
               </label>
               <input
                 type="text"
@@ -278,24 +292,24 @@ export default function CategoriesPage() {
                 onChange={(e) => setFormNom(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSave()}
                 placeholder="Ex: Cardiologie, Consommables..."
-                className="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+                className="w-full rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
                 autoFocus
               />
               {formError && (
-                <p className="mt-1.5 text-xs text-red-500">{formError}</p>
+                <p className="mt-1.5 text-xs text-red-500 font-medium">{formError}</p>
               )}
             </div>
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={closeModal}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors"
+                className="rounded-xl border border-gray-300 dark:border-gray-700 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 transition-colors"
               >
                 Annuler
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-60 transition-colors"
+                className="rounded-xl bg-brand-500 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-600 disabled:opacity-60 transition-colors"
               >
                 {saving ? "Enregistrement..." : editing ? "Modifier" : "Créer"}
               </button>
@@ -306,31 +320,42 @@ export default function CategoriesPage() {
 
       {/* Modale de confirmation de suppression */}
       {deleteId !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 mx-4">
-            <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-red-600">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126Z" />
-              </svg>
-            </div>
-            <h4 className="text-center text-lg font-semibold text-gray-800 dark:text-white/90 mb-2">
-              Confirmer la suppression
-            </h4>
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Cette action est irréversible. La catégorie et toutes ses sous-catégories associées seront supprimées.
-            </p>
-            <div className="flex items-center justify-end gap-3">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setDeleteId(null);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-sm rounded-3xl bg-white dark:bg-gray-900 shadow-2xl p-6 border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-150 relative"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-lg font-bold text-gray-800 dark:text-white/90">
+                Confirmer la suppression
+              </h4>
               <button
                 onClick={() => setDeleteId(null)}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors"
+                className="h-7 w-7 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-6">
+              Êtes-vous sûr de vouloir supprimer cette catégorie ? Toutes les sous-catégories et produits associés seront impactés.
+            </p>
+            <div className="flex justify-end gap-2.5">
+              <button
+                onClick={() => setDeleteId(null)}
+                className="rounded-xl border border-gray-300 dark:border-gray-700 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 transition-colors"
               >
                 Annuler
               </button>
               <button
                 onClick={() => handleDelete(deleteId)}
-                className="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition-colors"
+                className="rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-colors"
               >
-                Supprimer définitivement
+                Supprimer
               </button>
             </div>
           </div>

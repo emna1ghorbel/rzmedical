@@ -1,0 +1,1 @@
+ALTER TABLE "utilisateurs" ADD COLUMN "remise" DECIMAL(5,2) NOT NULL DEFAULT 0;

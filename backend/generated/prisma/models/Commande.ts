@@ -234,7 +234,7 @@ export type CommandeWhereInput = {
   misAJourLe?: Prisma.DateTimeFilter<"Commande"> | Date | string
   utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
   lignes?: Prisma.LigneCommandeListRelationFilter
-  factures?: Prisma.FactureListRelationFilter
+  facture?: Prisma.XOR<Prisma.FactureNullableScalarRelationFilter, Prisma.FactureWhereInput> | null
 }
 
 export type CommandeOrderByWithRelationInput = {
@@ -246,7 +246,7 @@ export type CommandeOrderByWithRelationInput = {
   misAJourLe?: Prisma.SortOrder
   utilisateur?: Prisma.UtilisateurOrderByWithRelationInput
   lignes?: Prisma.LigneCommandeOrderByRelationAggregateInput
-  factures?: Prisma.FactureOrderByRelationAggregateInput
+  facture?: Prisma.FactureOrderByWithRelationInput
 }
 
 export type CommandeWhereUniqueInput = Prisma.AtLeast<{
@@ -261,7 +261,7 @@ export type CommandeWhereUniqueInput = Prisma.AtLeast<{
   misAJourLe?: Prisma.DateTimeFilter<"Commande"> | Date | string
   utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
   lignes?: Prisma.LigneCommandeListRelationFilter
-  factures?: Prisma.FactureListRelationFilter
+  facture?: Prisma.XOR<Prisma.FactureNullableScalarRelationFilter, Prisma.FactureWhereInput> | null
 }, "id">
 
 export type CommandeOrderByWithAggregationInput = {
@@ -297,7 +297,7 @@ export type CommandeCreateInput = {
   misAJourLe?: Date | string
   utilisateur: Prisma.UtilisateurCreateNestedOneWithoutCommandesInput
   lignes?: Prisma.LigneCommandeCreateNestedManyWithoutCommandeInput
-  factures?: Prisma.FactureCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeUncheckedCreateInput = {
@@ -308,7 +308,7 @@ export type CommandeUncheckedCreateInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutCommandeInput
-  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureUncheckedCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeUpdateInput = {
@@ -318,7 +318,7 @@ export type CommandeUpdateInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   utilisateur?: Prisma.UtilisateurUpdateOneRequiredWithoutCommandesNestedInput
   lignes?: Prisma.LigneCommandeUpdateManyWithoutCommandeNestedInput
-  factures?: Prisma.FactureUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUpdateOneWithoutCommandeNestedInput
 }
 
 export type CommandeUncheckedUpdateInput = {
@@ -329,7 +329,7 @@ export type CommandeUncheckedUpdateInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneCommandeUncheckedUpdateManyWithoutCommandeNestedInput
-  factures?: Prisma.FactureUncheckedUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUncheckedUpdateOneWithoutCommandeNestedInput
 }
 
 export type CommandeCreateManyInput = {
@@ -471,18 +471,18 @@ export type CommandeUpdateOneRequiredWithoutLignesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CommandeUpdateToOneWithWhereWithoutLignesInput, Prisma.CommandeUpdateWithoutLignesInput>, Prisma.CommandeUncheckedUpdateWithoutLignesInput>
 }
 
-export type CommandeCreateNestedOneWithoutFacturesInput = {
-  create?: Prisma.XOR<Prisma.CommandeCreateWithoutFacturesInput, Prisma.CommandeUncheckedCreateWithoutFacturesInput>
-  connectOrCreate?: Prisma.CommandeCreateOrConnectWithoutFacturesInput
+export type CommandeCreateNestedOneWithoutFactureInput = {
+  create?: Prisma.XOR<Prisma.CommandeCreateWithoutFactureInput, Prisma.CommandeUncheckedCreateWithoutFactureInput>
+  connectOrCreate?: Prisma.CommandeCreateOrConnectWithoutFactureInput
   connect?: Prisma.CommandeWhereUniqueInput
 }
 
-export type CommandeUpdateOneRequiredWithoutFacturesNestedInput = {
-  create?: Prisma.XOR<Prisma.CommandeCreateWithoutFacturesInput, Prisma.CommandeUncheckedCreateWithoutFacturesInput>
-  connectOrCreate?: Prisma.CommandeCreateOrConnectWithoutFacturesInput
-  upsert?: Prisma.CommandeUpsertWithoutFacturesInput
+export type CommandeUpdateOneRequiredWithoutFactureNestedInput = {
+  create?: Prisma.XOR<Prisma.CommandeCreateWithoutFactureInput, Prisma.CommandeUncheckedCreateWithoutFactureInput>
+  connectOrCreate?: Prisma.CommandeCreateOrConnectWithoutFactureInput
+  upsert?: Prisma.CommandeUpsertWithoutFactureInput
   connect?: Prisma.CommandeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CommandeUpdateToOneWithWhereWithoutFacturesInput, Prisma.CommandeUpdateWithoutFacturesInput>, Prisma.CommandeUncheckedUpdateWithoutFacturesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommandeUpdateToOneWithWhereWithoutFactureInput, Prisma.CommandeUpdateWithoutFactureInput>, Prisma.CommandeUncheckedUpdateWithoutFactureInput>
 }
 
 export type CommandeCreateWithoutUtilisateurInput = {
@@ -491,7 +491,7 @@ export type CommandeCreateWithoutUtilisateurInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneCommandeCreateNestedManyWithoutCommandeInput
-  factures?: Prisma.FactureCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeUncheckedCreateWithoutUtilisateurInput = {
@@ -501,7 +501,7 @@ export type CommandeUncheckedCreateWithoutUtilisateurInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutCommandeInput
-  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureUncheckedCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeCreateOrConnectWithoutUtilisateurInput = {
@@ -548,7 +548,7 @@ export type CommandeCreateWithoutLignesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   utilisateur: Prisma.UtilisateurCreateNestedOneWithoutCommandesInput
-  factures?: Prisma.FactureCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeUncheckedCreateWithoutLignesInput = {
@@ -558,7 +558,7 @@ export type CommandeUncheckedCreateWithoutLignesInput = {
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   creeLe?: Date | string
   misAJourLe?: Date | string
-  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutCommandeInput
+  facture?: Prisma.FactureUncheckedCreateNestedOneWithoutCommandeInput
 }
 
 export type CommandeCreateOrConnectWithoutLignesInput = {
@@ -583,7 +583,7 @@ export type CommandeUpdateWithoutLignesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   utilisateur?: Prisma.UtilisateurUpdateOneRequiredWithoutCommandesNestedInput
-  factures?: Prisma.FactureUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUpdateOneWithoutCommandeNestedInput
 }
 
 export type CommandeUncheckedUpdateWithoutLignesInput = {
@@ -593,10 +593,10 @@ export type CommandeUncheckedUpdateWithoutLignesInput = {
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  factures?: Prisma.FactureUncheckedUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUncheckedUpdateOneWithoutCommandeNestedInput
 }
 
-export type CommandeCreateWithoutFacturesInput = {
+export type CommandeCreateWithoutFactureInput = {
   statut?: $Enums.StatutCommande
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   creeLe?: Date | string
@@ -605,7 +605,7 @@ export type CommandeCreateWithoutFacturesInput = {
   lignes?: Prisma.LigneCommandeCreateNestedManyWithoutCommandeInput
 }
 
-export type CommandeUncheckedCreateWithoutFacturesInput = {
+export type CommandeUncheckedCreateWithoutFactureInput = {
   id?: number
   utilisateurId: number
   statut?: $Enums.StatutCommande
@@ -615,23 +615,23 @@ export type CommandeUncheckedCreateWithoutFacturesInput = {
   lignes?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutCommandeInput
 }
 
-export type CommandeCreateOrConnectWithoutFacturesInput = {
+export type CommandeCreateOrConnectWithoutFactureInput = {
   where: Prisma.CommandeWhereUniqueInput
-  create: Prisma.XOR<Prisma.CommandeCreateWithoutFacturesInput, Prisma.CommandeUncheckedCreateWithoutFacturesInput>
+  create: Prisma.XOR<Prisma.CommandeCreateWithoutFactureInput, Prisma.CommandeUncheckedCreateWithoutFactureInput>
 }
 
-export type CommandeUpsertWithoutFacturesInput = {
-  update: Prisma.XOR<Prisma.CommandeUpdateWithoutFacturesInput, Prisma.CommandeUncheckedUpdateWithoutFacturesInput>
-  create: Prisma.XOR<Prisma.CommandeCreateWithoutFacturesInput, Prisma.CommandeUncheckedCreateWithoutFacturesInput>
+export type CommandeUpsertWithoutFactureInput = {
+  update: Prisma.XOR<Prisma.CommandeUpdateWithoutFactureInput, Prisma.CommandeUncheckedUpdateWithoutFactureInput>
+  create: Prisma.XOR<Prisma.CommandeCreateWithoutFactureInput, Prisma.CommandeUncheckedCreateWithoutFactureInput>
   where?: Prisma.CommandeWhereInput
 }
 
-export type CommandeUpdateToOneWithWhereWithoutFacturesInput = {
+export type CommandeUpdateToOneWithWhereWithoutFactureInput = {
   where?: Prisma.CommandeWhereInput
-  data: Prisma.XOR<Prisma.CommandeUpdateWithoutFacturesInput, Prisma.CommandeUncheckedUpdateWithoutFacturesInput>
+  data: Prisma.XOR<Prisma.CommandeUpdateWithoutFactureInput, Prisma.CommandeUncheckedUpdateWithoutFactureInput>
 }
 
-export type CommandeUpdateWithoutFacturesInput = {
+export type CommandeUpdateWithoutFactureInput = {
   statut?: Prisma.EnumStatutCommandeFieldUpdateOperationsInput | $Enums.StatutCommande
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -640,7 +640,7 @@ export type CommandeUpdateWithoutFacturesInput = {
   lignes?: Prisma.LigneCommandeUpdateManyWithoutCommandeNestedInput
 }
 
-export type CommandeUncheckedUpdateWithoutFacturesInput = {
+export type CommandeUncheckedUpdateWithoutFactureInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   utilisateurId?: Prisma.IntFieldUpdateOperationsInput | number
   statut?: Prisma.EnumStatutCommandeFieldUpdateOperationsInput | $Enums.StatutCommande
@@ -664,7 +664,7 @@ export type CommandeUpdateWithoutUtilisateurInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneCommandeUpdateManyWithoutCommandeNestedInput
-  factures?: Prisma.FactureUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUpdateOneWithoutCommandeNestedInput
 }
 
 export type CommandeUncheckedUpdateWithoutUtilisateurInput = {
@@ -674,7 +674,7 @@ export type CommandeUncheckedUpdateWithoutUtilisateurInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneCommandeUncheckedUpdateManyWithoutCommandeNestedInput
-  factures?: Prisma.FactureUncheckedUpdateManyWithoutCommandeNestedInput
+  facture?: Prisma.FactureUncheckedUpdateOneWithoutCommandeNestedInput
 }
 
 export type CommandeUncheckedUpdateManyWithoutUtilisateurInput = {
@@ -692,12 +692,10 @@ export type CommandeUncheckedUpdateManyWithoutUtilisateurInput = {
 
 export type CommandeCountOutputType = {
   lignes: number
-  factures: number
 }
 
 export type CommandeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lignes?: boolean | CommandeCountOutputTypeCountLignesArgs
-  factures?: boolean | CommandeCountOutputTypeCountFacturesArgs
 }
 
 /**
@@ -717,13 +715,6 @@ export type CommandeCountOutputTypeCountLignesArgs<ExtArgs extends runtime.Types
   where?: Prisma.LigneCommandeWhereInput
 }
 
-/**
- * CommandeCountOutputType without action
- */
-export type CommandeCountOutputTypeCountFacturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.FactureWhereInput
-}
-
 
 export type CommandeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -734,7 +725,7 @@ export type CommandeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   misAJourLe?: boolean
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
   lignes?: boolean | Prisma.Commande$lignesArgs<ExtArgs>
-  factures?: boolean | Prisma.Commande$facturesArgs<ExtArgs>
+  facture?: boolean | Prisma.Commande$factureArgs<ExtArgs>
   _count?: boolean | Prisma.CommandeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commande"]>
 
@@ -771,7 +762,7 @@ export type CommandeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type CommandeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
   lignes?: boolean | Prisma.Commande$lignesArgs<ExtArgs>
-  factures?: boolean | Prisma.Commande$facturesArgs<ExtArgs>
+  facture?: boolean | Prisma.Commande$factureArgs<ExtArgs>
   _count?: boolean | Prisma.CommandeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CommandeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -786,7 +777,7 @@ export type $CommandePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     utilisateur: Prisma.$UtilisateurPayload<ExtArgs>
     lignes: Prisma.$LigneCommandePayload<ExtArgs>[]
-    factures: Prisma.$FacturePayload<ExtArgs>[]
+    facture: Prisma.$FacturePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1191,7 +1182,7 @@ export interface Prisma__CommandeClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   utilisateur<T extends Prisma.UtilisateurDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UtilisateurDefaultArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   lignes<T extends Prisma.Commande$lignesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commande$lignesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneCommandePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  factures<T extends Prisma.Commande$facturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commande$facturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FacturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  facture<T extends Prisma.Commande$factureArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commande$factureArgs<ExtArgs>>): Prisma.Prisma__FactureClient<runtime.Types.Result.GetResult<Prisma.$FacturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1652,9 +1643,9 @@ export type Commande$lignesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Commande.factures
+ * Commande.facture
  */
-export type Commande$facturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Commande$factureArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Facture
    */
@@ -1668,11 +1659,6 @@ export type Commande$facturesArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.FactureInclude<ExtArgs> | null
   where?: Prisma.FactureWhereInput
-  orderBy?: Prisma.FactureOrderByWithRelationInput | Prisma.FactureOrderByWithRelationInput[]
-  cursor?: Prisma.FactureWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.FactureScalarFieldEnum | Prisma.FactureScalarFieldEnum[]
 }
 
 /**
