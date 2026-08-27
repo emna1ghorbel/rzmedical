@@ -28,11 +28,13 @@ export type AggregateSousCategorie = {
 
 export type SousCategorieAvgAggregateOutputType = {
   id: number | null
+  ordre: number | null
   categorieId: number | null
 }
 
 export type SousCategorieSumAggregateOutputType = {
   id: number | null
+  ordre: number | null
   categorieId: number | null
 }
 
@@ -41,6 +43,7 @@ export type SousCategorieMinAggregateOutputType = {
   nom: string | null
   description: string | null
   image: string | null
+  ordre: number | null
   categorieId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
@@ -51,6 +54,7 @@ export type SousCategorieMaxAggregateOutputType = {
   nom: string | null
   description: string | null
   image: string | null
+  ordre: number | null
   categorieId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
@@ -61,6 +65,7 @@ export type SousCategorieCountAggregateOutputType = {
   nom: number
   description: number
   image: number
+  ordre: number
   categorieId: number
   creeLe: number
   misAJourLe: number
@@ -70,11 +75,13 @@ export type SousCategorieCountAggregateOutputType = {
 
 export type SousCategorieAvgAggregateInputType = {
   id?: true
+  ordre?: true
   categorieId?: true
 }
 
 export type SousCategorieSumAggregateInputType = {
   id?: true
+  ordre?: true
   categorieId?: true
 }
 
@@ -83,6 +90,7 @@ export type SousCategorieMinAggregateInputType = {
   nom?: true
   description?: true
   image?: true
+  ordre?: true
   categorieId?: true
   creeLe?: true
   misAJourLe?: true
@@ -93,6 +101,7 @@ export type SousCategorieMaxAggregateInputType = {
   nom?: true
   description?: true
   image?: true
+  ordre?: true
   categorieId?: true
   creeLe?: true
   misAJourLe?: true
@@ -103,6 +112,7 @@ export type SousCategorieCountAggregateInputType = {
   nom?: true
   description?: true
   image?: true
+  ordre?: true
   categorieId?: true
   creeLe?: true
   misAJourLe?: true
@@ -200,6 +210,7 @@ export type SousCategorieGroupByOutputType = {
   nom: string
   description: string | null
   image: string | null
+  ordre: number
   categorieId: number
   creeLe: Date
   misAJourLe: Date
@@ -233,6 +244,7 @@ export type SousCategorieWhereInput = {
   nom?: Prisma.StringFilter<"SousCategorie"> | string
   description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
+  ordre?: Prisma.IntFilter<"SousCategorie"> | number
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -245,6 +257,7 @@ export type SousCategorieOrderByWithRelationInput = {
   nom?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -261,6 +274,7 @@ export type SousCategorieWhereUniqueInput = Prisma.AtLeast<{
   nom?: Prisma.StringFilter<"SousCategorie"> | string
   description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
+  ordre?: Prisma.IntFilter<"SousCategorie"> | number
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -273,6 +287,7 @@ export type SousCategorieOrderByWithAggregationInput = {
   nom?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -291,6 +306,7 @@ export type SousCategorieScalarWhereWithAggregatesInput = {
   nom?: Prisma.StringWithAggregatesFilter<"SousCategorie"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"SousCategorie"> | string | null
+  ordre?: Prisma.IntWithAggregatesFilter<"SousCategorie"> | number
   categorieId?: Prisma.IntWithAggregatesFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"SousCategorie"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"SousCategorie"> | Date | string
@@ -300,6 +316,7 @@ export type SousCategorieCreateInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
   categorie: Prisma.CategorieCreateNestedOneWithoutSousCategoriesInput
@@ -311,6 +328,7 @@ export type SousCategorieUncheckedCreateInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   categorieId: number
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -321,6 +339,7 @@ export type SousCategorieUpdateInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categorie?: Prisma.CategorieUpdateOneRequiredWithoutSousCategoriesNestedInput
@@ -332,6 +351,7 @@ export type SousCategorieUncheckedUpdateInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -343,6 +363,7 @@ export type SousCategorieCreateManyInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   categorieId: number
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -352,6 +373,7 @@ export type SousCategorieUpdateManyMutationInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -361,6 +383,7 @@ export type SousCategorieUncheckedUpdateManyInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -386,6 +409,7 @@ export type SousCategorieCountOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -393,6 +417,7 @@ export type SousCategorieCountOrderByAggregateInput = {
 
 export type SousCategorieAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
 }
 
@@ -401,6 +426,7 @@ export type SousCategorieMaxOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -411,6 +437,7 @@ export type SousCategorieMinOrderByAggregateInput = {
   nom?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -418,6 +445,7 @@ export type SousCategorieMinOrderByAggregateInput = {
 
 export type SousCategorieSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  ordre?: Prisma.SortOrder
   categorieId?: Prisma.SortOrder
 }
 
@@ -486,6 +514,7 @@ export type SousCategorieCreateWithoutCategorieInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
   produits?: Prisma.ProduitCreateNestedManyWithoutSousCategorieInput
@@ -496,6 +525,7 @@ export type SousCategorieUncheckedCreateWithoutCategorieInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
   produits?: Prisma.ProduitUncheckedCreateNestedManyWithoutSousCategorieInput
@@ -535,6 +565,7 @@ export type SousCategorieScalarWhereInput = {
   nom?: Prisma.StringFilter<"SousCategorie"> | string
   description?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
   image?: Prisma.StringNullableFilter<"SousCategorie"> | string | null
+  ordre?: Prisma.IntFilter<"SousCategorie"> | number
   categorieId?: Prisma.IntFilter<"SousCategorie"> | number
   creeLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"SousCategorie"> | Date | string
@@ -544,6 +575,7 @@ export type SousCategorieCreateWithoutProduitsInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
   categorie: Prisma.CategorieCreateNestedOneWithoutSousCategoriesInput
@@ -554,6 +586,7 @@ export type SousCategorieUncheckedCreateWithoutProduitsInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   categorieId: number
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -579,6 +612,7 @@ export type SousCategorieUpdateWithoutProduitsInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categorie?: Prisma.CategorieUpdateOneRequiredWithoutSousCategoriesNestedInput
@@ -589,6 +623,7 @@ export type SousCategorieUncheckedUpdateWithoutProduitsInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   categorieId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -599,6 +634,7 @@ export type SousCategorieCreateManyCategorieInput = {
   nom: string
   description?: string | null
   image?: string | null
+  ordre?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -607,6 +643,7 @@ export type SousCategorieUpdateWithoutCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   produits?: Prisma.ProduitUpdateManyWithoutSousCategorieNestedInput
@@ -617,6 +654,7 @@ export type SousCategorieUncheckedUpdateWithoutCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   produits?: Prisma.ProduitUncheckedUpdateManyWithoutSousCategorieNestedInput
@@ -627,6 +665,7 @@ export type SousCategorieUncheckedUpdateManyWithoutCategorieInput = {
   nom?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -667,6 +706,7 @@ export type SousCategorieSelect<ExtArgs extends runtime.Types.Extensions.Interna
   nom?: boolean
   description?: boolean
   image?: boolean
+  ordre?: boolean
   categorieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
@@ -680,6 +720,7 @@ export type SousCategorieSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   nom?: boolean
   description?: boolean
   image?: boolean
+  ordre?: boolean
   categorieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
@@ -691,6 +732,7 @@ export type SousCategorieSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   nom?: boolean
   description?: boolean
   image?: boolean
+  ordre?: boolean
   categorieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
@@ -702,12 +744,13 @@ export type SousCategorieSelectScalar = {
   nom?: boolean
   description?: boolean
   image?: boolean
+  ordre?: boolean
   categorieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type SousCategorieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "description" | "image" | "categorieId" | "creeLe" | "misAJourLe", ExtArgs["result"]["sousCategorie"]>
+export type SousCategorieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "description" | "image" | "ordre" | "categorieId" | "creeLe" | "misAJourLe", ExtArgs["result"]["sousCategorie"]>
 export type SousCategorieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categorie?: boolean | Prisma.CategorieDefaultArgs<ExtArgs>
   produits?: boolean | Prisma.SousCategorie$produitsArgs<ExtArgs>
@@ -731,6 +774,7 @@ export type $SousCategoriePayload<ExtArgs extends runtime.Types.Extensions.Inter
     nom: string
     description: string | null
     image: string | null
+    ordre: number
     categorieId: number
     creeLe: Date
     misAJourLe: Date
@@ -1163,6 +1207,7 @@ export interface SousCategorieFieldRefs {
   readonly nom: Prisma.FieldRef<"SousCategorie", 'String'>
   readonly description: Prisma.FieldRef<"SousCategorie", 'String'>
   readonly image: Prisma.FieldRef<"SousCategorie", 'String'>
+  readonly ordre: Prisma.FieldRef<"SousCategorie", 'Int'>
   readonly categorieId: Prisma.FieldRef<"SousCategorie", 'Int'>
   readonly creeLe: Prisma.FieldRef<"SousCategorie", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"SousCategorie", 'DateTime'>

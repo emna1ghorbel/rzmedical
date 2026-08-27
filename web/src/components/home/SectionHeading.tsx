@@ -11,6 +11,7 @@ export function SectionHeading({
   linkLabel = "Voir tout",
   className,
   dark = false,
+  extraAction,
 }: {
   eyebrow?: string;
   title: string;
@@ -19,6 +20,7 @@ export function SectionHeading({
   linkLabel?: string;
   className?: string;
   dark?: boolean;
+  extraAction?: React.ReactNode;
 }) {
   return (
     <div
@@ -62,23 +64,26 @@ export function SectionHeading({
           </p>
         )}
       </div>
-      {href && (
-        <Link
-          href={href}
-          className={cn(
-            "group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-bold transition-all duration-200",
-            dark
-              ? "border-azure-500/25 text-azure-400 hover:border-azure-400/50 hover:text-azure-300 hover:bg-azure-500/10"
-              : "border-azure-200 text-azure-600 hover:border-azure-400 hover:text-azure-700 hover:bg-azure-50 shadow-sm"
-          )}
-        >
-          {linkLabel}
-          <ArrowRightIcon
-            size={14}
-            className="transition-transform duration-200 group-hover:translate-x-1"
-          />
-        </Link>
-      )}
+      <div className="flex flex-col items-start sm:items-end gap-3 shrink-0 mt-2 sm:mt-0">
+        {extraAction}
+        {href && (
+          <Link
+            href={href}
+            className={cn(
+              "group inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-bold transition-all duration-200",
+              dark
+                ? "border-azure-500/25 text-azure-400 hover:border-azure-400/50 hover:text-azure-300 hover:bg-azure-500/10"
+                : "border-azure-200 text-azure-600 hover:border-azure-400 hover:text-azure-700 hover:bg-azure-50 shadow-sm"
+            )}
+          >
+            {linkLabel}
+            <ArrowRightIcon
+              size={14}
+              className="transition-transform duration-200 group-hover:translate-x-1"
+            />
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

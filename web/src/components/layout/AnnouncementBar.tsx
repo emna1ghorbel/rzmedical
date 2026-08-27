@@ -1,15 +1,12 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useCompany } from "@/providers/CompanyProvider";
 
 export type AnnonceSite = {
   texte: string;
   actif: boolean;
 };
-
-const EMAIL       = "randzmedical@outlook.com";
-const TEL_DISPLAY = "+216 28 113 131";
-const TEL_HREF    = "+21628113131";
 
 const DEFAULT_PHRASES = [
   "Livraison partout en Tunisie",
@@ -40,6 +37,11 @@ function useReducedMotion(): boolean {
 
 export function AnnouncementBar({ annonces }: { annonces: AnnonceSite[] }) {
   const reduced = useReducedMotion();
+  const company = useCompany();
+
+  const email      = company?.email       || "randzmedical@outlook.com";
+  const telDisplay = company?.telephone   || "+216 28 113 131";
+  const telHref    = (company?.telephone  || "+21628113131").replace(/\s/g, "");
 
   const phrases = useMemo(() => {
     const list = (annonces || [])
@@ -225,25 +227,25 @@ export function AnnouncementBar({ annonces }: { annonces: AnnonceSite[] }) {
 
           {/* DROITE */}
           <div className="flex shrink-0 items-center gap-3 text-[12px] font-medium tracking-wide sm:gap-4 sm:text-[12.5px]">
-            <a href={`mailto:${EMAIL}`}
+            <a href={`mailto:${email}`}
                className="flex items-center gap-1.5 rounded transition-colors hover:text-sky-300 focus-visible:outline-none"
-               aria-label={`Email ${EMAIL}`}>
+               aria-label={`Email ${email}`}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                 <polyline points="22,6 12,13 2,6"/>
               </svg>
-              <span className="hidden sm:inline">{EMAIL}</span>
+              <span className="hidden sm:inline">{email}</span>
             </a>
 
             <span aria-hidden="true" className="h-3.5 w-px bg-white/20"/>
 
-            <a href={`tel:${TEL_HREF}`}
+            <a href={`tel:${telHref}`}
                className="flex items-center gap-1.5 rounded transition-colors hover:text-sky-300 focus-visible:outline-none"
-               aria-label={`Appeler ${TEL_DISPLAY}`}>
+               aria-label={`Appeler ${telDisplay}`}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.8-.8a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-              <span className="hidden sm:inline">{TEL_DISPLAY}</span>
+              <span className="hidden sm:inline">{telDisplay}</span>
               <span className="sm:hidden">Appeler</span>
             </a>
 

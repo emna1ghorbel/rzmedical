@@ -72,7 +72,11 @@ export function GlobalBannerCarousel({ banners }: { banners: BanniereSite[] }) {
     return () => clearTimeout(timeoutId);
   }, [index, paused, count, goTo]);
 
-  if (count === 0 || pathname !== "/") return null;
+  // Affiche sur l'accueil ("/") et sur toutes les pages catégorie ("/dentaire", "/optique", etc.)
+  const isHome = pathname === "/";
+  const isCategoryPage = /^\/[^/]+$/.test(pathname); // un seul segment, ex: /dentaire
+
+  if (count === 0 || !(isHome || isCategoryPage)) return null;
 
   return (
     <section

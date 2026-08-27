@@ -9,8 +9,12 @@ import { getApiUrl, getBaseUrl } from "@/utils/api";
 const API = getApiUrl();
 const BASE_URL = getBaseUrl();
 type Annonce = { id: number; texte: string; actif: boolean; ordre: number; dureeSecondes: number };
-type Banniere = { id: number; image: string; titre?: string; description?: string; actif: boolean; lien?: string; hauteur: number };
+type Banniere = { id: number; image: string; titre?: string; description?: string; actif: boolean; lien?: string; hauteur: number; categorieId?: number | null };
 type VideoHero = { id: number; videoUrl: string; posterUrl: string | null; titre: string | null; actif: boolean; creeLe: string };
+type TypeAlerte = 'INFO' | 'PROMO' | 'WARNING' | 'SUCCESS';
+type AffichageAlerte = 'POPUP' | 'BANNER' | 'TOAST';
+type Alerte = { id: number; type: TypeAlerte; affichage: AffichageAlerte; titre: string; message: string; lien: string | null; texteBouton: string | null; actif: boolean; dateDebut: string | null; dateFin: string | null; creeLe: string };
+type Categorie = { id: number; nom: string; visible: boolean };
 
 function imageFullUrl(path: string) {
   if (!path) return "";
@@ -32,11 +36,24 @@ export default function SiteContentPage() {
   const [annonces, setAnnonces] = useState<Annonce[]>([]);
   const [bannieres, setBannieres] = useState<Banniere[]>([]);
   const [videos, setVideos] = useState<VideoHero[]>([]);
+  const [alertes, setAlertes] = useState<Alerte[]>([]);
+  // Alerte form
+  const [alerteTitre, setAlerteTitre] = useState("");
+  const [alerteMessage, setAlerteMessage] = useState("");
+  const [alerteType, setAlerteType] = useState<TypeAlerte>("INFO");
+  const [alerteAffichage, setAlerteAffichage] = useState<AffichageAlerte>("POPUP");
+  const [alerteLien, setAlerteLien] = useState("");
+  const [alerteTexteBouton, setAlerteTexteBouton] = useState("");
+  const [alerteDateDebut, setAlerteDateDebut] = useState("");
+  const [alerteDateFin, setAlerteDateFin] = useState("");
+  const [alerteSaving, setAlerteSaving] = useState(false);
   const [phrase, setPhrase] = useState("");
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
   const [lien, setLien] = useState("");
   const [hauteur, setHauteur] = useState("420");
+  const [categorieId, setCategorieId] = useState<string>("");
+  const [categories, setCategories] = useState<Categorie[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [uploading, setUploading] = useState(false);
@@ -65,7 +82,7 @@ export default function SiteContentPage() {
     async (path: string, options: RequestInit = {}) => {
       const token = getToken();
       if (!token) throw new Error("Session expirée. Veuillez vous reconnecter.");
-      const response = await fetch(`${API}${path}`, {
+      const response = await fetch(`${getApiUrl()}${path}`, {
         ...options,
         cache: "no-store",
         headers: {
@@ -86,6 +103,8 @@ export default function SiteContentPage() {
       setAnnonces(data.annonces || []);
       setBannieres(data.bannieres || []);
       setVideos(data.videos || []);
+      setAlertes(data.alertes || []);
+      fetch(`${API}/categories`).then(r => r.json()).then(cats => setCategories(Array.isArray(cats) ? cats : [])).catch(() => {});
       setError("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur de chargement");
@@ -168,6 +187,71 @@ export default function SiteContentPage() {
     }
   };
 
+  // ── Alertes handlers ─────────────────────────────────────────────────────────
+
+  const addAlerte = async () => {
+    if (!alerteTitre.trim() || !alerteMessage.trim()) {
+      setError("Le titre et le message de l'alerte sont requis.");
+      return;
+    }
+    setAlerteSaving(true);
+    try {
+      await request("/site-content/alertes", {
+        method: "POST",
+        body: JSON.stringify({
+          type: alerteType,
+          affichage: alerteAffichage,
+          titre: alerteTitre.trim(),
+          message: alerteMessage.trim(),
+          lien: alerteLien.trim() || null,
+          texteBouton: alerteTexteBouton.trim() || null,
+          actif: true,
+          dateDebut: alerteDateDebut || null,
+          dateFin: alerteDateFin || null,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      setAlerteTitre("");
+      setAlerteMessage("");
+      setAlerteLien("");
+      setAlerteTexteBouton("");
+      setAlerteDateDebut("");
+      setAlerteDateFin("");
+      setAlerteType("INFO");
+      setAlerteAffichage("POPUP");
+      await load();
+      showToast("Alerte créée avec succès.", "success");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur de création");
+    } finally {
+      setAlerteSaving(false);
+    }
+  };
+
+  const toggleAlerte = async (a: Alerte) => {
+    try {
+      await request(`/site-content/alertes/${a.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ ...a, actif: !a.actif }),
+        headers: { "Content-Type": "application/json" },
+      });
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur de modification");
+    }
+  };
+
+  const deleteAlerte = async (id: number) => {
+    if (!confirm("Supprimer cette alerte ?")) return;
+    try {
+      await request(`/site-content/alertes/${id}`, { method: "DELETE" });
+      await load();
+      showToast("Alerte supprimée.", "success");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur de suppression");
+    }
+  };
+
   const addBanniere = async () => {
     if (!imageFile) { setError("Veuillez sélectionner une image."); return; }
     setUploading(true);
@@ -181,6 +265,7 @@ export default function SiteContentPage() {
           description: description.trim() || null,
           lien: lien.trim() || null,
           hauteur: Math.min(700, Math.max(240, Number(hauteur) || 420)),
+          categorieId: categorieId ? Number(categorieId) : null,
           ordre: bannieres.length,
           actif: true,
         }),
@@ -190,6 +275,7 @@ export default function SiteContentPage() {
       setDescription("");
       setLien("");
       setHauteur("420");
+      setCategorieId("");
       clearImage();
       setError("");
       await load();
@@ -225,6 +311,23 @@ export default function SiteContentPage() {
         current.map((item) => item.id === b.id ? { ...item, hauteur } : item),
       );
       showToast("Hauteur de la bannière mise à jour.", "success");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur de modification");
+    }
+  };
+
+  const updateBanniereCategory = async (b: Banniere, value: string) => {
+    const categorieId = value ? Number(value) : null;
+    try {
+      await request(`/site-content/bannieres/${b.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ ...b, categorieId }),
+        headers: { "Content-Type": "application/json" },
+      });
+      setBannieres((current) =>
+        current.map((item) => item.id === b.id ? { ...item, categorieId } : item),
+      );
+      showToast("Catégorie de la bannière mise à jour.", "success");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur de modification");
     }
@@ -408,6 +511,182 @@ export default function SiteContentPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── Alertes Site ─────────────────────────────────────────── */}
+      <section className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">🔔</span>
+          <div>
+            <h3 className="font-semibold dark:text-white">Alertes &amp; Pop-ups</h3>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Affichez un message important sur le site (promo, fermeture, annonce). Si aucune alerte n&apos;est active, la pop-up par défaut &quot;Créer un compte&quot; s&apos;affiche.
+            </p>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="rounded-xl border border-dashed border-gray-300 p-4 dark:border-gray-700 mb-6">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Créer une nouvelle alerte
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {/* Type */}
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Type</label>
+              <select
+                value={alerteType}
+                onChange={e => setAlerteType(e.target.value as typeof alerteType)}
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              >
+                <option value="INFO">ℹ️ Info (bleu)</option>
+                <option value="PROMO">🎉 Promo (violet)</option>
+                <option value="WARNING">⚠️ Important (orange)</option>
+                <option value="SUCCESS">✅ Nouveauté (vert)</option>
+              </select>
+            </div>
+            {/* Affichage */}
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Mode d&apos;affichage</label>
+              <select
+                value={alerteAffichage}
+                onChange={e => setAlerteAffichage(e.target.value as typeof alerteAffichage)}
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              >
+                <option value="POPUP">🪟 Pop-up centré</option>
+                <option value="BANNER">📌 Bannière bas de page</option>
+                <option value="TOAST">🔔 Toast (coin bas-droite)</option>
+              </select>
+            </div>
+            {/* Titre */}
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Titre *</label>
+              <input
+                value={alerteTitre}
+                onChange={e => setAlerteTitre(e.target.value)}
+                placeholder="Ex: Promotion spéciale été 2026"
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            {/* Message */}
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Message *</label>
+              <textarea
+                value={alerteMessage}
+                onChange={e => setAlerteMessage(e.target.value)}
+                placeholder="Ex: -15% sur tous les appareils de mesure jusqu'au 31 août."
+                rows={2}
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"
+              />
+            </div>
+            {/* Lien */}
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Lien du bouton (optionnel)</label>
+              <input
+                value={alerteLien}
+                onChange={e => setAlerteLien(e.target.value)}
+                placeholder="Ex: /catalogue ou https://..."
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            {/* Texte bouton */}
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Texte du bouton (optionnel)</label>
+              <input
+                value={alerteTexteBouton}
+                onChange={e => setAlerteTexteBouton(e.target.value)}
+                placeholder="Ex: Voir les offres"
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            {/* Dates */}
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Date de début (optionnel)</label>
+              <input
+                type="datetime-local"
+                value={alerteDateDebut}
+                onChange={e => setAlerteDateDebut(e.target.value)}
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-400">Date de fin (optionnel)</label>
+              <input
+                type="datetime-local"
+                value={alerteDateFin}
+                onChange={e => setAlerteDateFin(e.target.value)}
+                className="w-full rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+          </div>
+          <button
+            onClick={addAlerte}
+            disabled={alerteSaving}
+            className="mt-4 flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {alerteSaving && <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />}
+            {alerteSaving ? "Création..." : "🔔 Créer l'alerte"}
+          </button>
+        </div>
+
+        {/* Alertes list */}
+        {alertes.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center dark:border-gray-700">
+            <p className="text-sm text-gray-400">Aucune alerte configurée.</p>
+            <p className="text-xs text-gray-400 mt-1">L&apos;alerte par défaut &quot;Créer un compte&quot; s&apos;affichera sur le site.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {alertes.map(a => {
+              const colors: Record<string, string> = { INFO: "#0ea5e9", PROMO: "#a855f7", WARNING: "#f97316", SUCCESS: "#22c55e" };
+              const icons: Record<string, string> = { INFO: "ℹ️", PROMO: "🎉", WARNING: "⚠️", SUCCESS: "✅" };
+              const affLabels: Record<string, string> = { POPUP: "🪟 Pop-up", BANNER: "📌 Bannière", TOAST: "🔔 Toast" };
+              const color = colors[a.type] || "#0ea5e9";
+              return (
+                <div
+                  key={a.id}
+                  className={`rounded-xl border p-4 transition-all ${a.actif ? "border-green-200 bg-green-50/40 dark:border-green-800 dark:bg-green-950/20" : "border-gray-200 bg-gray-50 opacity-60 dark:border-gray-700 dark:bg-gray-900"}`}
+                  style={{ borderLeft: `4px solid ${color}` }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <span className="text-xl">{icons[a.type]}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <p className="font-semibold text-sm dark:text-white">{a.titre}</p>
+                          <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: color }}>{a.type}</span>
+                          <span className="rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-0.5 text-[10px] font-medium dark:text-gray-300">{affLabels[a.affichage]}</span>
+                          {a.actif && <span className="rounded-full bg-green-500 px-2 py-0.5 text-[10px] font-bold text-white">ACTIVE</span>}
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{a.message}</p>
+                        {(a.dateDebut || a.dateFin) && (
+                          <p className="text-[11px] text-gray-400 mt-1">
+                            {a.dateDebut && `Du ${new Date(a.dateDebut).toLocaleDateString("fr-FR")}`}
+                            {a.dateFin && ` au ${new Date(a.dateFin).toLocaleDateString("fr-FR")}`}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => toggleAlerte(a)}
+                        className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${a.actif ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200" : "bg-green-500 text-white hover:bg-green-600"}`}
+                      >
+                        {a.actif ? "Désactiver" : "Activer"}
+                      </button>
+                      <button
+                        onClick={() => deleteAlerte(a.id)}
+                        className="rounded-lg bg-red-100 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-200"
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* ── Vidéo Héro ───────────────────────────────────────────── */}
@@ -676,6 +955,16 @@ export default function SiteContentPage() {
               placeholder="Lien (optionnel, ex: /catalogue)"
               className="rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
+            <select
+              value={categorieId}
+              onChange={(e) => setCategorieId(e.target.value)}
+              className="rounded-xl border p-2.5 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            >
+              <option value="">Toutes les catégories (Global)</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>Catégorie: {c.nom}</option>
+              ))}
+            </select>
             <input
               type="number"
               min={240}
@@ -722,16 +1011,21 @@ export default function SiteContentPage() {
                   alt={b.titre || "Bannière"}
                   className="h-full w-full object-cover"
                 />
-                {/* Status badge */}
-                <span
-                  className={`absolute left-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                    b.actif
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-500 text-white"
-                  }`}
-                >
-                  {b.actif ? "ACTIVE" : "INACTIVE"}
-                </span>
+                {/* Status & Category badge */}
+                <div className="absolute left-2 top-2 flex items-center gap-1.5">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                      b.actif
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-500 text-white"
+                    }`}
+                  >
+                    {b.actif ? "ACTIVE" : "INACTIVE"}
+                  </span>
+                  <span className="rounded-full bg-blue-600/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white">
+                    {b.categorieId ? (categories.find(c => c.id === b.categorieId)?.nom || `Cat #${b.categorieId}`) : "Toutes"}
+                  </span>
+                </div>
               </div>
 
               <div className="p-3">
@@ -743,23 +1037,43 @@ export default function SiteContentPage() {
                     {b.description}
                   </p>
                 )}
-                <label className="mt-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  Hauteur
-                  <input
-                    type="number"
-                    min={240}
-                    max={700}
-                    step={10}
-                    defaultValue={b.hauteur || 420}
-                    onBlur={(e) => {
-                      if (Number(e.target.value) !== (b.hauteur || 420)) {
-                        void updateBanniereHeight(b, e.target.value);
-                      }
-                    }}
-                    className="w-20 rounded-lg border px-2 py-1 text-xs text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                  />
-                  px
-                </label>
+                <div className="mt-3 space-y-2">
+                  <label className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span>Catégorie</span>
+                    <select
+                      value={b.categorieId ?? ""}
+                      onChange={(e) => void updateBanniereCategory(b, e.target.value)}
+                      className="rounded-lg border px-2 py-1 text-xs text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    >
+                      <option value="">Toutes (Global)</option>
+                      {categories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.nom}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span>Hauteur</span>
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        min={240}
+                        max={700}
+                        step={10}
+                        defaultValue={b.hauteur || 420}
+                        onBlur={(e) => {
+                          if (Number(e.target.value) !== (b.hauteur || 420)) {
+                            void updateBanniereHeight(b, e.target.value);
+                          }
+                        }}
+                        className="w-20 rounded-lg border px-2 py-1 text-xs text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                      />
+                      <span>px</span>
+                    </div>
+                  </label>
+                </div>
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => toggleBanniere(b)}

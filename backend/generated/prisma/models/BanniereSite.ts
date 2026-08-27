@@ -28,12 +28,14 @@ export type AggregateBanniereSite = {
 
 export type BanniereSiteAvgAggregateOutputType = {
   id: number | null
+  categorieId: number | null
   hauteur: number | null
   ordre: number | null
 }
 
 export type BanniereSiteSumAggregateOutputType = {
   id: number | null
+  categorieId: number | null
   hauteur: number | null
   ordre: number | null
 }
@@ -44,6 +46,7 @@ export type BanniereSiteMinAggregateOutputType = {
   titre: string | null
   description: string | null
   lien: string | null
+  categorieId: number | null
   hauteur: number | null
   actif: boolean | null
   ordre: number | null
@@ -59,6 +62,7 @@ export type BanniereSiteMaxAggregateOutputType = {
   titre: string | null
   description: string | null
   lien: string | null
+  categorieId: number | null
   hauteur: number | null
   actif: boolean | null
   ordre: number | null
@@ -74,6 +78,7 @@ export type BanniereSiteCountAggregateOutputType = {
   titre: number
   description: number
   lien: number
+  categorieId: number
   hauteur: number
   actif: number
   ordre: number
@@ -87,12 +92,14 @@ export type BanniereSiteCountAggregateOutputType = {
 
 export type BanniereSiteAvgAggregateInputType = {
   id?: true
+  categorieId?: true
   hauteur?: true
   ordre?: true
 }
 
 export type BanniereSiteSumAggregateInputType = {
   id?: true
+  categorieId?: true
   hauteur?: true
   ordre?: true
 }
@@ -103,6 +110,7 @@ export type BanniereSiteMinAggregateInputType = {
   titre?: true
   description?: true
   lien?: true
+  categorieId?: true
   hauteur?: true
   actif?: true
   ordre?: true
@@ -118,6 +126,7 @@ export type BanniereSiteMaxAggregateInputType = {
   titre?: true
   description?: true
   lien?: true
+  categorieId?: true
   hauteur?: true
   actif?: true
   ordre?: true
@@ -133,6 +142,7 @@ export type BanniereSiteCountAggregateInputType = {
   titre?: true
   description?: true
   lien?: true
+  categorieId?: true
   hauteur?: true
   actif?: true
   ordre?: true
@@ -235,6 +245,7 @@ export type BanniereSiteGroupByOutputType = {
   titre: string | null
   description: string | null
   lien: string | null
+  categorieId: number | null
   hauteur: number
   actif: boolean
   ordre: number
@@ -273,6 +284,7 @@ export type BanniereSiteWhereInput = {
   titre?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
   description?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
   lien?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
+  categorieId?: Prisma.IntNullableFilter<"BanniereSite"> | number | null
   hauteur?: Prisma.IntFilter<"BanniereSite"> | number
   actif?: Prisma.BoolFilter<"BanniereSite"> | boolean
   ordre?: Prisma.IntFilter<"BanniereSite"> | number
@@ -280,6 +292,7 @@ export type BanniereSiteWhereInput = {
   dateFin?: Prisma.DateTimeNullableFilter<"BanniereSite"> | Date | string | null
   creeLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
+  categorie?: Prisma.XOR<Prisma.CategorieNullableScalarRelationFilter, Prisma.CategorieWhereInput> | null
 }
 
 export type BanniereSiteOrderByWithRelationInput = {
@@ -288,6 +301,7 @@ export type BanniereSiteOrderByWithRelationInput = {
   titre?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   lien?: Prisma.SortOrderInput | Prisma.SortOrder
+  categorieId?: Prisma.SortOrderInput | Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   actif?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
@@ -295,6 +309,7 @@ export type BanniereSiteOrderByWithRelationInput = {
   dateFin?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+  categorie?: Prisma.CategorieOrderByWithRelationInput
 }
 
 export type BanniereSiteWhereUniqueInput = Prisma.AtLeast<{
@@ -306,6 +321,7 @@ export type BanniereSiteWhereUniqueInput = Prisma.AtLeast<{
   titre?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
   description?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
   lien?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
+  categorieId?: Prisma.IntNullableFilter<"BanniereSite"> | number | null
   hauteur?: Prisma.IntFilter<"BanniereSite"> | number
   actif?: Prisma.BoolFilter<"BanniereSite"> | boolean
   ordre?: Prisma.IntFilter<"BanniereSite"> | number
@@ -313,6 +329,7 @@ export type BanniereSiteWhereUniqueInput = Prisma.AtLeast<{
   dateFin?: Prisma.DateTimeNullableFilter<"BanniereSite"> | Date | string | null
   creeLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
+  categorie?: Prisma.XOR<Prisma.CategorieNullableScalarRelationFilter, Prisma.CategorieWhereInput> | null
 }, "id">
 
 export type BanniereSiteOrderByWithAggregationInput = {
@@ -321,6 +338,7 @@ export type BanniereSiteOrderByWithAggregationInput = {
   titre?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   lien?: Prisma.SortOrderInput | Prisma.SortOrder
+  categorieId?: Prisma.SortOrderInput | Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   actif?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
@@ -344,6 +362,7 @@ export type BanniereSiteScalarWhereWithAggregatesInput = {
   titre?: Prisma.StringNullableWithAggregatesFilter<"BanniereSite"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"BanniereSite"> | string | null
   lien?: Prisma.StringNullableWithAggregatesFilter<"BanniereSite"> | string | null
+  categorieId?: Prisma.IntNullableWithAggregatesFilter<"BanniereSite"> | number | null
   hauteur?: Prisma.IntWithAggregatesFilter<"BanniereSite"> | number
   actif?: Prisma.BoolWithAggregatesFilter<"BanniereSite"> | boolean
   ordre?: Prisma.IntWithAggregatesFilter<"BanniereSite"> | number
@@ -365,6 +384,7 @@ export type BanniereSiteCreateInput = {
   dateFin?: Date | string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  categorie?: Prisma.CategorieCreateNestedOneWithoutBannieresInput
 }
 
 export type BanniereSiteUncheckedCreateInput = {
@@ -373,6 +393,7 @@ export type BanniereSiteUncheckedCreateInput = {
   titre?: string | null
   description?: string | null
   lien?: string | null
+  categorieId?: number | null
   hauteur?: number
   actif?: boolean
   ordre?: number
@@ -394,6 +415,7 @@ export type BanniereSiteUpdateInput = {
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categorie?: Prisma.CategorieUpdateOneWithoutBannieresNestedInput
 }
 
 export type BanniereSiteUncheckedUpdateInput = {
@@ -402,6 +424,7 @@ export type BanniereSiteUncheckedUpdateInput = {
   titre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lien?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categorieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hauteur?: Prisma.IntFieldUpdateOperationsInput | number
   actif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ordre?: Prisma.IntFieldUpdateOperationsInput | number
@@ -417,6 +440,7 @@ export type BanniereSiteCreateManyInput = {
   titre?: string | null
   description?: string | null
   lien?: string | null
+  categorieId?: number | null
   hauteur?: number
   actif?: boolean
   ordre?: number
@@ -446,6 +470,7 @@ export type BanniereSiteUncheckedUpdateManyInput = {
   titre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lien?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categorieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hauteur?: Prisma.IntFieldUpdateOperationsInput | number
   actif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ordre?: Prisma.IntFieldUpdateOperationsInput | number
@@ -455,12 +480,23 @@ export type BanniereSiteUncheckedUpdateManyInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type BanniereSiteListRelationFilter = {
+  every?: Prisma.BanniereSiteWhereInput
+  some?: Prisma.BanniereSiteWhereInput
+  none?: Prisma.BanniereSiteWhereInput
+}
+
+export type BanniereSiteOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type BanniereSiteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   image?: Prisma.SortOrder
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   lien?: Prisma.SortOrder
+  categorieId?: Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   actif?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
@@ -472,6 +508,7 @@ export type BanniereSiteCountOrderByAggregateInput = {
 
 export type BanniereSiteAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  categorieId?: Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
 }
@@ -482,6 +519,7 @@ export type BanniereSiteMaxOrderByAggregateInput = {
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   lien?: Prisma.SortOrder
+  categorieId?: Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   actif?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
@@ -497,6 +535,7 @@ export type BanniereSiteMinOrderByAggregateInput = {
   titre?: Prisma.SortOrder
   description?: Prisma.SortOrder
   lien?: Prisma.SortOrder
+  categorieId?: Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   actif?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
@@ -508,8 +547,184 @@ export type BanniereSiteMinOrderByAggregateInput = {
 
 export type BanniereSiteSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  categorieId?: Prisma.SortOrder
   hauteur?: Prisma.SortOrder
   ordre?: Prisma.SortOrder
+}
+
+export type BanniereSiteCreateNestedManyWithoutCategorieInput = {
+  create?: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput> | Prisma.BanniereSiteCreateWithoutCategorieInput[] | Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput[]
+  connectOrCreate?: Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput | Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput[]
+  createMany?: Prisma.BanniereSiteCreateManyCategorieInputEnvelope
+  connect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+}
+
+export type BanniereSiteUncheckedCreateNestedManyWithoutCategorieInput = {
+  create?: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput> | Prisma.BanniereSiteCreateWithoutCategorieInput[] | Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput[]
+  connectOrCreate?: Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput | Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput[]
+  createMany?: Prisma.BanniereSiteCreateManyCategorieInputEnvelope
+  connect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+}
+
+export type BanniereSiteUpdateManyWithoutCategorieNestedInput = {
+  create?: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput> | Prisma.BanniereSiteCreateWithoutCategorieInput[] | Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput[]
+  connectOrCreate?: Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput | Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput[]
+  upsert?: Prisma.BanniereSiteUpsertWithWhereUniqueWithoutCategorieInput | Prisma.BanniereSiteUpsertWithWhereUniqueWithoutCategorieInput[]
+  createMany?: Prisma.BanniereSiteCreateManyCategorieInputEnvelope
+  set?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  disconnect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  delete?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  connect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  update?: Prisma.BanniereSiteUpdateWithWhereUniqueWithoutCategorieInput | Prisma.BanniereSiteUpdateWithWhereUniqueWithoutCategorieInput[]
+  updateMany?: Prisma.BanniereSiteUpdateManyWithWhereWithoutCategorieInput | Prisma.BanniereSiteUpdateManyWithWhereWithoutCategorieInput[]
+  deleteMany?: Prisma.BanniereSiteScalarWhereInput | Prisma.BanniereSiteScalarWhereInput[]
+}
+
+export type BanniereSiteUncheckedUpdateManyWithoutCategorieNestedInput = {
+  create?: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput> | Prisma.BanniereSiteCreateWithoutCategorieInput[] | Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput[]
+  connectOrCreate?: Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput | Prisma.BanniereSiteCreateOrConnectWithoutCategorieInput[]
+  upsert?: Prisma.BanniereSiteUpsertWithWhereUniqueWithoutCategorieInput | Prisma.BanniereSiteUpsertWithWhereUniqueWithoutCategorieInput[]
+  createMany?: Prisma.BanniereSiteCreateManyCategorieInputEnvelope
+  set?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  disconnect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  delete?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  connect?: Prisma.BanniereSiteWhereUniqueInput | Prisma.BanniereSiteWhereUniqueInput[]
+  update?: Prisma.BanniereSiteUpdateWithWhereUniqueWithoutCategorieInput | Prisma.BanniereSiteUpdateWithWhereUniqueWithoutCategorieInput[]
+  updateMany?: Prisma.BanniereSiteUpdateManyWithWhereWithoutCategorieInput | Prisma.BanniereSiteUpdateManyWithWhereWithoutCategorieInput[]
+  deleteMany?: Prisma.BanniereSiteScalarWhereInput | Prisma.BanniereSiteScalarWhereInput[]
+}
+
+export type BanniereSiteCreateWithoutCategorieInput = {
+  image: string
+  titre?: string | null
+  description?: string | null
+  lien?: string | null
+  hauteur?: number
+  actif?: boolean
+  ordre?: number
+  dateDebut?: Date | string | null
+  dateFin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type BanniereSiteUncheckedCreateWithoutCategorieInput = {
+  id?: number
+  image: string
+  titre?: string | null
+  description?: string | null
+  lien?: string | null
+  hauteur?: number
+  actif?: boolean
+  ordre?: number
+  dateDebut?: Date | string | null
+  dateFin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type BanniereSiteCreateOrConnectWithoutCategorieInput = {
+  where: Prisma.BanniereSiteWhereUniqueInput
+  create: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput>
+}
+
+export type BanniereSiteCreateManyCategorieInputEnvelope = {
+  data: Prisma.BanniereSiteCreateManyCategorieInput | Prisma.BanniereSiteCreateManyCategorieInput[]
+  skipDuplicates?: boolean
+}
+
+export type BanniereSiteUpsertWithWhereUniqueWithoutCategorieInput = {
+  where: Prisma.BanniereSiteWhereUniqueInput
+  update: Prisma.XOR<Prisma.BanniereSiteUpdateWithoutCategorieInput, Prisma.BanniereSiteUncheckedUpdateWithoutCategorieInput>
+  create: Prisma.XOR<Prisma.BanniereSiteCreateWithoutCategorieInput, Prisma.BanniereSiteUncheckedCreateWithoutCategorieInput>
+}
+
+export type BanniereSiteUpdateWithWhereUniqueWithoutCategorieInput = {
+  where: Prisma.BanniereSiteWhereUniqueInput
+  data: Prisma.XOR<Prisma.BanniereSiteUpdateWithoutCategorieInput, Prisma.BanniereSiteUncheckedUpdateWithoutCategorieInput>
+}
+
+export type BanniereSiteUpdateManyWithWhereWithoutCategorieInput = {
+  where: Prisma.BanniereSiteScalarWhereInput
+  data: Prisma.XOR<Prisma.BanniereSiteUpdateManyMutationInput, Prisma.BanniereSiteUncheckedUpdateManyWithoutCategorieInput>
+}
+
+export type BanniereSiteScalarWhereInput = {
+  AND?: Prisma.BanniereSiteScalarWhereInput | Prisma.BanniereSiteScalarWhereInput[]
+  OR?: Prisma.BanniereSiteScalarWhereInput[]
+  NOT?: Prisma.BanniereSiteScalarWhereInput | Prisma.BanniereSiteScalarWhereInput[]
+  id?: Prisma.IntFilter<"BanniereSite"> | number
+  image?: Prisma.StringFilter<"BanniereSite"> | string
+  titre?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
+  description?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
+  lien?: Prisma.StringNullableFilter<"BanniereSite"> | string | null
+  categorieId?: Prisma.IntNullableFilter<"BanniereSite"> | number | null
+  hauteur?: Prisma.IntFilter<"BanniereSite"> | number
+  actif?: Prisma.BoolFilter<"BanniereSite"> | boolean
+  ordre?: Prisma.IntFilter<"BanniereSite"> | number
+  dateDebut?: Prisma.DateTimeNullableFilter<"BanniereSite"> | Date | string | null
+  dateFin?: Prisma.DateTimeNullableFilter<"BanniereSite"> | Date | string | null
+  creeLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
+  misAJourLe?: Prisma.DateTimeFilter<"BanniereSite"> | Date | string
+}
+
+export type BanniereSiteCreateManyCategorieInput = {
+  id?: number
+  image: string
+  titre?: string | null
+  description?: string | null
+  lien?: string | null
+  hauteur?: number
+  actif?: boolean
+  ordre?: number
+  dateDebut?: Date | string | null
+  dateFin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type BanniereSiteUpdateWithoutCategorieInput = {
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  titre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lien?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hauteur?: Prisma.IntFieldUpdateOperationsInput | number
+  actif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
+  dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BanniereSiteUncheckedUpdateWithoutCategorieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  titre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lien?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hauteur?: Prisma.IntFieldUpdateOperationsInput | number
+  actif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
+  dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BanniereSiteUncheckedUpdateManyWithoutCategorieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  titre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lien?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hauteur?: Prisma.IntFieldUpdateOperationsInput | number
+  actif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ordre?: Prisma.IntFieldUpdateOperationsInput | number
+  dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -520,6 +735,7 @@ export type BanniereSiteSelect<ExtArgs extends runtime.Types.Extensions.Internal
   titre?: boolean
   description?: boolean
   lien?: boolean
+  categorieId?: boolean
   hauteur?: boolean
   actif?: boolean
   ordre?: boolean
@@ -527,6 +743,7 @@ export type BanniereSiteSelect<ExtArgs extends runtime.Types.Extensions.Internal
   dateFin?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
 }, ExtArgs["result"]["banniereSite"]>
 
 export type BanniereSiteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -535,6 +752,7 @@ export type BanniereSiteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   titre?: boolean
   description?: boolean
   lien?: boolean
+  categorieId?: boolean
   hauteur?: boolean
   actif?: boolean
   ordre?: boolean
@@ -542,6 +760,7 @@ export type BanniereSiteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   dateFin?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
 }, ExtArgs["result"]["banniereSite"]>
 
 export type BanniereSiteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -550,6 +769,7 @@ export type BanniereSiteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   titre?: boolean
   description?: boolean
   lien?: boolean
+  categorieId?: boolean
   hauteur?: boolean
   actif?: boolean
   ordre?: boolean
@@ -557,6 +777,7 @@ export type BanniereSiteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   dateFin?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
 }, ExtArgs["result"]["banniereSite"]>
 
 export type BanniereSiteSelectScalar = {
@@ -565,6 +786,7 @@ export type BanniereSiteSelectScalar = {
   titre?: boolean
   description?: boolean
   lien?: boolean
+  categorieId?: boolean
   hauteur?: boolean
   actif?: boolean
   ordre?: boolean
@@ -574,17 +796,29 @@ export type BanniereSiteSelectScalar = {
   misAJourLe?: boolean
 }
 
-export type BanniereSiteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "image" | "titre" | "description" | "lien" | "hauteur" | "actif" | "ordre" | "dateDebut" | "dateFin" | "creeLe" | "misAJourLe", ExtArgs["result"]["banniereSite"]>
+export type BanniereSiteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "image" | "titre" | "description" | "lien" | "categorieId" | "hauteur" | "actif" | "ordre" | "dateDebut" | "dateFin" | "creeLe" | "misAJourLe", ExtArgs["result"]["banniereSite"]>
+export type BanniereSiteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
+}
+export type BanniereSiteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
+}
+export type BanniereSiteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  categorie?: boolean | Prisma.BanniereSite$categorieArgs<ExtArgs>
+}
 
 export type $BanniereSitePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BanniereSite"
-  objects: {}
+  objects: {
+    categorie: Prisma.$CategoriePayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     image: string
     titre: string | null
     description: string | null
     lien: string | null
+    categorieId: number | null
     hauteur: number
     actif: boolean
     ordre: number
@@ -986,6 +1220,7 @@ readonly fields: BanniereSiteFieldRefs;
  */
 export interface Prisma__BanniereSiteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  categorie<T extends Prisma.BanniereSite$categorieArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BanniereSite$categorieArgs<ExtArgs>>): Prisma.Prisma__CategorieClient<runtime.Types.Result.GetResult<Prisma.$CategoriePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1020,6 +1255,7 @@ export interface BanniereSiteFieldRefs {
   readonly titre: Prisma.FieldRef<"BanniereSite", 'String'>
   readonly description: Prisma.FieldRef<"BanniereSite", 'String'>
   readonly lien: Prisma.FieldRef<"BanniereSite", 'String'>
+  readonly categorieId: Prisma.FieldRef<"BanniereSite", 'Int'>
   readonly hauteur: Prisma.FieldRef<"BanniereSite", 'Int'>
   readonly actif: Prisma.FieldRef<"BanniereSite", 'Boolean'>
   readonly ordre: Prisma.FieldRef<"BanniereSite", 'Int'>
@@ -1044,6 +1280,10 @@ export type BanniereSiteFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  /**
    * Filter, which BanniereSite to fetch.
    */
   where: Prisma.BanniereSiteWhereUniqueInput
@@ -1062,6 +1302,10 @@ export type BanniereSiteFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  /**
    * Filter, which BanniereSite to fetch.
    */
   where: Prisma.BanniereSiteWhereUniqueInput
@@ -1079,6 +1323,10 @@ export type BanniereSiteFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the BanniereSite
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
   /**
    * Filter, which BanniereSite to fetch.
    */
@@ -1128,6 +1376,10 @@ export type BanniereSiteFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  /**
    * Filter, which BanniereSite to fetch.
    */
   where?: Prisma.BanniereSiteWhereInput
@@ -1175,6 +1427,10 @@ export type BanniereSiteFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the BanniereSite
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
   /**
    * Filter, which BanniereSites to fetch.
    */
@@ -1224,6 +1480,10 @@ export type BanniereSiteCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  /**
    * The data needed to create a BanniereSite.
    */
   data: Prisma.XOR<Prisma.BanniereSiteCreateInput, Prisma.BanniereSiteUncheckedCreateInput>
@@ -1257,6 +1517,10 @@ export type BanniereSiteCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.BanniereSiteCreateManyInput | Prisma.BanniereSiteCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1271,6 +1535,10 @@ export type BanniereSiteUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the BanniereSite
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
   /**
    * The data needed to update a BanniereSite.
    */
@@ -1323,6 +1591,10 @@ export type BanniereSiteUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many BanniereSites to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1337,6 +1609,10 @@ export type BanniereSiteUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the BanniereSite
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
   /**
    * The filter to search for the BanniereSite to update in case it exists.
    */
@@ -1364,6 +1640,10 @@ export type BanniereSiteDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  /**
    * Filter which BanniereSite to delete.
    */
   where: Prisma.BanniereSiteWhereUniqueInput
@@ -1384,6 +1664,25 @@ export type BanniereSiteDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * BanniereSite.categorie
+ */
+export type BanniereSite$categorieArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Categorie
+   */
+  select?: Prisma.CategorieSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Categorie
+   */
+  omit?: Prisma.CategorieOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategorieInclude<ExtArgs> | null
+  where?: Prisma.CategorieWhereInput
+}
+
+/**
  * BanniereSite without action
  */
 export type BanniereSiteDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1395,4 +1694,8 @@ export type BanniereSiteDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the BanniereSite
    */
   omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
 }

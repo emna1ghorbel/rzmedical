@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type {
   CategorieListItem,
   MarqueListItem,
@@ -10,19 +11,38 @@ import { Modal } from "@/components/ui/Modal";
 import { SlidersIcon } from "@/components/ui/icons";
 import { Filters } from "./Filters";
 
+interface MobileFiltersProps {
+  categories: CategorieListItem[];
+  subcategories: SousCategorieListItem[];
+  brands: MarqueListItem[];
+  hideCategory?: boolean;
+}
+
 /** Bouton « Filtres » (mobile/tablette) ouvrant le panneau de filtres en modale. */
 export function MobileFilters({
   categories,
   subcategories,
   brands,
-  activeCount = 0,
-}: {
-  categories: CategorieListItem[];
-  subcategories: SousCategorieListItem[];
-  brands: MarqueListItem[];
-  activeCount?: number;
-}) {
+  hideCategory = false,
+}: MobileFiltersProps) {
   const [open, setOpen] = useState(false);
+  const searchParams = useSearchParams();
+
+  const categorieId = searchParams.get("categorieId");
+  const sousCategorieId = searchParams.get("sousCategorieId");
+  const marqueId = searchParams.get("marqueId");
+  const promo = searchParams.get("promo");
+  const disponible = searchParams.get("disponible");
+  const minPrix = searchParams.get("minPrix");
+  const maxPrix = searchParams.get("maxPrix");
+
+  const activeCount =
+    (!hideCategory && categorieId ? 1 : 0) +
+    (sousCategorieId ? 1 : 0) +
+    (marqueId ? 1 : 0) +
+    (promo ? 1 : 0) +
+    (disponible ? 1 : 0) +
+    (minPrix || maxPrix ? 1 : 0);
 
   return (
     <>
@@ -50,6 +70,7 @@ export function MobileFilters({
           categories={categories}
           subcategories={subcategories}
           brands={brands}
+          hideCategory={hideCategory}
           onNavigate={() => setOpen(false)}
         />
       </Modal>

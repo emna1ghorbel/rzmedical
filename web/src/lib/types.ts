@@ -16,6 +16,17 @@ export type StatutCommande =
   | "LIVREE"
   | "ANNULEE";
 
+export interface InfoSociete {
+  id: number;
+  nomSociete: string;
+  logoUrl: string | null;
+  telephone: string | null;
+  email: string | null;
+  adresse: string | null;
+  siteWeb: string | null;
+  misAJourLe?: string;
+}
+
 // --- Catalogue ---------------------------------------------------------------
 
 export interface Categorie {
@@ -83,6 +94,14 @@ export interface Produit {
   misAJourLe: string;
 }
 
+export interface PaginatedProducts {
+  products: Produit[];
+  currentPage: number;
+  totalPages: number;
+  totalProducts: number;
+  pageSize: number;
+}
+
 // --- Contenu du site (annonces + bannières) ---------------------------------
 
 export interface AnnonceSite {
@@ -115,11 +134,30 @@ export interface VideoHero {
   creeLe: string;
 }
 
+export type TypeAlerte = 'INFO' | 'PROMO' | 'WARNING' | 'SUCCESS';
+export type AffichageAlerte = 'POPUP' | 'BANNER' | 'TOAST';
+
+export interface AlerteSite {
+  id: number;
+  type: TypeAlerte;
+  affichage: AffichageAlerte;
+  titre: string;
+  message: string;
+  lien: string | null;
+  texteBouton: string | null;
+  actif: boolean;
+  dateDebut: string | null;
+  dateFin: string | null;
+  creeLe: string;
+}
+
 export interface SiteContentPublic {
   annonces: AnnonceSite[];
   bannieres: BanniereSite[];
   videoHero: VideoHero | null;
+  alertes: AlerteSite[];
 }
+
 
 // --- Utilisateur & commandes (endpoints boutique) ----------------------------
 
@@ -135,6 +173,7 @@ export interface Utilisateur {
   remise: number; // NUMBER, pourcentage 0-100
   matriculeFiscale: string | null;
   activite: string | null;
+  activiteCategoryId: number | null;
   typeUtilisateur: TypeUtilisateur;
   creeLe: string;
   dernierLogin: string | null;

@@ -10,32 +10,38 @@ export function BrandStrip({ brands }: { brands: MarqueListItem[] }) {
   if (list.length === 0) return null;
 
   return (
-    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {list.map((brand) => (
         <li key={brand.id}>
           <Link
             href={`/catalogue?marqueId=${brand.id}`}
-            className="group relative flex h-28 items-center justify-center overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-1 hover:border-azure-300/50 hover:shadow-[0_12px_30px_-10px_rgba(14,165,233,0.15)]"
+            className="group relative flex aspect-square w-full flex-col items-center justify-between rounded-sm border border-slate-100 bg-white p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.08)]"
             title={brand.nom}
           >
-            {/* Hover ambient glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.08)_0%,transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-            
-            {brand.logo ? (
-              <span className="relative h-full w-full">
-                <Image
-                  src={imageUrl(brand.logo)}
-                  alt={brand.nom}
-                  fill
-                  sizes="180px"
-                  className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-              </span>
-            ) : (
-              <span className="text-center text-sm font-bold tracking-wide text-slate-400 transition-colors duration-300 group-hover:text-azure-600">
-                {brand.nom}
-              </span>
-            )}
+            {/* Zone du logo (centrée au milieu du carré) */}
+            <div className="relative flex w-full flex-1 items-center justify-center p-1">
+              {brand.logo ? (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={imageUrl(brand.logo)}
+                    alt={brand.nom}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    unoptimized
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <span className="text-center text-[10px] font-bold uppercase text-slate-300">
+                  Pas de logo
+                </span>
+              )}
+            </div>
+
+            {/* Nom de la marque au bas du carré */}
+            <span className="w-full truncate text-center font-sans text-[11px] font-extrabold uppercase tracking-tight text-slate-900">
+              {brand.nom}
+            </span>
           </Link>
         </li>
       ))}

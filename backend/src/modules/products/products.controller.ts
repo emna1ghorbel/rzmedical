@@ -17,12 +17,17 @@ export const getAll = async (req: Request, res: Response) => {
       categorieId: toNum(q.categorieId),
       sousCategorieId: toNum(q.sousCategorieId),
       marqueId: toNum(q.marqueId),
+      category: q.category as string | undefined,
+      subcategory: q.subcategory as string | undefined,
+      brand: q.brand as string | undefined,
       q: q.q as string | undefined,
       promo: toBool(q.promo),
       disponible: toBool(q.disponible),
       minPrix: toNum(q.minPrix),
       maxPrix: toNum(q.maxPrix),
       sort: q.sort as string | undefined,
+      page: toNum(q.page),
+      limit: toNum(q.limit),
     });
     res.json(data);
   } catch (err: any) {

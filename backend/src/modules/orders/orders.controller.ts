@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { AuthRequest } from '../auth/auth.middleware';
 import * as service from './orders.service';
 import { OrderError } from './orders.service';
+import { notifyAdminNewOrder } from '../notifications/whatsapp.service';
 
 // Sérialise les Decimal (total, prixUnitaire) en Number pour la réponse JSON
 export const serializeOrder = (order: any) => ({
@@ -16,6 +17,21 @@ export const create = async (req: AuthRequest, res: Response) => {
   try {
     const { lignes } = req.body;
     const order = await service.createOrder(req.user!.id, lignes);
+
+    // Send WhatsApp notification to admin (fire-and-forget — does NOT block the response)
+    const user = req.user!;
+    const nbArticles = Array.isArray(order.lignes)
+      ? order.lignes.reduce((sum: number, l: any) => sum + Number(l.quantite), 0)
+      : 0;
+    notifyAdminNewOrder(
+      order.id,
+      user.nom ?? '',
+      user.prenom ?? '',
+      user.telephone,
+      Number(order.total),
+      nbArticles
+    ).catch(() => {}); // silently ignore errors
+
     res.status(201).json(serializeOrder(order));
   } catch (err: unknown) {
     if (err instanceof OrderError) {

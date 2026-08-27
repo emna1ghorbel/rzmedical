@@ -46,47 +46,50 @@ enum AuteurSupport {
 }
 
 model Utilisateur {
-  id               Int             @id @default(autoincrement())
-  email            String          @unique
-  motDePasseHash   String
-  prenom           String?
-  nom              String?
-  telephone        String?
-  photo            String?
-  adresse          String?
-  dateNaissance    DateTime?
-  typeUtilisateur  TypeUtilisateur @default(CLIENT)
-  remise           Decimal         @default(0) @db.Decimal(5, 2)
-  matriculeFiscale String?
-  activite         String?
-  otpCode          String?
-  otpExpire        DateTime?
-  dernierLogin     DateTime?
-  creeLe           DateTime        @default(now())
-  misAJourLe       DateTime        @updatedAt
+  id                 Int             @id @default(autoincrement())
+  email              String          @unique
+  motDePasseHash     String
+  prenom             String?
+  nom                String?
+  telephone          String?
+  photo              String?
+  adresse            String?
+  dateNaissance      DateTime?
+  typeUtilisateur    TypeUtilisateur @default(CLIENT)
+  remise             Decimal         @default(0) @db.Decimal(5, 2)
+  matriculeFiscale   String?
+  activite           String?
+  activiteCategoryId Int?
+  activiteCategorie  Categorie?      @relation("UtilisateurActivite", fields: [activiteCategoryId], references: [id])
+  otpCode            String?
+  otpExpire          DateTime?
+  dernierLogin       DateTime?
+  creeLe             DateTime        @default(now())
+  misAJourLe         DateTime        @updatedAt
 
-  commandes Commande[]
+  commandes      Commande[]
   ticketsSupport TicketSupport[]
+  tokenReset     TokenReset?
 
   @@map("utilisateurs")
 }
 
 model TicketSupport {
-  id              Int           @id @default(autoincrement())
-  utilisateurId   Int?
-  utilisateur     Utilisateur?  @relation(fields: [utilisateurId], references: [id])
-  nomContact      String?
-  emailContact    String?
+  id               Int              @id @default(autoincrement())
+  utilisateurId    Int?
+  utilisateur      Utilisateur?     @relation(fields: [utilisateurId], references: [id])
+  nomContact       String?
+  emailContact     String?
   telephoneContact String?
-  sujet           String
-  message         String
-  statut          StatutSupport @default(NOUVEAU)
-  canalReponse    CanalSupport  @default(SUPPORT)
-  reponse         String?
-  reponduLe       DateTime?
-  creeLe          DateTime      @default(now())
-  misAJourLe      DateTime      @updatedAt
-  messages        MessageSupport[]
+  sujet            String
+  message          String
+  statut           StatutSupport    @default(NOUVEAU)
+  canalReponse     CanalSupport     @default(SUPPORT)
+  reponse          String?
+  reponduLe        DateTime?
+  creeLe           DateTime         @default(now())
+  misAJourLe       DateTime         @updatedAt
+  messages         MessageSupport[]
 
   @@index([utilisateurId])
   @@index([statut])
@@ -94,13 +97,13 @@ model TicketSupport {
 }
 
 model MessageSupport {
-  id            Int           @id @default(autoincrement())
-  ticketId      Int
-  ticket        TicketSupport @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  auteur        AuteurSupport
-  contenu       String
-  canal         CanalSupport  @default(SUPPORT)
-  creeLe        DateTime      @default(now())
+  id       Int           @id @default(autoincrement())
+  ticketId Int
+  ticket   TicketSupport @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  auteur   AuteurSupport
+  contenu  String
+  canal    CanalSupport  @default(SUPPORT)
+  creeLe   DateTime      @default(now())
 
   @@index([ticketId, creeLe])
   @@map("messages_support")
@@ -115,6 +118,8 @@ model Categorie {
 
   sousCategories SousCategorie[]
   marques        Marque[]
+  utilisateurs   Utilisateur[]   @relation("UtilisateurActivite")
+  bannieres      BanniereSite[]
 
   @@map("categories")
 }
@@ -124,6 +129,7 @@ model SousCategorie {
   nom         String
   description String?
   image       String?
+  ordre       Int       @default(0)
   categorieId Int
   categorie   Categorie @relation(fields: [categorieId], references: [id])
   creeLe      DateTime  @default(now())
@@ -151,25 +157,25 @@ model Marque {
 }
 
 model Produit {
-  id             Int           @id @default(autoincrement())
-  nom            String
-  reference      String        @unique
-  description    String?
-  expirationDate DateTime?
-  prix           Decimal       @db.Decimal(10, 2)
-  stock          Int           @default(0)
-  images         String[]
-  video          String?
-  motsCles       String[]
-  ficheTechnique String?
-  remise         Decimal       @default(0) @db.Decimal(10, 2)
-  disponible     Boolean       @default(true)
+  id              Int           @id @default(autoincrement())
+  nom             String
+  reference       String        @unique
+  description     String?
+  expirationDate  DateTime?
+  prix            Decimal       @db.Decimal(10, 2)
+  stock           Int           @default(0)
+  images          String[]
+  video           String?
+  motsCles        String[]
+  ficheTechnique  String?
+  remise          Decimal       @default(0) @db.Decimal(10, 2)
+  disponible      Boolean       @default(true)
   sousCategorieId Int
-  sousCategorie  SousCategorie @relation(fields: [sousCategorieId], references: [id])
-  marqueId       Int
-  marque         Marque        @relation(fields: [marqueId], references: [id])
-  creeLe         DateTime      @default(now())
-  misAJourLe     DateTime      @updatedAt
+  sousCategorie   SousCategorie @relation(fields: [sousCategorieId], references: [id])
+  marqueId        Int
+  marque          Marque        @relation(fields: [marqueId], references: [id])
+  creeLe          DateTime      @default(now())
+  misAJourLe      DateTime      @updatedAt
 
   lignesCommande LigneCommande[]
 
@@ -209,32 +215,32 @@ model LigneCommande {
 }
 
 model Facture {
-  id               Int           @id @default(autoincrement())
-  numero           String        @unique
-  statut           StatutFacture @default(EMISE)
-  commandeId       Int           @unique
-  commande         Commande      @relation(fields: [commandeId], references: [id])
-  dateEmission     DateTime
+  id           Int           @id @default(autoincrement())
+  numero       String        @unique
+  statut       StatutFacture @default(EMISE)
+  commandeId   Int           @unique
+  commande     Commande      @relation(fields: [commandeId], references: [id])
+  dateEmission DateTime
 
   // Snapshot client (immuable après finalisation)
-  clientNom        String
-  clientMF         String?
-  clientAdresse    String?
-  clientTelephone  String?
-  clientEmail      String?
+  clientNom       String
+  clientMF        String?
+  clientAdresse   String?
+  clientTelephone String?
+  clientEmail     String?
 
   // Fiscalité (3 décimales TND)
-  timbreFiscal     Decimal       @default(1.000) @db.Decimal(10, 3)
-  montantHT        Decimal       @db.Decimal(10, 3)
-  montantTVA       Decimal       @db.Decimal(10, 3)
-  montantTTC       Decimal       @db.Decimal(10, 3)
+  timbreFiscal     Decimal @default(1.000) @db.Decimal(10, 3)
+  montantHT        Decimal @db.Decimal(10, 3)
+  montantTVA       Decimal @db.Decimal(10, 3)
+  montantTTC       Decimal @db.Decimal(10, 3)
   montantEnLettres String?
 
-  fichierPdf       String?
-  creeLe           DateTime      @default(now())
-  misAJourLe       DateTime      @updatedAt
+  fichierPdf String?
+  creeLe     DateTime @default(now())
+  misAJourLe DateTime @updatedAt
 
-  lignes           LigneFacture[]
+  lignes LigneFacture[]
 
   @@index([statut])
   @@map("factures")
@@ -254,6 +260,36 @@ model LigneFacture {
   @@map("lignes_facture")
 }
 
+enum TypeAlerte {
+  INFO
+  PROMO
+  WARNING
+  SUCCESS
+}
+
+enum AffichageAlerte {
+  POPUP
+  BANNER
+  TOAST
+}
+
+model AlerteSite {
+  id          Int             @id @default(autoincrement())
+  type        TypeAlerte      @default(INFO)
+  affichage   AffichageAlerte @default(POPUP)
+  titre       String
+  message     String
+  lien        String?
+  texteBouton String?
+  actif       Boolean         @default(true)
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  creeLe      DateTime        @default(now())
+  misAJourLe  DateTime        @updatedAt
+
+  @@map("alertes_site")
+}
+
 model AnnonceSite {
   id            Int      @id @default(autoincrement())
   texte         String
@@ -262,22 +298,26 @@ model AnnonceSite {
   dureeSecondes Int      @default(5)
   creeLe        DateTime @default(now())
   misAJourLe    DateTime @updatedAt
+
   @@map("annonces_site")
 }
 
 model BanniereSite {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   image       String
   titre       String?
   description String?
   lien        String?
-  hauteur     Int       @default(420)
-  actif       Boolean   @default(true)
-  ordre       Int       @default(0)
+  categorieId Int?
+  categorie   Categorie? @relation(fields: [categorieId], references: [id])
+  hauteur     Int        @default(420)
+  actif       Boolean    @default(true)
+  ordre       Int        @default(0)
   dateDebut   DateTime?
   dateFin     DateTime?
-  creeLe      DateTime  @default(now())
-  misAJourLe  DateTime  @updatedAt
+  creeLe      DateTime   @default(now())
+  misAJourLe  DateTime   @updatedAt
+
   @@map("bannieres_site")
 }
 
@@ -289,5 +329,33 @@ model VideoHero {
   actif      Boolean  @default(false)
   creeLe     DateTime @default(now())
   misAJourLe DateTime @updatedAt
+
   @@map("videos_hero")
+}
+
+
+// ── Token de réinitialisation de mot de passe ─────────────────────────────────
+model TokenReset {
+  id            Int         @id @default(autoincrement())
+  utilisateurId Int         @unique
+  utilisateur   Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  token         String      @unique
+  expireA       DateTime
+  creeLe        DateTime    @default(now())
+
+  @@map("tokens_reset")
+}
+
+// ── Informations de la société (singleton — id toujours 1) ────────────────────
+model InfoSociete {
+  id          Int      @id @default(1)
+  nomSociete  String   @default("RZMedical")
+  logoUrl     String?
+  telephone   String?
+  email       String?
+  adresse     String?
+  siteWeb     String?
+  misAJourLe  DateTime @updatedAt
+
+  @@map("info_societe")
 }

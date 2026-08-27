@@ -6,8 +6,10 @@ import Image from "next/image";
 import { useUI } from "@/providers/UIProvider";
 import { useAuth } from "@/providers/AuthProvider";
 import { useCart } from "@/providers/CartProvider";
+import { useCategory } from "@/providers/CategoryProvider";
 import { cn } from "@/lib/cn";
 import type { CategorieListItem, MarqueListItem } from "@/lib/types";
+import { imageUrl } from "@/lib/api";
 import type { ReactNode } from "react";
 import {
   ChevronDownIcon,
@@ -37,14 +39,15 @@ export function StorefrontShell({
   const { mobileMenuOpen, closeMobileMenu } = useUI();
   const { isAuthenticated, user } = useAuth();
   const { openCart, count } = useCart();
+  const { selectedCategory, categorySlug } = useCategory();
 
-  const [openCatId, setOpenCatId] = useState<number | null>(null);
+  const [subCatOpen, setSubCatOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
   const [brandSearch, setBrandSearch] = useState("");
 
   useEffect(() => {
     if (!mobileMenuOpen) {
-      setOpenCatId(null);
+      setSubCatOpen(false);
       setBrandsOpen(false);
       setBrandSearch("");
     }
@@ -55,6 +58,12 @@ export function StorefrontShell({
     const q = brandSearch.toLowerCase();
     return marques.filter((m) => m.nom.toLowerCase().includes(q));
   }, [marques, brandSearch]);
+
+  // Si une catégorie est sélectionnée, on cible ses sous-catégories.
+  const activeCat = selectedCategory
+    ? categories.find((c) => c.id === selectedCategory.id) ?? selectedCategory
+    : null;
+  const activeSubs = activeCat?.sousCategories ?? [];
 
   const hasDiscountBar = isAuthenticated && Boolean(user?.remise && user.remise > 0);
   const topOffset = 112 + (hasDiscountBar ? 37 : 0);
@@ -131,195 +140,134 @@ export function StorefrontShell({
               ))}
             </ul>
 
+            {/* ── Category-specific quick links (when a category is active) ── */}
+            {selectedCategory && (
+              <>
+                <div className="mb-4 flex items-center justify-between px-2">
+                  <span className="text-[11px] font-black uppercase tracking-widest text-azure-600">
+                    {selectedCategory.nom}
+                  </span>
+                </div>
+                <ul className="mb-8 grid gap-2.5">
+                  {[
+                    { href: `/${categorySlug}`, label: "Accueil", Icon: HomeIcon, color: "azure" },
+                    { href: `/${categorySlug}/nouveautes`, label: "Nouveautés", Icon: SparklesIcon, color: "amber" },
+                    { href: `/${categorySlug}/promotions`, label: "Promotions", Icon: TagIcon, color: "error" },
+                    { href: `/${categorySlug}/sous-categories`, label: "Rayons", Icon: PackageIcon, color: "navy" },
+                    { href: `/${categorySlug}/marques`, label: "Marques", Icon: PackageIcon, color: "navy" },
+                  ].map(({ href, label, Icon, color }, idx) => (
+                    <li key={`${label}-${idx}`}>
+                      <Link
+                        href={href}
+                        onClick={closeMobileMenu}
+                        className="group flex w-full items-center gap-4 rounded-2xl bg-white/50 border border-slate-200/60 p-2.5 pr-5 text-[15px] font-bold text-navy-900 transition-all duration-300 hover:bg-white hover:border-azure-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04),0_1px_0_rgba(255,255,255,1)_inset]"
+                      >
+                        <span className={cn(
+                          "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 border bg-gradient-to-br shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                          color === "azure" && "from-azure-50 to-white border-azure-100 text-azure-600 group-hover:scale-105 group-hover:border-azure-200 group-hover:shadow-[0_0_15px_rgba(14,165,233,0.2)]",
+                          color === "error" && "from-red-50 to-white border-red-100 text-red-500 group-hover:scale-105 group-hover:border-red-200 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]",
+                          color === "amber" && "from-amber-50 to-white border-amber-100 text-amber-500 group-hover:scale-105 group-hover:border-amber-200 group-hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]",
+                          color === "navy" && "from-slate-50 to-white border-slate-200 text-slate-600 group-hover:scale-105 group-hover:border-slate-300 group-hover:text-navy-900 group-hover:shadow-[0_0_15px_rgba(0,0,0,0.06)]"
+                        )}>
+                          <Icon size={20} className="transition-transform duration-300 group-hover:scale-110" />
+                        </span>
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
             <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
-            {/* ── Catégories ─────────── */}
-            {categories.length > 0 && (
-              <div className="mb-8">
-                <div className="mb-5 flex items-center justify-between px-2">
-                  <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                    Explorer les catégories
+            {/* ── Explorer les sous-catégories ─────────── */}
+            <div className="mb-8">
+              <div className="mb-5 flex items-center justify-between px-2">
+                <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                  Explorer les sous-catégories
+                </span>
+                {activeSubs.length > 0 && (
+                  <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-azure-100 px-2 text-[10px] font-black text-azure-600">
+                    {activeSubs.length}
                   </span>
-                  <Link
-                    href="/catalogue"
-                    onClick={closeMobileMenu}
-                    className="text-[12px] font-bold text-azure-600 hover:text-azure-700 hover:underline"
-                  >
-                    Tout voir
-                  </Link>
-                </div>
-
-                <ul className="grid gap-2">
-                  {categories.map((cat) => {
-                    const subs = cat.sousCategories ?? [];
-                    const isOpen = openCatId === cat.id;
-
-                    return (
-                      <li key={cat.id} className="relative">
-                        <button
-                          type="button"
-                          onClick={() => setOpenCatId(isOpen ? null : cat.id)}
-                          aria-expanded={isOpen}
-                          className={cn(
-                            "group flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left transition-all duration-300 border",
-                            isOpen
-                              ? "bg-white border-azure-200 shadow-[0_4px_16px_rgba(14,165,233,0.1),0_1px_0_rgba(255,255,255,1)_inset]"
-                              : "bg-white/40 border-transparent text-navy-800 hover:bg-white hover:border-slate-200 hover:shadow-[0_2px_8px_rgba(0,0,0,0.03)]",
-                          )}
-                        >
-                          <span className="flex items-center gap-3 text-[14px] font-bold">
-                            <span className={cn(
-                              "flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-300",
-                              isOpen
-                                ? "bg-azure-50 text-azure-600"
-                                : "bg-slate-100 text-slate-500 group-hover:bg-azure-50 group-hover:text-azure-500"
-                            )}>
-                              <PackageIcon size={16} className={cn("transition-transform duration-300", isOpen && "scale-110")} />
-                            </span>
-                            {cat.nom}
-                            {subs.length > 0 && (
-                              <span
-                                className={cn(
-                                  "ml-1 flex h-5 min-w-[20px] items-center justify-center rounded-md px-1.5 text-[10px] font-black transition-colors",
-                                  isOpen ? "bg-azure-500 text-white shadow-[0_2px_5px_rgba(14,165,233,0.4)]" : "bg-slate-200 text-slate-600",
-                                )}
-                              >
-                                {subs.length}
-                              </span>
-                            )}
-                          </span>
-                          <ChevronDownIcon
-                            size={16}
-                            className={cn(
-                              "shrink-0 transition-transform duration-400",
-                              isOpen ? "rotate-180 text-azure-600" : "text-slate-400 group-hover:text-azure-500",
-                            )}
-                          />
-                        </button>
-
-                        <div
-                          className={cn(
-                            "overflow-hidden transition-all duration-400 ease-out-quint relative",
-                            isOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0 mt-0",
-                          )}
-                        >
-                          <div className="absolute left-[31px] top-2 bottom-2 w-px bg-gradient-to-b from-azure-200 to-transparent" />
-                          <ul className="ml-[30px] pl-5 space-y-1 relative pb-2">
-                            
-                            <li>
-                              <Link
-                                href={`/catalogue?categorieId=${cat.id}`}
-                                onClick={closeMobileMenu}
-                                className="group/link flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] font-bold text-azure-600 transition-all hover:bg-azure-50 hover:shadow-sm"
-                              >
-                                <span className="h-1.5 w-1.5 rounded-full bg-azure-400 group-hover/link:scale-125 transition-transform" />
-                                Tous les produits
-                              </Link>
-                            </li>
-                            {subs.map((sub) => (
-                              <li key={sub.id}>
-                                <Link
-                                  href={`/catalogue?sousCategorieId=${sub.id}`}
-                                  onClick={closeMobileMenu}
-                                  className="group/link flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] font-medium text-slate-600 transition-all hover:bg-white hover:text-navy-900 hover:shadow-sm border border-transparent hover:border-slate-100"
-                                >
-                                  <span className="h-1 w-1 shrink-0 rounded-full bg-slate-300 group-hover/link:bg-azure-400 group-hover/link:scale-150 transition-all" />
-                                  {sub.nom}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                )}
               </div>
-            )}
+
+              {activeCat ? (
+                <ul className="grid gap-2">
+                  {activeSubs.length === 0 ? (
+                    <li className="rounded-2xl border border-dashed border-slate-200 bg-white/40 px-4 py-4 text-center text-[13px] font-medium text-slate-400">
+                      Aucune sous-catégorie disponible.
+                    </li>
+                  ) : (
+                    activeSubs.map((sub) => (
+                      <li key={sub.id}>
+                        <Link
+                          href={`/catalogue?sousCategorieId=${sub.id}`}
+                          onClick={closeMobileMenu}
+                          className="group flex w-full items-center gap-3.5 rounded-2xl bg-white border border-slate-200/60 px-4 py-3 text-[14px] font-semibold text-navy-800 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-azure-200 hover:bg-white hover:shadow-[0_4px_16px_rgba(14,165,233,0.08),0_1px_0_rgba(255,255,255,1)_inset] hover:text-azure-700"
+                        >
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-slate-200/80 text-slate-400 transition-all duration-300 group-hover:bg-azure-50 group-hover:border-azure-200 group-hover:text-azure-500 group-hover:shadow-[0_0_10px_rgba(14,165,233,0.15)]">
+                            <PackageIcon size={15} className="transition-transform duration-300 group-hover:scale-110" />
+                          </span>
+                          <span className="flex-1 truncate">{sub.nom}</span>
+                          <ChevronDownIcon size={14} className="shrink-0 -rotate-90 text-slate-300 transition-all duration-300 group-hover:text-azure-400 group-hover:translate-x-0.5" />
+                        </Link>
+                      </li>
+                    ))
+                  )}
+                </ul>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-slate-200 bg-white/40 px-4 py-5 text-center">
+                  <p className="text-[13px] font-medium text-slate-400">
+                    Sélectionnez une catégorie pour voir ses sous-catégories.
+                  </p>
+                </div>
+              )}
+            </div>
 
             <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* ── Marques ─────────── */}
             {marques.length > 0 && (
               <div className="mb-8">
-                <button
-                  type="button"
-                  onClick={() => setBrandsOpen(!brandsOpen)}
-                  aria-expanded={brandsOpen}
-                  className={cn(
-                    "group flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left transition-all duration-300",
-                    brandsOpen
-                      ? "bg-slate-50 border border-slate-200 text-navy-900 shadow-sm"
-                      : "bg-transparent border border-transparent text-navy-800 hover:bg-slate-50 hover:border-slate-200",
-                  )}
-                >
-                  <span className="flex items-center gap-3 text-[14px] font-bold">
-                    <span className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", brandsOpen ? "bg-white border-slate-200 shadow-sm" : "border-transparent bg-slate-50 group-hover:bg-white group-hover:border-slate-200 group-hover:shadow-sm")}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={brandsOpen ? "text-navy-900" : "text-slate-500"}>
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                      </svg>
-                    </span>
-                    Nos Marques
-                  </span>
-                  <ChevronDownIcon
-                    size={16}
-                    className={cn(
-                      "shrink-0 transition-transform duration-400",
-                      brandsOpen ? "rotate-180 text-navy-900" : "text-slate-400",
-                    )}
-                  />
-                </button>
+                <p className="mb-5 text-center text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
+                  Marques
+                </p>
 
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-400 ease-out-quint",
-                    brandsOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0",
-                  )}
-                >
-                  <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-inner">
-                    <div className="relative mb-3">
-                      <SearchIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="text"
-                        placeholder="Rechercher une marque..."
-                        value={brandSearch}
-                        onChange={(e) => setBrandSearch(e.target.value)}
-                        className="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-4 text-[13px] font-medium outline-none transition-all focus:border-azure-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)]"
-                      />
-                    </div>
-                    <ul className="grid max-h-56 gap-1 overflow-y-auto pr-1">
-                      {filteredMarques.length === 0 ? (
-                        <li className="py-4 text-center text-[12.5px] font-medium text-slate-400">Aucune marque trouvée.</li>
-                      ) : (
-                        filteredMarques.map((m) => (
-                          <li key={m.id}>
-                            <Link
-                              href={`/catalogue?marqueId=${m.id}`}
-                              onClick={closeMobileMenu}
-                              className="flex items-center gap-3 rounded-xl p-2 text-[13px] font-semibold text-slate-600 transition-all hover:bg-slate-50 hover:text-navy-900 hover:shadow-sm border border-transparent hover:border-slate-200"
-                            >
-                              {m.logo ? (
-                                <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-white border border-slate-200 shadow-sm">
-                                  <Image
-                                    src={m.logo}
-                                    alt={m.nom}
-                                    fill
-                                    sizes="32px"
-                                    className="object-contain p-1"
-                                  />
-                                </div>
-                              ) : (
-                                <div className="h-8 w-8 shrink-0 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-[11px] font-bold text-slate-400 shadow-sm">
-                                  {m.nom.charAt(0).toUpperCase()}
-                                </div>
-                              )}
-                              <span>{m.nom}</span>
-                            </Link>
-                          </li>
-                        ))
-                      )}
-                    </ul>
-                  </div>
+                <div className="max-h-[420px] overflow-y-auto overscroll-contain pr-1">
+                  <ul className="grid grid-cols-4 gap-2">
+                    {marques.map((m) => (
+                      <li key={m.id}>
+                        <Link
+                          href={`/catalogue?marqueId=${m.id}`}
+                          onClick={closeMobileMenu}
+                          className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-200/70 bg-white p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-azure-200 hover:shadow-[0_4px_12px_rgba(14,165,233,0.1)]"
+                        >
+                          {m.logo ? (
+                            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                              <Image
+                                src={imageUrl(m.logo)}
+                                alt={m.nom}
+                                fill
+                                sizes="48px"
+                                unoptimized
+                                className="object-contain p-0.5"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[16px] font-bold text-slate-400">
+                              {m.nom.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <span className="w-full truncate text-center text-[10px] font-bold uppercase tracking-wide text-navy-700 group-hover:text-azure-600">
+                            {m.nom}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             )}

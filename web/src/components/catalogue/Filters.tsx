@@ -16,6 +16,7 @@ interface FiltersProps {
   subcategories: SousCategorieListItem[];
   brands: MarqueListItem[];
   onNavigate?: () => void; // ex. fermer le tiroir mobile après un choix
+  hideCategory?: boolean; // Pour les pages avec catégorie fixée dans l'URL (/[category])
 }
 
 export function Filters({
@@ -23,6 +24,7 @@ export function Filters({
   subcategories,
   brands,
   onNavigate,
+  hideCategory = false,
 }: FiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -84,7 +86,7 @@ export function Filters({
   }, [brands, categorieId]);
 
   const activeCount =
-    (categorieId ? 1 : 0) +
+    (!hideCategory && categorieId ? 1 : 0) +
     (sousCategorieId ? 1 : 0) +
     (marqueId ? 1 : 0) +
     (promo ? 1 : 0) +
@@ -93,15 +95,17 @@ export function Filters({
 
   const resetAll = () => {
     const params = new URLSearchParams(searchParams.toString());
-    for (const k of [
-      "categorieId",
+    const keysToReset = [
       "sousCategorieId",
       "marqueId",
       "promo",
       "disponible",
       "minPrix",
       "maxPrix",
-    ]) {
+    ];
+    if (!hideCategory) keysToReset.push("categorieId");
+
+    for (const k of keysToReset) {
       params.delete(k);
     }
     const qs = params.toString();
@@ -127,35 +131,37 @@ export function Filters({
       </div>
 
       {/* Catégorie */}
-      <FilterSection
-        title="Catégorie"
-        isOpen={openSections.categorie}
-        onToggle={() => toggleSection("categorie")}
-      >
-        <OptionButton
-          selected={!categorieId}
-          onClick={() =>
-            commit({ categorieId: null, sousCategorieId: null, marqueId: null })
-          }
+      {!hideCategory && (
+        <FilterSection
+          title="Catégorie"
+          isOpen={openSections.categorie}
+          onToggle={() => toggleSection("categorie")}
         >
-          Toutes les catégories
-        </OptionButton>
-        {categories.map((cat) => (
           <OptionButton
-            key={cat.id}
-            selected={categorieId === String(cat.id)}
+            selected={!categorieId}
             onClick={() =>
-              commit({
-                categorieId: String(cat.id),
-                sousCategorieId: null,
-                marqueId: null,
-              })
+              commit({ categorieId: null, sousCategorieId: null, marqueId: null })
             }
           >
-            {cat.nom}
+            Toutes les catégories
           </OptionButton>
-        ))}
-      </FilterSection>
+          {categories.map((cat) => (
+            <OptionButton
+              key={cat.id}
+              selected={categorieId === String(cat.id)}
+              onClick={() =>
+                commit({
+                  categorieId: String(cat.id),
+                  sousCategorieId: null,
+                  marqueId: null,
+                })
+              }
+            >
+              {cat.nom}
+            </OptionButton>
+          ))}
+        </FilterSection>
+      )}
 
       {/* Sous-catégorie */}
       {visibleSubs.length > 0 && (

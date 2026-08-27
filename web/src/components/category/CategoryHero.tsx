@@ -1,0 +1,117 @@
+"use client";
+
+import Link from "next/link";
+import { useRef, useState } from "react";
+import { Container } from "@/components/ui/Container";
+import { buttonVariants } from "@/components/ui/Button";
+import { ArrowRightIcon, SparklesIcon, TagIcon } from "@/components/ui/icons";
+import { imageUrl } from "@/lib/api";
+import type { VideoHero, CategorieListItem } from "@/lib/types";
+import { toSlug } from "@/lib/slug";
+import { cn } from "@/lib/cn";
+
+interface CategoryHeroProps {
+  category: CategorieListItem;
+  videoHero?: VideoHero | null;
+}
+
+/** Hero section pour les pages de catégorie — plein écran avec vidéo si disponible. */
+export function CategoryHero({ category, videoHero }: CategoryHeroProps) {
+  const [videoFailed, setVideoFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const slug = toSlug(category.nom);
+  const showVideo = !!(videoHero && videoHero.actif && !videoFailed);
+
+  return (
+    <section
+      className={cn(
+        "relative overflow-hidden flex items-end min-h-[55vh] lg:min-h-[70vh]",
+        showVideo ? "bg-navy-960" : "bg-gradient-to-br from-navy-950 via-navy-900 to-azure-950"
+      )}
+    >
+      {/* ── Background ─────────────────────────────────────────────── */}
+      {showVideo ? (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={videoHero!.posterUrl ? imageUrl(videoHero!.posterUrl) : undefined}
+          onError={() => setVideoFailed(true)}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src={imageUrl(videoHero!.videoUrl)} type="video/mp4" />
+          <source src={imageUrl(videoHero!.videoUrl)} type="video/webm" />
+        </video>
+      ) : (
+        <>
+          {/* Ambient orbs */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-azure-500/10 blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-electric-500/5 blur-[100px] pointer-events-none" />
+          {/* Grid pattern */}
+          <div className="absolute inset-0 grid-pattern opacity-15 pointer-events-none" />
+        </>
+      )}
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-960 via-navy-950/60 to-navy-950/10 z-10 pointer-events-none" />
+
+      {/* ── Content ────────────────────────────────────────────────── */}
+      <Container className="relative z-20 pb-14 pt-32 lg:pb-20">
+        <div className="max-w-2xl">
+          {/* Eyebrow badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-azure-400/30 bg-azure-500/10 backdrop-blur-sm px-4 py-1.5 mb-5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-azure-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-400" />
+            </span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-azure-300">
+              Catégorie active
+            </span>
+          </div>
+
+          {/* Category name */}
+          <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-white mb-5">
+            {category.nom}
+          </h1>
+
+          <p className="text-[16px] sm:text-lg leading-relaxed text-navy-200 mb-8 max-w-xl">
+            Découvrez notre sélection complète de produits{" "}
+            <span className="text-white font-semibold">{category.nom.toLowerCase()}</span>{" "}
+            — matériel professionnel certifié, livré partout en Tunisie.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={`/${slug}/nouveautes`}
+              className={cn(
+                buttonVariants({ variant: "accent", size: "lg" }),
+                "gap-2"
+              )}
+            >
+              <SparklesIcon size={18} />
+              Nouveautés
+            </Link>
+            <Link
+              href={`/${slug}/promotions`}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:bg-white/20 hover:border-white/30"
+            >
+              <TagIcon size={16} />
+              Promotions
+            </Link>
+            <Link
+              href={`/${slug}/sous-categories`}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:bg-white/20 hover:border-white/30"
+            >
+              Explorer les rayons
+              <ArrowRightIcon size={16} />
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}

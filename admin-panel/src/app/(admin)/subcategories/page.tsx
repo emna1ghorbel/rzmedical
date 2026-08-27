@@ -219,7 +219,30 @@ export default function SubcategoriesPage() {
             </div>
 
             <div className="mb-4"><label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Description</label><textarea value={formDescription} onChange={(e) => setFormDescription(e.target.value)} rows={3} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" /></div>
-            <div className="mb-4"><label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Image</label><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; if (file.size > 2 * 1024 * 1024) { setFormError("L’image doit faire au maximum 2 Mo"); return; } const reader = new FileReader(); reader.onload = () => setFormImage(String(reader.result)); reader.readAsDataURL(file); }} className="w-full text-sm" />{formImage && <img src={formImage} alt="Aperçu" className="mt-3 h-24 w-24 rounded-lg object-cover" />}</div>
+            <div className="mb-4">
+              <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Image</label>
+              <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; if (file.size > 2 * 1024 * 1024) { setFormError("L’image doit faire au maximum 2 Mo"); return; } const reader = new FileReader(); reader.onload = () => setFormImage(String(reader.result)); reader.readAsDataURL(file); }} className="w-full text-sm" />
+              {formImage && (
+                <div className="relative mt-3 inline-block">
+                  <img
+                    src={formImage.startsWith("/") || formImage.startsWith("uploads") ? (formImage.startsWith("/") ? API_URL.replace("/api", "") + formImage : API_URL.replace("/api", "") + "/" + formImage) : formImage}
+                    alt="Aperçu"
+                    className="h-24 w-24 rounded-lg object-cover border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormImage("")}
+                    className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-colors z-10 cursor-pointer"
+                    title="Supprimer l'image"
+                  >
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </div>
 
             <div className="mb-4">
               <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Catégorie Parente *</label>

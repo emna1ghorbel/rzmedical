@@ -11,27 +11,66 @@ export interface ProductQuery {
   categorieId?: number;
   sousCategorieId?: number;
   marqueId?: number;
+  category?: string;        // nom ou slug de catégorie
+  subcategory?: string;     // nom ou slug de sous-catégorie
+  brand?: string;           // nom ou slug de marque
   q?: string;               // recherche texte
   promo?: boolean;          // uniquement les produits en promotion
   disponible?: boolean;
   minPrix?: number;
   maxPrix?: number;
   sort?: string;            // 'recent' | 'prix-asc' | 'prix-desc' | 'nom' | 'remise'
+  page?: number;
+  limit?: number;
 }
 
-export const getAll = (query: ProductQuery = {}) => {
-  // Raccourcis historiques conservés à l'identique
-  if (query.filter === 'new') return getNew(20);
-  if (query.filter === 'promo') return getPromo();
+export interface PaginatedResult<T> {
+  products: T[];
+  currentPage: number;
+  totalPages: number;
+  totalProducts: number;
+  pageSize: number;
+}
+
+export const getAll = async (query: ProductQuery = {}) => {
+  // Raccourcis historiques sans pagination explicite
+  if (query.filter === 'new' && !query.page) return getNew(query.limit || 20);
+  if (query.filter === 'promo' && !query.page && !query.categorieId && !query.category) return getPromo();
 
   const where: any = {};
   const and: any[] = [];
 
-  if (query.categorieId) where.sousCategorie = { categorieId: query.categorieId };
-  if (query.sousCategorieId) where.sousCategorieId = query.sousCategorieId;
-  if (query.marqueId) where.marqueId = query.marqueId;
+  if (query.categorieId) {
+    where.sousCategorie = { ...(where.sousCategorie || {}), categorieId: query.categorieId };
+  } else if (query.category) {
+    const catSearch = query.category.trim();
+    where.sousCategorie = {
+      ...(where.sousCategorie || {}),
+      categorie: {
+        nom: { equals: catSearch, mode: 'insensitive' },
+      },
+    };
+  }
+
+  if (query.sousCategorieId) {
+    where.sousCategorieId = query.sousCategorieId;
+  } else if (query.subcategory) {
+    where.sousCategorie = {
+      ...(where.sousCategorie || {}),
+      nom: { equals: query.subcategory.trim(), mode: 'insensitive' },
+    };
+  }
+
+  if (query.marqueId) {
+    where.marqueId = query.marqueId;
+  } else if (query.brand) {
+    where.marque = {
+      nom: { equals: query.brand.trim(), mode: 'insensitive' },
+    };
+  }
+
   if (query.disponible !== undefined) where.disponible = query.disponible;
-  if (query.promo) where.remise = { gt: 0 };
+  if (query.promo || query.filter === 'promo') where.remise = { gt: 0 };
   if (query.minPrix !== undefined || query.maxPrix !== undefined) {
     where.prix = {};
     if (query.minPrix !== undefined) where.prix.gte = query.minPrix;
@@ -64,10 +103,41 @@ export const getAll = (query: ProductQuery = {}) => {
     query.sort === 'remise' ? { remise: 'desc' as const } :
     { creeLe: 'desc' as const };
 
+  const whereClause = Object.keys(where).length ? where : undefined;
+
+  // Si pagination demandée
+  if (query.page !== undefined && query.page > 0) {
+    const pageSize = Math.max(1, query.limit && query.limit > 0 ? query.limit : 12);
+    const currentPage = query.page;
+    const skip = (currentPage - 1) * pageSize;
+
+    const [totalProducts, products] = await Promise.all([
+      prisma.produit.count({ where: whereClause }),
+      prisma.produit.findMany({
+        where: whereClause,
+        include: productInclude,
+        orderBy,
+        skip,
+        take: pageSize,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalProducts / pageSize) || 1;
+
+    return {
+      products,
+      currentPage,
+      totalPages,
+      totalProducts,
+      pageSize,
+    };
+  }
+
   return prisma.produit.findMany({
-    where: Object.keys(where).length ? where : undefined,
+    where: whereClause,
     include: productInclude,
     orderBy,
+    ...(query.limit && query.limit > 0 ? { take: query.limit } : {}),
   });
 };
 

@@ -17,13 +17,22 @@ import path from 'path';
 import siteContentRoutes from './modules/site-content/site-content.routes';
 import invoicesRoutes from './modules/invoices/invoices.routes';
 import supportRoutes from './modules/support/support.routes';
+import companyInfoRoutes from './modules/company-info/company-info.routes';
 
 const app = express();
 
-app.use(cors());
+// CORS dynamique depuis CORS_ORIGIN (liste séparée par virgules, ou * pour tout autoriser)
+const corsOrigin = process.env.CORS_ORIGIN || '*';
+const corsOptions = corsOrigin === '*'
+  ? {}
+  : { origin: corsOrigin.split(',').map((o: string) => o.trim()), credentials: true };
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Dossier d'uploads configurable via UPLOAD_DIR
+const uploadDir = process.env.UPLOAD_DIR || 'uploads';
+app.use('/uploads', express.static(path.join(process.cwd(), uploadDir)));
 
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/subcategories', subcategoriesRoutes);
@@ -40,6 +49,7 @@ app.use('/api/inbox', inboxRoutes);
 app.use('/api/site-content', siteContentRoutes);
 app.use('/api/invoices', invoicesRoutes);
 app.use('/api/support', supportRoutes);
+app.use('/api/company-info', companyInfoRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Bienvenue sur l\'API MediSupply' });

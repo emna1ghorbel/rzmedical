@@ -62,9 +62,12 @@ export const ModelName = {
   LigneCommande: 'LigneCommande',
   Facture: 'Facture',
   LigneFacture: 'LigneFacture',
+  AlerteSite: 'AlerteSite',
   AnnonceSite: 'AnnonceSite',
   BanniereSite: 'BanniereSite',
-  VideoHero: 'VideoHero'
+  VideoHero: 'VideoHero',
+  TokenReset: 'TokenReset',
+  InfoSociete: 'InfoSociete'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -97,6 +100,7 @@ export const UtilisateurScalarFieldEnum = {
   remise: 'remise',
   matriculeFiscale: 'matriculeFiscale',
   activite: 'activite',
+  activiteCategoryId: 'activiteCategoryId',
   otpCode: 'otpCode',
   otpExpire: 'otpExpire',
   dernierLogin: 'dernierLogin',
@@ -154,6 +158,7 @@ export const SousCategorieScalarFieldEnum = {
   nom: 'nom',
   description: 'description',
   image: 'image',
+  ordre: 'ordre',
   categorieId: 'categorieId',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
@@ -257,6 +262,24 @@ export const LigneFactureScalarFieldEnum = {
 export type LigneFactureScalarFieldEnum = (typeof LigneFactureScalarFieldEnum)[keyof typeof LigneFactureScalarFieldEnum]
 
 
+export const AlerteSiteScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  affichage: 'affichage',
+  titre: 'titre',
+  message: 'message',
+  lien: 'lien',
+  texteBouton: 'texteBouton',
+  actif: 'actif',
+  dateDebut: 'dateDebut',
+  dateFin: 'dateFin',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type AlerteSiteScalarFieldEnum = (typeof AlerteSiteScalarFieldEnum)[keyof typeof AlerteSiteScalarFieldEnum]
+
+
 export const AnnonceSiteScalarFieldEnum = {
   id: 'id',
   texte: 'texte',
@@ -276,6 +299,7 @@ export const BanniereSiteScalarFieldEnum = {
   titre: 'titre',
   description: 'description',
   lien: 'lien',
+  categorieId: 'categorieId',
   hauteur: 'hauteur',
   actif: 'actif',
   ordre: 'ordre',
@@ -299,6 +323,31 @@ export const VideoHeroScalarFieldEnum = {
 } as const
 
 export type VideoHeroScalarFieldEnum = (typeof VideoHeroScalarFieldEnum)[keyof typeof VideoHeroScalarFieldEnum]
+
+
+export const TokenResetScalarFieldEnum = {
+  id: 'id',
+  utilisateurId: 'utilisateurId',
+  token: 'token',
+  expireA: 'expireA',
+  creeLe: 'creeLe'
+} as const
+
+export type TokenResetScalarFieldEnum = (typeof TokenResetScalarFieldEnum)[keyof typeof TokenResetScalarFieldEnum]
+
+
+export const InfoSocieteScalarFieldEnum = {
+  id: 'id',
+  nomSociete: 'nomSociete',
+  logoUrl: 'logoUrl',
+  telephone: 'telephone',
+  email: 'email',
+  adresse: 'adresse',
+  siteWeb: 'siteWeb',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type InfoSocieteScalarFieldEnum = (typeof InfoSocieteScalarFieldEnum)[keyof typeof InfoSocieteScalarFieldEnum]
 
 
 export const SortOrder = {

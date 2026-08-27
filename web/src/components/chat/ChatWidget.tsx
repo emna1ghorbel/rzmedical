@@ -594,7 +594,7 @@ export function ChatWidget() {
             </form>
 
             <p className="text-[10px] text-slate-400 text-center mt-2">
-              Propulsé par <span className="text-azure-500 font-medium">Google Gemini AI</span>
+              Propulsé par <span className="text-azure-500 font-medium">RZ MEDICAL AI</span>
             </p>
           </div>
         </div>

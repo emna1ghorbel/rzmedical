@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { CategorieListItem } from "@/lib/types";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
+import { useCompany } from "@/providers/CompanyProvider";
 import { NewsletterForm } from "./NewsletterForm";
 import {
   FacebookIcon,
@@ -17,15 +18,6 @@ import {
   HeadsetIcon,
   CreditCardIcon,
 } from "@/components/ui/icons";
-
-const COMPANY_INFO = {
-  name: "R and Z Medical",
-  taxId: "1742623LAM000",
-  address: "23 Rue Salem Harzallah, Imm Echafai, 2 eme etage",
-  city: "3000, Sfax, Tunisie",
-  phone: "28113131",
-  email: "randzmedical@outlook.com",
-} as const;
 
 const FEATURES = [
   {
@@ -64,7 +56,13 @@ const FEATURES = [
 
 export function Footer({ categories }: { categories: CategorieListItem[] }) {
   const topCategories = categories.slice(0, 6);
-  const year = 2026;
+  const year = new Date().getFullYear();
+  const company = useCompany();
+
+  const name = company?.nomSociete || "RZMedical";
+  const address = company?.adresse || "Adresse non renseignée";
+  const phone = company?.telephone || "28113131";
+  const email = company?.email || "randzmedical@outlook.com";
 
   return (
     <footer className="mt-auto relative overflow-hidden bg-navy-960">
@@ -104,9 +102,9 @@ export function Footer({ categories }: { categories: CategorieListItem[] }) {
         {/* Brand */}
         <div className="col-span-2 lg:col-span-2">
           <Logo tone="light" />
-          <p className="mt-4 text-[13px] font-bold text-white">{COMPANY_INFO.name}</p>
+          <p className="mt-4 text-[13px] font-bold text-white">{name}</p>
           <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-navy-200/80">
-            RZmedical, votre partenaire de confiance pour l&apos;équipement médical et
+            {name}, votre partenaire de confiance pour l&apos;équipement médical et
             dentaire en Tunisie. Des produits sélectionnés pour leur qualité et
             leur fiabilité.
           </p>
@@ -173,24 +171,24 @@ export function Footer({ categories }: { categories: CategorieListItem[] }) {
           <ul className="space-y-4 text-[13px]">
             <li className="flex items-start gap-3 text-navy-200/80">
               <MapPinIcon size={16} className="mt-0.5 shrink-0 text-azure-400" />
-              <span>{COMPANY_INFO.address}<br />{COMPANY_INFO.city}</span>
+              <span>{address}</span>
             </li>
             <li>
               <a
-                href={`tel:+216${COMPANY_INFO.phone}`}
+                href={`tel:+216${phone}`}
                 className="flex items-start gap-3 text-navy-200/80 transition-colors hover:text-white group"
               >
                 <PhoneIcon size={16} className="mt-0.5 shrink-0 text-azure-400 group-hover:text-azure-300 transition-colors" />
-                +216 {COMPANY_INFO.phone}
+                +216 {phone}
               </a>
             </li>
             <li>
               <a
-                href={`mailto:${COMPANY_INFO.email}`}
+                href={`mailto:${email}`}
                 className="flex items-start gap-3 text-navy-200/80 transition-colors hover:text-white group"
               >
                 <MailIcon size={16} className="mt-0.5 shrink-0 text-azure-400 group-hover:text-azure-300 transition-colors" />
-                {COMPANY_INFO.email}
+                {email}
               </a>
             </li>
             <li>
@@ -221,7 +219,7 @@ export function Footer({ categories }: { categories: CategorieListItem[] }) {
       {/* === Bottom bar === */}
       <div className="relative border-t border-white/[0.06] bg-navy-950">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-[12px] text-navy-300 sm:flex-row">
-          <p>© {year} RZmedical. Tous droits réservés.</p>
+          <p>© {year} {name}. Tous droits réservés.</p>
           <div className="flex flex-wrap items-center gap-4">
             <span className="text-navy-400">Matériel médical & dentaire · Tunisie</span>
             <button

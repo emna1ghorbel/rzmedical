@@ -4,6 +4,7 @@ import type { ProductFilters } from "@/lib/api";
 import {
   getBrands,
   getProducts,
+  getPagedProducts,
   getSubcategories,
   getVisibleCategories,
 } from "@/lib/api";
@@ -69,8 +70,8 @@ export default async function CataloguePage({
   // données de la barre de filtres (catégories, sous-catégories, marques) sont
   // secondaires — on les résout séparément et on dégrade en liste vide si l'API
   // échoue, pour que le catalogue reste consultable même sans la barre latérale.
-  const [products, filterData] = await Promise.all([
-    getProducts(filters),
+  const [paginated, filterData] = await Promise.all([
+    getPagedProducts({ ...filters, page: filters.page ?? 1 }),
     Promise.allSettled([
       getVisibleCategories(),
       getSubcategories(),
@@ -83,6 +84,8 @@ export default async function CataloguePage({
     filterData[1].status === "fulfilled" ? filterData[1].value : [];
   const brands =
     filterData[2].status === "fulfilled" ? filterData[2].value : [];
+
+  const products = paginated.products;
 
   // Intitulé contextuel
   let heading = "Tous les produits";
@@ -198,13 +201,14 @@ export default async function CataloguePage({
         {/* Résultats */}
         <div className="min-w-0">
           {/* Barre d'outils */}
-          <div className="mb-5 flex items-center justify-between gap-3 border-b border-border pb-4">
-            <MobileFilters
-              categories={categories}
-              subcategories={subcategories}
-              brands={brands}
-              activeCount={activeCount}
-            />
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <div className="lg:hidden">
+              <MobileFilters
+                categories={categories}
+                subcategories={subcategories}
+                brands={brands}
+              />
+            </div>
             <div className="ml-auto">
               <SortSelect />
             </div>

@@ -1,12 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { useCompany } from "@/providers/CompanyProvider";
+import { imageUrl } from "@/lib/api";
 
 type Tone = "dark" | "light";
 type Variant = "full" | "mark" | "word";
 
 /**
  * Logo RZMedical
- * Utilise l'image réelle (logo-rzmedical.png)
+ * Utilise l'image dynamique ou fallback locale
  */
 export function Logo({
   variant = "full",
@@ -18,9 +22,11 @@ export function Logo({
   className?: string;
 }) {
   const isLight = tone === "light";
+  const company = useCompany();
 
-  // On utilise le même logo partout puisqu'il s'agit du logo officiel fourni.
-  // Ratio de l'image approximatif : 4:3
+  const src = company?.logoUrl ? imageUrl(company.logoUrl) : "/images/logo/logo-rzmedical.png";
+  const alt = company?.nomSociete || "RZMedical";
+
   return (
     <div className={cn(
       "relative flex items-center h-12 w-[80px] shrink-0 sm:h-14 sm:w-[100px]",
@@ -28,9 +34,10 @@ export function Logo({
       className
     )}>
       <Image
-        src="/images/logo/logo-rzmedical.png"
-        alt="RZmedical"
+        src={src}
+        alt={alt}
         fill
+        sizes="(max-width: 640px) 80px, 100px"
         className="object-contain object-left"
         priority
       />

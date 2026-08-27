@@ -1,23 +1,35 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies first (layer cache)
+# Install all dependencies (including devDependencies for tsc)
 COPY package*.json ./
 RUN npm install
 
-# Copy prisma schema and config before generating client
-COPY prisma ./prisma
-COPY prisma.config.ts ./
+# Copy source files
+COPY . .
 
-# Generate Prisma client (needs a dummy DATABASE_URL to pass validation)
+# Generate Prisma client and build
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN npx prisma generate --schema=prisma/schema.prisma
+RUN npm run build
 
-# Copy rest of source
-COPY . .
+# Production image
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Install production dependencies only
+COPY package*.json ./
+RUN npm install --omit=dev
+
+# Copy compiled files and Prisma config
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
 
 EXPOSE 4000
 
-# Apply migrations then start dev server
-CMD sh -c "npx prisma migrate deploy --schema=prisma/schema.prisma && npm run dev"
+# Apply migrations then start server
+CMD sh -c "npx prisma migrate deploy --schema=prisma/schema.prisma && node dist/src/server.js"

@@ -282,6 +282,122 @@ const catalogue: ProduitSource[] = [
       'VAT',
     ],
   },
+  {
+    nom: 'Kit de soins dentaires professionnel',
+    reference: 'RZM-DENT-KITPRO',
+    description:
+      'Kit complet de soins dentaires pour professionnels comprenant miroir, sonde, pince et curette en acier inoxydable de qualité médicale.',
+    prix: '89.000',
+    stock: 15,
+    remise: '10.000',
+    categorie: 'Dentaire',
+    sousCategorie: 'Instruments de base',
+    sousCategorieDescription:
+      'Instruments essentiels pour l\'examen et les soins dentaires de routine.',
+    marque: 'Dentex',
+    sourceUrl: 'https://www.dentex.com/professional-dental-kit',
+    motsCles: [
+      'kit dentaire',
+      'instruments dentaires',
+      'mirroir dentaire',
+      'sonde',
+      'pince',
+      'curette',
+      'Dentex',
+    ],
+  },
+  {
+    nom: 'Lampe photopolymérisante LED',
+    reference: 'RZM-DENT-LEDLC',
+    description:
+      'Lampe de photopolymérisation LED légère et sans fil avec modes pulse et continu, idéal pour les composites dentaires.',
+    prix: '229.000',
+    stock: 12,
+    remise: '15.000',
+    categorie: 'Dentaire',
+    sousCategorie: 'Équipement de soins',
+    sousCategorieDescription:
+      'Équipements utilisés lors des procédures de soins dentaires.',
+    marque: 'Dentlux',
+    sourceUrl: 'https://www.dentlux.com/led-curing-light',
+    ficheTechnique:
+      'https://www.dentlux.com/wp-content/uploads/2023/01/LEDLC-Manual_FR.pdf',
+    motsCles: [
+      'lampe LED',
+      'photopolymérisation',
+      'composite dentaire',
+      'Dentlux',
+      'sans fil',
+    ],
+  },
+  {
+    nom: 'Set de rotules dentaires carbide',
+    reference: 'RZM-DENT-CARBIDE5',
+    description:
+      'Set de 5 fraises rotatives en carbure de tungstène pour préparations cavitaires, fini et contours en dentisterie restauratrice.',
+    prix: '45.000',
+    stock: 25,
+    remise: '5.000',
+    categorie: 'Dentaire',
+    sousCategorie: 'Instruments rotatifs',
+    sousCategorieDescription:
+      'Fraises et bouchons pour préparation dentaire et travail prothétique.',
+    marque: 'Kerr',
+    sourceUrl: 'https://www.kerrdental.com/carbide-burs-set',
+    motsCles: [
+      'fraises dentaires',
+      'carbure de tungstène',
+      'Kerr',
+      'rotules',
+      'dentisterie restauratrice',
+    ],
+  },
+  {
+    nom: 'Mélangeur amalgamateur automatique',
+    reference: 'RZM-DENT-AMMIX',
+    description:
+      'Mélangeur automatique pour amalgame dentaire avec dosage précis et temps de mélange réglable pour une consistance optimale.',
+    prix: '189.000',
+    stock: 8,
+    remise: '8.000',
+    categorie: 'Dentaire',
+    sousCategorie: 'Équipement de laboratoire',
+    sousCategorieDescription:
+      'Équipements de préparation et de laboratoire pour prothèses dentaires.',
+    marque: 'Voco',
+    sourceUrl: 'https://www.voco.com/automatic-amalgamator',
+    ficheTechnique:
+      'https://www.voco.com/wp-content/uploads/2022/05/AM-Mix-Instructions_FR.pdf',
+    motsCles: [
+      'amalgamateur',
+      'amalgame dentaire',
+      'Voco',
+      'laboratoire dentaire',
+      'mélange automatique',
+    ],
+  },
+  {
+    nom: 'Papier articulating bleu 50µm',
+    reference: 'RZM-DENT-ARTICULATE',
+    description:
+      'Papier articulating de 50 micromètres d\'épaisseur pour vérifier l\'occlusion et les points de contact lors des restaurations dentaires.',
+    prix: '12.000',
+    stock: 100,
+    remise: '0.000',
+    categorie: 'Dentaire',
+    sousCategorie: 'Consommables',
+    sousCategorieDescription:
+      'Produits à usage unique ou consommables utilisés lors des soins dentaires.',
+    marque: 'Bausch',
+    sourceUrl: 'https://www.bausch.com/dental-articulating-paper',
+    motsCles: [
+      'papier articulating',
+      'vérification occlusion',
+      'points de contact',
+      'Bausch',
+      'consommable dentaire',
+    ],
+  }
 ];
 
 function absoluteUrl(value: string, baseUrl: string): string {

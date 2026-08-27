@@ -34,6 +34,7 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Catégories", path: "/categories", pro: false },
       { name: "Sous-Catégories", path: "/subcategories", pro: false },
+      { name: "Ordre sous-catégories", path: "/reorder-subcategories", pro: false },
       { name: "Marques", path: "/brands", pro: false },
       { name: "Produits", path: "/products", pro: false },
     ],
@@ -68,6 +69,11 @@ const navItems: NavItem[] = [
 ];
 
 const othersItems: NavItem[] = [
+  {
+    icon: <UserCircleIcon />,
+    name: "Infos Société",
+    path: "/company-info",
+  },
   {
     icon: <UserCircleIcon />,
     name: "Paramètres",

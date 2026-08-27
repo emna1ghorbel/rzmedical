@@ -602,14 +602,6 @@ export type EnumCanalSupportFieldUpdateOperationsInput = {
   set?: $Enums.CanalSupport
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TicketSupportCreateNestedOneWithoutMessagesInput = {
   create?: Prisma.XOR<Prisma.TicketSupportCreateWithoutMessagesInput, Prisma.TicketSupportUncheckedCreateWithoutMessagesInput>
   connectOrCreate?: Prisma.TicketSupportCreateOrConnectWithoutMessagesInput

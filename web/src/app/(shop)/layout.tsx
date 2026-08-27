@@ -8,10 +8,12 @@ import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { GlobalBannerCarousel } from "@/components/layout/GlobalBannerCarousel";
 import type { MarqueListItem } from "@/lib/types";
-import { AccountInvitationAlert } from "@/components/layout/AccountInvitationAlert";
+import { SiteAlert } from "@/components/site/SiteAlert";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { CategoryProvider } from "@/providers/CategoryProvider";
+import { CategoryOnboardingModal } from "@/components/category/CategoryOnboardingModal";
 
-const EMPTY_CONTENT: SiteContentPublic = { annonces: [], bannieres: [], videoHero: null };
+const EMPTY_CONTENT: SiteContentPublic = { annonces: [], bannieres: [], videoHero: null, alertes: [] };
 
 /** Charge le chrome (catégories + contenu) de façon résiliente : le magasin
  *  reste affichable même si le backend est momentanément indisponible. */
@@ -36,7 +38,7 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
   const { categories, marques, content } = await loadChrome();
 
   return (
-    <>
+    <CategoryProvider categories={categories}>
       <a
         href="#contenu"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
@@ -65,10 +67,15 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
       {/* Surcouches modales globales */}
       <CartDrawer />
       <SearchOverlay />
-      <AccountInvitationAlert />
+
+      {/* Alertes admin dynamiques (promo, fermeture, etc.) — remplace AccountInvitationAlert si une alerte est active */}
+      <SiteAlert alertes={content.alertes} />
+
+      {/* ── Modal d'onboarding catégorie ──────────────────────────────── */}
+      <CategoryOnboardingModal categories={categories} />
 
       {/* ── Chatbot IA ────────────────────────────────────────────────── */}
       <ChatWidget />
-    </>
+    </CategoryProvider>
   );
 }

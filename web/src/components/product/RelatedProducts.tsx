@@ -13,7 +13,7 @@ export async function RelatedProducts({
 }) {
   let products;
   try {
-    products = await getProducts({ sousCategorieId, sort: "recent" });
+    products = (await getProducts({ sousCategorieId, sort: "recent" })) as import("@/lib/types").Produit[];
   } catch {
     return null; // section non essentielle : on l'omet en cas d'échec
   }

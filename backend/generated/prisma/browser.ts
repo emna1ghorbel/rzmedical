@@ -73,6 +73,11 @@ export type Facture = Prisma.FactureModel
  */
 export type LigneFacture = Prisma.LigneFactureModel
 /**
+ * Model AlerteSite
+ * 
+ */
+export type AlerteSite = Prisma.AlerteSiteModel
+/**
  * Model AnnonceSite
  * 
  */
@@ -87,3 +92,13 @@ export type BanniereSite = Prisma.BanniereSiteModel
  * 
  */
 export type VideoHero = Prisma.VideoHeroModel
+/**
+ * Model TokenReset
+ * 
+ */
+export type TokenReset = Prisma.TokenResetModel
+/**
+ * Model InfoSociete
+ * 
+ */
+export type InfoSociete = Prisma.InfoSocieteModel

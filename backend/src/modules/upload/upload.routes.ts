@@ -4,9 +4,14 @@ import path from 'path';
 import fs from 'fs';
 
 // Configure multer storage
+const uploadDir = process.env.UPLOAD_DIR || 'uploads';
+const maxFileSizeMB = parseInt(process.env.MAX_FILE_SIZE_MB || '200', 10);
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../../uploads');
+    const uploadPath = path.isAbsolute(uploadDir)
+      ? uploadDir
+      : path.join(process.cwd(), uploadDir);
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
@@ -21,7 +26,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 200 * 1024 * 1024 }, // 200MB max (videos)
+  limits: { fileSize: maxFileSizeMB * 1024 * 1024 },
 });
 
 const router = Router();

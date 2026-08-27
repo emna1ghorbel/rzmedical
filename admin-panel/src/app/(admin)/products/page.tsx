@@ -774,9 +774,36 @@ export default function ProductsPage() {
                 {formImages.length > 0 && (
                   <div className="flex gap-2 mt-2 flex-wrap">
                     {formImages.map((img, i) => (
-                      <button key={`image-${i}`} type="button" onClick={() => setMainImage(i)} className={`relative h-16 w-16 overflow-hidden rounded-lg border-2 ${i === 0 ? "border-brand-500" : "border-gray-200"}`} title="Choisir comme image principale">
-                      <img key={i} src={img.startsWith("/") ? API_URL.replace("/api", "") + img : img} alt="Aperçu" className="h-10 w-10 object-cover rounded-lg border" />
-                      </button>
+                      <div key={`image-${i}`} className="relative h-16 w-16">
+                        <button
+                          type="button"
+                          onClick={() => setMainImage(i)}
+                          className={`h-full w-full overflow-hidden rounded-lg border-2 ${
+                            i === 0 ? "border-brand-500" : "border-gray-200"
+                          }`}
+                          title="Choisir comme image principale (première image)"
+                        >
+                          <img
+                            src={img.startsWith("/") ? API_URL.replace("/api", "") + img : img}
+                            alt="Aperçu"
+                            className="h-full w-full object-cover"
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFormImages((prev) => prev.filter((_, idx) => idx !== i));
+                          }}
+                          className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-colors z-10 cursor-pointer"
+                          title="Supprimer l'image"
+                        >
+                          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}

@@ -13,7 +13,9 @@ import type {
   BanniereSite,
   CategorieListItem,
   Commande,
+  InfoSociete,
   MarqueListItem,
+  PaginatedProducts,
   Produit,
   SiteContentPublic,
   SousCategorieListItem,
@@ -116,6 +118,10 @@ export interface ProductFilters {
   categorieId?: number;
   sousCategorieId?: number;
   marqueId?: number;
+  // Category/subcategory/brand by name (slug-resolved)
+  category?: string;
+  subcategory?: string;
+  brand?: string;
   q?: string;
   promo?: boolean;
   disponible?: boolean;
@@ -123,6 +129,9 @@ export interface ProductFilters {
   maxPrix?: number;
   sort?: "recent" | "prix-asc" | "prix-desc" | "nom" | "remise";
   filter?: "new" | "promo"; // raccourcis historiques
+  // Pagination
+  page?: number;
+  limit?: number;
 }
 
 function buildQuery(
@@ -160,21 +169,58 @@ export function getBrands(): Promise<MarqueListItem[]> {
   });
 }
 
-/** Liste de produits filtrée/triée. Sans filtre → tous, du plus récent au plus ancien. */
-export function getProducts(filters: ProductFilters = {}): Promise<Produit[]> {
+/** Liste de produits filtrée/triée. Retourne un tableau ou PaginatedProducts si page est fourni. */
+export function getProducts(filters: ProductFilters & { page?: number; limit?: number } = {}): Promise<Produit[] | PaginatedProducts> {
   const qs = buildQuery({
     filter: filters.filter,
     categorieId: filters.categorieId,
     sousCategorieId: filters.sousCategorieId,
     marqueId: filters.marqueId,
+    category: filters.category,
+    subcategory: filters.subcategory,
+    brand: filters.brand,
     q: filters.q,
     promo: filters.promo,
     disponible: filters.disponible,
     minPrix: filters.minPrix,
     maxPrix: filters.maxPrix,
     sort: filters.sort,
+    page: filters.page,
+    limit: filters.limit,
   });
-  return apiFetch<Produit[]>(`/api/products${qs}`, {
+  return apiFetch<Produit[] | PaginatedProducts>(`/api/products${qs}`, {
+    revalidate: REVALIDATE.catalog,
+  });
+}
+
+/** Produits paginés pour une catégorie (toujours PaginatedProducts). */
+export async function getPagedProducts(
+  filters: ProductFilters & { page: number; limit?: number },
+): Promise<PaginatedProducts> {
+  const result = await getProducts({ ...filters, limit: filters.limit ?? 12 });
+  if (Array.isArray(result)) {
+    // Fallback si le backend renvoie un tableau (pas de pagination)
+    return {
+      products: result,
+      currentPage: 1,
+      totalPages: 1,
+      totalProducts: result.length,
+      pageSize: result.length,
+    };
+  }
+  return result as PaginatedProducts;
+}
+
+/** Sous-catégories filtrées par catégorie. */
+export function getSubcategoriesByCategory(categorieId: number): Promise<SousCategorieListItem[]> {
+  return apiFetch<SousCategorieListItem[]>(`/api/subcategories?categorieId=${categorieId}`, {
+    revalidate: REVALIDATE.catalog,
+  });
+}
+
+/** Marques filtrées par catégorie. */
+export function getBrandsByCategory(categorieId: number): Promise<MarqueListItem[]> {
+  return apiFetch<MarqueListItem[]>(`/api/brands?categorieId=${categorieId}`, {
     revalidate: REVALIDATE.catalog,
   });
 }
@@ -225,8 +271,9 @@ export const getProductByReference = cache(
 );
 
 /** Annonces + bannières actives (barre d'annonce & carrousel). */
-export function getSiteContent(): Promise<SiteContentPublic> {
-  return apiFetch<SiteContentPublic>("/api/site-content/public", {
+export function getSiteContent(categoryId?: number): Promise<SiteContentPublic> {
+  const url = categoryId ? `/api/site-content/public?categoryId=${categoryId}` : "/api/site-content/public";
+  return apiFetch<SiteContentPublic>(url, {
     revalidate: REVALIDATE.content,
   });
 }
@@ -240,8 +287,8 @@ export interface RegisterInput {
   nom: string;
   telephone?: string;
   adresse?: string;
-  matriculeFiscale?: string;
-  activite?: string;
+  matriculeFiscale: string;
+  activiteCategoryId: number;
 }
 
 export interface LoginInput {
@@ -257,6 +304,7 @@ export interface UpdateProfileInput {
   dateNaissance?: string | null;
   matriculeFiscale?: string;
   activite?: string;
+  activiteCategoryId?: number;
   email?: string;
   currentPassword?: string;
   newPassword?: string;
@@ -288,6 +336,27 @@ export function updateMe(
     method: "PATCH",
     token,
     body: JSON.stringify(input),
+  });
+}
+
+
+
+/** Envoie un lien de réinitialisation de mot de passe par email */
+export function forgotPassword(email: string): Promise<{ message: string }> {
+  return apiFetch<{ message: string }>("/api/client-auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
+/** Réinitialise le mot de passe avec le token reçu par email */
+export function resetPassword(
+  token: string,
+  newPassword: string,
+): Promise<{ message: string }> {
+  return apiFetch<{ message: string }>("/api/client-auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ token, newPassword }),
   });
 }
 
@@ -336,6 +405,14 @@ export function addSupportMessage(token: string, ticketId: number, contenu: stri
 export function getOrder(token: string, id: number): Promise<Commande> {
   return apiFetch<Commande>(`/api/orders/${id}`, { token });
 }
+
+export const getCompanyInfo = cache(
+  async (): Promise<InfoSociete> => {
+    return apiFetch<InfoSociete>("/api/company-info", {
+      revalidate: REVALIDATE.content,
+    });
+  }
+);
 
 // Ré-export pratique pour les composants bannière (typage direct).
 export type { BanniereSite };

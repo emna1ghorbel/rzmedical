@@ -200,7 +200,26 @@ export default function BrandsPage() {
               <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Logo</label>
               <input type="file" accept="image/png, image/jpeg, image/webp" onChange={handleFileUpload} className="w-full rounded-xl border border-gray-300 p-2 text-xs dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
               {uploading && <p className="text-xs text-brand-500 mt-1">Téléversement en cours...</p>}
-              {formLogo && <img src={formLogo.startsWith("/") ? API_URL.replace("/api", "") + formLogo : formLogo} alt="Aperçu" className="h-12 mt-2 rounded-lg border object-contain p-1" />}
+              {formLogo && (
+                <div className="relative mt-2 inline-block">
+                  <img
+                    src={formLogo.startsWith("/") ? API_URL.replace("/api", "") + formLogo : formLogo}
+                    alt="Aperçu"
+                    className="h-12 rounded-lg border object-contain p-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormLogo("")}
+                    className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-colors z-10 cursor-pointer"
+                    title="Supprimer le logo"
+                  >
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="mb-4">

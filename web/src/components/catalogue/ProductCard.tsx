@@ -11,6 +11,7 @@ import { Price } from "@/components/ui/Price";
 import { PackageIcon } from "@/components/ui/icons";
 import { AddToCartButton } from "./AddToCartButton";
 import { useAuth } from "@/providers/AuthProvider";
+import { useCategory } from "@/providers/CategoryProvider";
 import { cn } from "@/lib/cn";
 
 const IMAGE_SIZES =
@@ -35,12 +36,18 @@ export function ProductCard({
   // Avoid hydration mismatch by only applying the client discount after the component has mounted on the client
   const remiseClient = mounted && isAuthenticated ? user?.remise ?? 0 : 0;
   
-  const href = `/produit/${encodeURIComponent(product.reference)}`;
+  const { categorySlug } = useCategory();
+  
+  const href = mounted && categorySlug 
+    ? `/${categorySlug}/produits/${encodeURIComponent(product.reference)}`
+    : `/produit/${encodeURIComponent(product.reference)}`;
+    
   const image = product.images?.[0];
   const outOfStock = !product.disponible || product.stock <= 0;
   const promo = hasDiscount(product.remise);
   const isNew = !promo && isRecent(product.creeLe);
   const lowStock = !outOfStock && product.stock > 0 && product.stock <= 5;
+
 
   return (
     <article

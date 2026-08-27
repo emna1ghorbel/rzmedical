@@ -4,15 +4,15 @@ services:
     container_name: rzmedical_db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: rzmedical_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-rzmedical_db}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -23,19 +23,26 @@ services:
       dockerfile: Dockerfile
     container_name: rzmedical_backend
     ports:
-      - "4000:4000"
+      - "${BACKEND_PORT:-4000}:4000"
     volumes:
       - ./backend:/app
       - /app/node_modules
       - /app/generated
     environment:
-      DATABASE_URL: postgresql://postgres:password@db:5432/rzmedical_db?schema=public
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@db:5432/rzmedical_db?schema=public}
       PORT: 4000
-      JWT_SECRET: rzmedical_super_secret_jwt_key_2024_change_me
-      EMAIL_HOST: smtp.gmail.com
-      EMAIL_PORT: 587
-      EMAIL_USER: emnaghorbel56@gmail.com
-      EMAIL_PASS: buqdxucfnarjgpqt
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-8h}
+      EMAIL_HOST: ${EMAIL_HOST:-smtp.gmail.com}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_SECURE: ${EMAIL_SECURE:-false}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-RZMedical}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      UPLOAD_DIR: ${UPLOAD_DIR:-uploads}
+      MAX_FILE_SIZE_MB: ${MAX_FILE_SIZE_MB:-200}
     depends_on:
       db:
         condition: service_healthy
@@ -47,13 +54,13 @@ services:
       dockerfile: Dockerfile
     container_name: rzmedical_admin
     ports:
-      - "3000:3000"
+      - "${ADMIN_PORT:-3001}:3000"
     volumes:
       - ./admin-panel:/app
       - /app/node_modules
       - /app/.next
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000/api}
     depends_on:
       - backend
     restart: on-failure

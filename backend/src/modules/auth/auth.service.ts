@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '../../config/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'rzmedical_secret_key_change_in_production';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
 const OTP_EXPIRY_MINUTES = 10;
 
 // Create email transporter
@@ -92,7 +93,7 @@ export async function verifyOtp(emailInput: string, otp: string) {
   const token = jwt.sign(
     { id: user.id, email: user.email, type: user.typeUtilisateur },
     JWT_SECRET,
-    { expiresIn: '8h' }
+    { expiresIn: JWT_EXPIRES_IN }
   );
 
   return {
@@ -118,7 +119,7 @@ async function sendOtpEmail(email: string, otp: string, prenom: string) {
 
   const transporter = createTransporter();
   await transporter.sendMail({
-    from: `"RZMedical Admin" <${process.env.EMAIL_USER}>`,
+    from: `"${process.env.EMAIL_FROM_NAME || 'RZMedical Admin'}" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: '🔐 Votre code de connexion RZMedical',
     html: `

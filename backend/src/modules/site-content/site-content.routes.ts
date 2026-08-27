@@ -5,30 +5,93 @@ import path from 'path';
 import fs from 'fs';
 
 const router = Router();
-const dates = (body: any) => ({ ...body, dateDebut: body.dateDebut ? new Date(body.dateDebut) : null, dateFin: body.dateFin ? new Date(body.dateFin) : null, ordre: Number(body.ordre) || 0 });
+const dates = (body: any) => ({ ...body, dateDebut: body.dateDebut ? new Date(body.dateDebut) : null, dateFin: body.dateFin ? new Date(body.dateFin) : null, ordre: Number(body.ordre) || 0, categorieId: body.categorieId ? Number(body.categorieId) : null });
 
 // ─── Public endpoint ─────────────────────────────────────────────────────────
-router.get('/public', async (_req, res) => {
+router.get('/public', async (req, res) => {
   const now = new Date();
-  const [annonces, bannieres, videoHero] = await Promise.all([
+  const categorieId = req.query.categoryId ? parseInt(req.query.categoryId as string, 10) : undefined;
+
+  const [annonces, bannieres, videoHero, alertes] = await Promise.all([
     prisma.annonceSite.findMany({ where: { actif: true }, orderBy: { ordre: 'asc' } }),
-    prisma.banniereSite.findMany({ where: { actif: true, AND: [{ OR: [{ dateDebut: null }, { dateDebut: { lte: now } }] }, { OR: [{ dateFin: null }, { dateFin: { gte: now } }] }] }, orderBy: { ordre: 'asc' } }),
+    prisma.banniereSite.findMany({ 
+      where: { 
+        actif: true, 
+        AND: [
+          { OR: [{ dateDebut: null }, { dateDebut: { lte: now } }] }, 
+          { OR: [{ dateFin: null }, { dateFin: { gte: now } }] }
+        ],
+        OR: categorieId 
+          ? [{ categorieId: null }, { categorieId }]
+          : [{ categorieId: null }]
+      }, 
+      orderBy: { ordre: 'asc' } 
+    }),
     prisma.videoHero.findFirst({ where: { actif: true } }),
+    prisma.alerteSite.findMany({
+      where: {
+        actif: true,
+        AND: [
+          { OR: [{ dateDebut: null }, { dateDebut: { lte: now } }] },
+          { OR: [{ dateFin: null }, { dateFin: { gte: now } }] },
+        ],
+      },
+      orderBy: { creeLe: 'desc' },
+    }),
   ]);
-  res.json({ annonces, bannieres, videoHero: videoHero || null });
+  res.json({ annonces, bannieres, videoHero: videoHero || null, alertes });
 });
 
 // ─── Admin: list all ─────────────────────────────────────────────────────────
 router.get('/', requireAuth, async (_req, res) => {
-  const [annonces, bannieres, videos] = await Promise.all([
+  const [annonces, bannieres, videos, alertes] = await Promise.all([
     prisma.annonceSite.findMany({ orderBy: { ordre: 'asc' } }),
     prisma.banniereSite.findMany({ orderBy: { ordre: 'asc' } }),
     prisma.videoHero.findMany({ orderBy: { creeLe: 'desc' } }),
+    prisma.alerteSite.findMany({ orderBy: { creeLe: 'desc' } }),
   ]);
-  res.json({ annonces, bannieres, videos });
+  res.json({ annonces, bannieres, videos, alertes });
 });
 
-// ─── Annonces ─────────────────────────────────────────────────────────────────
+// ─── Alertes ──────────────────────────────────────────────────────────────────
+router.post('/alertes', requireAuth, async (req, res) => {
+  try {
+    const { type, affichage, titre, message, lien, texteBouton, actif, dateDebut, dateFin } = req.body;
+    if (!titre?.trim() || !message?.trim()) return res.status(400).json({ error: 'Le titre et le message sont requis' });
+    const alerte = await prisma.alerteSite.create({
+      data: {
+        type: type || 'INFO',
+        affichage: affichage || 'POPUP',
+        titre: titre.trim(),
+        message: message.trim(),
+        lien: lien?.trim() || null,
+        texteBouton: texteBouton?.trim() || null,
+        actif: actif ?? true,
+        dateDebut: dateDebut ? new Date(dateDebut) : null,
+        dateFin: dateFin ? new Date(dateFin) : null,
+      },
+    });
+    res.status(201).json(alerte);
+  } catch (err: any) { res.status(500).json({ error: err.message || 'Erreur lors de la création de l\'alerte' }); }
+});
+router.put('/alertes/:id', requireAuth, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { dateDebut, dateFin, ...rest } = req.body;
+    const alerte = await prisma.alerteSite.update({
+      where: { id },
+      data: { ...rest, dateDebut: dateDebut ? new Date(dateDebut) : null, dateFin: dateFin ? new Date(dateFin) : null },
+    });
+    res.json(alerte);
+  } catch (err: any) { res.status(500).json({ error: err.message || 'Erreur de modification' }); }
+});
+router.delete('/alertes/:id', requireAuth, async (req, res) => {
+  try {
+    await prisma.alerteSite.delete({ where: { id: Number(req.params.id) } });
+    res.status(204).send();
+  } catch (err: any) { res.status(500).json({ error: err.message || 'Erreur de suppression' }); }
+});
+
 router.post('/annonces', requireAuth, async (req, res) => {
   try {
     const texte = typeof req.body.texte === 'string' ? req.body.texte.trim() : '';

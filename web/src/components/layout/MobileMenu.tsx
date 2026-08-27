@@ -7,7 +7,10 @@ import { useUI } from "@/providers/UIProvider";
 import { useAuth } from "@/providers/AuthProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useCart } from "@/providers/CartProvider";
+import { useCategory } from "@/providers/CategoryProvider";
+import { useCompany } from "@/providers/CompanyProvider";
 import { Logo } from "@/components/ui/Logo";
+import { imageUrl } from "@/lib/api";
 import type { CategorieListItem, MarqueListItem } from "@/lib/types";
 import { cn } from "@/lib/cn";
 import {
@@ -34,6 +37,8 @@ export function MobileMenu({
   const { mobileMenuOpen, closeMobileMenu } = useUI();
   const { isAuthenticated, user } = useAuth();
   const { openCart, count } = useCart();
+  const { selectedCategory, categorySlug } = useCategory();
+  const company = useCompany();
 
   const [openCatId, setOpenCatId] = useState<number | null>(null);
   const [brandsOpen, setBrandsOpen] = useState(false);
@@ -65,6 +70,16 @@ export function MobileMenu({
     const q = brandSearch.toLowerCase();
     return marques.filter((m) => m.nom.toLowerCase().includes(q));
   }, [marques, brandSearch]);
+
+  // Si une catégorie est sélectionnée, on cible ses sous-catégories.
+  // Sinon on retombe sur la liste complète des catégories.
+  const activeCat = selectedCategory
+    ? categories.find((c) => c.id === selectedCategory.id) ?? selectedCategory
+    : null;
+  const activeSubs = activeCat?.sousCategories ?? [];
+  const catAccordionLabel = activeCat
+    ? "Explorer les sous-catégories"
+    : "Explorer les catégories";
 
   return (
     <div
@@ -98,10 +113,10 @@ export function MobileMenu({
         {/* Header */}
         <div className="flex h-20 shrink-0 items-center justify-between border-b border-border/50 px-5 pt-4">
           <Link
-            href="/"
+            href={categorySlug ? `/${categorySlug}` : "/"}
             onClick={closeMobileMenu}
-            aria-label="RZmedical — Accueil"
-            className="group relative flex-shrink-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-azure-500/50 transition-all duration-300 hover:scale-105"
+            aria-label={`${company?.nomSociete || "RZMedical"} - Accueil`}
+            className="shrink-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-azure-500/50 transition-all duration-300 hover:scale-105"
           >
             <Logo tone="dark" className="h-11 w-auto" />
           </Link>
@@ -188,205 +203,182 @@ export function MobileMenu({
             </li>
           </ul>
 
-          <div className="my-6 h-[1px] bg-border/50" />
-
-          {/* Catégories Accordion */}
-          {categories.length > 0 && (
+          {/* Category-specific quick links (when a category is active) */}
+          {selectedCategory && (
             <>
-              <button
-                type="button"
-                onClick={() => setOpenCatId(openCatId === -1 ? null : -1)}
-                aria-expanded={openCatId === -1}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-xl px-5 py-4 text-left text-base font-medium transition-all duration-300",
-                  openCatId === -1
-                    ? "bg-azure-50/60 backdrop-blur-sm text-azure-700 hover:bg-azure-100"
-                    : "text-navy-800 hover:bg-navy-50 hover:text-navy-900"
-                )}
-              >
-                <span className="flex items-center gap-3">
-                  <PackageIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                  Catégories
-                </span>
-                <ChevronDownIcon
-                  size={18}
-                  className={cn(
-                    "shrink-0 transition-transform duration-400",
-                    openCatId === -1 ? "rotate-180 text-azure-600 transition-transform duration-400" : "text-slate-400 group-hover:text-slate-500"
-                  )}
-                />
-              </button>
-
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)",
-                  openCatId === -1 ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-                )}
-              >
-                <div className="ml-4 mt-3 border-l-2 border-azure-100/50 pl-4">
-                  <Link
-                    href="/catalogue"
-                    onClick={closeMobileMenu}
-                    className={cn(
-                      "mb-4 block w-full rounded-xl px-4 py-3 text-base font-medium transition-all duration-300",
-                      "text-azure-600 hover:bg-azure-50",
-                      "hover:text-azure-700"
-                    )}
-                  >
-                    ← Tout le catalogue
-                  </Link>
-
-                  {categories.map((cat) => {
-                    const subs = cat.sousCategories ?? [];
-                    return (
-                      <div key={cat.id} className="mb-5">
-                        <p className="mb-2 px-3 text-[12px] font-semibold uppercase tracking-wider text-slate-400">
-                          {cat.nom}
-                        </p>
-                        <ul className="grid gap-0.75">
-                          {subs.length === 0 ? (
-                            <li>
-                              <Link
-                                href={`/catalogue?categorieId=${cat.id}`}
-                                onClick={closeMobileMenu}
-                                className={cn(
-                                  "block w-full rounded-xl px-4 py-3 text-base font-medium transition-all duration-300",
-                                  "text-navy-700 hover:bg-navy-50",
-                                  "hover:text-navy-900"
-                                )}
-                              >
-                                Tous les produits
-                              </Link>
-                            </li>
-                          ) : (
-                            subs.map((sub) => (
-                              <li key={sub.id}>
-                                <Link
-                                  href={`/catalogue?sousCategorieId=${sub.id}`}
-                                  onClick={closeMobileMenu}
-                                  className={cn(
-                                    "block w-full rounded-xl px-4 py-3 text-base font-medium transition-all duration-300",
-                                    "text-navy-700 hover:bg-navy-50",
-                                    "hover:text-navy-900"
-                                  )}
-                                >
-                                  {sub.nom}
-                                </Link>
-                              </li>
-                            ))
-                          )}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <div className="my-4 h-[1px] bg-border/50" />
+              <p className="mb-3 px-2 text-[10px] font-black uppercase tracking-[0.14em] text-azure-600">
+                {selectedCategory.nom}
+              </p>
+              <ul className="mb-6 grid gap-0.75">
+                {[
+                  { href: `/${categorySlug}`, label: "Accueil", icon: HomeIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
+                  { href: `/${categorySlug}/nouveautes`, label: "Nouveautés", icon: SparklesIcon, color: "text-azure-600 hover:bg-azure-50", iconBg: "bg-azure-50 group-hover:bg-azure-600 group-hover:text-white" },
+                  { href: `/${categorySlug}/promotions`, label: "Promotions", icon: TagIcon, color: "text-error hover:bg-error/5", iconBg: "bg-error/10 group-hover:bg-error group-hover:text-white" },
+                  { href: `/${categorySlug}/sous-categories`, label: "Rayons", icon: PackageIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
+                  { href: `/${categorySlug}/marques`, label: "Marques", icon: PackageIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
+                ].map(({ href, label, icon: Icon, color, iconBg }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={closeMobileMenu}
+                      className={cn(
+                        "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-[15px] font-medium transition-all duration-300",
+                        color
+                      )}
+                    >
+                      <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-current transition-all duration-300", iconBg)}>
+                        <Icon size={17} className="transition-transform duration-300 group-hover:scale-110" />
+                      </span>
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </>
           )}
 
           <div className="my-6 h-[1px] bg-border/50" />
 
-          {/* Marques Accordion */}
-          {marques.length > 0 && (
-            <>
-              <button
-                type="button"
-                onClick={() => setBrandsOpen(!brandsOpen)}
-                aria-expanded={brandsOpen}
+          {/* Catégories Accordion */}
+          <>
+            <button
+              type="button"
+              onClick={() => setOpenCatId(openCatId === -1 ? null : -1)}
+              aria-expanded={openCatId === -1}
+              className={cn(
+                "flex w-full items-center justify-between rounded-xl px-5 py-4 text-left text-base font-medium transition-all duration-300",
+                openCatId === -1
+                  ? "bg-azure-50/60 backdrop-blur-sm text-azure-700 hover:bg-azure-100"
+                  : "text-navy-800 hover:bg-navy-50 hover:text-navy-900"
+              )}
+            >
+              <span className="flex items-center gap-3">
+                <PackageIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
+                Explorer les sous-catégories
+              </span>
+              <ChevronDownIcon
+                size={18}
                 className={cn(
-                  "flex w-full items-center justify-between rounded-xl px-5 py-4 text-left text-base font-medium transition-all duration-300",
-                  brandsOpen
-                    ? "bg-azure-50/60 backdrop-blur-sm text-azure-700 hover:bg-azure-100"
-                    : "text-navy-800 hover:bg-navy-50 hover:text-navy-900"
+                  "shrink-0 transition-transform duration-400",
+                  openCatId === -1 ? "rotate-180 text-azure-600 transition-transform duration-400" : "text-slate-400 group-hover:text-slate-500"
                 )}
-              >
-                <span className="flex items-center gap-3">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                  </svg>
-                  Nos Marques
-                </span>
-                <ChevronDownIcon
-                  size={18}
-                  className={cn(
-                    "shrink-0 transition-transform duration-400",
-                    brandsOpen ? "rotate-180 text-azure-600 transition-transform duration-400" : "text-slate-400 group-hover:text-slate-500"
-                  )}
-                />
-              </button>
+              />
+            </button>
 
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)",
-                  brandsOpen ? "max-h-[650px] opacity-100" : "max-h-0 opacity-0"
-                )}
-              >
-                <div className="ml-4 mt-3 border-l-2 border-azure-100/50 pl-4">
-                  <div className="relative mb-4">
-                    <SearchIcon
-                      size={14}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400/80"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Rechercher une marque..."
-                      value={brandSearch}
-                      onChange={(e) => setBrandSearch(e.target.value)}
-                      className="w-full rounded-xl border border-border/50 bg-white/80 backdrop-blur-sm py-4 pl-10 pr-5 text-base font-medium outline-none transition-all duration-300 focus:border-azure-500 focus:ring-azure-500/20 focus:bg-white"
-                    />
-                  </div>
+            <div
+              className={cn(
+                "overflow-hidden transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)",
+                openCatId === -1 ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+              )}
+            >
+              <div className="ml-4 mt-3 border-l-2 border-azure-100/50 pl-4">
+                {activeCat ? (
+                  // --- Mode "sous-catégories de la catégorie sélectionnée" ---
+                  <>
+                    <Link
+                      href={`/${categorySlug}`}
+                      onClick={closeMobileMenu}
+                      className="mb-4 block w-full rounded-xl px-4 py-3 text-base font-medium text-azure-600 hover:bg-azure-50 hover:text-azure-700 transition-all duration-300"
+                    >
+                      ← Toute la catégorie {activeCat.nom}
+                    </Link>
 
-                  <ul className="grid max-h-[400px] gap-0.75 overflow-y-auto">
-                    {filteredMarques.length === 0 ? (
-                      <li className="py-4 text-center text-base font-medium text-slate-400">
-                        Aucune marque trouvée.
-                      </li>
+                    {activeSubs.length === 0 ? (
+                      <p className="px-3 py-2 text-sm text-slate-400">
+                        Aucune sous-catégorie disponible.
+                      </p>
                     ) : (
-                      filteredMarques.map((m) => (
-                        <li key={m.id}>
-                          <Link
-                            href={`/catalogue?marqueId=${m.id}`}
-                            onClick={closeMobileMenu}
-                            className={cn(
-                              "flex w-full items-center gap-4 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300",
-                              "text-navy-700 hover:bg-navy-50",
-                              "hover:text-navy-900"
-                            )}
-                          >
-                            {m.logo ? (
-                              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-white/90 backdrop-blur-sm border border-border/50">
-                                <Image
-                                  src={m.logo}
-                                  alt={m.nom}
-                                  fill
-                                  sizes="40px"
-                                  className="object-contain p-1"
-                                />
-                              </div>
-                            ) : (
-                              <div className="h-10 w-10 shrink-0 rounded-xl bg-slate-50/80 backdrop-blur-sm flex items-center justify-center text-base font-semibold text-slate-400/80">
-                                {m.nom.charAt(0).toUpperCase()}
-                              </div>
-                            )}
-                            <span className="truncate">{m.nom}</span>
-                          </Link>
-                        </li>
-                      ))
+                      <ul className="grid gap-0.75">
+                        {activeSubs.map((sub) => (
+                          <li key={sub.id}>
+                            <Link
+                              href={`/catalogue?sousCategorieId=${sub.id}`}
+                              onClick={closeMobileMenu}
+                              className="block w-full rounded-xl px-4 py-3 text-base font-medium text-navy-700 hover:bg-navy-50 hover:text-navy-900 transition-all duration-300"
+                            >
+                              {sub.nom}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                  </ul>
-                </div>
+                  </>
+                ) : (
+                  // No category selected: show a placeholder message
+                  <p className="px-3 py-2 text-sm text-slate-400">
+                    Veuillez sélectionner une catégorie pour voir ses sous-catégories.
+                  </p>
+                )}
               </div>
-            </>
+            </div>
+          </>
+
+          <div className="my-6 h-[1px] bg-border/50" />
+
+          {/* Marques Grid */}
+          {marques.length > 0 && (
+            <div>
+              <p className="mb-4 text-center text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
+                Marques
+              </p>
+
+              {/* Search */}
+              <div className="relative mb-4">
+                <SearchIcon
+                  size={14}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400/80"
+                />
+                <input
+                  type="text"
+                  placeholder="Rechercher une marque..."
+                  value={brandSearch}
+                  onChange={(e) => setBrandSearch(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 bg-white/80 backdrop-blur-sm py-2.5 pl-9 pr-4 text-[13px] font-medium outline-none transition-all duration-300 focus:border-azure-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)]"
+                />
+              </div>
+
+              {/* Grid */}
+              <div className="max-h-[420px] overflow-y-auto overscroll-contain pr-1">
+                {filteredMarques.length === 0 ? (
+                  <p className="py-6 text-center text-[13px] font-medium text-slate-400">
+                    Aucune marque trouvée.
+                  </p>
+                ) : (
+                  <ul className="grid grid-cols-4 gap-2">
+                    {filteredMarques.map((m) => (
+                      <li key={m.id}>
+                        <Link
+                          href={`/catalogue?marqueId=${m.id}`}
+                          onClick={closeMobileMenu}
+                          className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-200/70 bg-white p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-azure-200 hover:shadow-[0_4px_12px_rgba(14,165,233,0.1)] active:scale-[0.97]"
+                        >
+                          {m.logo ? (
+                            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                              <Image
+                                src={imageUrl(m.logo)}
+                                alt={m.nom}
+                                fill
+                                sizes="48px"
+                                unoptimized
+                                className="object-contain p-0.5"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[16px] font-bold text-slate-400">
+                              {m.nom.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <span className="w-full truncate text-center text-[10px] font-bold uppercase tracking-wide text-navy-700 group-hover:text-azure-600">
+                            {m.nom}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
           )}
 
           <div className="my-6 h-[1px] bg-border/50" />
@@ -478,4 +470,7 @@ export function MobileMenu({
       </aside>
     </div>
   );
+  console.log("DEBUG selectedCategory:", selectedCategory);
+  console.log("DEBUG categorySlug:", categorySlug);
+  console.log("DEBUG activeCat:", activeCat);
 }

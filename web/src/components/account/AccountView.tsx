@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
+import { useCategory } from "@/providers/CategoryProvider";
 import { useToast } from "@/providers/ToastProvider";
 import {
   ApiError,
@@ -343,8 +344,7 @@ type ProfileForm = {
   telephone: string;
   adresse: string;
   matriculeFiscale: string;
-  activite: string;
-  activiteAutre?: string;
+  activiteCategoryId: string;
 };
 
 function toForm(user: Utilisateur): ProfileForm {
@@ -354,8 +354,7 @@ function toForm(user: Utilisateur): ProfileForm {
     telephone: user.telephone ?? "",
     adresse: user.adresse ?? "",
     matriculeFiscale: user.matriculeFiscale ?? "",
-    activite: ACTIVITES_CLIENT.includes(user.activite ?? "") ? user.activite ?? "" : user.activite ? "Autre" : "",
-    activiteAutre: ACTIVITES_CLIENT.includes(user.activite ?? "") ? "" : user.activite ?? "",
+    activiteCategoryId: user.activiteCategoryId ? String(user.activiteCategoryId) : "",
   };
 }
 
@@ -369,6 +368,7 @@ function ProfilePanel({
   setUser: (u: Utilisateur) => void;
 }) {
   const toast = useToast();
+  const { categories, selectCategory } = useCategory();
   const [form, setForm] = useState<ProfileForm>(() => toForm(user));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -405,7 +405,7 @@ function ProfilePanel({
     form.telephone.trim() !== (user.telephone ?? "") ||
     form.adresse.trim() !== (user.adresse ?? "") ||
     form.matriculeFiscale.trim() !== (user.matriculeFiscale ?? "") ||
-    (form.activite === "Autre" ? form.activiteAutre?.trim() : form.activite.trim()) !== (user.activite ?? "");
+    form.activiteCategoryId !== (user.activiteCategoryId ? String(user.activiteCategoryId) : "");
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -419,11 +419,15 @@ function ProfilePanel({
         telephone: form.telephone.trim(),
         adresse: form.adresse.trim(),
         matriculeFiscale: form.matriculeFiscale.trim(),
-        activite: (form.activite === "Autre" ? form.activiteAutre ?? "" : form.activite).trim(),
+        activiteCategoryId: form.activiteCategoryId ? Number(form.activiteCategoryId) : undefined,
       });
       setUser(updated);
       setForm(toForm(updated));
-      toast.success("Profil mis à jour.");
+      if (updated.activiteCategoryId) {
+        const cat = categories.find((c) => c.id === updated.activiteCategoryId);
+        if (cat) selectCategory(cat);
+      }
+      toast.success("Profil mis à jour avec succès.");
     } catch (err) {
       setError(
         err instanceof ApiError
@@ -496,27 +500,20 @@ function ProfilePanel({
               className={fieldClass}
             />
           </Field>
-          <Field label="Activité" htmlFor="p-activite" optional>
+          <Field label="Activité (Catégorie principale)" htmlFor="p-activite">
             <select
               id="p-activite"
-              value={ACTIVITES_CLIENT.includes(form.activite) ? form.activite : form.activite ? "Autre" : ""}
-              onChange={set("activite")}
+              value={form.activiteCategoryId}
+              onChange={set("activiteCategoryId")}
               className={fieldClass}
             >
               <option value="">Sélectionner une activité</option>
-              {ACTIVITES_CLIENT.map((activite) => (
-                <option key={activite} value={activite}>{activite}</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.nom}
+                </option>
               ))}
             </select>
-            {form.activite === "Autre" && (
-              <input
-                type="text"
-                placeholder="Préciser l'activité"
-                value={form.activiteAutre}
-                onChange={set("activiteAutre")}
-                className={`${fieldClass} mt-2`}
-              />
-            )}
           </Field>
           <Field label="Matricule fiscal" htmlFor="p-mf" optional className="sm:col-span-2">
             <input

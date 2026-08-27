@@ -1,7 +1,8 @@
 import prisma from '../../config/prisma';
 
-export const getAll = () =>
+export const getAll = (query?: { categorieId?: number }) =>
   prisma.marque.findMany({
+    where: query?.categorieId ? { categorieId: query.categorieId } : undefined,
     include: { categorie: true, _count: { select: { produits: true } } },
     orderBy: { creeLe: 'desc' },
   });

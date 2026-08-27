@@ -53,16 +53,45 @@ export default async function HomePage() {
   return (
     <>
       <Hero videoHero={videoHero} />
-
       {banners.length > 0 && (
         <div className="bg-slate-50 pt-8 pb-4">
           <GlobalBannerCarousel banners={banners} />
         </div>
       )}
 
-      <FeatureStrip />
+      {/* <FeatureStrip /> */}
 
       {/* Categories section */}
+      
+
+      {/* New arrivals */}
+      <Suspense
+        fallback={
+          <Container className="py-14 lg:py-20">
+            <ProductGridSkeleton count={8} />
+          </Container>
+        }
+      >
+        <NewArrivals />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <PromoSection />
+      </Suspense>
+      {/* Brands */}
+      {brands.length > 0 && (
+        <section className="relative bg-slate-50 overflow-hidden border-t border-slate-200/60">
+          <div className="absolute inset-0 grid-pattern opacity-[0.12] pointer-events-none" />
+          <Container className="relative py-14 lg:py-20">
+            <SectionHeading
+              eyebrow="Confiance"
+              title="Nos marques partenaires"
+              description="Nous distribuons les références reconnues du secteur médical et dentaire."
+            />
+            <BrandStrip brands={brands} />
+          </Container>
+        </section>
+      )}
       {categories.length > 0 && (
         <section className="relative bg-navy-960 overflow-hidden">
           {/* Ambient atmosphere */}
@@ -83,36 +112,6 @@ export default async function HomePage() {
                 <CategoryCard key={category.id} category={category} index={i} />
               ))}
             </div>
-          </Container>
-        </section>
-      )}
-
-      {/* New arrivals */}
-      <Suspense
-        fallback={
-          <Container className="py-14 lg:py-20">
-            <ProductGridSkeleton count={8} />
-          </Container>
-        }
-      >
-        <NewArrivals />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <PromoSection />
-      </Suspense>
-
-      {/* Brands */}
-      {brands.length > 0 && (
-        <section className="relative bg-slate-50 overflow-hidden border-t border-slate-200/60">
-          <div className="absolute inset-0 grid-pattern opacity-[0.12] pointer-events-none" />
-          <Container className="relative py-14 lg:py-20">
-            <SectionHeading
-              eyebrow="Confiance"
-              title="Nos marques partenaires"
-              description="Nous distribuons les références reconnues du secteur médical et dentaire."
-            />
-            <BrandStrip brands={brands} />
           </Container>
         </section>
       )}

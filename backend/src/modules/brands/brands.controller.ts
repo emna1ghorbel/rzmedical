@@ -3,7 +3,8 @@ import * as service from './brands.service';
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const data = await service.getAll();
+    const categorieId = req.query.categorieId ? Number(req.query.categorieId) : undefined;
+    const data = await service.getAll(categorieId ? { categorieId } : undefined);
     res.json(data);
   } catch (err: any) {
     res.status(500).json({ error: err.message });

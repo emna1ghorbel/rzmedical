@@ -62,3 +62,22 @@ export const AuteurSupport = {
 } as const
 
 export type AuteurSupport = (typeof AuteurSupport)[keyof typeof AuteurSupport]
+
+
+export const TypeAlerte = {
+  INFO: 'INFO',
+  PROMO: 'PROMO',
+  WARNING: 'WARNING',
+  SUCCESS: 'SUCCESS'
+} as const
+
+export type TypeAlerte = (typeof TypeAlerte)[keyof typeof TypeAlerte]
+
+
+export const AffichageAlerte = {
+  POPUP: 'POPUP',
+  BANNER: 'BANNER',
+  TOAST: 'TOAST'
+} as const
+
+export type AffichageAlerte = (typeof AffichageAlerte)[keyof typeof AffichageAlerte]

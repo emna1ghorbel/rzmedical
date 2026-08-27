@@ -218,6 +218,8 @@ export type CategorieWhereInput = {
   misAJourLe?: Prisma.DateTimeFilter<"Categorie"> | Date | string
   sousCategories?: Prisma.SousCategorieListRelationFilter
   marques?: Prisma.MarqueListRelationFilter
+  utilisateurs?: Prisma.UtilisateurListRelationFilter
+  bannieres?: Prisma.BanniereSiteListRelationFilter
 }
 
 export type CategorieOrderByWithRelationInput = {
@@ -228,6 +230,8 @@ export type CategorieOrderByWithRelationInput = {
   misAJourLe?: Prisma.SortOrder
   sousCategories?: Prisma.SousCategorieOrderByRelationAggregateInput
   marques?: Prisma.MarqueOrderByRelationAggregateInput
+  utilisateurs?: Prisma.UtilisateurOrderByRelationAggregateInput
+  bannieres?: Prisma.BanniereSiteOrderByRelationAggregateInput
 }
 
 export type CategorieWhereUniqueInput = Prisma.AtLeast<{
@@ -241,6 +245,8 @@ export type CategorieWhereUniqueInput = Prisma.AtLeast<{
   misAJourLe?: Prisma.DateTimeFilter<"Categorie"> | Date | string
   sousCategories?: Prisma.SousCategorieListRelationFilter
   marques?: Prisma.MarqueListRelationFilter
+  utilisateurs?: Prisma.UtilisateurListRelationFilter
+  bannieres?: Prisma.BanniereSiteListRelationFilter
 }, "id" | "nom">
 
 export type CategorieOrderByWithAggregationInput = {
@@ -274,6 +280,8 @@ export type CategorieCreateInput = {
   misAJourLe?: Date | string
   sousCategories?: Prisma.SousCategorieCreateNestedManyWithoutCategorieInput
   marques?: Prisma.MarqueCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieUncheckedCreateInput = {
@@ -284,6 +292,8 @@ export type CategorieUncheckedCreateInput = {
   misAJourLe?: Date | string
   sousCategories?: Prisma.SousCategorieUncheckedCreateNestedManyWithoutCategorieInput
   marques?: Prisma.MarqueUncheckedCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurUncheckedCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteUncheckedCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieUpdateInput = {
@@ -293,6 +303,8 @@ export type CategorieUpdateInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategories?: Prisma.SousCategorieUpdateManyWithoutCategorieNestedInput
   marques?: Prisma.MarqueUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUpdateManyWithoutCategorieNestedInput
 }
 
 export type CategorieUncheckedUpdateInput = {
@@ -303,6 +315,8 @@ export type CategorieUncheckedUpdateInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategories?: Prisma.SousCategorieUncheckedUpdateManyWithoutCategorieNestedInput
   marques?: Prisma.MarqueUncheckedUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUncheckedUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUncheckedUpdateManyWithoutCategorieNestedInput
 }
 
 export type CategorieCreateManyInput = {
@@ -326,6 +340,11 @@ export type CategorieUncheckedUpdateManyInput = {
   visible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CategorieNullableScalarRelationFilter = {
+  is?: Prisma.CategorieWhereInput | null
+  isNot?: Prisma.CategorieWhereInput | null
 }
 
 export type CategorieCountOrderByAggregateInput = {
@@ -365,6 +384,22 @@ export type CategorieScalarRelationFilter = {
   isNot?: Prisma.CategorieWhereInput
 }
 
+export type CategorieCreateNestedOneWithoutUtilisateursInput = {
+  create?: Prisma.XOR<Prisma.CategorieCreateWithoutUtilisateursInput, Prisma.CategorieUncheckedCreateWithoutUtilisateursInput>
+  connectOrCreate?: Prisma.CategorieCreateOrConnectWithoutUtilisateursInput
+  connect?: Prisma.CategorieWhereUniqueInput
+}
+
+export type CategorieUpdateOneWithoutUtilisateursNestedInput = {
+  create?: Prisma.XOR<Prisma.CategorieCreateWithoutUtilisateursInput, Prisma.CategorieUncheckedCreateWithoutUtilisateursInput>
+  connectOrCreate?: Prisma.CategorieCreateOrConnectWithoutUtilisateursInput
+  upsert?: Prisma.CategorieUpsertWithoutUtilisateursInput
+  disconnect?: Prisma.CategorieWhereInput | boolean
+  delete?: Prisma.CategorieWhereInput | boolean
+  connect?: Prisma.CategorieWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategorieUpdateToOneWithWhereWithoutUtilisateursInput, Prisma.CategorieUpdateWithoutUtilisateursInput>, Prisma.CategorieUncheckedUpdateWithoutUtilisateursInput>
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
@@ -397,12 +432,88 @@ export type CategorieUpdateOneRequiredWithoutMarquesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategorieUpdateToOneWithWhereWithoutMarquesInput, Prisma.CategorieUpdateWithoutMarquesInput>, Prisma.CategorieUncheckedUpdateWithoutMarquesInput>
 }
 
+export type CategorieCreateNestedOneWithoutBannieresInput = {
+  create?: Prisma.XOR<Prisma.CategorieCreateWithoutBannieresInput, Prisma.CategorieUncheckedCreateWithoutBannieresInput>
+  connectOrCreate?: Prisma.CategorieCreateOrConnectWithoutBannieresInput
+  connect?: Prisma.CategorieWhereUniqueInput
+}
+
+export type CategorieUpdateOneWithoutBannieresNestedInput = {
+  create?: Prisma.XOR<Prisma.CategorieCreateWithoutBannieresInput, Prisma.CategorieUncheckedCreateWithoutBannieresInput>
+  connectOrCreate?: Prisma.CategorieCreateOrConnectWithoutBannieresInput
+  upsert?: Prisma.CategorieUpsertWithoutBannieresInput
+  disconnect?: Prisma.CategorieWhereInput | boolean
+  delete?: Prisma.CategorieWhereInput | boolean
+  connect?: Prisma.CategorieWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategorieUpdateToOneWithWhereWithoutBannieresInput, Prisma.CategorieUpdateWithoutBannieresInput>, Prisma.CategorieUncheckedUpdateWithoutBannieresInput>
+}
+
+export type CategorieCreateWithoutUtilisateursInput = {
+  nom: string
+  visible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategories?: Prisma.SousCategorieCreateNestedManyWithoutCategorieInput
+  marques?: Prisma.MarqueCreateNestedManyWithoutCategorieInput
+  bannieres?: Prisma.BanniereSiteCreateNestedManyWithoutCategorieInput
+}
+
+export type CategorieUncheckedCreateWithoutUtilisateursInput = {
+  id?: number
+  nom: string
+  visible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategories?: Prisma.SousCategorieUncheckedCreateNestedManyWithoutCategorieInput
+  marques?: Prisma.MarqueUncheckedCreateNestedManyWithoutCategorieInput
+  bannieres?: Prisma.BanniereSiteUncheckedCreateNestedManyWithoutCategorieInput
+}
+
+export type CategorieCreateOrConnectWithoutUtilisateursInput = {
+  where: Prisma.CategorieWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategorieCreateWithoutUtilisateursInput, Prisma.CategorieUncheckedCreateWithoutUtilisateursInput>
+}
+
+export type CategorieUpsertWithoutUtilisateursInput = {
+  update: Prisma.XOR<Prisma.CategorieUpdateWithoutUtilisateursInput, Prisma.CategorieUncheckedUpdateWithoutUtilisateursInput>
+  create: Prisma.XOR<Prisma.CategorieCreateWithoutUtilisateursInput, Prisma.CategorieUncheckedCreateWithoutUtilisateursInput>
+  where?: Prisma.CategorieWhereInput
+}
+
+export type CategorieUpdateToOneWithWhereWithoutUtilisateursInput = {
+  where?: Prisma.CategorieWhereInput
+  data: Prisma.XOR<Prisma.CategorieUpdateWithoutUtilisateursInput, Prisma.CategorieUncheckedUpdateWithoutUtilisateursInput>
+}
+
+export type CategorieUpdateWithoutUtilisateursInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  visible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategories?: Prisma.SousCategorieUpdateManyWithoutCategorieNestedInput
+  marques?: Prisma.MarqueUpdateManyWithoutCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUpdateManyWithoutCategorieNestedInput
+}
+
+export type CategorieUncheckedUpdateWithoutUtilisateursInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  visible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategories?: Prisma.SousCategorieUncheckedUpdateManyWithoutCategorieNestedInput
+  marques?: Prisma.MarqueUncheckedUpdateManyWithoutCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUncheckedUpdateManyWithoutCategorieNestedInput
+}
+
 export type CategorieCreateWithoutSousCategoriesInput = {
   nom: string
   visible?: boolean
   creeLe?: Date | string
   misAJourLe?: Date | string
   marques?: Prisma.MarqueCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieUncheckedCreateWithoutSousCategoriesInput = {
@@ -412,6 +523,8 @@ export type CategorieUncheckedCreateWithoutSousCategoriesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   marques?: Prisma.MarqueUncheckedCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurUncheckedCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteUncheckedCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieCreateOrConnectWithoutSousCategoriesInput = {
@@ -436,6 +549,8 @@ export type CategorieUpdateWithoutSousCategoriesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   marques?: Prisma.MarqueUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUpdateManyWithoutCategorieNestedInput
 }
 
 export type CategorieUncheckedUpdateWithoutSousCategoriesInput = {
@@ -445,6 +560,8 @@ export type CategorieUncheckedUpdateWithoutSousCategoriesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   marques?: Prisma.MarqueUncheckedUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUncheckedUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUncheckedUpdateManyWithoutCategorieNestedInput
 }
 
 export type CategorieCreateWithoutMarquesInput = {
@@ -453,6 +570,8 @@ export type CategorieCreateWithoutMarquesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   sousCategories?: Prisma.SousCategorieCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieUncheckedCreateWithoutMarquesInput = {
@@ -462,6 +581,8 @@ export type CategorieUncheckedCreateWithoutMarquesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   sousCategories?: Prisma.SousCategorieUncheckedCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurUncheckedCreateNestedManyWithoutActiviteCategorieInput
+  bannieres?: Prisma.BanniereSiteUncheckedCreateNestedManyWithoutCategorieInput
 }
 
 export type CategorieCreateOrConnectWithoutMarquesInput = {
@@ -486,6 +607,8 @@ export type CategorieUpdateWithoutMarquesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategories?: Prisma.SousCategorieUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUpdateManyWithoutCategorieNestedInput
 }
 
 export type CategorieUncheckedUpdateWithoutMarquesInput = {
@@ -495,6 +618,66 @@ export type CategorieUncheckedUpdateWithoutMarquesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategories?: Prisma.SousCategorieUncheckedUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUncheckedUpdateManyWithoutActiviteCategorieNestedInput
+  bannieres?: Prisma.BanniereSiteUncheckedUpdateManyWithoutCategorieNestedInput
+}
+
+export type CategorieCreateWithoutBannieresInput = {
+  nom: string
+  visible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategories?: Prisma.SousCategorieCreateNestedManyWithoutCategorieInput
+  marques?: Prisma.MarqueCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurCreateNestedManyWithoutActiviteCategorieInput
+}
+
+export type CategorieUncheckedCreateWithoutBannieresInput = {
+  id?: number
+  nom: string
+  visible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategories?: Prisma.SousCategorieUncheckedCreateNestedManyWithoutCategorieInput
+  marques?: Prisma.MarqueUncheckedCreateNestedManyWithoutCategorieInput
+  utilisateurs?: Prisma.UtilisateurUncheckedCreateNestedManyWithoutActiviteCategorieInput
+}
+
+export type CategorieCreateOrConnectWithoutBannieresInput = {
+  where: Prisma.CategorieWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategorieCreateWithoutBannieresInput, Prisma.CategorieUncheckedCreateWithoutBannieresInput>
+}
+
+export type CategorieUpsertWithoutBannieresInput = {
+  update: Prisma.XOR<Prisma.CategorieUpdateWithoutBannieresInput, Prisma.CategorieUncheckedUpdateWithoutBannieresInput>
+  create: Prisma.XOR<Prisma.CategorieCreateWithoutBannieresInput, Prisma.CategorieUncheckedCreateWithoutBannieresInput>
+  where?: Prisma.CategorieWhereInput
+}
+
+export type CategorieUpdateToOneWithWhereWithoutBannieresInput = {
+  where?: Prisma.CategorieWhereInput
+  data: Prisma.XOR<Prisma.CategorieUpdateWithoutBannieresInput, Prisma.CategorieUncheckedUpdateWithoutBannieresInput>
+}
+
+export type CategorieUpdateWithoutBannieresInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  visible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategories?: Prisma.SousCategorieUpdateManyWithoutCategorieNestedInput
+  marques?: Prisma.MarqueUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUpdateManyWithoutActiviteCategorieNestedInput
+}
+
+export type CategorieUncheckedUpdateWithoutBannieresInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  visible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategories?: Prisma.SousCategorieUncheckedUpdateManyWithoutCategorieNestedInput
+  marques?: Prisma.MarqueUncheckedUpdateManyWithoutCategorieNestedInput
+  utilisateurs?: Prisma.UtilisateurUncheckedUpdateManyWithoutActiviteCategorieNestedInput
 }
 
 
@@ -505,11 +688,15 @@ export type CategorieUncheckedUpdateWithoutMarquesInput = {
 export type CategorieCountOutputType = {
   sousCategories: number
   marques: number
+  utilisateurs: number
+  bannieres: number
 }
 
 export type CategorieCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sousCategories?: boolean | CategorieCountOutputTypeCountSousCategoriesArgs
   marques?: boolean | CategorieCountOutputTypeCountMarquesArgs
+  utilisateurs?: boolean | CategorieCountOutputTypeCountUtilisateursArgs
+  bannieres?: boolean | CategorieCountOutputTypeCountBannieresArgs
 }
 
 /**
@@ -536,6 +723,20 @@ export type CategorieCountOutputTypeCountMarquesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.MarqueWhereInput
 }
 
+/**
+ * CategorieCountOutputType without action
+ */
+export type CategorieCountOutputTypeCountUtilisateursArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
+ * CategorieCountOutputType without action
+ */
+export type CategorieCountOutputTypeCountBannieresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BanniereSiteWhereInput
+}
+
 
 export type CategorieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -545,6 +746,8 @@ export type CategorieSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   misAJourLe?: boolean
   sousCategories?: boolean | Prisma.Categorie$sousCategoriesArgs<ExtArgs>
   marques?: boolean | Prisma.Categorie$marquesArgs<ExtArgs>
+  utilisateurs?: boolean | Prisma.Categorie$utilisateursArgs<ExtArgs>
+  bannieres?: boolean | Prisma.Categorie$bannieresArgs<ExtArgs>
   _count?: boolean | Prisma.CategorieCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categorie"]>
 
@@ -576,6 +779,8 @@ export type CategorieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CategorieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sousCategories?: boolean | Prisma.Categorie$sousCategoriesArgs<ExtArgs>
   marques?: boolean | Prisma.Categorie$marquesArgs<ExtArgs>
+  utilisateurs?: boolean | Prisma.Categorie$utilisateursArgs<ExtArgs>
+  bannieres?: boolean | Prisma.Categorie$bannieresArgs<ExtArgs>
   _count?: boolean | Prisma.CategorieCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategorieIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -586,6 +791,8 @@ export type $CategoriePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     sousCategories: Prisma.$SousCategoriePayload<ExtArgs>[]
     marques: Prisma.$MarquePayload<ExtArgs>[]
+    utilisateurs: Prisma.$UtilisateurPayload<ExtArgs>[]
+    bannieres: Prisma.$BanniereSitePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -989,6 +1196,8 @@ export interface Prisma__CategorieClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sousCategories<T extends Prisma.Categorie$sousCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Categorie$sousCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SousCategoriePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   marques<T extends Prisma.Categorie$marquesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Categorie$marquesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MarquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  utilisateurs<T extends Prisma.Categorie$utilisateursArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Categorie$utilisateursArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bannieres<T extends Prisma.Categorie$bannieresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Categorie$bannieresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BanniereSitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1461,6 +1670,54 @@ export type Categorie$marquesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.MarqueScalarFieldEnum | Prisma.MarqueScalarFieldEnum[]
+}
+
+/**
+ * Categorie.utilisateurs
+ */
+export type Categorie$utilisateursArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+  orderBy?: Prisma.UtilisateurOrderByWithRelationInput | Prisma.UtilisateurOrderByWithRelationInput[]
+  cursor?: Prisma.UtilisateurWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UtilisateurScalarFieldEnum | Prisma.UtilisateurScalarFieldEnum[]
+}
+
+/**
+ * Categorie.bannieres
+ */
+export type Categorie$bannieresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BanniereSite
+   */
+  select?: Prisma.BanniereSiteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BanniereSite
+   */
+  omit?: Prisma.BanniereSiteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BanniereSiteInclude<ExtArgs> | null
+  where?: Prisma.BanniereSiteWhereInput
+  orderBy?: Prisma.BanniereSiteOrderByWithRelationInput | Prisma.BanniereSiteOrderByWithRelationInput[]
+  cursor?: Prisma.BanniereSiteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BanniereSiteScalarFieldEnum | Prisma.BanniereSiteScalarFieldEnum[]
 }
 
 /**

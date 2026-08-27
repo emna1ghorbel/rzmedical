@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { DiscountBar } from "./DiscountBar";
 import { Header } from "./Header";
 import type { CategorieListItem, MarqueListItem, AnnonceSite } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { toSlug } from "@/lib/slug";
 
 export function SiteHeader({
   annonces = [],
@@ -21,6 +23,12 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const segments = pathname.split("/").filter(Boolean);
+
+  // Le mode vidéo s'affiche sur la page d'accueil (/) et sur l'accueil d'une catégorie (/[category])
+  const isCategoryHome = segments.length === 1 && categories?.some(c => toSlug(c.nom) === segments[0]);
+  const isHeroPage = isHome || isCategoryHome;
+
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,8 +38,7 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Le mode vidéo n'est actif que sur la page d'accueil avec une vidéo
-  const showVideoHeader = isHome && hasHeroVideo;
+  const showVideoHeader = isHeroPage && hasHeroVideo;
 
   // Si on est dans le mode vidéo au tout début (non scrollé)
   const isInitialVideoState = showVideoHeader && !scrolled;
@@ -60,7 +67,7 @@ export function SiteHeader({
         <DiscountBar />
       </div>
 
-      {/* Container du header principal */}
+      {/* Container du header principal - Single Header component */}
       <div className="w-full">
         <Header
           categories={categories}

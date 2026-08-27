@@ -183,3 +183,71 @@ model Facture {
   @@index([origine])
   @@map("factures")
 }
+
+enum TypeAlerte {
+  INFO
+  PROMO
+  WARNING
+  SUCCESS
+}
+
+enum AffichageAlerte {
+  POPUP
+  BANNER
+  TOAST
+}
+
+model AlerteSite {
+  id          Int             @id @default(autoincrement())
+  type        TypeAlerte      @default(INFO)
+  affichage   AffichageAlerte @default(POPUP)
+  titre       String
+  message     String
+  lien        String?
+  texteBouton String?
+  actif       Boolean         @default(true)
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  creeLe      DateTime        @default(now())
+  misAJourLe  DateTime        @updatedAt
+  @@map("alertes_site")
+}
+
+model AnnonceSite {
+  id            Int      @id @default(autoincrement())
+  texte         String
+  actif         Boolean  @default(true)
+  ordre         Int      @default(0)
+  dureeSecondes Int      @default(5)
+  creeLe        DateTime @default(now())
+  misAJourLe    DateTime @updatedAt
+  @@map("annonces_site")
+}
+
+model BanniereSite {
+  id          Int       @id @default(autoincrement())
+  image       String
+  titre       String?
+  description String?
+  lien        String?
+  hauteur     Int       @default(420)
+  actif       Boolean   @default(true)
+  ordre       Int       @default(0)
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  creeLe      DateTime  @default(now())
+  misAJourLe  DateTime  @updatedAt
+  @@map("bannieres_site")
+}
+
+model VideoHero {
+  id         Int      @id @default(autoincrement())
+  videoUrl   String
+  posterUrl  String?
+  titre      String?
+  actif      Boolean  @default(false)
+  creeLe     DateTime @default(now())
+  misAJourLe DateTime @updatedAt
+  @@map("videos_hero")
+}
+
