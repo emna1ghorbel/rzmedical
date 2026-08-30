@@ -82,6 +82,24 @@ export const create = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// ─── POST /api/invoices/admin/manual ──────────────────────────────────────────
+export const createManual = async (req: AuthRequest, res: Response) => {
+  console.log('[DEBUG] POST /api/invoices/admin/manual received');
+  console.log('[DEBUG] body:', JSON.stringify(req.body, null, 2));
+  try {
+    const invoice = await service.createManualInvoice(req.body);
+    console.log('[DEBUG] Manual invoice created successfully, id:', (invoice as any).id);
+    res.status(201).json(invoice);
+  } catch (err: unknown) {
+    if (err instanceof InvoiceError) {
+      console.error('[DEBUG] InvoiceError:', err.message, 'status:', err.statusCode);
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+    console.error('POST /api/invoices/admin/manual error:', err);
+    res.status(500).json({ error: 'Erreur lors de la création de la facture manuelle' });
+  }
+};
+
 // ─── PATCH /api/invoices/admin/:id/pdf ────────────────────────────────────────
 export const updatePdf = async (req: AuthRequest, res: Response) => {
   try {

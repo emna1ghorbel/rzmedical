@@ -63,7 +63,7 @@ export function Header({
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-azure-500/30 to-transparent pointer-events-none" />
       )}
 
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-[76px] lg:gap-6 lg:px-8 relative">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 lg:h-[76px] lg:gap-6 lg:px-8 relative">
 
         {/* 1. Left Group: Hamburger + Logo + Category Selector */}
         <div className="flex items-center gap-3 shrink-0">
@@ -75,7 +75,7 @@ export function Header({
             aria-expanded={mobileMenuOpen}
             aria-controls="sidebar-nav"
             className={cn(
-              "group relative z-[9999] flex h-11 w-11 items-center justify-center rounded-2xl transition-all duration-300 border",
+              "group relative z-[9999] flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-300 border sm:h-11 sm:w-11",
               isGlass
                 ? "bg-white/10 text-white border-white/15 hover:bg-white/20 hover:border-white/30 shadow-inner"
                 : "bg-slate-100/80 text-navy-900 border-slate-200/70 hover:bg-slate-200/80 hover:border-slate-300 hover:shadow-sm"
@@ -94,12 +94,12 @@ export function Header({
               isGlass && "drop-shadow-[0_2px_12px_rgba(14,165,233,0.4)]"
             )}
           >
-            <Logo tone={isGlass || (scrolled && isTransparent) ? "light" : "dark"} className="h-9 w-auto lg:h-10" />
+            <Logo tone={isGlass || (scrolled && isTransparent) ? "light" : "dark"} className="h-8 w-auto sm:h-9 lg:h-10" />
           </Link>
 
           {/* Category Dropdown Context Pill (Visible on all devices) */}
           {selectedCategory && (
-            <div className="flex items-center shrink-0">
+            <div className="hidden items-center shrink-0 sm:flex">
               <CategoryDropdown isGlass={isGlass || (scrolled && isTransparent)} />
             </div>
           )}
@@ -144,7 +144,7 @@ export function Header({
         </div>
 
         {/* 3. Right Group: Global Navigation + Account & Cart Actions */}
-        <div className="flex shrink-0 items-center gap-2 lg:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:gap-3">
 
           {/* Navigation links (Desktop) */}
           <nav aria-label="Navigation principale" className="hidden xl:flex items-center gap-1">
@@ -177,7 +177,7 @@ export function Header({
             onClick={openSearch}
             aria-label="Rechercher"
             className={cn(
-              "md:hidden flex h-11 w-11 items-center justify-center rounded-2xl transition-all duration-300 border",
+              "md:hidden flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-300 border sm:h-11 sm:w-11",
               isGlass || (scrolled && isTransparent)
                 ? "text-white/90 bg-white/10 border-white/15 hover:bg-white/20 hover:text-white"
                 : "text-navy-800 bg-slate-100/80 border-slate-200 hover:bg-slate-200 hover:shadow-sm"
@@ -191,7 +191,7 @@ export function Header({
             href={isAuthenticated ? "/compte" : "/connexion"}
             aria-label={isAuthenticated ? "Mon compte" : "Se connecter"}
             className={cn(
-              "group flex h-11 items-center gap-2.5 rounded-2xl px-3.5 sm:px-4 text-[13.5px] font-bold transition-all duration-300 border",
+              "group flex h-10 items-center gap-2.5 rounded-2xl px-2.5 sm:px-3.5 sm:h-11 text-[13.5px] font-bold transition-all duration-300 border",
               isGlass || (scrolled && isTransparent)
                 ? "border-white/15 bg-white/[0.08] text-white hover:bg-white/[0.16] hover:border-white/30 shadow-inner"
                 : "border-slate-200/90 bg-white text-navy-800 hover:border-azure-300 hover:text-azure-700 hover:bg-azure-50/40 shadow-sm hover:shadow-md hover:-translate-y-[1px]"
@@ -220,7 +220,7 @@ export function Header({
             onClick={openCart}
             aria-label={`Panier (${count} article${count > 1 ? "s" : ""})`}
             className={cn(
-              "group flex h-11 items-center gap-2.5 rounded-2xl px-3.5 sm:px-4 text-[13.5px] font-bold transition-all duration-300 border",
+              "group flex h-10 items-center gap-2.5 rounded-2xl px-2.5 sm:px-3.5 sm:h-11 text-[13.5px] font-bold transition-all duration-300 border",
               isGlass || (scrolled && isTransparent)
                 ? "border-azure-500 bg-azure-600 text-white hover:bg-azure-500 hover:border-azure-400 shadow-sm"
                 : "border-azure-600 bg-azure-600 text-white hover:bg-azure-700 hover:border-azure-700 shadow-sm hover:shadow-md"

@@ -2,9 +2,55 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useCallback } from "react";
 
+// ── Global 401 interceptor ────────────────────────────────────────────────────
+// Any API response with status 401 (token expired/invalid) triggers a forced
+// logout + redirect to /signin, regardless of which page made the request.
+let interceptorInstalled = false;
+let redirected = false;
+
+function installAuthInterceptor() {
+  if (interceptorInstalled || typeof window === "undefined") return;
+  interceptorInstalled = true;
+
+  const originalFetch = window.fetch.bind(window);
+
+  window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const response = await originalFetch(input, init);
+
+    const url =
+      typeof input === "string"
+        ? input
+        : input instanceof URL
+          ? input.href
+          : input.url;
+
+    const isApi = typeof url === "string" && url.includes("/api/");
+    const onSignin = window.location.pathname.startsWith("/signin");
+
+    if (response.status === 401 && isApi && !onSignin && !redirected) {
+      const token = localStorage.getItem("rzm_token");
+      // Only act when a token existed (i.e. it just expired). Login/register
+      // 401s happen without a token and must be ignored.
+      if (token) {
+        redirected = true;
+        localStorage.removeItem("rzm_token");
+        localStorage.removeItem("rzm_user");
+        const current = window.location.pathname + window.location.search;
+        window.location.href = `/signin?session=expired&redirect=${encodeURIComponent(current)}`;
+      }
+    }
+
+    return response;
+  };
+}
+
 export function useAuth() {
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    installAuthInterceptor();
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("rzm_token");

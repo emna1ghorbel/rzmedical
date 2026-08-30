@@ -42,7 +42,7 @@ function signToken(user: { id: number; email: string }) {
   return jwt.sign(
     { id: user.id, email: user.email, type: 'CLIENT' },
     JWT_SECRET,
-    { expiresIn: (process.env.JWT_EXPIRES_IN || '8h') as string }
+    { expiresIn: (process.env.JWT_EXPIRES_IN || '8h') as string } as any
   );
 }
 

@@ -11,6 +11,7 @@ import type { MarqueListItem } from "@/lib/types";
 import { SiteAlert } from "@/components/site/SiteAlert";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { CategoryProvider } from "@/providers/CategoryProvider";
+import { HeroVideoProvider } from "@/providers/HeroVideoProvider";
 import { CategoryOnboardingModal } from "@/components/category/CategoryOnboardingModal";
 
 const EMPTY_CONTENT: SiteContentPublic = { annonces: [], bannieres: [], videoHero: null, alertes: [] };
@@ -39,6 +40,7 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
 
   return (
     <CategoryProvider categories={categories}>
+      <HeroVideoProvider>
       <a
         href="#contenu"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
@@ -48,7 +50,7 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
 
       {/* ── SiteHeader ───────────────────────────────────────────────
           Handles both AnnouncementBar and Main Header states.       */}
-      <SiteHeader annonces={content.annonces} categories={categories} marques={marques} hasHeroVideo={!!content.videoHero} />
+      <SiteHeader annonces={content.annonces} categories={categories} marques={marques} hasGlobalVideoHero={!!content.videoHero} />
 
       {/* ── StorefrontShell ───────────────────────────────────────────
           Flex-row container: [Sidebar | Main content].
@@ -76,6 +78,7 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
 
       {/* ── Chatbot IA ────────────────────────────────────────────────── */}
       <ChatWidget />
+      </HeroVideoProvider>
     </CategoryProvider>
   );
 }

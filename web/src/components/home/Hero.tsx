@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/icons";
 import { imageUrl } from "@/lib/api";
 import type { VideoHero } from "@/lib/types";
+import { useSetHeroVideo } from "@/providers/HeroVideoProvider";
 
 const TRUST = [
   "Matériel professionnel certifié & conforme aux normes",
@@ -33,9 +34,19 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
 
   const showVideo = !!(videoHero && videoHero.actif && !videoFailed);
 
+  // Signal to SiteHeader that this page has an active video hero
+  useSetHeroVideo(showVideo);
+
   if (showVideo) {
     return (
-      <section className="relative overflow-hidden min-h-[90vh] lg:min-h-screen flex items-center pt-8 lg:pt-10">
+      <section
+        className="relative overflow-hidden min-h-screen flex items-center pt-16 lg:pt-[76px]"
+        style={{
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+        }}
+      >
         <video
           ref={videoRef}
           autoPlay
@@ -52,7 +63,7 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
 
         <div className="absolute inset-0 bg-gradient-to-b from-navy-960/70 via-navy-950/50 to-navy-960/80 z-10 pointer-events-none" />
 
-        <Container className="relative z-20 py-12">
+        <Container className="relative z-20 pt-16 mb-16 lg:mb-24">
           <div className="max-w-3xl">
             <HeroContent isTransparent />
           </div>

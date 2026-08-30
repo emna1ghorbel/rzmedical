@@ -90,7 +90,7 @@ export function StorefrontShell({
           {/* Ambient Glows inside the sidebar */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-azure-200/20 rounded-full blur-[80px] pointer-events-none -z-10" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-200/20 rounded-full blur-[80px] pointer-events-none -z-10" />
-          
+
           <div className="absolute inset-0 grid-pattern opacity-[0.05] pointer-events-none -z-10" />
 
           {/* Sidebar logo row */}
@@ -344,7 +344,7 @@ export function StorefrontShell({
       </div>
 
       {/* ── Main content ────────────────────────────────────────── */}
-      <div 
+      <div
         className="flex min-w-0 flex-1 flex-col"
         style={{
           marginLeft: mobileMenuOpen ? SIDEBAR_W : 0,
@@ -352,7 +352,7 @@ export function StorefrontShell({
         }}
       >
         {/* Shadow overlay over main content when menu is open */}
-        <div 
+        <div
           className={cn(
             "fixed inset-0 z-20 bg-slate-900/10 backdrop-blur-[1px] transition-opacity duration-500 pointer-events-none lg:hidden",
             mobileMenuOpen ? "opacity-100" : "opacity-0"

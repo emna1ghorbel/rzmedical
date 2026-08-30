@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,28 +7,28 @@ import { DiscountBar } from "./DiscountBar";
 import { Header } from "./Header";
 import type { CategorieListItem, MarqueListItem, AnnonceSite } from "@/lib/types";
 import { cn } from "@/lib/cn";
-import { toSlug } from "@/lib/slug";
+import { useHasHeroVideo } from "@/providers/HeroVideoProvider";
 
 export function SiteHeader({
   annonces = [],
   categories = [],
   marques = [],
-  hasHeroVideo = false,
+  hasGlobalVideoHero = false,
 }: {
   annonces?: AnnonceSite[];
   categories?: CategorieListItem[];
   marques?: MarqueListItem[];
-  hasHeroVideo?: boolean;
+  hasGlobalVideoHero?: boolean;
 }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const segments = pathname.split("/").filter(Boolean);
-
-  // Le mode vidéo s'affiche sur la page d'accueil (/) et sur l'accueil d'une catégorie (/[category])
-  const isCategoryHome = segments.length === 1 && categories?.some(c => toSlug(c.nom) === segments[0]);
-  const isHeroPage = isHome || isCategoryHome;
-
   const [scrolled, setScrolled] = useState(false);
+
+  // Combine context (set by Hero components on client) with SSR knowledge
+  // If we are on the home page and the global setting says there's a video,
+  // we can assume true during SSR, preventing the banner from flashing.
+  const contextHasVideo = useHasHeroVideo();
+  const hasHeroVideo = contextHasVideo || (isHome && hasGlobalVideoHero);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -38,21 +37,19 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showVideoHeader = isHeroPage && hasHeroVideo;
-
-  // Si on est dans le mode vidéo au tout début (non scrollé)
-  const isInitialVideoState = showVideoHeader && !scrolled;
+  // When a video hero is active and the user hasn't scrolled yet,
+  // the header floats over the video in transparent/glass mode.
+  const isInitialVideoState = hasHeroVideo && !scrolled;
 
   return (
     <div
       className={cn(
         "w-full z-50 flex flex-col",
-        // Si c'est la page d'accueil avec vidéo, le header flotte au-dessus du contenu
-        // Sinon, il est ancré et repousse le contenu
-        showVideoHeader ? "fixed top-0 left-0 right-0" : "sticky top-0"
+        // Float over the video; otherwise anchor above content
+        hasHeroVideo ? "fixed top-0 left-0 right-0" : "sticky top-0"
       )}
     >
-      {/* Container de la barre d'annonce */}
+      {/* Announcement bar — hidden while floating over video */}
       <div
         className={cn(
           "w-full transition-all duration-500 overflow-hidden",
@@ -67,7 +64,7 @@ export function SiteHeader({
         <DiscountBar />
       </div>
 
-      {/* Container du header principal - Single Header component */}
+      {/* Main header */}
       <div className="w-full">
         <Header
           categories={categories}

@@ -27,6 +27,15 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+
+  // Show a notice when redirected here because the session expired
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("session") === "expired") {
+      setInfo("Votre session a expiré. Veuillez vous reconnecter.");
+    }
+  }, []);
 
   // Countdown timer
   useEffect(() => {
@@ -163,6 +172,11 @@ export default function SignInForm() {
             </p>
           </div>
 
+          {info && (
+            <div className="mb-4 rounded-lg bg-amber-50 border border-amber-200 p-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-400">
+              {info}
+            </div>
+          )}
           {error && (
             <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
               {error}

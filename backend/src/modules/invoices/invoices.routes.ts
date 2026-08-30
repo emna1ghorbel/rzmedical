@@ -12,6 +12,7 @@ router.get('/admin/generate-number', requireAuth, controller.generateNumber);
 router.get('/admin/order/:orderId', requireAuth, controller.getByOrder);
 router.get('/admin/:id', requireAuth, controller.getOne);
 router.post('/admin', requireAuth, controller.create);
+router.post('/admin/manual', requireAuth, controller.createManual);
 router.patch('/admin/:id/pdf', requireAuth, controller.updatePdf);
 
 export default router;

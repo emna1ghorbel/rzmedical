@@ -19,7 +19,7 @@ export const create = async (req: AuthRequest, res: Response) => {
     const order = await service.createOrder(req.user!.id, lignes);
 
     // Send WhatsApp notification to admin (fire-and-forget — does NOT block the response)
-    const user = req.user!;
+    const user = req.user as any;
     const nbArticles = Array.isArray(order.lignes)
       ? order.lignes.reduce((sum: number, l: any) => sum + Number(l.quantite), 0)
       : 0;

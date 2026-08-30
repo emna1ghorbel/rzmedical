@@ -640,11 +640,12 @@
   }
 }
 
-/* --- Accessibilité : réduction du mouvement ------------------------------ */
+/* --- Accessibilité : réduction du mouvement ------------------------------
+   On atténue uniquement les transitions et le scroll doux. Les animations
+   essentielles (ex: rotation du texte de la barre d'annonce) restent jouées ;
+   les animations purement décoratives sont gérées au cas par cas en JS.        */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }

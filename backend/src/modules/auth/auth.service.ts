@@ -93,7 +93,7 @@ export async function verifyOtp(emailInput: string, otp: string) {
   const token = jwt.sign(
     { id: user.id, email: user.email, type: user.typeUtilisateur },
     JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
+    { expiresIn: JWT_EXPIRES_IN } as any
   );
 
   return {

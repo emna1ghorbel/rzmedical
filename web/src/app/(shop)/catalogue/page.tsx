@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { ProductFilters } from "@/lib/api";
 import {
   getBrands,
-  getProducts,
   getPagedProducts,
   getSubcategories,
   getVisibleCategories,
@@ -11,13 +10,14 @@ import {
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ProductCard } from "@/components/catalogue/ProductCard";
-import { LoadMore } from "@/components/catalogue/LoadMore";
+import { Pagination } from "@/components/catalogue/Pagination";
 import { Filters } from "@/components/catalogue/Filters";
 import { SortSelect } from "@/components/catalogue/SortSelect";
 import { MobileFilters } from "@/components/catalogue/MobileFilters";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { SubcategoryBanner } from "@/components/catalogue/SubcategoryBanner";
 import { PackageIcon } from "@/components/ui/icons";
+import { PRODUCT_GRID_CLASS } from "@/components/catalogue/ProductGrid";
 
 export const metadata: Metadata = {
   title: "Catalogue",
@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 type SearchParams = Record<string, string | string[] | undefined>;
 
 const SORTS = ["recent", "prix-asc", "prix-desc", "nom", "remise"] as const;
+const PAGE_SIZE = 12;
 
 function one(v: string | string[] | undefined): string | undefined {
   return Array.isArray(v) ? v[0] : v;
@@ -65,13 +66,14 @@ export default async function CataloguePage({
 }) {
   const sp = await searchParams;
   const filters = parseFilters(sp);
+  const currentPage = Math.max(1, num(sp.page) ?? 1);
 
   // Les produits sont essentiels : leur échec doit remonter (error.tsx). Les
   // données de la barre de filtres (catégories, sous-catégories, marques) sont
   // secondaires — on les résout séparément et on dégrade en liste vide si l'API
   // échoue, pour que le catalogue reste consultable même sans la barre latérale.
   const [paginated, filterData] = await Promise.all([
-    getPagedProducts({ ...filters, page: filters.page ?? 1 }),
+    getPagedProducts({ ...filters, page: currentPage, limit: PAGE_SIZE }),
     Promise.allSettled([
       getVisibleCategories(),
       getSubcategories(),
@@ -86,6 +88,8 @@ export default async function CataloguePage({
     filterData[2].status === "fulfilled" ? filterData[2].value : [];
 
   const products = paginated.products;
+  const totalProducts = paginated.totalProducts;
+  const totalPages = paginated.totalPages;
 
   // Intitulé contextuel
   let heading = "Tous les produits";
@@ -110,10 +114,6 @@ export default async function CataloguePage({
     (filters.promo ? 1 : 0) +
     (filters.disponible ? 1 : 0) +
     (filters.minPrix || filters.maxPrix ? 1 : 0);
-
-  const cards = products.map((p, i) => (
-    <ProductCard key={p.id} product={p} priority={i < 4} />
-  ));
 
   const subcategory = filters.sousCategorieId
     ? subcategories.find((s) => s.id === filters.sousCategorieId)
@@ -158,7 +158,7 @@ export default async function CataloguePage({
           ]
         : [];
 
-  const productCountLabel = `${products.length} produit${products.length > 1 ? "s" : ""}${filters.q ? "" : " disponibles"}`;
+  const productCountLabel = `${totalProducts} produit${totalProducts > 1 ? "s" : ""}${filters.q ? "" : " disponibles"}`;
   const showBanner = Boolean(bannerName);
 
   return (
@@ -229,12 +229,20 @@ export default async function CataloguePage({
               }
             />
           ) : (
-            <LoadMore
-              items={cards}
-              total={products.length}
-              pageSize={12}
-              resetKey={JSON.stringify(filters)}
-            />
+            <>
+              <div className={PRODUCT_GRID_CLASS}>
+                {products.map((p, i) => (
+                  <ProductCard key={p.id} product={p} priority={i < 4} />
+                ))}
+              </div>
+
+              {/* Pagination 1 2 3 ... */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                searchParams={sp}
+              />
+            </>
           )}
         </div>
       </div>

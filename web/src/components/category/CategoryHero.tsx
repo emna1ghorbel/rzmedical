@@ -9,6 +9,7 @@ import { imageUrl } from "@/lib/api";
 import type { VideoHero, CategorieListItem } from "@/lib/types";
 import { toSlug } from "@/lib/slug";
 import { cn } from "@/lib/cn";
+import { useSetHeroVideo } from "@/providers/HeroVideoProvider";
 
 interface CategoryHeroProps {
   category: CategorieListItem;
@@ -23,12 +24,22 @@ export function CategoryHero({ category, videoHero }: CategoryHeroProps) {
   const slug = toSlug(category.nom);
   const showVideo = !!(videoHero && videoHero.actif && !videoFailed);
 
+  // Signal to SiteHeader that this page has an active video hero
+  useSetHeroVideo(showVideo);
+
   return (
     <section
       className={cn(
-        "relative overflow-hidden flex items-end min-h-[55vh] lg:min-h-[70vh]",
-        showVideo ? "bg-navy-960" : "bg-gradient-to-br from-navy-950 via-navy-900 to-azure-950"
+        "relative overflow-hidden flex items-end",
+        showVideo
+          ? "bg-navy-960 min-h-screen pt-16 lg:pt-[76px]"
+          : "bg-gradient-to-br from-navy-950 via-navy-900 to-azure-950 min-h-[55vh] lg:min-h-[70vh]"
       )}
+      style={showVideo ? {
+        width: "100vw",
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
+      } : undefined}
     >
       {/* ── Background ─────────────────────────────────────────────── */}
       {showVideo ? (

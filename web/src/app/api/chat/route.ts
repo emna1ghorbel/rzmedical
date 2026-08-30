@@ -1,5 +1,6 @@
 import {
   getBrands,
+  getCompanyInfo,
   getMe,
   getMyInvoices,
   getMyOrders,
@@ -57,6 +58,7 @@ Règles importantes :
   CORRECT (le client parle) : "Quels sont vos horaires d'ouverture ?"
   Autres exemples corrects : "[SUGGESTION|Avez-vous d'autres marques ?] [SUGGESTION|Quels sont les frais de livraison ?] [SUGGESTION|Ce produit est-il disponible en stock ?]"
 - Si l'outil ne trouve rien, excuse-toi poliment et propose d'autres termes de recherche plus génériques.
+- Si le client demande un numéro de téléphone, un email, une adresse ou le site web de RZMedical, tu DOIS utiliser l'outil get_contact_info. Ne devine et n'invente JAMAIS ces informations — si l'outil renvoie une valeur vide (null), dis au client que cette information n'est pas encore disponible et propose une alternative (ex: page contact du site).
 - Si un outil renvoie une erreur d'authentification, explique poliment au client qu'il doit se connecter à son compte pour accéder à cette information.
 `;
 
@@ -103,6 +105,18 @@ const tools = [
     function: {
       name: "get_brands",
       description: "Récupère la liste des marques vendues par RZMedical.",
+      parameters: {
+        type: "object",
+        properties: {},
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_contact_info",
+      description:
+        "Récupère les coordonnées officielles de RZMedical (téléphone, email, adresse, site web). À utiliser TOUJOURS quand le client demande un numéro de téléphone, un email, une adresse ou le site web.",
       parameters: {
         type: "object",
         properties: {},
@@ -176,6 +190,16 @@ async function executeTool(
 
   if (functionName === "get_brands") {
     return (await getBrands()).map((brand) => brand.nom);
+  }
+
+  if (functionName === "get_contact_info") {
+    const info = await getCompanyInfo();
+    return {
+      telephone: info.telephone,
+      email: info.email,
+      adresse: info.adresse,
+      siteWeb: info.siteWeb,
+    };
   }
 
   // À partir d'ici, tous les outils nécessitent un client connecté.

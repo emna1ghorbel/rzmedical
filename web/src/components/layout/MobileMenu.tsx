@@ -41,12 +41,10 @@ export function MobileMenu({
   const company = useCompany();
 
   const [openCatId, setOpenCatId] = useState<number | null>(null);
-  const [brandsOpen, setBrandsOpen] = useState(false);
   const [brandSearch, setBrandSearch] = useState("");
 
   const ref = useFocusTrap<HTMLElement>(mobileMenuOpen);
 
-  // Close on Escape
   useEffect(() => {
     if (!mobileMenuOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -56,11 +54,9 @@ export function MobileMenu({
     return () => document.removeEventListener("keydown", onKey);
   }, [mobileMenuOpen, closeMobileMenu]);
 
-  // Reset state when menu closes
   useEffect(() => {
     if (!mobileMenuOpen) {
       setOpenCatId(null);
-      setBrandsOpen(false);
       setBrandSearch("");
     }
   }, [mobileMenuOpen]);
@@ -71,34 +67,29 @@ export function MobileMenu({
     return marques.filter((m) => m.nom.toLowerCase().includes(q));
   }, [marques, brandSearch]);
 
-  // Si une catégorie est sélectionnée, on cible ses sous-catégories.
-  // Sinon on retombe sur la liste complète des catégories.
   const activeCat = selectedCategory
     ? categories.find((c) => c.id === selectedCategory.id) ?? selectedCategory
     : null;
   const activeSubs = activeCat?.sousCategories ?? [];
-  const catAccordionLabel = activeCat
-    ? "Explorer les sous-catégories"
-    : "Explorer les catégories";
 
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 transition-opacity duration-400 lg:hidden",
+        "fixed inset-0 z-50 transition-opacity duration-300 lg:hidden",
         mobileMenuOpen
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0"
       )}
       aria-hidden={!mobileMenuOpen}
     >
-      {/* Semi-transparent dark overlay with enhanced blur */}
+      {/* Overlay plein, sans flou */}
       <div
         onClick={closeMobileMenu}
-        className="absolute inset-0 bg-navy-950/50 backdrop-blur-xl transition-opacity duration-400"
+        className="absolute inset-0 bg-navy-950/70"
         aria-hidden="true"
       />
 
-      {/* Drawer Panel */}
+      {/* Drawer */}
       <aside
         ref={ref}
         role="dialog"
@@ -106,50 +97,41 @@ export function MobileMenu({
         aria-label="Navigation principale"
         tabIndex={-1}
         className={cn(
-          "absolute left-0 top-0 flex h-full w-[85%] max-w-[360px] flex-col bg-white/80 backdrop-blur-lg border-border/70 shadow-2xl transition-transform duration-400 cubic-bezier(0.16, 1, 0.3, 1) outline-none",
+          "absolute left-0 top-0 flex h-full w-[86%] max-w-[380px] flex-col bg-white border-r border-slate-200 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] outline-none",
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        {/* Header */}
-        <div className="flex h-20 shrink-0 items-center justify-between border-b border-border/50 px-5 pt-4">
+        {/* Header — logo à gauche, ligne de séparation nette */}
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 pl-5 pr-3">
           <Link
             href={categorySlug ? `/${categorySlug}` : "/"}
             onClick={closeMobileMenu}
             aria-label={`${company?.nomSociete || "RZMedical"} - Accueil`}
-            className="shrink-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-azure-500/50 transition-all duration-300 hover:scale-105"
+            className="shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-azure-500/50"
           >
-            <Logo tone="dark" className="h-11 w-auto" />
+            <Logo tone="dark" className="h-8 w-auto" />
           </Link>
           <button
             type="button"
             onClick={closeMobileMenu}
-            className="flex h-11 w-11 items-center justify-center rounded-xl text-navy-600 hover:bg-navy-50/50 hover:text-navy-900 transition-all duration-300 transform-group-hover-scale-110"
+            className="flex h-11 w-11 items-center justify-center text-slate-400 hover:text-navy-900 transition-colors"
             aria-label="Fermer le menu"
           >
-            <XIcon size={22} strokeWidth={2} className="transition-transform duration-300" />
+            <XIcon size={20} strokeWidth={1.75} />
           </button>
         </div>
 
-        {/* Scrollable links */}
-        <nav
-          aria-label="Navigation mobile"
-          className="flex-1 overflow-y-auto px-5 pt-4 pb-8"
-        >
-          {/* Quick links */}
-          <ul className="mb-6 grid gap-0.75">
+        {/* Contenu défilant */}
+        <nav aria-label="Navigation mobile" className="flex-1 overflow-y-auto px-5 pt-5 pb-8">
+          {/* Liens rapides — plats, sans icône-badge colorée */}
+          <ul className="mb-5 flex flex-col">
             <li>
               <Link
                 href="/"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-navy-900 hover:bg-navy-50",
-                  "hover:text-navy-950"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[15px] font-medium text-navy-900 hover:text-azure-600 transition-colors"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-50/90 backdrop-blur-sm text-navy-600/90 transition-all duration-300 group-hover:bg-navy-900 group-hover:text-white">
-                  <HomeIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                </span>
+                <HomeIcon size={16} strokeWidth={1.75} className="text-slate-400 shrink-0" />
                 Accueil
               </Link>
             </li>
@@ -157,15 +139,9 @@ export function MobileMenu({
               <Link
                 href="/catalogue?promo=1"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-error hover:bg-error/50",
-                  "hover:text-error"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[15px] font-medium text-error hover:text-error/80 transition-colors"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-error/50 backdrop-blur-sm text-error/90 transition-all duration-300 group-hover:bg-error group-hover:text-white">
-                  <TagIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                </span>
+                <TagIcon size={16} strokeWidth={1.75} className="text-error/60 shrink-0" />
                 Promotions
               </Link>
             </li>
@@ -173,15 +149,9 @@ export function MobileMenu({
               <Link
                 href="/catalogue?filter=new"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-azure-600 hover:bg-azure-50",
-                  "hover:text-azure-700"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[15px] font-medium text-navy-900 hover:text-azure-600 transition-colors"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-azure-50 backdrop-blur-sm text-azure-600/90 transition-all duration-300 group-hover:bg-azure-600 group-hover:text-white">
-                  <SparklesIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                </span>
+                <SparklesIcon size={16} strokeWidth={1.75} className="text-slate-400 shrink-0" />
                 Nouveautés
               </Link>
             </li>
@@ -189,47 +159,36 @@ export function MobileMenu({
               <Link
                 href="/catalogue"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-navy-900 hover:bg-navy-50",
-                  "hover:text-navy-950"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[15px] font-medium text-navy-900 hover:text-azure-600 transition-colors"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-50 backdrop-blur-sm text-navy-600/90 transition-all duration-300 group-hover:bg-navy-900 group-hover:text-white">
-                  <PackageIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                </span>
+                <PackageIcon size={16} strokeWidth={1.75} className="text-slate-400 shrink-0" />
                 Catalogue complet
               </Link>
             </li>
           </ul>
 
-          {/* Category-specific quick links (when a category is active) */}
+          {/* Bloc catégorie active — repère de contexte, pas une carte */}
           {selectedCategory && (
             <>
-              <div className="my-4 h-[1px] bg-border/50" />
-              <p className="mb-3 px-2 text-[10px] font-black uppercase tracking-[0.14em] text-azure-600">
-                {selectedCategory.nom}
+              <div className="my-4 h-px bg-slate-100" />
+              <p className="mb-2.5 pl-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-azure-600">
+                Vous consultez — {selectedCategory.nom}
               </p>
-              <ul className="mb-6 grid gap-0.75">
+              <ul className="mb-5 flex flex-col">
                 {[
-                  { href: `/${categorySlug}`, label: "Accueil", icon: HomeIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
-                  { href: `/${categorySlug}/nouveautes`, label: "Nouveautés", icon: SparklesIcon, color: "text-azure-600 hover:bg-azure-50", iconBg: "bg-azure-50 group-hover:bg-azure-600 group-hover:text-white" },
-                  { href: `/${categorySlug}/promotions`, label: "Promotions", icon: TagIcon, color: "text-error hover:bg-error/5", iconBg: "bg-error/10 group-hover:bg-error group-hover:text-white" },
-                  { href: `/${categorySlug}/sous-categories`, label: "Rayons", icon: PackageIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
-                  { href: `/${categorySlug}/marques`, label: "Marques", icon: PackageIcon, color: "text-navy-900 hover:bg-navy-50", iconBg: "bg-navy-50 group-hover:bg-navy-900 group-hover:text-white" },
-                ].map(({ href, label, icon: Icon, color, iconBg }) => (
+                  { href: `/${categorySlug}`, label: "Accueil du rayon", icon: HomeIcon },
+                  { href: `/${categorySlug}/nouveautes`, label: "Nouveautés", icon: SparklesIcon },
+                  { href: `/${categorySlug}/promotions`, label: "Promotions", icon: TagIcon },
+                  { href: `/${categorySlug}/sous-categories`, label: "Rayons", icon: PackageIcon },
+                  { href: `/${categorySlug}/marques`, label: "Marques", icon: PackageIcon },
+                ].map(({ href, label, icon: Icon }) => (
                   <li key={href}>
                     <Link
                       href={href}
                       onClick={closeMobileMenu}
-                      className={cn(
-                        "group flex w-full items-center gap-4 rounded-xl px-5 py-3 text-[15px] font-medium transition-all duration-300",
-                        color
-                      )}
+                      className="flex items-center gap-3 py-2 pl-1 text-[14px] font-normal text-slate-600 hover:text-navy-900 transition-colors"
                     >
-                      <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-current transition-all duration-300", iconBg)}>
-                        <Icon size={17} className="transition-transform duration-300 group-hover:scale-110" />
-                      </span>
+                      <Icon size={14} strokeWidth={1.75} className="text-slate-300 shrink-0" />
                       {label}
                     </Link>
                   </li>
@@ -238,110 +197,101 @@ export function MobileMenu({
             </>
           )}
 
-          <div className="my-6 h-[1px] bg-border/50" />
+          <div className="my-5 h-px bg-slate-100" />
 
-          {/* Catégories Accordion */}
-          <>
-            <button
-              type="button"
-              onClick={() => setOpenCatId(openCatId === -1 ? null : -1)}
-              aria-expanded={openCatId === -1}
+          {/* Accordéon catégories — chevron comme seul indicateur d'état */}
+          <button
+            type="button"
+            onClick={() => setOpenCatId(openCatId === -1 ? null : -1)}
+            aria-expanded={openCatId === -1}
+            className={cn(
+              "flex w-full items-center justify-between py-3 text-left text-[15px] font-medium transition-colors",
+              openCatId === -1 ? "text-azure-600" : "text-navy-900 hover:text-azure-600"
+            )}
+          >
+            <span>Explorer les sous-catégories</span>
+            <ChevronDownIcon
+              size={16}
+              strokeWidth={1.75}
               className={cn(
-                "flex w-full items-center justify-between rounded-xl px-5 py-4 text-left text-base font-medium transition-all duration-300",
-                openCatId === -1
-                  ? "bg-azure-50/60 backdrop-blur-sm text-azure-700 hover:bg-azure-100"
-                  : "text-navy-800 hover:bg-navy-50 hover:text-navy-900"
+                "shrink-0 transition-transform duration-300",
+                openCatId === -1 ? "rotate-180 text-azure-600" : "text-slate-400"
               )}
-            >
-              <span className="flex items-center gap-3">
-                <PackageIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
-                Explorer les sous-catégories
-              </span>
-              <ChevronDownIcon
-                size={18}
-                className={cn(
-                  "shrink-0 transition-transform duration-400",
-                  openCatId === -1 ? "rotate-180 text-azure-600 transition-transform duration-400" : "text-slate-400 group-hover:text-slate-500"
-                )}
-              />
-            </button>
+            />
+          </button>
 
-            <div
-              className={cn(
-                "overflow-hidden transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)",
-                openCatId === -1 ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+          <div
+            className={cn(
+              "overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              openCatId === -1 ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+            )}
+          >
+            <div className="ml-1 mt-1 border-l border-slate-200 pl-4">
+              {activeCat ? (
+                <>
+                  <Link
+                    href={`/${categorySlug}`}
+                    onClick={closeMobileMenu}
+                    className="mb-2 block py-2 text-[14px] font-medium text-azure-600 hover:text-azure-700 transition-colors"
+                  >
+                    Toute la catégorie — {activeCat.nom}
+                  </Link>
+
+                  {activeSubs.length === 0 ? (
+                    <p className="py-2 text-[13px] text-slate-400">
+                      Aucune sous-catégorie disponible.
+                    </p>
+                  ) : (
+                    <ul className="flex flex-col">
+                      {activeSubs.map((sub) => (
+                        <li key={sub.id}>
+                          <Link
+                            href={`/catalogue?sousCategorieId=${sub.id}`}
+                            onClick={closeMobileMenu}
+                            className="block py-2 text-[14px] text-slate-600 hover:text-navy-900 transition-colors"
+                          >
+                            {sub.nom}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              ) : (
+                <p className="py-2 text-[13px] text-slate-400">
+                  Sélectionnez une catégorie pour voir ses sous-catégories.
+                </p>
               )}
-            >
-              <div className="ml-4 mt-3 border-l-2 border-azure-100/50 pl-4">
-                {activeCat ? (
-                  // --- Mode "sous-catégories de la catégorie sélectionnée" ---
-                  <>
-                    <Link
-                      href={`/${categorySlug}`}
-                      onClick={closeMobileMenu}
-                      className="mb-4 block w-full rounded-xl px-4 py-3 text-base font-medium text-azure-600 hover:bg-azure-50 hover:text-azure-700 transition-all duration-300"
-                    >
-                      ← Toute la catégorie {activeCat.nom}
-                    </Link>
-
-                    {activeSubs.length === 0 ? (
-                      <p className="px-3 py-2 text-sm text-slate-400">
-                        Aucune sous-catégorie disponible.
-                      </p>
-                    ) : (
-                      <ul className="grid gap-0.75">
-                        {activeSubs.map((sub) => (
-                          <li key={sub.id}>
-                            <Link
-                              href={`/catalogue?sousCategorieId=${sub.id}`}
-                              onClick={closeMobileMenu}
-                              className="block w-full rounded-xl px-4 py-3 text-base font-medium text-navy-700 hover:bg-navy-50 hover:text-navy-900 transition-all duration-300"
-                            >
-                              {sub.nom}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                ) : (
-                  // No category selected: show a placeholder message
-                  <p className="px-3 py-2 text-sm text-slate-400">
-                    Veuillez sélectionner une catégorie pour voir ses sous-catégories.
-                  </p>
-                )}
-              </div>
             </div>
-          </>
+          </div>
 
-          <div className="my-6 h-[1px] bg-border/50" />
+          <div className="my-5 h-px bg-slate-100" />
 
-          {/* Marques Grid */}
+          {/* Marques — grille sobre, sans ombres ni flou */}
           {marques.length > 0 && (
             <div>
-              <p className="mb-4 text-center text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
-                Marques
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                Marques référencées
               </p>
 
-              {/* Search */}
-              <div className="relative mb-4">
+              <div className="relative mb-3">
                 <SearchIcon
                   size={14}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400/80"
+                  strokeWidth={1.75}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                 />
                 <input
                   type="text"
-                  placeholder="Rechercher une marque..."
+                  placeholder="Rechercher une marque"
                   value={brandSearch}
                   onChange={(e) => setBrandSearch(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 backdrop-blur-sm py-2.5 pl-9 pr-4 text-[13px] font-medium outline-none transition-all duration-300 focus:border-azure-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)]"
+                  className="w-full border border-slate-200 bg-white py-2 pl-8 pr-3 text-[13px] outline-none transition-colors focus:border-azure-400"
                 />
               </div>
 
-              {/* Grid */}
-              <div className="max-h-[420px] overflow-y-auto overscroll-contain pr-1">
+              <div className="max-h-[400px] overflow-y-auto overscroll-contain pr-1">
                 {filteredMarques.length === 0 ? (
-                  <p className="py-6 text-center text-[13px] font-medium text-slate-400">
+                  <p className="py-5 text-center text-[13px] text-slate-400">
                     Aucune marque trouvée.
                   </p>
                 ) : (
@@ -351,25 +301,25 @@ export function MobileMenu({
                         <Link
                           href={`/catalogue?marqueId=${m.id}`}
                           onClick={closeMobileMenu}
-                          className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-200/70 bg-white p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-azure-200 hover:shadow-[0_4px_12px_rgba(14,165,233,0.1)] active:scale-[0.97]"
+                          className="group flex flex-col items-center gap-1.5 border border-slate-150 p-2 transition-colors hover:border-azure-300 active:scale-[0.97]"
                         >
                           {m.logo ? (
-                            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                            <div className="relative h-11 w-11 shrink-0">
                               <Image
                                 src={imageUrl(m.logo)}
                                 alt={m.nom}
                                 fill
-                                sizes="48px"
+                                sizes="44px"
                                 unoptimized
-                                className="object-contain p-0.5"
+                                className="object-contain"
                               />
                             </div>
                           ) : (
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[16px] font-bold text-slate-400">
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-50 text-[15px] font-semibold text-slate-400">
                               {m.nom.charAt(0).toUpperCase()}
                             </div>
                           )}
-                          <span className="w-full truncate text-center text-[10px] font-bold uppercase tracking-wide text-navy-700 group-hover:text-azure-600">
+                          <span className="w-full truncate text-center text-[9.5px] font-semibold uppercase tracking-wide text-slate-500 group-hover:text-azure-600">
                             {m.nom}
                           </span>
                         </Link>
@@ -381,26 +331,20 @@ export function MobileMenu({
             </div>
           )}
 
-          <div className="my-6 h-[1px] bg-border/50" />
+          <div className="my-5 h-px bg-slate-100" />
 
           {/* Compte & Panier */}
-          <ul className="grid gap-0.75">
+          <ul className="flex flex-col">
             <li>
               <Link
                 href={isAuthenticated ? "/compte" : "/connexion"}
                 onClick={closeMobileMenu}
-                className={cn(
-                  "group flex w-full items-center gap-4 rounded-xl px-5 py-4 text-base font-medium transition-all duration-300",
-                  "text-navy-900 hover:bg-navy-50",
-                  "hover:text-navy-950"
-                )}
+                className="flex items-center gap-3 py-3 text-[15px] font-medium text-navy-900 hover:text-azure-600 transition-colors"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy-50/90 backdrop-blur-sm text-navy-600/90 transition-all duration-300 group-hover:bg-navy-900 group-hover:text-white">
-                  <UserIcon size={20} className="transition-transform duration-300 group-hover:scale-110" />
-                </span>
+                <UserIcon size={17} strokeWidth={1.75} className="text-slate-400 shrink-0" />
                 {isAuthenticated
                   ? user?.prenom
-                    ? `Mon Compte (${user.prenom})`
+                    ? `Mon compte (${user.prenom})`
                     : "Mon compte"
                   : "Se connecter / S'inscrire"}
               </Link>
@@ -412,20 +356,14 @@ export function MobileMenu({
                   closeMobileMenu();
                   openCart();
                 }}
-                className={cn(
-                  "group flex w-full cursor-pointer items-center justify-between rounded-xl px-5 py-4 text-base font-medium transition-all duration-300",
-                  "text-navy-900 hover:bg-navy-50",
-                  "hover:text-navy-950"
-                )}
+                className="flex w-full items-center justify-between py-3 text-[15px] font-medium text-navy-900 hover:text-azure-600 transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy-50/90 backdrop-blur-sm text-navy-600/90 transition-all duration-300 group-hover:bg-navy-900 group-hover:text-white">
-                    <CartIcon size={20} className="transition-transform duration-300 group-hover:scale-110" />
-                  </span>
+                <span className="flex items-center gap-3">
+                  <CartIcon size={17} strokeWidth={1.75} className="text-slate-400 shrink-0" />
                   Panier
-                </div>
+                </span>
                 {count > 0 && (
-                  <span className="flex h-9 w-[2.5rem] items-center justify-center rounded-full bg-azure-500/90 backdrop-blur-sm text-[12px] font-bold text-white shadow-inner ring-2 ring-white/20 motion-safe:animate-badge-bump">
+                  <span className="flex h-6 min-w-[1.5rem] items-center justify-center bg-azure-600 px-1.5 text-[11px] font-semibold text-white">
                     {count > 99 ? "99+" : count}
                   </span>
                 )}
@@ -433,35 +371,27 @@ export function MobileMenu({
             </li>
           </ul>
 
-          <div className="my-6 h-[1px] bg-border/50" />
+          <div className="my-5 h-px bg-slate-100" />
 
-          {/* Footer links */}
-          <ul className="grid gap-0.75 pb-6">
+          {/* Liens de bas de menu */}
+          <ul className="flex flex-col pb-6">
             <li>
               <Link
                 href="/a-propos"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-navy-600 hover:bg-navy-50",
-                  "hover:text-navy-900"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[14px] text-slate-500 hover:text-navy-900 transition-colors"
               >
-                <InfoIcon size={18} className="transition-transform duration-300 group-hover:scale-110 text-slate-400/80" />
+                <InfoIcon size={15} strokeWidth={1.75} className="text-slate-300 shrink-0" />
                 À propos de nous
               </Link>
             </li>
             <li>
               <Link
-                href="/contact"
+                href="contact"
                 onClick={closeMobileMenu}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-xl px-5 py-3 text-base font-medium transition-all duration-300",
-                  "text-navy-600 hover:bg-navy-50",
-                  "hover:text-navy-900"
-                )}
+                className="flex items-center gap-3 py-2.5 text-[14px] text-slate-500 hover:text-navy-900 transition-colors"
               >
-                <MailIcon size={18} className="transition-transform duration-300 group-hover:scale-110 text-slate-400/80" />
+                <MailIcon size={15} strokeWidth={1.75} className="text-slate-300 shrink-0" />
                 Contactez-nous
               </Link>
             </li>

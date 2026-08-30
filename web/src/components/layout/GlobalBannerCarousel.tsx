@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -170,29 +170,34 @@ function Slide({
         alt={banner.titre ?? "Bannière promotionnelle"}
         fill
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-center"
         priority={eager}
       />
       {hasText && (
         <>
+          {/* Overlays — full coverage so text stays readable on any image/device */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-r from-navy-950/75 via-navy-950/35 to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-navy-950/85 via-navy-950/55 to-navy-950/20"
           />
-          <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-20">
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-navy-950/30"
+          />
+          <div className="absolute inset-0 flex flex-col justify-center px-5 py-8 sm:px-12 sm:py-10 lg:px-20">
             <div className="max-w-xl">
               {banner.titre && (
-                <h2 className="text-xl font-bold leading-tight text-white drop-shadow sm:text-3xl lg:text-4xl">
+                <h2 className="text-2xl font-bold leading-tight text-white drop-shadow sm:text-3xl lg:text-4xl">
                   {banner.titre}
                 </h2>
               )}
               {banner.description && (
-                <p className="mt-2 text-sm text-white/85 sm:text-base">
+                <p className="mt-2 text-[13.5px] leading-relaxed text-white/90 drop-shadow sm:text-base">
                   {banner.description}
                 </p>
               )}
               {banner.lien && (
-                <span className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-navy-900 shadow transition-transform duration-200 hover:translate-x-0.5">
+                <span className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-navy-900 shadow transition-transform duration-200 hover:translate-x-0.5 sm:w-auto sm:py-2">
                   Découvrir
                   <ArrowRightIcon size={15} />
                 </span>
@@ -204,9 +209,10 @@ function Slide({
     </>
   );
 
-  const height = Math.min(700, Math.max(240, banner.hauteur || 420));
+  const height = Math.min(960, Math.max(420, banner.hauteur || 680));
+  const bannerStyle = { "--banner-h": `${height}px` } as CSSProperties;
   const cls =
-    "group relative w-full shrink-0 snap-center overflow-hidden bg-navy-100";
+    "group relative w-full shrink-0 snap-center overflow-hidden bg-navy-100 h-[220px] sm:h-[460px] lg:h-[var(--banner-h)]";
   const a11y = {
     "aria-roledescription": "diapositive" as const,
     "aria-label": position,
@@ -214,18 +220,18 @@ function Slide({
 
   if (banner.lien) {
     return isExternal(banner.lien) ? (
-      <a href={banner.lien} target="_blank" rel="noopener noreferrer" className={cls} style={{ height }} {...a11y}>
+      <a href={banner.lien} target="_blank" rel="noopener noreferrer" className={cls} style={bannerStyle} {...a11y}>
         {content}
       </a>
     ) : (
-      <Link href={banner.lien} className={cls} style={{ height }} {...a11y}>
+      <Link href={banner.lien} className={cls} style={bannerStyle} {...a11y}>
         {content}
       </Link>
     );
   }
 
   return (
-    <div className={cls} style={{ height }} {...a11y}>
+    <div className={cls} style={bannerStyle} {...a11y}>
       {content}
     </div>
   );

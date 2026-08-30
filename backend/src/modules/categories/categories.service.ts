@@ -5,7 +5,7 @@ export const getAll = () =>
   prisma.categorie.findMany({
     include: {
       _count: { select: { sousCategories: true } },
-      sousCategories: { select: { id: true, nom: true }, orderBy: { nom: 'asc' } },
+      sousCategories: { select: { id: true, nom: true }, orderBy: [{ ordre: 'asc' }, { nom: 'asc' }] },
     },
     orderBy: { creeLe: 'desc' },
   });
@@ -16,7 +16,7 @@ export const getAllVisible = () =>
     where: { visible: true },
     include: {
       _count: { select: { sousCategories: true } },
-      sousCategories: { select: { id: true, nom: true }, orderBy: { nom: 'asc' } },
+      sousCategories: { select: { id: true, nom: true }, orderBy: [{ ordre: 'asc' }, { nom: 'asc' }] },
     },
     orderBy: { nom: 'asc' },
   });
