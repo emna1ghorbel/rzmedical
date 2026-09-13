@@ -387,7 +387,7 @@ export function MobileMenu({
             </li>
             <li>
               <Link
-                href="contact"
+                href="/support"
                 onClick={closeMobileMenu}
                 className="flex items-center gap-3 py-2.5 text-[14px] text-slate-500 hover:text-navy-900 transition-colors"
               >

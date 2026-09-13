@@ -130,6 +130,8 @@ export async function CategoryCatalog({
                 subcategories={subcategories}
                 brands={brands}
                 hideCategory={true}
+                currentCategorieId={filters.categorieId ? String(filters.categorieId) : undefined}
+                currentSousCategorieId={filters.sousCategorieId ? String(filters.sousCategorieId) : undefined}
               />
             </div>
           </aside>
@@ -144,6 +146,8 @@ export async function CategoryCatalog({
                   subcategories={subcategories}
                   brands={brands}
                   hideCategory={true}
+                  currentCategorieId={filters.categorieId ? String(filters.categorieId) : undefined}
+                  currentSousCategorieId={filters.sousCategorieId ? String(filters.sousCategorieId) : undefined}
                 />
               </div>
               <div className="ml-auto w-[180px]">

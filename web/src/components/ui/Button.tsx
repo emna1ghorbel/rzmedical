@@ -33,9 +33,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
   ghost:
     "text-navy-700 hover:bg-navy-50 hover:text-azure-600 hover:-translate-y-[1px] active:scale-[0.97] rounded-lg transition-all duration-200",
   danger:
-    "relative overflow-hidden bg-gradient-to-b from-red-500 to-red-600 text-white rounded-xl shadow-[0_4px_14px_rgba(240,68,56,0.35)] hover:-translate-y-[2px] hover:shadow-[0_6px_20px_rgba(240,68,56,0.45)] active:translate-y-[1px] active:scale-[0.98] transition-all duration-200",
+    "relative overflow-hidden bg-red-600 text-white rounded-xl shadow-sm hover:bg-red-700 hover:-translate-y-[1px] hover:shadow active:translate-y-[1px] active:scale-[0.98] transition-all duration-200",
   success:
-    "relative overflow-hidden bg-gradient-to-b from-emerald-400 to-emerald-600 text-white rounded-xl shadow-[0_4px_14px_rgba(18,183,106,0.35)] hover:-translate-y-[2px] hover:shadow-[0_6px_20px_rgba(18,183,106,0.45)] active:translate-y-[1px] active:scale-[0.98] transition-all duration-200",
+    "relative overflow-hidden bg-emerald-600 text-white rounded-xl shadow-sm hover:bg-emerald-700 hover:-translate-y-[1px] hover:shadow active:translate-y-[1px] active:scale-[0.98] transition-all duration-200",
 };
 
 const SIZES: Record<ButtonSize, string> = {

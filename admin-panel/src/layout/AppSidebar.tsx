@@ -24,9 +24,32 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+      </svg>
+    ),
+    name: "Accueil",
+    path: "/",
+  },
+  {
     icon: <GridIcon />,
     name: "Tableau de Bord",
-    path: "/",
+    path: "/dashboard",
+  },
+  {
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" fill="currentColor" />
+      </svg>
+    ),
+    name: "Impayés",
+    path: "/impayes",
+  },
+  {
+    icon: <GridIcon />,
+    name: "decouvrir stock",
+    path: "/ancien-dashboard",
   },
   {
     name: "Catalogue",
@@ -37,6 +60,59 @@ const navItems: NavItem[] = [
       { name: "Ordre sous-catégories", path: "/reorder-subcategories", pro: false },
       { name: "Marques", path: "/brands", pro: false },
       { name: "Produits", path: "/products", pro: false },
+      { name: "Mouvements de stock", path: "/mouvements-stock", pro: false, new: true },
+    ],
+  },
+  
+  {
+    name: "Ventes",
+    icon: <ListIcon />,
+    subItems: [
+      { name: "Commandes", path: "/orders", pro: false },
+      { name: "Bons de Livraison", path: "/bons-livraison", pro: false, new: true },
+      { name: "Factures Clients", path: "/invoices", pro: false },
+      { name: "Factures Annulées", path: "/invoices/annulees", pro: false },
+      { name: "Avoirs Clients", path: "/avoirs", pro: false },
+      { name: "Devis Clients", path: "/devis", pro: false },
+      { name: "Exercices Fiscaux", path: "/exercices", pro: false },
+    ],
+  },
+  
+  {
+    name: "Achats",
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0021.46 4H5.21L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7a.13.13 0 01-.13-.13l.1-.12z" fill="currentColor"/>
+      </svg>
+    ),
+    subItems: [
+      { name: "Factures Fournisseurs", path: "/factures-fournisseurs", pro: false, new: true },
+      { name: "Bons de Commande", path: "/bons-commande", pro: false },
+      { name: "Bons de Réception", path: "/bons-reception", pro: false },
+    ],
+  },
+  {
+    name: "Charges",
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4h10v2H7V9zm0 4h6v2H7v-2z" fill="currentColor" />
+      </svg>
+    ),
+    subItems: [
+      { name: "Charges", path: "/charges", pro: false, new: true },
+      { name: "CNSS", path: "/charges/cnss", pro: false },
+      { name: "9ba4a", path: "/charges/9ba4a", pro: false },
+    ],
+  },
+  {
+    name: "Utilisateurs",
+    icon: <UserCircleIcon />,
+    subItems: [
+      { name: "Mon Profil", path: "/profile", pro: false },
+      { name: "Administrateurs", path: "/admins", pro: false },
+      { name: "Comptes Clients", path: "/customers", pro: false },
+      { name: "Tiers", path: "/tiers", pro: false },
+      { name: "Fournisseurs", path: "/fournisseurs", pro: false },
     ],
   },
   {
@@ -49,30 +125,21 @@ const navItems: NavItem[] = [
     icon: <ListIcon />,
     path: "/support",
   },
-  {
-    name: "Ventes",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "Commandes", path: "/orders", pro: false },
-      { name: "Factures", path: "/invoices", pro: false },
-    ],
-  },
-  {
-    name: "Utilisateurs",
-    icon: <UserCircleIcon />,
-    subItems: [
-      { name: "Mon Profil", path: "/profile", pro: false },
-      { name: "Administrateurs", path: "/admins", pro: false },
-      { name: "Comptes Clients", path: "/customers", pro: false },
-    ],
-  },
 ];
+
 
 const othersItems: NavItem[] = [
   {
-    icon: <UserCircleIcon />,
-    name: "Infos Société",
-    path: "/company-info",
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/>
+      </svg>
+    ),
+    name: "Configuration",
+    subItems: [
+      { name: "Paramètres fiscaux", path: "/configuration", pro: false },
+      { name: "Services", path: "/configuration/services", pro: false },
+    ]
   },
   {
     icon: <UserCircleIcon />,
@@ -235,8 +302,10 @@ const AppSidebar: React.FC = () => {
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback(
+    (path: string) => path === pathname || (path === "/" && pathname === "/accueil"),
+    [pathname]
+  );
 
   useEffect(() => {
     // Check if the current path matches any submenu item

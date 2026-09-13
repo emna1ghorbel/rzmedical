@@ -51,7 +51,7 @@ export function ProductTabs({ product }: { product: Produit }) {
           <Row
             label="Disponibilité"
             value={
-              product.disponible && product.stock > 0 ? "En stock" : "Sur commande"
+              product.disponibleALaVente ? "Disponible à la vente" : "Indisponible"
             }
           />
           {product.expirationDate && (

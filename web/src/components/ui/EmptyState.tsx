@@ -24,10 +24,8 @@ export function EmptyState({
     >
       {icon && (
         <div className="relative mb-6 flex h-20 w-20 items-center justify-center">
-          {/* Ambient glow ring */}
-          <div className="absolute inset-0 rounded-3xl bg-azure-500/8 animate-glow-pulse" />
           {/* Icon container */}
-          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200/80 bg-slate-50/80 text-slate-400 shadow-sm">
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 shadow-sm">
             {icon}
           </div>
         </div>

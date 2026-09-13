@@ -76,4 +76,6 @@ services:
 
 volumes:
   pgdata:
+    name: rzmedical_pgdata_prod
   uploads_prod:
+    name: rzmedical_uploads_prod

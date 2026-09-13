@@ -63,3 +63,70 @@ export async function sendPasswordResetEmail(
     `,
   });
 }
+
+// ── Labels d'état de commande ─────────────────────────────────────────────────
+const STATUS_LABELS: Record<string, { label: string; color: string; icon: string }> = {
+  EN_ATTENTE: { label: 'En attente',   color: '#f59e0b', icon: '⏳' },
+  PAYEE:      { label: 'Payée',        color: '#10b981', icon: '✅' },
+  EXPEDIEE:   { label: 'Expédiée',     color: '#3b82f6', icon: '🚚' },
+  LIVREE:     { label: 'Livrée',       color: '#6366f1', icon: '📦' },
+  ANNULEE:    { label: 'Annulée',      color: '#ef4444', icon: '❌' },
+};
+
+// ── Email de changement de statut de commande ─────────────────────────────────
+export async function sendOrderStatusEmail(
+  email: string,
+  prenom: string,
+  orderId: number,
+  newStatus: string
+): Promise<void> {
+  const baseUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/+$/, '');
+  const link = `${baseUrl}/compte?tab=commandes`;
+
+  const statusInfo = STATUS_LABELS[newStatus] ?? { label: newStatus, color: '#6b7280', icon: '📋' };
+
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.log(`\n📧 [DEV] Statut commande #${orderId} → ${statusInfo.label} pour ${email}\n`);
+    return;
+  }
+
+  const transporter = createTransporter();
+  await transporter.sendMail({
+    from: `"RZMedical" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `${statusInfo.icon} Mise à jour de votre commande #${orderId} — RZMedical`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; background: #ffffff;">
+        <h2 style="color: #1e3a5f; margin-bottom: 4px;">RZMedical</h2>
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;" />
+
+        <p style="color: #374151; font-size: 15px;">Bonjour <strong>${prenom}</strong>,</p>
+        <p style="color: #374151; font-size: 15px;">
+          L'état de votre commande <strong>#${orderId}</strong> a été mis à jour.
+        </p>
+
+        <!-- Statut badge -->
+        <div style="text-align: center; margin: 28px 0;">
+          <span style="display: inline-block; background: ${statusInfo.color}18; color: ${statusInfo.color}; border: 2px solid ${statusInfo.color}; padding: 10px 28px; border-radius: 999px; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;">
+            ${statusInfo.icon} ${statusInfo.label}
+          </span>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align: center; margin: 28px 0;">
+          <a href="${link}"
+             style="display: inline-block; background: linear-gradient(135deg, #0ea5e9 0%, #1e3a5f 100%); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 600;">
+            Voir mes commandes
+          </a>
+        </div>
+
+        <p style="color: #6b7280; font-size: 13px;">
+          Si vous avez des questions, n'hésitez pas à contacter notre équipe.<br/>
+          Merci de votre confiance.
+        </p>
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+        <p style="color: #9ca3af; font-size: 11px; text-align: center;">© RZMedical — Équipement médico-dentaire professionnel</p>
+      </div>
+    `,
+  });
+}

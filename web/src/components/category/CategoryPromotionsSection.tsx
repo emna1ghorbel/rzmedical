@@ -35,8 +35,7 @@ export async function CategoryPromotionsSection({
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950">
-      <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-azure-500/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-white/10 pointer-events-none" />
 
       <Container className="relative py-12 lg:py-20">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">

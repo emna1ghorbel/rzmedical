@@ -8,6 +8,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
 enum TypeUtilisateur {
   ADMIN
   CLIENT
@@ -15,16 +17,61 @@ enum TypeUtilisateur {
 
 enum StatutCommande {
   EN_ATTENTE
-  PAYEE
-  EXPEDIEE
+
   LIVREE
   ANNULEE
+  // Nouveaux statuts BL workflow
+
+  CONFIRMEE
+}
+
+enum StatutBonLivraison {
+  BROUILLON
+  PREPARE
+  EXPEDIE
+  LIVRE
+  FACTURE
+  ANNULE
 }
 
 enum StatutFacture {
   BROUILLON
-  EMISE
+  EMISE // legacy — conservé pour compatibilité
+  VALIDEE
+  ENVOYEE
   ANNULEE
+}
+
+enum StatutPaiement {
+  NON_PAYEE
+  PARTIELLEMENT_PAYEE
+  PAYEE
+}
+
+enum TypeFacture {
+  PRODUITS
+  BON_LIVRAISON
+  FACTURE
+  SERVICE
+}
+
+enum EtatFacture {
+  NORMALE
+  PROFORMA
+  AVOIR
+}
+
+/// Catégories de numérotation légale. Chaque catégorie a son compteur propre
+/// pour chaque exercice fiscal.
+enum DocumentSequenceType {
+  FACTURE_VENTE
+  FACTURE_ACHAT
+  COMMANDE
+  DEVIS
+  BON_LIVRAISON
+  BON_RECEPTION
+  AVOIR_VENTE
+  AVOIR_ACHAT
 }
 
 enum StatutSupport {
@@ -44,6 +91,8 @@ enum AuteurSupport {
   CLIENT
   ADMIN
 }
+
+// ─── Utilisateur ─────────────────────────────────────────────────────────────
 
 model Utilisateur {
   id                 Int             @id @default(autoincrement())
@@ -67,12 +116,18 @@ model Utilisateur {
   creeLe             DateTime        @default(now())
   misAJourLe         DateTime        @updatedAt
 
-  commandes      Commande[]
-  ticketsSupport TicketSupport[]
-  tokenReset     TokenReset?
+  commandes       Commande[]
+  mouvementsStock StockMovement[]
+  bonsLivraison   BonLivraison[]
+  factures        Facture[]
+  devis           Devis[]
+  ticketsSupport  TicketSupport[]
+  tokenReset      TokenReset?
 
   @@map("utilisateurs")
 }
+
+// ─── Support ──────────────────────────────────────────────────────────────────
 
 model TicketSupport {
   id               Int              @id @default(autoincrement())
@@ -108,6 +163,8 @@ model MessageSupport {
   @@index([ticketId, creeLe])
   @@map("messages_support")
 }
+
+// ─── Catalogue ────────────────────────────────────────────────────────────────
 
 model Categorie {
   id         Int      @id @default(autoincrement())
@@ -157,35 +214,105 @@ model Marque {
 }
 
 model Produit {
-  id              Int           @id @default(autoincrement())
-  nom             String
-  reference       String        @unique
-  description     String?
-  expirationDate  DateTime?
-  prix            Decimal       @db.Decimal(10, 2)
-  stock           Int           @default(0)
-  images          String[]
-  video           String?
-  motsCles        String[]
-  ficheTechnique  String?
-  remise          Decimal       @default(0) @db.Decimal(10, 2)
-  disponible      Boolean       @default(true)
-  sousCategorieId Int
-  sousCategorie   SousCategorie @relation(fields: [sousCategorieId], references: [id])
-  marqueId        Int
-  marque          Marque        @relation(fields: [marqueId], references: [id])
-  creeLe          DateTime      @default(now())
-  misAJourLe      DateTime      @updatedAt
+  id                 Int           @id @default(autoincrement())
+  nom                String
+  reference          String        @unique
+  description        String?
+  expirationDate     DateTime?
+  prix               Decimal       @db.Decimal(10, 2)
+  prixAchat          Decimal?      @db.Decimal(10, 3)
+  cump               Decimal?      @db.Decimal(12, 3)
+  tva                Decimal?      @default(0) @db.Decimal(5, 2)
+  stock              Int           @default(0)
+  qteAchat           Int           @default(0)
+  qteVente           Int           @default(0)
+  disponibleALaVente Boolean       @default(true)
+  images             String[]
+  video              String?
+  motsCles           String[]
+  ficheTechnique     String?
+  remise             Decimal       @default(0) @db.Decimal(10, 2)
+  disponible         Boolean       @default(true)
+  sousCategorieId    Int
+  sousCategorie      SousCategorie @relation(fields: [sousCategorieId], references: [id])
+  marqueId           Int
+  marque             Marque        @relation(fields: [marqueId], references: [id])
+  creeLe             DateTime      @default(now())
+  misAJourLe         DateTime      @updatedAt
 
-  lignesCommande LigneCommande[]
+  lignesCommande     LigneCommande[]
+  lignesBonLivraison LigneBonLivraison[]
+  lignesDevis        LigneDevis[]
+  mouvementsStock    StockMovement[]
+  historiquesPrixAchat PurchasePriceHistory[]
 
   @@index([sousCategorieId])
   @@index([marqueId])
   @@map("produits")
 }
 
+enum StockMovementType {
+  PURCHASE
+  SALE
+  RETURN_CLIENT
+  RETURN_SUPPLIER
+  ADJUSTMENT
+  TRANSFER
+  INVENTORY
+}
+
+model StockMovement {
+  id           Int               @id @default(autoincrement())
+  type         StockMovementType
+  quantity     Int
+  stockDelta   Int
+  quantityCosted Int              @default(0)
+  quantityPending Int             @default(0)
+  unitPrice    Decimal?          @db.Decimal(12, 3)
+  unitCost     Decimal?          @db.Decimal(12, 3)
+  totalCost    Decimal?          @db.Decimal(14, 3)
+  totalValue   Decimal?          @db.Decimal(14, 3)
+  cump         Decimal?          @db.Decimal(12, 3)
+  stockAfter   Int
+  valuation    Decimal?          @db.Decimal(14, 3)
+  depot        String            @default("DEPOT PRINCIPAL")
+  documentType String?
+  nature       String?
+  productId    Int
+  product      Produit           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  reference    String?
+  sourceType   String?
+  sourceId     Int?
+  userId       Int?
+  user         Utilisateur?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt    DateTime          @default(now())
+  operationKey String            @unique
+
+  @@index([productId, createdAt])
+  @@index([sourceType, sourceId])
+  @@map("stock_movements")
+}
+
+model PurchasePriceHistory {
+  id             Int       @id @default(autoincrement())
+  productId      Int
+  product        Produit   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity       Int
+  unitPriceHT    Decimal   @db.Decimal(12, 3)
+  sourceType     String?
+  sourceId       Int?
+  bonReceptionId Int?
+  createdAt      DateTime  @default(now())
+
+  @@index([productId, createdAt])
+  @@map("purchase_price_history")
+}
+
+// ─── Commandes ───────────────────────────────────────────────────────────────
+
 model Commande {
   id            Int            @id @default(autoincrement())
+  numero        String?        @unique // CMD-2026-00001
   utilisateurId Int
   utilisateur   Utilisateur    @relation(fields: [utilisateurId], references: [id])
   statut        StatutCommande @default(EN_ATTENTE)
@@ -193,8 +320,9 @@ model Commande {
   creeLe        DateTime       @default(now())
   misAJourLe    DateTime       @updatedAt
 
-  lignes  LigneCommande[]
-  facture Facture?
+  lignes        LigneCommande[]
+  factures      Facture[]
+  bonsLivraison BonLivraison[]
 
   @@index([utilisateurId])
   @@map("commandes")
@@ -214,13 +342,81 @@ model LigneCommande {
   @@map("lignes_commande")
 }
 
+// ─── Bons de Livraison ────────────────────────────────────────────────────────
+
+model BonLivraison {
+  id            Int                @id @default(autoincrement())
+  code          String             @unique // BL-2026-0001
+  commandeId    Int?
+  commande      Commande?          @relation(fields: [commandeId], references: [id])
+  utilisateurId Int?
+  utilisateur   Utilisateur?       @relation(fields: [utilisateurId], references: [id])
+  devisId       Int?
+  devis         Devis?             @relation(fields: [devisId], references: [id])
+  // Snapshot client (pour client passager ou snapshot)
+  clientNom     String?
+  clientMF      String?
+  clientAdresse String?
+  clientTel     String?
+  clientEmail   String?
+  dateLivraison DateTime?
+  statut        StatutBonLivraison @default(BROUILLON)
+  stockMisAJour Boolean            @default(false)
+  commentaire   String?
+  creeLe        DateTime           @default(now())
+  misAJourLe    DateTime           @updatedAt
+
+  lignes           LigneBonLivraison[]
+  factures         Facture[]             @relation("FactureBLPrincipal")
+  facturesJonction FactureBonLivraison[] @relation("FactureBLJonction")
+
+  @@index([commandeId])
+  @@index([utilisateurId])
+  @@index([devisId])
+  @@map("bons_livraison")
+}
+
+model LigneBonLivraison {
+  id             Int          @id @default(autoincrement())
+  bonId          Int
+  bon            BonLivraison @relation(fields: [bonId], references: [id], onDelete: Cascade)
+  produitId      Int?
+  produit        Produit?     @relation(fields: [produitId], references: [id])
+  designation    String
+  quantiteCmd    Int          @default(0) // quantité commandée (origine)
+  quantiteLivree Int          @default(0)
+  prixUnitaireHT Decimal      @db.Decimal(10, 3)
+  tauxTVA        Decimal      @default(0) @db.Decimal(5, 2)
+
+  @@index([bonId])
+  @@index([produitId])
+  @@map("lignes_bon_livraison")
+}
+
+// ─── Factures ─────────────────────────────────────────────────────────────────
+
 model Facture {
-  id           Int           @id @default(autoincrement())
-  numero       String        @unique
-  statut       StatutFacture @default(EMISE)
-  commandeId   Int           @unique
-  commande     Commande      @relation(fields: [commandeId], references: [id])
-  dateEmission DateTime
+  id             Int            @id @default(autoincrement())
+  numero         String         @unique
+  numeroAvoir    String?        @unique
+  statut         StatutFacture  @default(BROUILLON)
+  statutPaiement StatutPaiement @default(NON_PAYEE)
+  typeFacture    TypeFacture    @default(PRODUITS)
+  etat           EtatFacture    @default(NORMALE)
+
+  // Origine (tous optionnels — au moins un renseigné selon le type)
+  commandeId     Int?
+  commande       Commande?     @relation(fields: [commandeId], references: [id])
+  bonLivraisonId Int? // legacy — gardé pour compatibilité (1 BL)
+  bonLivraison   BonLivraison? @relation("FactureBLPrincipal", fields: [bonLivraisonId], references: [id])
+  utilisateurId  Int?
+  utilisateur    Utilisateur?  @relation(fields: [utilisateurId], references: [id])
+  devisId        Int?
+  devis          Devis?        @relation(fields: [devisId], references: [id])
+
+  dateEmission           DateTime
+  dateEcheance           DateTime?
+  dateEstimationPaiement DateTime?
 
   // Snapshot client (immuable après finalisation)
   clientNom       String
@@ -234,16 +430,103 @@ model Facture {
   montantHT        Decimal @db.Decimal(10, 3)
   montantTVA       Decimal @db.Decimal(10, 3)
   montantTTC       Decimal @db.Decimal(10, 3)
+  retenueSurce     Decimal @default(0) @db.Decimal(10, 3)
   montantEnLettres String?
+
+  // Champs additionnels
+  devise            String  @default("TND")
+  commentaire       String?
+  projet            String?
+  incoterm          String?
+  origineDesProuits String?
 
   fichierPdf String?
   creeLe     DateTime @default(now())
   misAJourLe DateTime @updatedAt
 
-  lignes LigneFacture[]
+  lignes        LigneFacture[]
+  paiements     Paiement[]
+  bonsLivraison FactureBonLivraison[]
 
   @@index([statut])
+  @@index([statutPaiement])
+  @@index([commandeId])
+  @@index([bonLivraisonId])
+  @@index([devisId])
   @@map("factures")
+}
+
+// ─── Devis Clients ────────────────────────────────────────────────────────────
+
+model Devis {
+  id           Int       @id @default(autoincrement())
+  numero       String    @unique // DEV-2026-0001
+  dateDevis    DateTime  @default(now())
+  dateValidite DateTime?
+  statut       String    @default("BROUILLON") // BROUILLON, EN_ATTENTE, ACCEPTE, REFUSE, EXPIRE, FACTURE, CONVERTI_BL
+  etat         String    @default("NORMAL") // NORMAL, URGENT, ESTIMATION
+  typeDevis    String    @default("PRODUITS") // PRODUITS, SERVICE
+  devise       String    @default("TND")
+
+  utilisateurId Int?
+  utilisateur   Utilisateur? @relation(fields: [utilisateurId], references: [id])
+
+  // Snapshot client
+  clientNom       String
+  clientMF        String?
+  clientAdresse   String?
+  clientTelephone String?
+  clientEmail     String?
+
+  // Fiscalité
+  timbreFiscal  Decimal @default(1.000) @db.Decimal(10, 3)
+  montantHT     Decimal @default(0) @db.Decimal(10, 3)
+  montantRemise Decimal @default(0) @db.Decimal(10, 3)
+  montantTVA    Decimal @default(0) @db.Decimal(10, 3)
+  montantTTC    Decimal @default(0) @db.Decimal(10, 3)
+
+  commentaire String?
+  fichierPdf  String?
+  creeLe      DateTime @default(now())
+  misAJourLe  DateTime @updatedAt
+
+  lignes        LigneDevis[]
+  factures      Facture[]
+  bonsLivraison BonLivraison[]
+
+  @@index([statut])
+  @@index([utilisateurId])
+  @@map("devis")
+}
+
+model LigneDevis {
+  id             Int      @id @default(autoincrement())
+  devisId        Int
+  devis          Devis    @relation(fields: [devisId], references: [id], onDelete: Cascade)
+  produitId      Int?
+  produit        Produit? @relation(fields: [produitId], references: [id])
+  serviceId      Int?
+  designation    String
+  quantite       Decimal  @db.Decimal(10, 3)
+  prixUnitaireHT Decimal  @db.Decimal(10, 3)
+  remise         Decimal  @default(0) @db.Decimal(5, 2)
+  tauxTVA        Decimal  @default(19) @db.Decimal(5, 2)
+  totalHT        Decimal  @db.Decimal(10, 3)
+
+  @@index([devisId])
+  @@index([produitId])
+  @@map("lignes_devis")
+}
+
+// Table de jonction pour relation many-to-many Facture <-> BonLivraison
+model FactureBonLivraison {
+  factureId      Int
+  bonLivraisonId Int
+  facture        Facture      @relation(fields: [factureId], references: [id], onDelete: Cascade)
+  bonLivraison   BonLivraison @relation("FactureBLJonction", fields: [bonLivraisonId], references: [id])
+
+  @@id([factureId, bonLivraisonId])
+  @@map("facture_bons_livraison")
 }
 
 model LigneFacture {
@@ -259,6 +542,35 @@ model LigneFacture {
   @@index([factureId])
   @@map("lignes_facture")
 }
+
+// ─── Paiements ────────────────────────────────────────────────────────────────
+
+model Paiement {
+  id           Int      @id @default(autoincrement())
+  factureId    Int
+  facture      Facture  @relation(fields: [factureId], references: [id], onDelete: Cascade)
+  montant      Decimal  @db.Decimal(10, 3)
+  modePaiement String
+  datePaiement DateTime
+  reference    String?
+  commentaire  String?
+  creeLe       DateTime @default(now())
+
+  @@index([factureId])
+  @@map("paiements")
+}
+
+// ─── Services ─────────────────────────────────────────────────────────────────
+
+model Service {
+  id    Int     @id @default(autoincrement())
+  label String
+  actif Boolean @default(true)
+
+  @@map("services")
+}
+
+// ─── Site Content ─────────────────────────────────────────────────────────────
 
 enum TypeAlerte {
   INFO
@@ -333,8 +645,8 @@ model VideoHero {
   @@map("videos_hero")
 }
 
+// ─── Token de réinitialisation de mot de passe ────────────────────────────────
 
-// ── Token de réinitialisation de mot de passe ─────────────────────────────────
 model TokenReset {
   id            Int         @id @default(autoincrement())
   utilisateurId Int         @unique
@@ -346,16 +658,394 @@ model TokenReset {
   @@map("tokens_reset")
 }
 
-// ── Informations de la société (singleton — id toujours 1) ────────────────────
+// ─── Abonnés newsletter ───────────────────────────────────────────────────────
+
+model NewsletterAbonne {
+  id     Int      @id @default(autoincrement())
+  email  String   @unique
+  actif  Boolean  @default(true)
+  creeLe DateTime @default(now())
+
+  @@map("newsletter_abonnes")
+}
+
+// ─── Informations de la société (singleton — id toujours 1) ──────────────────
+
 model InfoSociete {
-  id          Int      @id @default(1)
-  nomSociete  String   @default("RZMedical")
-  logoUrl     String?
-  telephone   String?
-  email       String?
-  adresse     String?
-  siteWeb     String?
-  misAJourLe  DateTime @updatedAt
+  id            Int       @id @default(1)
+  nomSociete    String    @default("RZMedical")
+  logoUrl       String?
+  telephone     String?
+  email         String?
+  adresse       String?
+  siteWeb       String?
+  valeursTva    Decimal[] @db.Decimal(5, 2)
+  valeursTimbre Decimal[] @db.Decimal(10, 3)
+  tauxFrais     Decimal?  @default(0) @db.Decimal(10, 3)
+  timbreFiscal  Decimal?  @default(1) @db.Decimal(10, 3)
+  misAJourLe    DateTime  @updatedAt
 
   @@map("info_societe")
+}
+
+// ─── Exercice Fiscal ──────────────────────────────────────────────────────────
+
+model Exercice {
+  id         Int      @id @default(autoincrement())
+  annee      Int      @unique // ex: 2025, 2026
+  label      String // ex: "Exercice 2026"
+  dateDebut  DateTime // 01/01/2026
+  dateFin    DateTime // 31/12/2026
+  isActif    Boolean  @default(false)
+  creeLe     DateTime @default(now())
+  misAJourLe DateTime @updatedAt
+
+  sequences DocumentSequence[]
+
+  @@map("exercices")
+}
+
+model DocumentSequence {
+  id           Int                  @id @default(autoincrement())
+  exerciseId   Int
+  exercise     Exercice             @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+  documentType DocumentSequenceType
+  lastNumber   Int                  @default(0)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@unique([exerciseId, documentType])
+  @@map("document_sequences")
+}
+
+// ─── Fournisseurs ─────────────────────────────────────────────────────────────
+
+model Fournisseur {
+  id               Int      @id @default(autoincrement())
+  nom              String // Nom de l'entreprise / Raison sociale
+  contactNom       String? // Nom de l'interlocuteur
+  contactPrenom    String? // Prénom de l'interlocuteur
+  email            String?
+  telephone        String?
+  telephone2       String?
+  adresse          String?
+  ville            String?
+  codePostal       String?
+  pays             String?  @default("Tunisie")
+  matriculeFiscale String? // MF
+  registreCommerce String? // RC
+  categorie        String? // Consommables, Équipements, Réactifs, Maintenance, Mobilier, Autre
+  delaiPaiement    String? // Comptant, 30 jours, 60 jours, 90 jours
+  modePaiement     String? // Virement, Chèque, Espèces, Traite
+  rib              String? // RIB / IBAN
+  banque           String? // Nom de l'établissement bancaire
+  siteWeb          String?
+  notes            String?
+  actif            Boolean  @default(true)
+  creeLe           DateTime @default(now())
+  misAJourLe       DateTime @updatedAt
+
+  bonsCommande        BonCommande[]
+  bonsReception       BonReception[]
+  facturesFournisseur FactureFournisseur[]
+
+  @@map("fournisseurs")
+}
+
+// ─── ACHATS Enums ──────────────────────────────────────────────────────────────
+
+enum StatutBonCommande {
+  BROUILLON
+  ENVOYE
+  CONFIRME
+  RECEPTIONNE_PARTIEL
+  RECEPTIONNE
+  ANNULE
+}
+
+enum StatutBonReception {
+  BROUILLON
+  CONTROLE
+  VALIDE
+  FACTURE
+  ANNULE
+}
+
+enum StatutFactureFournisseur {
+  BROUILLON
+  VALIDEE
+  ANNULEE
+}
+
+enum StatutPaiementFournisseur {
+  NON_PAYEE
+  PARTIELLEMENT_PAYEE
+  PAYEE
+}
+
+enum TypeFactureFournisseur {
+  PRODUIT
+  SERVICE
+}
+
+enum CategorieFactureFournisseur {
+  FOURNISSEUR
+  CHARGES
+  CNSS
+  NEUF_BA4A
+}
+
+enum EtatFactureFournisseur {
+  NORMALE
+  AVOIR
+  PROFORMA
+}
+
+// ─── Bon de Commande ──────────────────────────────────────────────────────────
+
+model BonCommande {
+  id                  Int               @id @default(autoincrement())
+  code                String            @unique // BC-2026-0001
+  dateCommande        DateTime          @default(now())
+  dateLivraisonPrevue DateTime?
+  statut              StatutBonCommande @default(BROUILLON)
+
+  // Fournisseur (lien + snapshot)
+  fournisseurId      Int?
+  fournisseur        Fournisseur? @relation(fields: [fournisseurId], references: [id])
+  fournisseurNom     String?
+  fournisseurMF      String?
+  fournisseurAdresse String?
+  fournisseurTel     String?
+  fournisseurEmail   String?
+
+  // Financier
+  devise        String  @default("TND")
+  montantHT     Decimal @default(0) @db.Decimal(12, 3)
+  montantRemise Decimal @default(0) @db.Decimal(12, 3)
+  montantTVA    Decimal @default(0) @db.Decimal(12, 3)
+  timbreFiscal  Decimal @default(0) @db.Decimal(12, 3)
+  montantTTC    Decimal @default(0) @db.Decimal(12, 3)
+
+  commentaire String?
+  creeLe      DateTime @default(now())
+  misAJourLe  DateTime @updatedAt
+
+  lignes              LigneBonCommande[]
+  bonsReception       BonReception[]
+  facturesFournisseur FactureFournisseur[]
+
+  @@map("bons_commande")
+}
+
+model LigneBonCommande {
+  id            Int         @id @default(autoincrement())
+  bonCommandeId Int
+  bonCommande   BonCommande @relation(fields: [bonCommandeId], references: [id], onDelete: Cascade)
+
+  produitId      Int?
+  designation    String
+  quantite       Decimal @db.Decimal(12, 3)
+  prixUnitaireHT Decimal @db.Decimal(12, 3)
+  remise         Decimal @default(0) @db.Decimal(5, 2)
+  tauxTVA        Decimal @default(19) @db.Decimal(5, 2)
+  totalHT        Decimal @db.Decimal(12, 3)
+
+  @@map("lignes_bons_commande")
+}
+
+// ─── Bon de Réception ─────────────────────────────────────────────────────────
+
+model BonReception {
+  id            Int                @id @default(autoincrement())
+  code          String             @unique // BR-2026-0001
+  dateReception DateTime           @default(now())
+  statut        StatutBonReception @default(BROUILLON)
+  stockMisAJour Boolean            @default(false)
+
+  bonCommandeId Int?
+  bonCommande   BonCommande? @relation(fields: [bonCommandeId], references: [id])
+
+  // Fournisseur (lien + snapshot)
+  fournisseurId  Int?
+  fournisseur    Fournisseur? @relation(fields: [fournisseurId], references: [id])
+  fournisseurNom String?
+
+  commentaire String?
+  creeLe      DateTime @default(now())
+  misAJourLe  DateTime @updatedAt
+
+  lignes              LigneBonReception[]
+  facturesFournisseur FactureFournisseur[]
+
+  @@map("bons_reception")
+}
+
+model LigneBonReception {
+  id             Int          @id @default(autoincrement())
+  bonReceptionId Int
+  bonReception   BonReception @relation(fields: [bonReceptionId], references: [id], onDelete: Cascade)
+
+  produitId      Int?
+  designation    String
+  quantiteCmd    Decimal @default(0) @db.Decimal(12, 3)
+  quantiteRecue  Decimal @db.Decimal(12, 3)
+  prixUnitaireHT Decimal @db.Decimal(12, 3)
+  tauxTVA        Decimal @default(19) @db.Decimal(5, 2)
+
+  @@map("lignes_bons_reception")
+}
+
+// ─── Facture Fournisseur ──────────────────────────────────────────────────────
+
+model FactureFournisseur {
+  id                       Int     @id @default(autoincrement())
+  numero                   String  @unique // FF-2026-0001
+  numeroFactureFournisseur String? // N° imprimé sur le doc fournisseur
+
+  statut         StatutFactureFournisseur  @default(BROUILLON)
+  statutPaiement StatutPaiementFournisseur @default(NON_PAYEE)
+  typeFacture    TypeFactureFournisseur    @default(PRODUIT)
+  categorie      CategorieFactureFournisseur @default(FOURNISSEUR)
+  etat           EtatFactureFournisseur    @default(NORMALE)
+
+  dateFacture  DateTime  @default(now())
+  dateEcheance DateTime?
+
+  // Liens documents
+  bonCommandeId  Int?
+  bonCommande    BonCommande?  @relation(fields: [bonCommandeId], references: [id])
+  bonReceptionId Int?
+  bonReception   BonReception? @relation(fields: [bonReceptionId], references: [id])
+
+  // Fournisseur (lien + snapshot)
+  fournisseurId      Int?
+  fournisseur        Fournisseur? @relation(fields: [fournisseurId], references: [id])
+  fournisseurNom     String?
+  fournisseurMF      String?
+  fournisseurAdresse String?
+  fournisseurTel     String?
+  fournisseurEmail   String?
+
+  // Financier
+  devise        String  @default("TND")
+  montantHT     Decimal @default(0) @db.Decimal(12, 3)
+  montantRemise Decimal @default(0) @db.Decimal(12, 3)
+  montantTVA    Decimal @default(0) @db.Decimal(12, 3)
+  timbreFiscal  Decimal @default(0) @db.Decimal(12, 3)
+  equilibre     Decimal @default(0) @db.Decimal(12, 3)
+  montantTTC    Decimal @default(0) @db.Decimal(12, 3)
+  montantPaye   Decimal @default(0) @db.Decimal(12, 3)
+  solde         Decimal @default(0) @db.Decimal(12, 3)
+  calculManuel  Boolean @default(false)
+  stockMisAJour Boolean @default(false)
+
+  commentaire      String?
+  documentJointUrl String?
+
+  creeLe     DateTime @default(now())
+  misAJourLe DateTime @updatedAt
+
+  lignes    LigneFactureFournisseur[]
+  paiements PaiementFactureFournisseur[]
+
+  @@map("factures_fournisseurs")
+}
+
+// Données métier propres aux charges. Elles restent liées à la facture
+// fournisseur afin de conserver le cycle de paiement et les relations existantes.
+model ChargeGenerale {
+  id                   Int      @id @default(autoincrement())
+  numeroCharge         String   @unique
+  date                 DateTime @default(now())
+  nature               String
+  description          String?
+  periodeConcernee     String?
+  beneficiaire         String
+  montantHT            Decimal  @db.Decimal(12, 3)
+  tauxTVA              Decimal  @db.Decimal(5, 2)
+  montantTTC           Decimal  @db.Decimal(12, 3)
+  statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  modePaiement         String?
+  datePaiement         DateTime?
+  referenceFacture     String?
+  pieceJustificativeUrl String?
+  notes                String?
+  creeLe               DateTime           @default(now())
+  misAJourLe           DateTime           @updatedAt
+
+  @@map("charges_generales")
+}
+
+model ChargeCnss {
+  id                   Int      @id @default(autoincrement())
+  numeroDeclaration    String
+  periodeDeclaration   String
+  matriculeEmployeur   String
+  nombreSalaries       Int
+  masseSalariale       Decimal            @db.Decimal(12, 3)
+  partPatronale        Decimal            @db.Decimal(12, 3)
+  partSalariale        Decimal            @db.Decimal(12, 3)
+  totalCnss            Decimal            @db.Decimal(12, 3)
+  statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  dateLimitePaiement   DateTime?
+  datePaiement         DateTime?
+  modePaiement         String?
+  referencePaiement    String?
+  pieceJustificativeUrl String?
+  notes                String?
+  creeLe               DateTime           @default(now())
+  misAJourLe           DateTime           @updatedAt
+
+  @@map("charges_cnss")
+}
+
+model Charge9ba4a {
+  id                   Int      @id @default(autoincrement())
+  numero               String   @unique
+  date                 DateTime @default(now())
+  description          String
+  beneficiaire         String
+  montant              Decimal  @db.Decimal(12, 3)
+  statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  modePaiement         String?
+  pieceJustificativeUrl String?
+  notes                String?
+  creeLe               DateTime           @default(now())
+  misAJourLe           DateTime           @updatedAt
+
+  @@map("charges_9ba4a")
+}
+
+model LigneFactureFournisseur {
+  id                   Int                @id @default(autoincrement())
+  factureFournisseurId Int
+  factureFournisseur   FactureFournisseur @relation(fields: [factureFournisseurId], references: [id], onDelete: Cascade)
+
+  produitId      Int?
+  designation    String
+  quantite       Decimal @db.Decimal(12, 3)
+  prixUnitaireHT Decimal @db.Decimal(12, 3)
+  remise         Decimal @default(0) @db.Decimal(5, 2)
+  tauxTVA        Decimal @default(19) @db.Decimal(5, 2)
+  totalHT        Decimal @db.Decimal(12, 3)
+  totalTTC       Decimal @db.Decimal(12, 3)
+
+  @@map("lignes_factures_fournisseurs")
+}
+
+model PaiementFactureFournisseur {
+  id                   Int                @id @default(autoincrement())
+  factureFournisseurId Int
+  factureFournisseur   FactureFournisseur @relation(fields: [factureFournisseurId], references: [id], onDelete: Cascade)
+
+  montant      Decimal  @db.Decimal(12, 3)
+  modePaiement String   @default("Virement")
+  datePaiement DateTime @default(now())
+  reference    String?
+  commentaire  String?
+
+  creeLe DateTime @default(now())
+
+  @@map("paiements_factures_fournisseurs")
 }

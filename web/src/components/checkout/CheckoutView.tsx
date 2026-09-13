@@ -400,7 +400,7 @@ export function CheckoutView() {
                     <QuantityStepper
                       value={item.quantite}
                       onChange={(quantity) => setQuantity(item.produitId, quantity)}
-                      max={item.stock}
+                      max={undefined}
                       size="sm"
                     />
                     <button
@@ -627,7 +627,7 @@ export function CheckoutView() {
                       <QuantityStepper
                         value={item.quantite}
                         onChange={(quantity) => setQuantity(item.produitId, quantity)}
-                        max={item.stock}
+                        max={undefined}
                         size="sm"
                       />
                       <IconButton

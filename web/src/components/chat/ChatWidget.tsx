@@ -15,6 +15,7 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  image?: string;
   timestamp: Date;
   streaming?: boolean;
 }
@@ -72,6 +73,25 @@ function IconMinimize() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
       <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconCamera() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="13" r="4" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function IconImage() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+      <path d="M21 15l-5-5L5 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -211,7 +231,12 @@ function MessageBubble({ msg, onSuggestionClick }: { msg: Message; onSuggestionC
           {msg.streaming && msg.content === "" ? (
             <TypingDots />
           ) : isUser ? (
-            <span className="whitespace-pre-wrap">{msg.content}</span>
+            <span className="whitespace-pre-wrap">
+              {msg.image && (
+                <img src={msg.image} alt="Upload" className="max-w-full h-auto rounded-lg mb-2 border border-white/20" style={{ maxHeight: '160px' }} />
+              )}
+              {msg.content}
+            </span>
           ) : (
             renderMessageContent(msg.content, onSuggestionClick)
           )}
@@ -234,9 +259,12 @@ export function ChatWidget() {
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   // Scroll automatique vers le bas
@@ -261,12 +289,14 @@ export function ChatWidget() {
 
   const sendMessage = useCallback(
     async (text: string) => {
-      if (!text.trim() || loading) return;
+      if ((!text.trim() && !selectedImage) || loading) return;
 
+      const imageToSend = selectedImage;
       const userMsg: Message = {
         id: `u-${Date.now()}`,
         role: "user",
-        content: text.trim(),
+        content: text.trim() || (imageToSend ? "Image partagée." : ""),
+        image: imageToSend || undefined,
         timestamp: new Date(),
       };
 
@@ -281,6 +311,7 @@ export function ChatWidget() {
 
       setMessages((prev) => [...prev, userMsg, assistantMsg]);
       setInput("");
+      setSelectedImage(null);
       setLoading(true);
       setShowSuggestions(false);
 
@@ -288,6 +319,7 @@ export function ChatWidget() {
       const history = [...messages, userMsg].map((m) => ({
         role: m.role === "user" ? "user" : "model" as "user" | "model",
         content: m.content,
+        image: m.image,
       }));
 
       const ctrl = new AbortController();
@@ -381,7 +413,7 @@ export function ChatWidget() {
         abortRef.current = null;
       }
     },
-    [loading, messages, open, token],
+    [loading, messages, open, token, selectedImage],
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -392,8 +424,50 @@ export function ChatWidget() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage(input);
+      if (input.trim() || selectedImage) {
+        sendMessage(input);
+      }
     }
+  };
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d")!;
+        const MAX_WIDTH = 512;
+        const MAX_HEIGHT = 512;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        // Reduce quality to 0.5 to stay within Groq vision payload limit
+        const compressedBase64 = canvas.toDataURL("image/jpeg", 0.5);
+        setSelectedImage(compressedBase64);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = ""; // Reset input
   };
 
   const handleSuggestion = (s: string) => {
@@ -565,7 +639,60 @@ export function ChatWidget() {
             className="flex-shrink-0 border-t border-slate-100 px-3 py-3"
             style={{ background: "#ffffff" }}
           >
+            {/* Image Preview Area */}
+            {selectedImage && (
+              <div className="relative inline-block mb-3 ml-2 group animate-chatFadeIn">
+                <img src={selectedImage} alt="Aperçu" className="h-16 w-16 object-cover rounded-lg border-2 border-azure-200 shadow-sm" />
+                <button
+                  type="button"
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute -top-2 -right-2 bg-slate-800 text-white rounded-full p-0.5 shadow transition-transform hover:scale-110"
+                  aria-label="Supprimer l'image"
+                >
+                  <IconClose />
+                </button>
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit} className="flex items-end gap-2">
+              {/* Hidden inputs */}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                ref={cameraInputRef}
+                onChange={handleImageSelect}
+              />
+              {/* Gallery button */}
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={loading}
+                aria-label="Choisir une image depuis la galerie"
+                title="Galerie"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-slate-400 bg-slate-50 border border-slate-200 rounded-xl transition-colors hover:text-azure-600 hover:bg-azure-50 hover:border-azure-200 disabled:opacity-50"
+              >
+                <IconImage />
+              </button>
+              {/* Camera button */}
+              <button
+                type="button"
+                onClick={() => cameraInputRef.current?.click()}
+                disabled={loading}
+                aria-label="Prendre une photo directement"
+                title="Appareil photo"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-slate-400 bg-slate-50 border border-slate-200 rounded-xl transition-colors hover:text-azure-600 hover:bg-azure-50 hover:border-azure-200 disabled:opacity-50"
+              >
+                <IconCamera />
+              </button>
               <textarea
                 ref={inputRef}
                 id="rzbot-input"
@@ -585,7 +712,7 @@ export function ChatWidget() {
               />
               <button
                 type="submit"
-                disabled={loading || !input.trim()}
+                disabled={loading || (!input.trim() && !selectedImage)}
                 aria-label="Envoyer le message"
                 className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-azure-500 to-navy-700 flex items-center justify-center text-white shadow transition-all hover:from-azure-400 hover:to-navy-600 hover:shadow-md disabled:opacity-35 disabled:cursor-not-allowed active:scale-95"
               >

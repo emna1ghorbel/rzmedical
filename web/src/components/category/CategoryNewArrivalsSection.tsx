@@ -5,6 +5,10 @@ import { toSlug } from "@/lib/slug";
 import { Container } from "@/components/ui/Container";
 import { ProductRail } from "@/components/catalogue/ProductRail";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { ArrowRightIcon } from "@/components/ui/icons";
+
+const BTN =
+  "inline-flex h-10 flex-shrink-0 items-center justify-center gap-2 rounded-lg border border-azure-200 bg-white px-5 text-sm font-medium text-azure-700 shadow-sm hover:bg-azure-50 hover:border-azure-400 transition-all duration-200";
 
 /**
  * Section nouveautés filtrée sur la catégorie active.
@@ -38,8 +42,12 @@ export async function CategoryNewArrivalsSection({
         eyebrow="Sélection"
         title={`Nouveautés ${category.nom}`}
         description={`Les dernières références ${category.nom.toLowerCase()} ajoutées à notre catalogue.`}
-        href={`/${slug}/nouveautes`}
-        linkLabel="Découvrir les nouveautés"
+        extraAction={
+          <Link href={`/${slug}/nouveautes`} className={BTN}>
+            Découvrir les nouveautés
+            <ArrowRightIcon size={16} />
+          </Link>
+        }
       />
       <ProductRail
         products={products}

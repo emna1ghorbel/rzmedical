@@ -250,4 +250,3 @@ model VideoHero {
   misAJourLe DateTime @updatedAt
   @@map("videos_hero")
 }
-

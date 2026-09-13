@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install all dependencies (including devDependencies for tsc)
 COPY package*.json ./
-RUN npm install
+RUN npm ci --include=optional
 
 # Copy source files
 COPY . .
@@ -21,7 +21,7 @@ WORKDIR /app
 
 # Install production dependencies only
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm ci --omit=dev --include=optional
 
 # Copy compiled files and Prisma config
 COPY --from=builder /app/dist ./dist

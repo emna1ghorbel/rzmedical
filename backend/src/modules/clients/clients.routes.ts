@@ -167,6 +167,49 @@ router.put('/:id/password', requireAuth, async (req: Request, res: Response) => 
   }
 });
 
+// POST /api/clients/quick — Créer un client rapide (sans email ni MDP)
+router.post('/quick', requireAuth, async (req: Request, res: Response) => {
+  try {
+    const { nom, prenom, adresse, telephone, matriculeFiscale } = req.body;
+
+    if (!nom && !prenom) {
+      return res.status(400).json({ error: 'Nom ou prénom requis' });
+    }
+
+    // Generate a unique synthetic email so the DB unique constraint is satisfied
+    const timestamp = Date.now();
+    const syntheticEmail = `client.facture.${timestamp}@rzmedical.local`;
+
+    const client = await prisma.utilisateur.create({
+      data: {
+        email: syntheticEmail,
+        motDePasseHash: '',          // no login — empty hash
+        prenom: prenom?.trim() || null,
+        nom: nom?.trim() || null,
+        telephone: telephone?.trim() || null,
+        adresse: adresse?.trim() || null,
+        matriculeFiscale: matriculeFiscale?.trim() || null,
+        typeUtilisateur: 'CLIENT',
+      },
+      select: {
+        id: true,
+        email: true,
+        prenom: true,
+        nom: true,
+        telephone: true,
+        adresse: true,
+        matriculeFiscale: true,
+        creeLe: true,
+      },
+    });
+
+    res.status(201).json(client);
+  } catch (err: unknown) {
+    console.error('POST /api/clients/quick error:', err);
+    res.status(500).json({ error: 'Erreur lors de la création du client' });
+  }
+});
+
 // POST /api/clients — Créer un nouveau client
 router.post('/', requireAuth, async (req: Request, res: Response) => {
   try {
@@ -215,6 +258,7 @@ router.post('/', requireAuth, async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Erreur lors de la création du client' });
   }
 });
+
 
 // PUT /api/clients/:id — Modifier un client
 router.put('/:id', requireAuth, async (req: Request, res: Response) => {

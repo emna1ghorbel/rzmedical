@@ -1,4 +1,5 @@
 import prisma from '../../config/prisma';
+import { generateDocumentNumber } from '../exercices/document-numbers.service';
 
 // Erreur métier avec code HTTP (mappée par le contrôleur)
 export class OrderError extends Error {
@@ -22,12 +23,15 @@ const orderInclude = {
   lignes: {
     include: {
       produit: {
-        select: { id: true, nom: true, reference: true, images: true },
+        select: { id: true, nom: true, reference: true, images: true, prix: true, prixAchat: true, stock: true, qteAchat: true, qteVente: true, disponibleALaVente: true, tva: true, remise: true },
       },
     },
   },
-  facture: {
-    select: { id: true, numero: true, fichierPdf: true },
+  factures: {
+    select: { id: true, numero: true, fichierPdf: true, statut: true, statutPaiement: true },
+  },
+  bonsLivraison: {
+    select: { id: true, code: true, statut: true },
   },
 } as const;
 
@@ -70,13 +74,9 @@ export const createOrder = async (userId: number, lignes: LigneInput[]) => {
       if (!produit) {
         throw new OrderError(`Produit introuvable (id ${produitId})`, 404);
       }
-      if (!produit.disponible) {
+      if (!produit.disponibleALaVente) {
         throw new OrderError(`Le produit « ${produit.nom} » n'est plus disponible`);
       }
-      if (produit.stock < quantite) {
-        throw new OrderError(`Stock insuffisant pour « ${produit.nom} » (disponible : ${produit.stock})`);
-      }
-
       // Le client bénéficie de la remise la plus avantageuse entre la sienne et celle du produit
       const produitRemise = Number(produit.remise) || 0;
       const maxRemise = Math.max(produitRemise, clientRemise);
@@ -88,8 +88,10 @@ export const createOrder = async (userId: number, lignes: LigneInput[]) => {
 
     total = round2(total);
 
+    const numero = await generateDocumentNumber(tx, 'COMMANDE');
     const commande = await tx.commande.create({
       data: {
+        numero,
         utilisateurId: userId,
         statut: 'EN_ATTENTE',
         total,
@@ -97,14 +99,6 @@ export const createOrder = async (userId: number, lignes: LigneInput[]) => {
       },
       include: orderInclude,
     });
-
-    // Décrémente le stock de chaque produit commandé
-    for (const [produitId, quantite] of quantities) {
-      await tx.produit.update({
-        where: { id: produitId },
-        data: { stock: { decrement: quantite } },
-      });
-    }
 
     return commande;
   });
@@ -123,6 +117,15 @@ export const getOrder = (userId: number, orderId: number) =>
     include: orderInclude,
   });
 
+export const getOrderById = (orderId: number) =>
+  prisma.commande.findUnique({
+    where: { id: orderId },
+    include: {
+      ...orderInclude,
+      utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true, adresse: true, matriculeFiscale: true } }
+    },
+  });
+
 // --- Admin methods ---
 
 export const getAllOrders = (status?: string) => {
@@ -131,7 +134,7 @@ export const getAllOrders = (status?: string) => {
     orderBy: { creeLe: 'desc' },
     include: {
       ...orderInclude,
-      utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true } }
+      utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true, adresse: true, matriculeFiscale: true } }
     },
   });
 };
@@ -147,7 +150,7 @@ export const updateOrderStatus = async (orderId: number, status: string) => {
     data: { statut: status as any },
     include: {
       ...orderInclude,
-      utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true } }
+      utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true, adresse: true, matriculeFiscale: true } }
     },
   });
 };
@@ -214,17 +217,13 @@ export const updateOrderItems = async (orderId: number, nouvellesLignes: LigneIn
       if (!produit) {
         throw new OrderError(`Produit introuvable (id ${produitId})`, 404);
       }
-      if (!produit.disponible) {
+      if (!produit.disponibleALaVente) {
         throw new OrderError(`Le produit « ${produit.nom} » n'est plus disponible`);
       }
       
       // Attention, le stock disponible est maintenant l'ancien stock de base (celui récupéré dans produits)
       // PLUS l'incrément fait plus haut dans la transaction (qui n'est pas vu par findMany car il n'est pas lu après l'update si findMany a été fait avant, 
       // oh attendez: tx.produit.findMany VERRRA les modifs du tx.produit.update s'il est fait APRÈS, c'est le cas ici !).
-      if (produit.stock < quantite) {
-        throw new OrderError(`Stock insuffisant pour « ${produit.nom} » (disponible : ${produit.stock})`);
-      }
-
       // Prix unitaire (remise max)
       const produitRemise = Number(produit.remise) || 0;
       const maxRemise = Math.max(produitRemise, clientRemise);
@@ -254,14 +253,36 @@ export const updateOrderItems = async (orderId: number, nouvellesLignes: LigneIn
       },
     });
 
-    // 8. Décrémente le stock pour les nouvelles lignes
-    for (const [produitId, quantite] of quantities) {
-      await tx.produit.update({
-        where: { id: produitId },
-        data: { stock: { decrement: quantite } },
-      });
-    }
-
     return commandeMaj;
   });
+};
+
+export const trackOrderPublicly = async (numero: string) => {
+  const order = await prisma.commande.findUnique({
+    where: { numero },
+    select: {
+      numero: true,
+      statut: true,
+      creeLe: true,
+      factures: {
+        select: { numero: true, statutPaiement: true }
+      },
+      bonsLivraison: {
+        select: { code: true, statut: true }
+      }
+    }
+  });
+
+  if (!order) {
+    throw new OrderError('Commande introuvable', 404);
+  }
+
+  // Rename fields in output for frontend compatibility
+  return {
+    code: order.numero,
+    statut: order.statut,
+    dateCommande: order.creeLe,
+    factures: order.factures,
+    bonsLivraison: order.bonsLivraison
+  };
 };

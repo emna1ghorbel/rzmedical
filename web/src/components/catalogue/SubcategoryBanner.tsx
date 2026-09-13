@@ -23,7 +23,7 @@ export function SubcategoryBanner({
       <section
         className={cn(
           "relative flex items-center justify-center overflow-hidden border-b border-white/[0.08]",
-          bg ? "min-h-[7.5rem] sm:min-h-[8.5rem]" : "min-h-[6.5rem] sm:min-h-[7.5rem] bg-slate-900",
+          bg ? "min-h-[12rem] sm:min-h-[16rem]" : "min-h-[10rem] sm:min-h-[14rem] bg-slate-900",
         )}
         style={{
           boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
@@ -37,9 +37,7 @@ export function SubcategoryBanner({
             alt=""
             className="absolute inset-0 h-full w-full object-cover object-center scale-105 blur-[2px]"
           />
-        ) : (
-          <div className="absolute inset-0 grid-pattern opacity-[0.15] pointer-events-none" />
-        )}
+        ) : null}
 
         {/* Overlays and gradients */}
         <div
@@ -52,24 +50,15 @@ export function SubcategoryBanner({
           )}
         />
 
-        {/* Ambient Glows */}
-        <div className="absolute -top-10 -left-10 w-48 h-48 rounded-full bg-azure-500/30 blur-[60px] pointer-events-none z-0" />
-        <div className="absolute -bottom-10 -right-10 w-48 h-48 rounded-full bg-azure-400/20 blur-[60px] pointer-events-none z-0" />
-
-        {/* Animated scan line */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-azure-400/30 to-transparent animate-[scanLine_5s_ease-in-out_infinite]" />
-        </div>
-
-        {/* Gloss Top line */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none z-10" />
+        {/* Subtle top border highlight */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-white/10 pointer-events-none z-10" />
 
         {/* Content */}
         <Container className="relative z-10 py-5 sm:py-6">
           <div className="mx-auto max-w-3xl text-center flex flex-col items-center">
-            {/* Pill Eyebrow */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-azure-400/30 bg-azure-500/10 px-3.5 py-1 mb-3 select-none backdrop-blur-sm shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-azure-400 animate-pulse" />
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-azure-400/25 bg-azure-500/10 px-3.5 py-1 mb-3 select-none">
+              <span className="h-px w-4 bg-azure-400/60" />
               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-azure-300">
                 Sélection du catalogue
               </span>

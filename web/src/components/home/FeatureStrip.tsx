@@ -17,29 +17,29 @@ const FEATURES: {
 }[] = [
   {
     icon: TruckIcon,
-    title: "Livraison rapide",
-    text: "Expédition 24–48h partout en Tunisie",
+    title: "Livré dans la journée",
+    text: "Commandez avant 14h — on expédie le jour même.",
     gradient: "from-azure-50 to-white",
     glow: "rgba(14,165,233,0.15)",
   },
   {
     icon: ShieldCheckIcon,
-    title: "Produits certifiés",
-    text: "Matériel conforme et traçable",
+    title: "Traçable et certifié CE",
+    text: "Pas de matériel gris. Chaque lot a son certificat.",
     gradient: "from-emerald-50 to-white",
     glow: "rgba(18,183,106,0.15)",
   },
   {
     icon: HeadsetIcon,
-    title: "Support expert",
-    text: "Une équipe à votre écoute",
+    title: "Un vrai humain au bout du fil",
+    text: "Appelez le +216 28 113 131 — on répond nous-mêmes.",
     gradient: "from-violet-50 to-white",
     glow: "rgba(139,92,246,0.15)",
   },
   {
     icon: CreditCardIcon,
-    title: "Paiement flexible",
-    text: "À la livraison ou par virement",
+    title: "Payez quand vous recevez",
+    text: "Paiement à la livraison ou par virement. Pas de prépaiement obligatoire.",
     gradient: "from-amber-50 to-white",
     glow: "rgba(245,158,11,0.15)",
   },
@@ -49,8 +49,6 @@ const FEATURES: {
 export function FeatureStrip() {
   return (
     <section className="relative bg-white border-b border-slate-200/60 select-none overflow-hidden">
-      {/* Ambient background */}
-      <div className="absolute inset-0 grid-pattern opacity-[0.1] pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-slate-50/50 to-white/0 pointer-events-none" />
 
       <Container className="relative py-10 lg:py-14">

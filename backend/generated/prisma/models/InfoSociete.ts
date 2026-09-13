@@ -28,10 +28,18 @@ export type AggregateInfoSociete = {
 
 export type InfoSocieteAvgAggregateOutputType = {
   id: number | null
+  valeursTva: runtime.Decimal | null
+  valeursTimbre: runtime.Decimal | null
+  tauxFrais: runtime.Decimal | null
+  timbreFiscal: runtime.Decimal | null
 }
 
 export type InfoSocieteSumAggregateOutputType = {
   id: number | null
+  valeursTva: runtime.Decimal[]
+  valeursTimbre: runtime.Decimal[]
+  tauxFrais: runtime.Decimal | null
+  timbreFiscal: runtime.Decimal | null
 }
 
 export type InfoSocieteMinAggregateOutputType = {
@@ -42,6 +50,8 @@ export type InfoSocieteMinAggregateOutputType = {
   email: string | null
   adresse: string | null
   siteWeb: string | null
+  tauxFrais: runtime.Decimal | null
+  timbreFiscal: runtime.Decimal | null
   misAJourLe: Date | null
 }
 
@@ -53,6 +63,8 @@ export type InfoSocieteMaxAggregateOutputType = {
   email: string | null
   adresse: string | null
   siteWeb: string | null
+  tauxFrais: runtime.Decimal | null
+  timbreFiscal: runtime.Decimal | null
   misAJourLe: Date | null
 }
 
@@ -64,6 +76,10 @@ export type InfoSocieteCountAggregateOutputType = {
   email: number
   adresse: number
   siteWeb: number
+  valeursTva: number
+  valeursTimbre: number
+  tauxFrais: number
+  timbreFiscal: number
   misAJourLe: number
   _all: number
 }
@@ -71,10 +87,18 @@ export type InfoSocieteCountAggregateOutputType = {
 
 export type InfoSocieteAvgAggregateInputType = {
   id?: true
+  valeursTva?: true
+  valeursTimbre?: true
+  tauxFrais?: true
+  timbreFiscal?: true
 }
 
 export type InfoSocieteSumAggregateInputType = {
   id?: true
+  valeursTva?: true
+  valeursTimbre?: true
+  tauxFrais?: true
+  timbreFiscal?: true
 }
 
 export type InfoSocieteMinAggregateInputType = {
@@ -85,6 +109,8 @@ export type InfoSocieteMinAggregateInputType = {
   email?: true
   adresse?: true
   siteWeb?: true
+  tauxFrais?: true
+  timbreFiscal?: true
   misAJourLe?: true
 }
 
@@ -96,6 +122,8 @@ export type InfoSocieteMaxAggregateInputType = {
   email?: true
   adresse?: true
   siteWeb?: true
+  tauxFrais?: true
+  timbreFiscal?: true
   misAJourLe?: true
 }
 
@@ -107,6 +135,10 @@ export type InfoSocieteCountAggregateInputType = {
   email?: true
   adresse?: true
   siteWeb?: true
+  valeursTva?: true
+  valeursTimbre?: true
+  tauxFrais?: true
+  timbreFiscal?: true
   misAJourLe?: true
   _all?: true
 }
@@ -205,6 +237,10 @@ export type InfoSocieteGroupByOutputType = {
   email: string | null
   adresse: string | null
   siteWeb: string | null
+  valeursTva: runtime.Decimal[]
+  valeursTimbre: runtime.Decimal[]
+  tauxFrais: runtime.Decimal | null
+  timbreFiscal: runtime.Decimal | null
   misAJourLe: Date
   _count: InfoSocieteCountAggregateOutputType | null
   _avg: InfoSocieteAvgAggregateOutputType | null
@@ -239,6 +275,10 @@ export type InfoSocieteWhereInput = {
   email?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
   adresse?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
   siteWeb?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
+  valeursTva?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  valeursTimbre?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  tauxFrais?: Prisma.DecimalNullableFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.DecimalNullableFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFilter<"InfoSociete"> | Date | string
 }
 
@@ -250,6 +290,10 @@ export type InfoSocieteOrderByWithRelationInput = {
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   adresse?: Prisma.SortOrderInput | Prisma.SortOrder
   siteWeb?: Prisma.SortOrderInput | Prisma.SortOrder
+  valeursTva?: Prisma.SortOrder
+  valeursTimbre?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrderInput | Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrderInput | Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
 
@@ -264,6 +308,10 @@ export type InfoSocieteWhereUniqueInput = Prisma.AtLeast<{
   email?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
   adresse?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
   siteWeb?: Prisma.StringNullableFilter<"InfoSociete"> | string | null
+  valeursTva?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  valeursTimbre?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  tauxFrais?: Prisma.DecimalNullableFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.DecimalNullableFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFilter<"InfoSociete"> | Date | string
 }, "id">
 
@@ -275,6 +323,10 @@ export type InfoSocieteOrderByWithAggregationInput = {
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   adresse?: Prisma.SortOrderInput | Prisma.SortOrder
   siteWeb?: Prisma.SortOrderInput | Prisma.SortOrder
+  valeursTva?: Prisma.SortOrder
+  valeursTimbre?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrderInput | Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrderInput | Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.InfoSocieteCountOrderByAggregateInput
   _avg?: Prisma.InfoSocieteAvgOrderByAggregateInput
@@ -294,6 +346,10 @@ export type InfoSocieteScalarWhereWithAggregatesInput = {
   email?: Prisma.StringNullableWithAggregatesFilter<"InfoSociete"> | string | null
   adresse?: Prisma.StringNullableWithAggregatesFilter<"InfoSociete"> | string | null
   siteWeb?: Prisma.StringNullableWithAggregatesFilter<"InfoSociete"> | string | null
+  valeursTva?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  valeursTimbre?: Prisma.DecimalNullableListFilter<"InfoSociete">
+  tauxFrais?: Prisma.DecimalNullableWithAggregatesFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.DecimalNullableWithAggregatesFilter<"InfoSociete"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"InfoSociete"> | Date | string
 }
 
@@ -305,6 +361,10 @@ export type InfoSocieteCreateInput = {
   email?: string | null
   adresse?: string | null
   siteWeb?: string | null
+  valeursTva?: Prisma.InfoSocieteCreatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteCreatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Date | string
 }
 
@@ -316,6 +376,10 @@ export type InfoSocieteUncheckedCreateInput = {
   email?: string | null
   adresse?: string | null
   siteWeb?: string | null
+  valeursTva?: Prisma.InfoSocieteCreatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteCreatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Date | string
 }
 
@@ -327,6 +391,10 @@ export type InfoSocieteUpdateInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   siteWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valeursTva?: Prisma.InfoSocieteUpdatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteUpdatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -338,6 +406,10 @@ export type InfoSocieteUncheckedUpdateInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   siteWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valeursTva?: Prisma.InfoSocieteUpdatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteUpdatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -349,6 +421,10 @@ export type InfoSocieteCreateManyInput = {
   email?: string | null
   adresse?: string | null
   siteWeb?: string | null
+  valeursTva?: Prisma.InfoSocieteCreatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteCreatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Date | string
 }
 
@@ -360,6 +436,10 @@ export type InfoSocieteUpdateManyMutationInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   siteWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valeursTva?: Prisma.InfoSocieteUpdatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteUpdatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -371,7 +451,19 @@ export type InfoSocieteUncheckedUpdateManyInput = {
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   siteWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valeursTva?: Prisma.InfoSocieteUpdatevaleursTvaInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  valeursTimbre?: Prisma.InfoSocieteUpdatevaleursTimbreInput | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  tauxFrais?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  timbreFiscal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DecimalNullableListFilter<$PrismaModel = never> = {
+  equals?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  has?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
+  hasEvery?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel>
+  hasSome?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type InfoSocieteCountOrderByAggregateInput = {
@@ -382,11 +474,19 @@ export type InfoSocieteCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   adresse?: Prisma.SortOrder
   siteWeb?: Prisma.SortOrder
+  valeursTva?: Prisma.SortOrder
+  valeursTimbre?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
 
 export type InfoSocieteAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  valeursTva?: Prisma.SortOrder
+  valeursTimbre?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrder
 }
 
 export type InfoSocieteMaxOrderByAggregateInput = {
@@ -397,6 +497,8 @@ export type InfoSocieteMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   adresse?: Prisma.SortOrder
   siteWeb?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
 
@@ -408,11 +510,35 @@ export type InfoSocieteMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   adresse?: Prisma.SortOrder
   siteWeb?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
 
 export type InfoSocieteSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  valeursTva?: Prisma.SortOrder
+  valeursTimbre?: Prisma.SortOrder
+  tauxFrais?: Prisma.SortOrder
+  timbreFiscal?: Prisma.SortOrder
+}
+
+export type InfoSocieteCreatevaleursTvaInput = {
+  set: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+}
+
+export type InfoSocieteCreatevaleursTimbreInput = {
+  set: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+}
+
+export type InfoSocieteUpdatevaleursTvaInput = {
+  set?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  push?: runtime.Decimal | runtime.DecimalJsLike | number | string | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+}
+
+export type InfoSocieteUpdatevaleursTimbreInput = {
+  set?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
+  push?: runtime.Decimal | runtime.DecimalJsLike | number | string | runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[]
 }
 
 
@@ -425,6 +551,10 @@ export type InfoSocieteSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   email?: boolean
   adresse?: boolean
   siteWeb?: boolean
+  valeursTva?: boolean
+  valeursTimbre?: boolean
+  tauxFrais?: boolean
+  timbreFiscal?: boolean
   misAJourLe?: boolean
 }, ExtArgs["result"]["infoSociete"]>
 
@@ -436,6 +566,10 @@ export type InfoSocieteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   email?: boolean
   adresse?: boolean
   siteWeb?: boolean
+  valeursTva?: boolean
+  valeursTimbre?: boolean
+  tauxFrais?: boolean
+  timbreFiscal?: boolean
   misAJourLe?: boolean
 }, ExtArgs["result"]["infoSociete"]>
 
@@ -447,6 +581,10 @@ export type InfoSocieteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   email?: boolean
   adresse?: boolean
   siteWeb?: boolean
+  valeursTva?: boolean
+  valeursTimbre?: boolean
+  tauxFrais?: boolean
+  timbreFiscal?: boolean
   misAJourLe?: boolean
 }, ExtArgs["result"]["infoSociete"]>
 
@@ -458,10 +596,14 @@ export type InfoSocieteSelectScalar = {
   email?: boolean
   adresse?: boolean
   siteWeb?: boolean
+  valeursTva?: boolean
+  valeursTimbre?: boolean
+  tauxFrais?: boolean
+  timbreFiscal?: boolean
   misAJourLe?: boolean
 }
 
-export type InfoSocieteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomSociete" | "logoUrl" | "telephone" | "email" | "adresse" | "siteWeb" | "misAJourLe", ExtArgs["result"]["infoSociete"]>
+export type InfoSocieteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomSociete" | "logoUrl" | "telephone" | "email" | "adresse" | "siteWeb" | "valeursTva" | "valeursTimbre" | "tauxFrais" | "timbreFiscal" | "misAJourLe", ExtArgs["result"]["infoSociete"]>
 
 export type $InfoSocietePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InfoSociete"
@@ -474,6 +616,10 @@ export type $InfoSocietePayload<ExtArgs extends runtime.Types.Extensions.Interna
     email: string | null
     adresse: string | null
     siteWeb: string | null
+    valeursTva: runtime.Decimal[]
+    valeursTimbre: runtime.Decimal[]
+    tauxFrais: runtime.Decimal | null
+    timbreFiscal: runtime.Decimal | null
     misAJourLe: Date
   }, ExtArgs["result"]["infoSociete"]>
   composites: {}
@@ -905,6 +1051,10 @@ export interface InfoSocieteFieldRefs {
   readonly email: Prisma.FieldRef<"InfoSociete", 'String'>
   readonly adresse: Prisma.FieldRef<"InfoSociete", 'String'>
   readonly siteWeb: Prisma.FieldRef<"InfoSociete", 'String'>
+  readonly valeursTva: Prisma.FieldRef<"InfoSociete", 'Decimal[]'>
+  readonly valeursTimbre: Prisma.FieldRef<"InfoSociete", 'Decimal[]'>
+  readonly tauxFrais: Prisma.FieldRef<"InfoSociete", 'Decimal'>
+  readonly timbreFiscal: Prisma.FieldRef<"InfoSociete", 'Decimal'>
   readonly misAJourLe: Prisma.FieldRef<"InfoSociete", 'DateTime'>
 }
     

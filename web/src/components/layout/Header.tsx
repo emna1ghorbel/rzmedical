@@ -99,7 +99,7 @@ export function Header({
 
           {/* Category Dropdown Context Pill (Visible on all devices) */}
           {selectedCategory && (
-            <div className="hidden items-center shrink-0 sm:flex">
+            <div className="flex items-center shrink-0">
               <CategoryDropdown isGlass={isGlass || (scrolled && isTransparent)} />
             </div>
           )}

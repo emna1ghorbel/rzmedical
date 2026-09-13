@@ -16,15 +16,15 @@ import type { VideoHero } from "@/lib/types";
 import { useSetHeroVideo } from "@/providers/HeroVideoProvider";
 
 const TRUST = [
-  "Matériel professionnel certifié & conforme aux normes",
-  "Expédition rapide sécurisée sur toute la Tunisie",
-  "Facturation transparente & paiement à la livraison",
+  "Matériel qui respecte vraiment les normes (CE, traçabilité)",
+  "On expédie votre commande dans la journée (avant 14h)",
+  "Vous payez à la livraison, avec une facture claire",
 ];
 
 const STATS = [
-  { value: "500+", label: "Produits" },
-  { value: "50+", label: "Marques" },
-  { value: "24h", label: "Livraison" },
+  { value: "500+", label: "références en stock" },
+  { value: "50+", label: "marques partenaires" },
+  { value: "24-48h", label: "pour être livré" },
 ];
 
 /** Section d'accroche de la page d'accueil (proposition de valeur + CTA). */
@@ -81,9 +81,7 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
       <div className="absolute inset-0 grid-pattern opacity-[0.12] pointer-events-none" />
 
       {/* Ambient orbs */}
-      <div className="absolute -top-24 -right-24 w-[600px] h-[600px] orb-azure opacity-20 pointer-events-none" />
-      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] rounded-full bg-slate-300/40 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-azure-200/30 blur-[80px] pointer-events-none" />
+      {/* Background blobs removed for flat design */}
 
       {/* Animated scan line */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -105,25 +103,21 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-500" />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-azure-700">
-                Matériel médical & dentaire
+                Sfax & Toute la Tunisie
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="font-display font-black leading-[1.06] tracking-tight text-navy-900 mb-6">
-              L&apos;équipement médical{" "}
+            <h1 className="font-display font-black leading-[1.06] tracking-tight text-navy-900 mb-6 relative">
+              Tout ce dont votre cabinet a besoin,{" "}
               <br className="hidden sm:block" />
-              de référence,{" "}
               <span className="text-azure-600">
-                livré en confiance
+                livré sans stress.
               </span>
-              .
             </h1>
 
             <p className="text-[16px] sm:text-lg leading-relaxed text-slate-600 mb-8 max-w-lg">
-              RZmedical accompagne les professionnels de santé en Tunisie avec une
-              sélection d&apos;équipements de pointe, consommables et instruments choisis
-              pour leur rigueur et leur conformité clinique.
+              Bonjour, nous sommes R&Z Medical. On équipe les dentistes, médecins et laboratoires avec du matériel sur lequel vous pouvez vraiment compter au quotidien. Zéro contrefaçon, zéro mauvaise surprise.
             </p>
 
             {/* CTA Buttons */}
@@ -132,14 +126,14 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
                 href="/catalogue"
                 className={buttonVariants({ variant: "accent", size: "xl" })}
               >
-                Explorer le catalogue
+                Voir tout le matériel
                 <ArrowRightIcon size={18} />
               </Link>
               <Link
                 href="/catalogue?promo=1"
                 className="inline-flex h-14 items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-8 text-base font-semibold text-navy-800 transition-all duration-200 hover:bg-slate-50 hover:border-azure-300 hover:-translate-y-[1px] hover:shadow-md active:translate-y-0 shadow-sm"
               >
-                Voir les promotions
+                Nos promos actuelles
               </Link>
             </div>
 
@@ -175,8 +169,7 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
             className="relative hidden lg:block animate-reveal-up"
             style={{ animationDelay: "180ms" }}
           >
-            {/* Floating glow behind card */}
-            <div className="absolute inset-0 -m-8 rounded-[2rem] bg-azure-200/50 blur-3xl pointer-events-none" />
+            {/* Glow removed */}
 
             {/* Main image card */}
             <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.1),0_0_60px_rgba(14,165,233,0.15)]">
@@ -190,7 +183,7 @@ export function Hero({ videoHero }: { videoHero?: VideoHero | null }) {
                   fill
                   priority
                   sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                  className="object-cover transition-transform duration-700 hover:scale-[1.03] -rotate-1 origin-bottom-right"
                 />
                 {/* Subtle overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
@@ -242,10 +235,10 @@ function HeroContent({ isTransparent = false }: { isTransparent?: boolean }) {
   return (
     <>
       <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-1.5 mb-6 select-none">
-        <span className="relative flex h-2 w-2">
+        {/* <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full rounded-full bg-azure-400 opacity-75 animate-ping" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-400" />
-        </span>
+        </span> */}
         <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/90">
           Matériel médical & dentaire
         </span>

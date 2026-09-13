@@ -80,6 +80,10 @@ export interface Produit {
   expirationDate: string | null;
   prix: string; // Decimal en string
   stock: number;
+  qteAchat?: number;
+  qteVente?: number;
+  prixAchat?: string | null;
+  disponibleALaVente: boolean;
   images: string[];
   video: string | null;
   motsCles: string[];
@@ -206,6 +210,11 @@ export interface Commande {
     numero: string;
     fichierPdf: string | null;
   } | null;
+  bonsLivraison?: {
+    id: number;
+    code: string;
+    statut: string;
+  }[];
 }
 
 export interface AuthResponse {
@@ -224,5 +233,6 @@ export interface CartItem {
   remise: number; // pourcentage de remise produit
   stock: number;
   disponible: boolean;
+  disponibleALaVente: boolean;
   quantite: number;
 }

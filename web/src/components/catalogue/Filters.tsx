@@ -17,6 +17,8 @@ interface FiltersProps {
   brands: MarqueListItem[];
   onNavigate?: () => void; // ex. fermer le tiroir mobile après un choix
   hideCategory?: boolean; // Pour les pages avec catégorie fixée dans l'URL (/[category])
+  currentCategorieId?: string;
+  currentSousCategorieId?: string;
 }
 
 export function Filters({
@@ -25,13 +27,15 @@ export function Filters({
   brands,
   onNavigate,
   hideCategory = false,
+  currentCategorieId,
+  currentSousCategorieId,
 }: FiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const categorieId = searchParams.get("categorieId");
-  const sousCategorieId = searchParams.get("sousCategorieId");
+  const categorieId = searchParams.get("categorieId") ?? currentCategorieId;
+  const sousCategorieId = searchParams.get("sousCategorieId") ?? currentSousCategorieId;
   const marqueId = searchParams.get("marqueId");
   const promo = searchParams.get("promo");
   const disponible = searchParams.get("disponible");

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export function ForgotPasswordView() {
       await forgotPassword(email.trim());
       setSent(true);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Une erreur est survenue. Veuillez reessayer.");
+      setError(err instanceof ApiError ? err.message : "Quelque chose s'est mal passé. Réessayez ou appelez-nous au 28 113 131.");
     } finally {
       setLoading(false);
     }
@@ -37,9 +37,9 @@ export function ForgotPasswordView() {
         </div>
 
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-navy-900">Mot de passe oublie ?</h1>
+          <h1 className="text-2xl font-bold text-navy-900">Vous avez oublié votre mot de passe ?</h1>
           <p className="mt-2 text-sm text-muted">
-            Entrez votre email et nous vous enverrons un lien de reinitialisation.
+            Pas de souci. Entrez votre email et on vous envoie un lien dans la minute.
           </p>
         </div>
 
@@ -51,11 +51,11 @@ export function ForgotPasswordView() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-lg font-bold text-navy-900 mb-2">Email envoye !</h2>
+              <h2 className="text-lg font-bold text-navy-900 mb-2">C'est dans votre boîte !</h2>
               <p className="text-sm text-muted mb-2">
-                Si un compte existe pour <strong>{email}</strong>, vous recevrez un email avec un lien de reinitialisation.
+                Si l'adresse <strong>{email}</strong> correspond à un compte, vous allez recevoir un email d'ici quelques secondes. Vérifiez aussi vos spams.
               </p>
-              <p className="text-xs text-faint">Le lien expire dans <strong>1 heure</strong>.</p>
+              <p className="text-xs text-faint">Le lien est valable <strong>1 heure</strong>.</p>
             </div>
           ) : (
             <>
@@ -79,7 +79,7 @@ export function ForgotPasswordView() {
                   />
                 </Field>
                 <Button type="submit" variant="primary" size="lg" fullWidth loading={loading} className="!mt-6">
-                  Envoyer le lien de reinitialisation
+                  Envoyer le lien de réinitialisation
                 </Button>
               </form>
             </>
@@ -88,13 +88,13 @@ export function ForgotPasswordView() {
 
         <p className="mt-6 text-center text-sm text-muted">
           <Link href="/connexion" className="font-bold text-azure-600 hover:text-azure-700 transition-colors">
-            Retour a la connexion
+            ← Retour à la connexion
           </Link>
         </p>
 
         <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-faint">
           <ShieldCheckIcon size={14} />
-          Vos donnees sont protegees et confidentielles.
+          Vos données ne sont jamais revendues ni partagées.
         </p>
       </div>
     </Container>

@@ -108,7 +108,7 @@ export function CartView() {
           {items.map((item) => {
             const unit = clientPrice(item.prix, item.remise, remiseClient);
             const lineTotal = round2(unit * item.quantite);
-            const outOfStock = !item.disponible || item.stock <= 0;
+            const outOfStock = !item.disponibleALaVente;
 
             return (
               <li key={item.produitId} className="flex gap-4 p-4 sm:p-5">
@@ -165,7 +165,7 @@ export function CartView() {
                       size="sm"
                       value={item.quantite}
                       min={1}
-                      max={item.stock > 0 ? item.stock : undefined}
+                      max={undefined}
                       onChange={(q) => setQuantity(item.produitId, q)}
                     />
                     <div className="text-right">

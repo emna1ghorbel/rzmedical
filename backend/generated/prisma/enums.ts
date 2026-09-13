@@ -19,22 +19,77 @@ export type TypeUtilisateur = (typeof TypeUtilisateur)[keyof typeof TypeUtilisat
 
 export const StatutCommande = {
   EN_ATTENTE: 'EN_ATTENTE',
-  PAYEE: 'PAYEE',
-  EXPEDIEE: 'EXPEDIEE',
   LIVREE: 'LIVREE',
-  ANNULEE: 'ANNULEE'
+  ANNULEE: 'ANNULEE',
+  CONFIRMEE: 'CONFIRMEE'
 } as const
 
 export type StatutCommande = (typeof StatutCommande)[keyof typeof StatutCommande]
 
 
+export const StatutBonLivraison = {
+  BROUILLON: 'BROUILLON',
+  PREPARE: 'PREPARE',
+  EXPEDIE: 'EXPEDIE',
+  LIVRE: 'LIVRE',
+  FACTURE: 'FACTURE',
+  ANNULE: 'ANNULE'
+} as const
+
+export type StatutBonLivraison = (typeof StatutBonLivraison)[keyof typeof StatutBonLivraison]
+
+
 export const StatutFacture = {
   BROUILLON: 'BROUILLON',
   EMISE: 'EMISE',
+  VALIDEE: 'VALIDEE',
+  ENVOYEE: 'ENVOYEE',
   ANNULEE: 'ANNULEE'
 } as const
 
 export type StatutFacture = (typeof StatutFacture)[keyof typeof StatutFacture]
+
+
+export const StatutPaiement = {
+  NON_PAYEE: 'NON_PAYEE',
+  PARTIELLEMENT_PAYEE: 'PARTIELLEMENT_PAYEE',
+  PAYEE: 'PAYEE'
+} as const
+
+export type StatutPaiement = (typeof StatutPaiement)[keyof typeof StatutPaiement]
+
+
+export const TypeFacture = {
+  PRODUITS: 'PRODUITS',
+  BON_LIVRAISON: 'BON_LIVRAISON',
+  FACTURE: 'FACTURE',
+  SERVICE: 'SERVICE'
+} as const
+
+export type TypeFacture = (typeof TypeFacture)[keyof typeof TypeFacture]
+
+
+export const EtatFacture = {
+  NORMALE: 'NORMALE',
+  PROFORMA: 'PROFORMA',
+  AVOIR: 'AVOIR'
+} as const
+
+export type EtatFacture = (typeof EtatFacture)[keyof typeof EtatFacture]
+
+
+export const DocumentSequenceType = {
+  FACTURE_VENTE: 'FACTURE_VENTE',
+  FACTURE_ACHAT: 'FACTURE_ACHAT',
+  COMMANDE: 'COMMANDE',
+  DEVIS: 'DEVIS',
+  BON_LIVRAISON: 'BON_LIVRAISON',
+  BON_RECEPTION: 'BON_RECEPTION',
+  AVOIR_VENTE: 'AVOIR_VENTE',
+  AVOIR_ACHAT: 'AVOIR_ACHAT'
+} as const
+
+export type DocumentSequenceType = (typeof DocumentSequenceType)[keyof typeof DocumentSequenceType]
 
 
 export const StatutSupport = {
@@ -64,6 +119,19 @@ export const AuteurSupport = {
 export type AuteurSupport = (typeof AuteurSupport)[keyof typeof AuteurSupport]
 
 
+export const StockMovementType = {
+  PURCHASE: 'PURCHASE',
+  SALE: 'SALE',
+  RETURN_CLIENT: 'RETURN_CLIENT',
+  RETURN_SUPPLIER: 'RETURN_SUPPLIER',
+  ADJUSTMENT: 'ADJUSTMENT',
+  TRANSFER: 'TRANSFER',
+  INVENTORY: 'INVENTORY'
+} as const
+
+export type StockMovementType = (typeof StockMovementType)[keyof typeof StockMovementType]
+
+
 export const TypeAlerte = {
   INFO: 'INFO',
   PROMO: 'PROMO',
@@ -81,3 +149,71 @@ export const AffichageAlerte = {
 } as const
 
 export type AffichageAlerte = (typeof AffichageAlerte)[keyof typeof AffichageAlerte]
+
+
+export const StatutBonCommande = {
+  BROUILLON: 'BROUILLON',
+  ENVOYE: 'ENVOYE',
+  CONFIRME: 'CONFIRME',
+  RECEPTIONNE_PARTIEL: 'RECEPTIONNE_PARTIEL',
+  RECEPTIONNE: 'RECEPTIONNE',
+  ANNULE: 'ANNULE'
+} as const
+
+export type StatutBonCommande = (typeof StatutBonCommande)[keyof typeof StatutBonCommande]
+
+
+export const StatutBonReception = {
+  BROUILLON: 'BROUILLON',
+  CONTROLE: 'CONTROLE',
+  VALIDE: 'VALIDE',
+  FACTURE: 'FACTURE',
+  ANNULE: 'ANNULE'
+} as const
+
+export type StatutBonReception = (typeof StatutBonReception)[keyof typeof StatutBonReception]
+
+
+export const StatutFactureFournisseur = {
+  BROUILLON: 'BROUILLON',
+  VALIDEE: 'VALIDEE',
+  ANNULEE: 'ANNULEE'
+} as const
+
+export type StatutFactureFournisseur = (typeof StatutFactureFournisseur)[keyof typeof StatutFactureFournisseur]
+
+
+export const StatutPaiementFournisseur = {
+  NON_PAYEE: 'NON_PAYEE',
+  PARTIELLEMENT_PAYEE: 'PARTIELLEMENT_PAYEE',
+  PAYEE: 'PAYEE'
+} as const
+
+export type StatutPaiementFournisseur = (typeof StatutPaiementFournisseur)[keyof typeof StatutPaiementFournisseur]
+
+
+export const TypeFactureFournisseur = {
+  PRODUIT: 'PRODUIT',
+  SERVICE: 'SERVICE'
+} as const
+
+export type TypeFactureFournisseur = (typeof TypeFactureFournisseur)[keyof typeof TypeFactureFournisseur]
+
+
+export const CategorieFactureFournisseur = {
+  FOURNISSEUR: 'FOURNISSEUR',
+  CHARGES: 'CHARGES',
+  CNSS: 'CNSS',
+  NEUF_BA4A: 'NEUF_BA4A'
+} as const
+
+export type CategorieFactureFournisseur = (typeof CategorieFactureFournisseur)[keyof typeof CategorieFactureFournisseur]
+
+
+export const EtatFactureFournisseur = {
+  NORMALE: 'NORMALE',
+  AVOIR: 'AVOIR',
+  PROFORMA: 'PROFORMA'
+} as const
+
+export type EtatFactureFournisseur = (typeof EtatFactureFournisseur)[keyof typeof EtatFactureFournisseur]

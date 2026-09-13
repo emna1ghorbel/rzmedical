@@ -23,6 +23,7 @@ export function SiteHeader({
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
 
   // Combine context (set by Hero components on client) with SSR knowledge
   // If we are on the home page and the global setting says there's a video,
@@ -58,8 +59,17 @@ export function SiteHeader({
             : "opacity-100 translate-y-0"
         )}
       >
-        <div className="h-9">
-          <AnnouncementBar annonces={annonces} />
+        {/* Collapse wrapper: grid trick for smooth height→0 animation */}
+        <div
+          className="grid transition-all duration-300 ease-in-out"
+          style={{ gridTemplateRows: announcementVisible ? "1fr" : "0fr" }}
+        >
+          <div className="overflow-hidden">
+            <AnnouncementBar
+              annonces={annonces}
+              onDismiss={() => setAnnouncementVisible(false)}
+            />
+          </div>
         </div>
         <DiscountBar />
       </div>

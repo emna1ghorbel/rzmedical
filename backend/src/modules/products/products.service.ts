@@ -1,9 +1,17 @@
 import prisma from '../../config/prisma';
+import { StockMovementType } from '../../../generated/prisma/enums';
+import { recordStockMovement } from '../stock/stock.service';
 
 // Include partagé par toutes les requêtes produit (catégorie + sous-catégorie + marque)
 const productInclude = {
   sousCategorie: { include: { categorie: true } },
   marque: true,
+  mouvementsStock: {
+    where: { type: 'PURCHASE' },
+    orderBy: { createdAt: 'desc' },
+    take: 1,
+    select: { unitPrice: true },
+  },
 } as const;
 
 export interface ProductQuery {
@@ -17,6 +25,7 @@ export interface ProductQuery {
   q?: string;               // recherche texte
   promo?: boolean;          // uniquement les produits en promotion
   disponible?: boolean;
+  disponibleALaVente?: boolean;
   minPrix?: number;
   maxPrix?: number;
   sort?: string;            // 'recent' | 'prix-asc' | 'prix-desc' | 'nom' | 'remise'
@@ -169,12 +178,14 @@ export const getByReference = (reference: string) =>
     include: productInclude,
   });
 
-export const create = (data: {
+export const create = async (data: {
   nom: string;
   reference: string;
   description?: string;
   expirationDate?: Date | null;
   prix: number;
+  prixAchat?: number | null;
+  tva?: number;
   remise?: number;
   stock?: number;
   images?: string[];
@@ -182,12 +193,60 @@ export const create = (data: {
   motsCles?: string[];
   ficheTechnique?: string;
   disponible?: boolean;
+  disponibleALaVente?: boolean;
   sousCategorieId: number;
   marqueId: number;
-}) => prisma.produit.create({ data });
+}) => prisma.$transaction(async (tx) => {
+  const initialStock = Math.trunc(Number(data.stock ?? 0));
+  const produit = await tx.produit.create({
+    data: { ...data, stock: 0 },
+  });
 
-export const update = (id: number, data: any) =>
-  prisma.produit.update({ where: { id }, data });
+  if (initialStock !== 0) {
+    await recordStockMovement(tx, {
+      productId: produit.id,
+      quantity: Math.abs(initialStock),
+      type: StockMovementType.INVENTORY,
+      stockDelta: initialStock,
+      reference: produit.reference,
+      sourceType: 'PRODUCT_INITIAL_STOCK',
+      sourceId: produit.id,
+    });
+  }
+
+  return tx.produit.findUnique({ where: { id: produit.id }, include: productInclude });
+});
+
+export const update = async (id: number, data: any) => {
+  const requestedStock = data.stock === undefined ? undefined : Math.trunc(Number(data.stock));
+  const updateData = { ...data };
+  delete updateData.stock;
+
+  return prisma.$transaction(async (tx) => {
+    const current = await tx.produit.findUnique({ where: { id }, select: { stock: true, reference: true } });
+    if (!current) {
+      const error = new Error('Produit non trouvé');
+      (error as any).code = 'P2025';
+      throw error;
+    }
+
+    const updated = await tx.produit.update({ where: { id }, data: updateData, include: productInclude });
+    if (requestedStock !== undefined && requestedStock !== current.stock) {
+      const delta = requestedStock - current.stock;
+      await recordStockMovement(tx, {
+        productId: id,
+        quantity: Math.abs(delta),
+        type: StockMovementType.ADJUSTMENT,
+        stockDelta: delta,
+        reference: current.reference,
+        sourceType: 'PRODUCT_ADJUSTMENT',
+        sourceId: id,
+      });
+    }
+
+    return tx.produit.findUnique({ where: { id: updated.id }, include: productInclude });
+  });
+};
 
 export const remove = (id: number) =>
   prisma.produit.delete({ where: { id } });

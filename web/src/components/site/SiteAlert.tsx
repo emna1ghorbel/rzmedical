@@ -124,7 +124,7 @@ function PopupAlert({ alert, onDismiss }: { alert: AlerteSite; onDismiss: () => 
       <AlertKeyframes />
       <div
         onClick={onDismiss}
-        className="rz-anim fixed inset-0 z-[9998] bg-slate-900/20 backdrop-blur-sm"
+        className="rz-anim fixed inset-0 z-[9998] bg-navy-950/60 backdrop-blur-sm"
         style={{ animation: "rz-overlay-in 220ms ease both" }}
         aria-hidden="true"
       />
@@ -132,62 +132,141 @@ function PopupAlert({ alert, onDismiss }: { alert: AlerteSite; onDismiss: () => 
         role="dialog"
         aria-modal="true"
         aria-labelledby="rz-alert-title"
-        className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
         style={{ pointerEvents: "none" }}
       >
-        <div className="relative" style={{ pointerEvents: "auto" }}>
-          {/* Soft ambient glow behind the card — the one "magic" touch */}
+        <div className="relative w-full max-w-[850px]" style={{ pointerEvents: "auto" }}>
+          {/* Subtle glow behind the modal */}
           <div
-            className="rz-anim pointer-events-none absolute -inset-6 -z-10 rounded-[32px] blur-2xl"
+            className="rz-anim pointer-events-none absolute -inset-6 -z-10 rounded-[32px] blur-3xl opacity-50"
             style={{ background: s.glow, animation: "rz-glow-pulse 3.6s ease-in-out infinite" }}
             aria-hidden="true"
           />
 
           <div
             ref={modalRef}
-            className="rz-anim w-full max-w-[420px] overflow-hidden rounded-2xl bg-white shadow-[0_24px_64px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-900/5"
+            className="rz-anim flex flex-col md:flex-row w-full overflow-hidden rounded-[24px] bg-white shadow-[0_32px_64px_-12px_rgba(15,23,42,0.3)] ring-1 ring-slate-900/5"
             style={{ animation: "rz-modal-in 320ms cubic-bezier(0.16,1,0.3,1) both" }}
           >
-            <div className="p-8">
+            {/* Left Pane (Hidden on mobile, visible on md+) */}
+            <div className="relative hidden md:flex flex-col items-center justify-center p-6 md:w-[45%] shrink-0 overflow-hidden bg-gradient-to-br from-azure-400 to-azure-600">
+              {/* Background bubbles (mimicking the exact shapes in the screenshot) */}
+              <div className="absolute -left-16 top-12 h-48 w-48 rounded-full bg-azure-300/20 blur-[2px]" />
+              <div className="absolute -left-8 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-azure-300/20 blur-[2px]" />
+              <div className="absolute -right-20 -bottom-10 h-72 w-72 rounded-full bg-azure-300/10 blur-[2px]" />
+              <div className="absolute -right-10 top-0 h-40 w-40 rounded-full bg-azure-300/15 blur-3xl" />
+
+              {/* Inner "Book Cover" Card matching the screenshot style */}
+              <div className="relative z-10 flex h-[100%] w-full flex-col rounded-md bg-gradient-to-br from-[#60b6e9] via-[#0ea5e9] to-[#0284c7] p-6 text-white shadow-2xl ring-1 ring-white/15">
+
+                {/* Top header */}
+                <div className="flex items-center justify-between mb-auto">
+                  <div className="flex items-center gap-2">
+
+                    <span className="text-[12.5px] font-bold">RZ Medical</span>
+                  </div>
+                  <span className="rounded-full bg-white px-2.5 py-0.5 text-[9px] font-black uppercase text-azure-600 shadow-sm">
+                    Gratuit
+                  </span>
+                </div>
+
+                {/* Center content */}
+                <div className="my-auto flex flex-col items-center text-center">
+                  <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.2em] text-azure-100">
+                    Édition Professionnelle
+                  </p>
+                  <h3 className="text-[36px] font-black leading-[1.05] tracking-tight text-white drop-shadow-sm">
+                    Catalogue<br />
+                    <span className="font-serif italic font-normal text-azure-50">Privé</span>
+                  </h3>
+                  <p className="mt-6 text-[13px] leading-relaxed text-azure-50 max-w-[220px]">
+                    Déverrouillez notre catalogue complet pour découvrir les tarifs préférentiels réservés aux professionnels de la santé.
+                  </p>
+                </div>
+
+                {/* Bottom pills */}
+                <div className="mt-auto flex flex-wrap justify-center gap-2">
+                  <span className="rounded-full border border-white/40 bg-white/5 px-3 py-1.5 text-[10px] font-medium text-white">
+                    Offres exclusives
+                  </span>
+                  <span className="rounded-full border border-white/40 bg-white/5 px-3 py-1.5 text-[10px] font-medium text-white">
+                    Devis en ligne
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Pane */}
+            <div className="relative flex flex-col justify-center bg-white p-7 md:w-[58%] md:p-10 lg:p-12">
               <button
                 onClick={onDismiss}
                 aria-label="Fermer"
-                className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 sm:right-6 sm:top-6"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
+
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-azure-50 px-3.5 py-1.5 ring-1 ring-azure-500/20">
+                <span className="text-[11px] font-black uppercase tracking-wider text-azure-700">
+                  {alert.type === 'INFO' ? 'Nouveau compte' : alert.type}
+                </span>
+                <span className="text-[11px] text-azure-600/60 font-medium">• 100% Gratuit</span>
+              </div>
 
               <h2
                 id="rz-alert-title"
-                className="mb-2.5 pr-6 text-[20px] font-bold leading-snug text-slate-900"
+                className="mb-4 text-[26px] font-bold leading-tight tracking-tight text-slate-900 sm:text-[32px]"
               >
                 {alert.titre}
               </h2>
-              <p className="mb-7 text-[14.5px] leading-relaxed text-slate-500">{alert.message}</p>
 
-              <div className="flex items-center gap-3">
+              <p className="mb-6 text-[15px] leading-relaxed text-slate-600">
+                {alert.message}
+              </p>
+
+              {/* Checklist */}
+              <ul className="mb-8 space-y-3.5">
+                {[
+                  "Profitez d'offres exclusives et de remises",
+                  "Suivez vos commandes en temps réel",
+                  "Accédez à vos factures et devis en ligne"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-[14px] font-medium text-slate-700">
+                    <svg className="mt-0.5 h-4.5 w-4.5 shrink-0 text-azure-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3">
                 {alert.lien && alert.texteBouton && (
                   <button
                     onClick={() => {
                       onDismiss();
                       router.push(alert.lien!);
                     }}
-                    className="group flex flex-1 items-center justify-center gap-1.5 rounded-xl px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-transform active:scale-[0.98]"
-                    style={{ background: s.accent }}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-[15px] font-bold text-white transition-all active:scale-[0.98]"
+                    style={{
+                      background: s.accent,
+                      boxShadow: `0 4px 14px ${s.glow}`
+                    }}
                   >
                     {alert.texteBouton}
-                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                   </button>
                 )}
                 <button
                   onClick={onDismiss}
-                  className={`rounded-xl border border-slate-200 px-5 py-2.5 text-[14px] font-medium text-slate-600 transition-colors hover:bg-slate-50 ${
-                    alert.lien && alert.texteBouton ? "" : "flex-1"
-                  }`}
+                  className="w-full sm:w-auto rounded-xl px-6 py-3.5 text-[14px] font-semibold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
                 >
-                  Plus tard
+                  Non merci, plus tard
                 </button>
               </div>
+
+              <p className="mt-6 text-[12px] text-slate-400 font-medium">
+                Rejoignez des centaines de professionnels de la santé.
+              </p>
             </div>
           </div>
         </div>

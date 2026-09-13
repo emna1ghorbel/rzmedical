@@ -53,9 +53,9 @@ export default function UserDropdown() {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle gap-2"
+        className="flex items-center gap-1.5 text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="relative overflow-hidden rounded-full h-10 w-10 border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-bold text-gray-600 dark:text-gray-300 text-sm">
+        <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-100 text-sm font-bold text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {photoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -68,7 +68,7 @@ export default function UserDropdown() {
           )}
         </span>
 
-        <span className="block font-medium text-theme-sm text-gray-800 dark:text-white/90 max-w-[120px] truncate">{name}</span>
+        <span className="hidden max-w-[120px] truncate font-medium text-theme-sm text-gray-800 dark:text-white/90 xl:block">{name}</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${

@@ -40,7 +40,7 @@ export function SectionHeading({
               background: "linear-gradient(135deg, rgba(14,165,233,0.06), rgba(34,211,238,0.04))",
             }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-azure-400 animate-pulse" />
+            <span className="h-px w-3 bg-azure-500/60" />
             <p className={cn(
               "text-[10px] font-black uppercase tracking-[0.18em]",
               dark ? "text-azure-400" : "text-azure-600"

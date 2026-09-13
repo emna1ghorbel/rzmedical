@@ -107,6 +107,8 @@ export default function ManualInvoiceModal({
   const [clientEmail, setClientEmail] = useState("");
   const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
   const [lignes, setLignes] = useState<InvoiceLineForm[]>([]);
+  const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([]);
+  const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([]);
 
   // ── UI State ──
   const [loadingNumber, setLoadingNumber] = useState(true);
@@ -117,6 +119,24 @@ export default function ManualInvoiceModal({
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [successMsg, setSuccessMsg] = useState("");
   const previewBlobRef = useRef<Blob | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/company-info`)
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((config) => {
+        const tvaRates = Array.isArray(config.valeursTva)
+          ? config.valeursTva.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b)
+          : [];
+        const timbreRates = Array.isArray(config.valeursTimbre)
+          ? config.valeursTimbre.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b)
+          : [];
+        setCompanyTvaRates(tvaRates);
+        setCompanyTimbreRates(timbreRates);
+        if (tvaRates.length) setLignes((prev) => prev.map((line) => ({ ...line, tauxTVA: tvaRates.includes(line.tauxTVA) ? line.tauxTVA : tvaRates[0] })));
+        if (timbreRates.length) setTimbreFiscal((value) => timbreRates.includes(value) ? value : timbreRates[0]);
+      })
+      .catch(() => undefined);
+  }, []);
 
   // ── Fetch Clients & Products ──
   useEffect(() => {
@@ -155,26 +175,10 @@ export default function ManualInvoiceModal({
     fetchProducts();
   }, [getToken]);
 
-  // ── Load Invoice Number ──
+  // The final legal number is allocated by the backend inside the creation transaction.
   useEffect(() => {
-    const fetchNumber = async () => {
-      try {
-        const token = getToken();
-        const res = await fetch(`${API_URL}/invoices/admin/generate-number`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setNumero(data.numero);
-        }
-      } catch {
-        setNumero(`${new Date().getFullYear()}0001`);
-      } finally {
-        setLoadingNumber(false);
-      }
-    };
-    fetchNumber();
-  }, [getToken]);
+    setLoadingNumber(false);
+  }, []);
 
   // ── Handle Client Change ──
   const handleClientChange = (clientIdStr: string) => {
@@ -248,7 +252,7 @@ export default function ManualInvoiceModal({
         designation: "",
         quantite: 1,
         prixUnitaireHT: 0,
-        tauxTVA: DEFAULT_TVA_RATE,
+        tauxTVA: companyTvaRates[0] ?? DEFAULT_TVA_RATE,
         totalHT: 0,
       },
     ]);
@@ -263,10 +267,6 @@ export default function ManualInvoiceModal({
     const errs: ValidationErrors = {};
 
     if (!utilisateurId) errs.utilisateurId = "Veuillez sélectionner un client";
-    if (!numero.trim()) errs.numero = "Le numéro de facture est requis";
-    else if (!/^\d{8}$/.test(numero.trim()))
-      errs.numero = "Format invalide (ex: 20260055)";
-
     if (!dateEmission.trim())
       errs.dateEmission = "La date est requise";
     else if (!parseDate(dateEmission))
@@ -274,16 +274,15 @@ export default function ManualInvoiceModal({
 
     if (!clientNom.trim()) errs.clientNom = "Le nom du client est requis";
 
-    if (isNaN(timbreFiscal) || timbreFiscal < 0)
-      errs.timbreFiscal = "Timbre fiscal invalide";
+    if (!companyTimbreRates.includes(timbreFiscal))
+      errs.timbreFiscal = "Sélectionnez un timbre fiscal configuré";
 
     const lineErrors: string[] = lignes.map((l, i) => {
       if (!l.produitId) return `Ligne ${i + 1}: produit requis`;
       if (!l.designation.trim()) return `Ligne ${i + 1}: désignation requise`;
-      if (l.quantite <= 0) return `Ligne ${i + 1}: quantité invalide`;
+      if (!Number.isInteger(l.quantite) || l.quantite <= 0) return `Ligne ${i + 1}: quantité entière invalide`;
       if (l.prixUnitaireHT < 0) return `Ligne ${i + 1}: prix HT invalide`;
-      if (l.tauxTVA < 0 || l.tauxTVA > 100)
-        return `Ligne ${i + 1}: TVA invalide (0–100%)`;
+      if (!companyTvaRates.includes(l.tauxTVA)) return `Ligne ${i + 1}: TVA non configurée`;
       return "";
     });
     const hasLineErrors = lineErrors.some(Boolean);
@@ -387,7 +386,6 @@ export default function ManualInvoiceModal({
       const data = buildInvoiceData();
       const invoicePayload = {
         utilisateurId: Number(utilisateurId),
-        numero: data.numero,
         dateEmission: parseDate(data.dateEmission)?.toISOString() || new Date().toISOString(),
         clientNom: data.clientNom,
         clientMF: data.clientMF || null,
@@ -588,17 +586,10 @@ export default function ManualInvoiceModal({
                 </label>
                 <input
                   type="text"
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
-                  disabled={loadingNumber}
-                  placeholder="ex: 20260001"
-                  className={`w-full h-11 px-3 border rounded-xl bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
-                    errors.numero ? "border-red-500" : "border-gray-300 dark:border-gray-700"
-                  }`}
+                  value="Attribué automatiquement à la création"
+                  readOnly
+                  className="w-full h-11 px-3 border rounded-xl bg-gray-50 dark:bg-gray-900 text-sm text-gray-500 border-gray-300 dark:border-gray-700"
                 />
-                {errors.numero && (
-                  <p className="text-red-500 text-xs mt-1">{errors.numero}</p>
-                )}
               </div>
 
               {/* Date */}
@@ -759,8 +750,10 @@ export default function ManualInvoiceModal({
                         </label>
                         <input
                           type="number"
+                          min="1"
+                          step="1"
                           value={line.quantite}
-                          onChange={(e) => updateLine(idx, "quantite", Number(e.target.value))}
+                          onChange={(e) => updateLine(idx, "quantite", Math.max(1, Math.trunc(Number(e.target.value) || 1)))}
                           className="w-full h-10 px-3 border border-gray-300 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                         />
                       </div>
@@ -784,12 +777,13 @@ export default function ManualInvoiceModal({
                         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
                           TVA %
                         </label>
-                        <input
-                          type="number"
+                        <select
                           value={line.tauxTVA}
                           onChange={(e) => updateLine(idx, "tauxTVA", Number(e.target.value))}
                           className="w-full h-10 px-3 border border-gray-300 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
-                        />
+                        >
+                          {companyTvaRates.map((rate) => <option key={rate} value={rate}>{rate}%</option>)}
+                        </select>
                       </div>
 
                       {/* Total Line HT */}
@@ -825,15 +819,15 @@ export default function ManualInvoiceModal({
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Timbre Fiscal (DT)
                 </label>
-                <input
-                  type="number"
-                  step="0.001"
+                <select
                   value={timbreFiscal}
                   onChange={(e) => setTimbreFiscal(Number(e.target.value))}
                   className={`w-32 h-11 px-3 border rounded-xl bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
                     errors.timbreFiscal ? "border-red-500" : "border-gray-300 dark:border-gray-700"
                   }`}
-                />
+                >
+                  {companyTimbreRates.map((rate) => <option key={rate} value={rate}>{rate.toFixed(3)} DT</option>)}
+                </select>
                 {errors.timbreFiscal && (
                   <p className="text-red-500 text-xs mt-1">{errors.timbreFiscal}</p>
                 )}

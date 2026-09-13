@@ -1,5 +1,5 @@
 "use client";
-import { getApiUrl, getBaseUrl } from "@/utils/api";
+import { getApiUrl, getBaseUrl, parseJsonSafe } from "@/utils/api";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
@@ -61,7 +61,7 @@ export default function SignInForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data = await parseJsonSafe(res);
       if (!res.ok) throw new Error(data.error || "Erreur de connexion");
       setSuccess("Code envoyé ! Vérifiez votre email.");
       setStep("otp");
@@ -101,7 +101,7 @@ export default function SignInForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp: code }),
       });
-      const data = await res.json();
+      const data = await parseJsonSafe(res);
       if (!res.ok) throw new Error(data.error || "Code incorrect");
       // Save token and user
       localStorage.setItem("rzm_token", data.token);
@@ -123,7 +123,7 @@ export default function SignInForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data = await parseJsonSafe(res);
       if (!res.ok) throw new Error(data.error);
       setOtp(["", "", "", "", "", ""]);
       setCountdown(600);

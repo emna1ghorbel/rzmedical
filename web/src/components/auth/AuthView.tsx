@@ -75,7 +75,7 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
         redirectingAfterSubmit.current = true;
         const res = await loginClient({ email: form.email.trim(), motDePasse: form.motDePasse });
         login(res);
-        toast.success("Connexion réussie.");
+        toast.success(`Bonjour ${res.user?.prenom || ""} 👋 Vous êtes connecté.`);
         
         if (res.user?.activiteCategoryId) {
           const act = allCategories.find((c) => c.id === res.user.activiteCategoryId);
@@ -97,7 +97,7 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
           activiteCategoryId: Number(form.activiteCategoryId),
         });
         login(res);
-        toast.success("Compte cree avec succes.");
+        toast.success("Votre compte est créé ! Bienvenue chez R&Z Medical.");
         
         if (res.user?.activiteCategoryId) {
           const act = allCategories.find((c) => c.id === res.user.activiteCategoryId);
@@ -109,7 +109,7 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
         router.replace(next);
       }
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Une erreur est survenue. Veuillez reessayer.");
+      setError(err instanceof ApiError ? err.message : "Quelque chose s'est mal passé de notre côté. Réessayez ou appelez-nous au 28 113 131.");
     } finally {
       setLoading(false);
     }
@@ -124,28 +124,26 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
     <Container className="py-8 lg:py-16 flex justify-center">
       <div className="w-full max-w-md lg:max-w-5xl lg:grid lg:grid-cols-2 lg:gap-12 lg:items-stretch">
         <div className="hidden lg:flex flex-col justify-between bg-navy-960 p-12 rounded-3xl text-white relative overflow-hidden select-none min-h-[580px] shadow-[0_20px_60px_rgba(0,0,0,0.15),_0_1px_0_rgba(255,255,255,0.1)_inset] border border-white/[0.05]">
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-azure-500/20 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute inset-0 grid-pattern opacity-[0.15] pointer-events-none" />
+          <div className="absolute inset-0 bg-slate-50/5 opacity-50 pointer-events-none" />
           <div className="relative z-10">
             <Link href="/" className="inline-flex transition-transform hover:scale-105" aria-label="Accueil RZmedical">
               <Logo tone="light" className="h-10 w-auto" />
             </Link>
-            <h2 className="mt-14 text-4xl font-black font-display leading-[1.15] tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-navy-200">
-              La reference de l&apos;equipement medico-dentaire en Tunisie.
+            <h2 className="mt-14 text-4xl font-black font-display leading-[1.15] tracking-tight text-white">
+              Votre compte, votre catalogue, vos prix — en un seul endroit.
             </h2>
             <p className="mt-6 text-[15px] text-navy-200/80 leading-relaxed max-w-md">
-              Accedez a notre catalogue professionnel, suivez vos commandes en temps reel et profitez de vos remises exclusives.
+              Connectez-vous pour voir vos tarifs personnalisés et suivre chacune de vos commandes depuis Sfax ou où que vous soyez.
             </p>
           </div>
           <div className="relative z-10 space-y-4 pt-8 mt-12">
             {[
-              "Jusqu'a 15% de remise fidelite automatique",
-              "Suivi complet de vos commandes & facturations",
-              "Assistance prioritaire par nos conseillers techniques"
+              "Jusqu'à 15% de remise dès votre 2e commande",
+              "Toutes vos factures téléchargeables, pour vos comptables",
+              "On vous rappelle si votre commande prend du retard"
             ].map((feature, i) => (
               <div key={i} className="group flex gap-4 items-center rounded-2xl bg-white/[0.03] border border-white/[0.05] p-3.5 transition-all duration-300 hover:bg-white/[0.06] hover:border-white/[0.1] hover:-translate-y-0.5">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-azure-500/30 to-azure-500/10 border border-azure-400/20 text-azure-300 shadow-[0_0_15px_rgba(14,165,233,0.15)] group-hover:scale-110 group-hover:text-white transition-all duration-300">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-azure-500/20 border border-azure-400/20 text-azure-400 group-hover:scale-110 group-hover:text-azure-300 transition-all duration-300">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
                 <p className="text-[13px] font-semibold text-navy-100 group-hover:text-white transition-colors">{feature}</p>
@@ -162,12 +160,12 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
           </div>
           <div className="mb-6 text-center lg:text-left">
             <h1 className="text-2xl font-bold text-navy-900">
-              {isLogin ? "Connexion a votre compte" : "Creer un compte"}
+              {isLogin ? "Connectez-vous à votre espace" : "Créer votre compte"}
             </h1>
             <p className="mt-2 text-sm text-muted">
               {isLogin
-                ? "Accedez a vos commandes et a vos tarifs personnalises."
-                : "Commandez en quelques clics et suivez vos livraisons."}
+                ? "Retrouvez vos commandes passées et vos prix négociés."
+                : "Ça prend 2 minutes. Votre matricule fiscal suffit."}
             </p>
           </div>
 
@@ -220,7 +218,7 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
                 {isLogin && (
                   <div className="mt-1.5 text-right">
                     <Link href="/mot-de-passe-oublie" className="text-xs font-medium text-azure-600 hover:text-azure-700 transition-colors">
-                      Mot de passe oublie ?
+                      Mot de passe oublié ?
                     </Link>
                   </div>
                 )}
@@ -255,15 +253,15 @@ export function AuthView({ mode }: { mode: "login" | "register" }) {
           </div>
 
           <p className="mt-6 text-center text-sm text-muted lg:text-left lg:px-2">
-            {isLogin ? "Pas encore de compte ? " : "Vous avez deja un compte ? "}
+            {isLogin ? "Première commande ? " : "Déjà client ? "}
             <Link href={switchHref} className="font-bold text-azure-600 transition-colors hover:text-azure-700">
-              {isLogin ? "Creer un compte" : "Se connecter"}
+              {isLogin ? "Créez votre compte" : "Connectez-vous"}
             </Link>
           </p>
 
           <p className="mt-5 flex items-center justify-center lg:justify-start gap-1.5 text-xs text-faint lg:px-2">
             <ShieldCheckIcon size={14} />
-            Vos donnees sont protegees et confidentielles.
+            Vos données ne sont jamais revendues ni partagées.
           </p>
         </div>
       </div>

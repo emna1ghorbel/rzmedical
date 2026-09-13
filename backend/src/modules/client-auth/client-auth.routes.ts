@@ -87,6 +87,18 @@ router.post('/register', async (req: Request, res: Response) => {
       select: clientSelect,
     });
 
+    // Inscription automatique à la newsletter lors de la création de compte
+    try {
+      await prisma.newsletterAbonne.upsert({
+        where: { email: normalizedEmail },
+        update: { actif: true },
+        create: { email: normalizedEmail },
+      });
+    } catch (newsErr) {
+      console.error('[Newsletter] Erreur inscription auto:', newsErr);
+      // On ne bloque pas la création de compte si l'inscription newsletter échoue
+    }
+
     const jwtToken = signToken(user);
     res.status(201).json({ token: jwtToken, user: serializeUser(user) });
   } catch (err: unknown) {

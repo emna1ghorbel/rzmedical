@@ -8,10 +8,11 @@ import { imageUrl } from "@/lib/api";
 import { hasDiscount, isRecent } from "@/lib/format";
 import { Badge } from "@/components/ui/Badge";
 import { Price } from "@/components/ui/Price";
-import { PackageIcon } from "@/components/ui/icons";
+import { PackageIcon, HeartIcon } from "@/components/ui/icons";
 import { AddToCartButton } from "./AddToCartButton";
 import { useAuth } from "@/providers/AuthProvider";
 import { useCategory } from "@/providers/CategoryProvider";
+import { useWishlist } from "@/providers/WishlistProvider";
 import { cn } from "@/lib/cn";
 
 const IMAGE_SIZES =
@@ -27,6 +28,7 @@ export function ProductCard({
   priority?: boolean;
 }) {
   const { isAuthenticated, user } = useAuth();
+  const { toggle, has } = useWishlist();
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
@@ -43,34 +45,25 @@ export function ProductCard({
     : `/produit/${encodeURIComponent(product.reference)}`;
     
   const image = product.images?.[0];
-  const outOfStock = !product.disponible || product.stock <= 0;
+  const outOfStock = !product.disponibleALaVente;
   const promo = hasDiscount(product.remise);
   const isNew = !promo && isRecent(product.creeLe);
-  const lowStock = !outOfStock && product.stock > 0 && product.stock <= 5;
+  const inStock = !outOfStock;
 
 
   return (
     <article
       className={cn(
-        "card-3d-light group relative flex flex-col overflow-hidden rounded-2xl",
+        "bg-white border border-slate-200/60 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 group relative flex flex-col overflow-hidden rounded-[12px]",
         className,
       )}
     >
-      {/* Bottom azure glow edge on hover */}
-      <span className="absolute bottom-0 left-0 z-20 h-[2px] w-full bg-gradient-to-r from-azure-400 via-azure-500 to-electric-500 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100 pointer-events-none" />
-
-      {/* Top gloss */}
-      <span className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80 pointer-events-none" />
-
       {/* Image area */}
       <Link
         href={href}
-        className="relative block aspect-square overflow-hidden bg-slate-50/80"
+        className="relative block aspect-[4/3] overflow-hidden bg-slate-50 border-b border-slate-100"
         aria-label={product.nom}
       >
-        {/* Radial glow behind image on hover */}
-        <span className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.06)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
-
         {image ? (
           <Image
             src={imageUrl(image)}
@@ -79,64 +72,110 @@ export function ProductCard({
             sizes={IMAGE_SIZES}
             preload={priority}
             className={cn(
-              "object-contain p-6 transition-transform duration-700 ease-out-cubic group-hover:scale-[1.07] group-hover:rotate-[0.8deg]",
+              "object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.03]",
               outOfStock && "opacity-40 grayscale",
             )}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-200">
-            <PackageIcon size={52} strokeWidth={1} />
+          <div className="flex h-full w-full items-center justify-center text-slate-300">
+            <PackageIcon size={48} strokeWidth={1} />
           </div>
         )}
 
-        {/* Badges */}
+        {/* Top-Left Badges */}
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5 z-20">
           {promo && (
-            <Badge variant="promo" size="sm">Promo</Badge>
+            <Badge variant="promo" size="sm" className="rounded font-bold text-[10px] tracking-wide uppercase px-2 py-0.5">Promotion</Badge>
           )}
           {isNew && (
-            <Badge variant="new" size="sm">Nouveau</Badge>
+            <Badge variant="new" size="sm" className="rounded font-bold text-[10px] tracking-wide uppercase px-2 py-0.5">Nouveau</Badge>
           )}
         </div>
+        
+        {/* Top-Right Wishlist Icon */}
+        <button
+          className={cn(
+            "absolute right-3 top-3 z-20 p-1.5 transition-all duration-200 bg-white/70 hover:bg-white backdrop-blur-sm rounded-full shadow-sm border",
+            mounted && has(product.id)
+              ? "text-red-500 border-red-200 scale-110"
+              : "text-slate-400 border-slate-100/50 hover:text-red-500 hover:border-red-100 hover:scale-110"
+          )}
+          aria-label={mounted && has(product.id) ? "Retirer des favoris" : "Ajouter aux favoris"}
+          aria-pressed={mounted && has(product.id)}
+          onClick={(e) => {
+            e.preventDefault();
+            toggle(product.id);
+          }}
+        >
+          <svg
+            width={16}
+            height={16}
+            viewBox="0 0 24 24"
+            fill={mounted && has(product.id) ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="transition-all duration-200"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </button>
 
         {outOfStock && (
-          <div className="absolute inset-x-0 bottom-0 bg-navy-950/90 backdrop-blur-md py-2 text-center text-[11px] font-bold text-white/90 tracking-wide uppercase z-20">
-            Rupture de stock
+          <div className="absolute inset-x-0 bottom-0 bg-slate-900/90 backdrop-blur-sm py-1.5 text-center text-[11px] font-bold text-white tracking-wide z-20">
+            Épuisé pour l'instant
           </div>
         )}
       </Link>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-5">
-        {product.marque?.nom && (
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
-            {product.marque.nom}
+      <div className="flex flex-1 flex-col p-4">
+        {/* Brand & Reference */}
+        <div className="flex items-center justify-between mb-1.5 gap-2">
+          {product.marque?.nom ? (
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              {product.marque.nom}
+            </p>
+          ) : (
+            <div />
+          )}
+          <p className="text-[10px] font-medium text-slate-400 truncate">
+            Réf: {product.reference}
           </p>
-        )}
-        <h3 className="line-clamp-2 text-[14px] font-bold leading-snug text-navy-900 group-hover:text-azure-600 transition-colors duration-250">
+        </div>
+
+        {/* Title */}
+        <h3 className="line-clamp-2 text-[14px] font-semibold leading-snug text-slate-800 group-hover:text-azure-700 transition-colors duration-200">
           <Link href={href} className="after:absolute after:inset-0 after:content-['']">
             {product.nom}
           </Link>
         </h3>
 
-        <div className="mt-4 flex items-end justify-between gap-2">
-          <Price prix={product.prix} remise={product.remise} remiseClient={remiseClient} size="lg" className="whitespace-nowrap" />
-          {lowStock && (
-            <span className="flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200/60 px-2 py-0.5 text-[10px] font-bold text-amber-700">
-              <PackageIcon size={11} />
-              {product.stock} restant{product.stock > 1 ? "s" : ""}
+        {/* Status Indicators */}
+        <div className="mt-2 flex items-center gap-2">
+           {inStock && (
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              En stock
             </span>
           )}
         </div>
 
+        {/* Price & Cart Area */}
+        <div className="mt-auto pt-4 flex items-end justify-between gap-3">
+          <Price prix={product.prix} remise={product.remise} remiseClient={remiseClient} size="md" className="whitespace-nowrap" />
+        </div>
+
         {/* CTA */}
-        <div className="relative z-10 mt-5">
+        <div className="relative z-10 mt-4">
           <AddToCartButton
             product={product}
             size="md"
             fullWidth
-            variant="primary"
-            className="transition-all duration-250"
+            label="Ajouter au panier"
+            className="!bg-navy-900 !text-white hover:!bg-navy-800 !shadow-none !border-0 !rounded-lg !font-semibold transition-colors duration-200"
           />
         </div>
       </div>

@@ -5,16 +5,18 @@ import { toSlug } from "@/lib/slug";
 import { Container } from "@/components/ui/Container";
 import { ProductRail } from "@/components/catalogue/ProductRail";
 import { SectionHeading } from "@/components/home/SectionHeading";
-import { cn } from "@/lib/cn";
+import { ArrowRightIcon } from "@/components/ui/icons";
+
+// Style partagé — identique au bouton "Voir toutes les promotions"
+const BTN =
+  "inline-flex h-10 flex-shrink-0 items-center justify-center gap-2 rounded-lg border border-azure-200 bg-white px-5 text-sm font-medium text-azure-700 shadow-sm hover:bg-azure-50 hover:border-azure-400 transition-all duration-200";
 
 async function SubcategoryRail({
   subcategory,
   categorySlug,
-  isDark = false,
 }: {
   subcategory: { id: number; nom: string };
   categorySlug: string;
-  isDark?: boolean;
 }) {
   let products: Produit[] = [];
   try {
@@ -32,42 +34,29 @@ async function SubcategoryRail({
   if (products.length === 0) return null;
 
   return (
-    <section
-      className={cn(
-        "relative overflow-hidden",
-        isDark
-          ? "bg-gradient-to-b from-navy-900 to-navy-950"
-          : "bg-slate-50/70 border-y border-slate-200/60"
-      )}
-    >
-      {/* Dark: grid pattern overlay */}
-      {isDark && (
-        <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
-      )}
-      {/* Dark: azure aura */}
-      {isDark && (
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-azure-500/5 blur-[120px] pointer-events-none" />
-      )}
-
+    <section className="relative overflow-hidden bg-slate-50/70 border-y border-slate-200/60">
       <Container className="relative py-12 lg:py-20 z-10">
         <SectionHeading
           title={subcategory.nom}
           description={`Découvrez notre sélection pour le rayon ${subcategory.nom.toLowerCase()}.`}
-          href={`/${categorySlug}/sous-categories?rayon=${subcategory.id}`}
-          linkLabel="Voir tout le rayon"
-          dark={isDark}
+          dark={false}
           extraAction={
-            <Link
-              href={`/${categorySlug}/sous-categories/${toSlug(subcategory.nom)}`}
-              className={cn(
-                "group inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-[12px] font-medium transition-all duration-200",
-                isDark
-                  ? "border-white/10 text-white/70 hover:border-white/20 hover:text-white hover:bg-white/5"
-                  : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-50"
-              )}
-            >
-              Voir la sous-catégorie
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href={`/${categorySlug}/sous-categories/${toSlug(subcategory.nom)}`}
+                className={BTN}
+              >
+                Voir la sous-catégorie
+                <ArrowRightIcon size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href={`/${categorySlug}/sous-categories?rayon=${subcategory.id}`}
+                className={BTN}
+              >
+                Voir tout le rayon
+                <ArrowRightIcon size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+            </div>
           }
         />
         <ProductRail
@@ -96,12 +85,11 @@ export async function CategorySubcategoryRails({
 
   return (
     <div className="flex flex-col my-4">
-      {subs.map((sub, index) => (
+      {subs.map((sub) => (
         <SubcategoryRail
           key={sub.id}
           subcategory={sub}
           categorySlug={slug}
-          isDark={index % 2 === 1}
         />
       ))}
     </div>

@@ -386,6 +386,31 @@ export function getMyInvoices(token: string): Promise<unknown[]> {
   return apiFetch<unknown[]>("/api/invoices/my", { token });
 }
 
+export async function downloadInvoicePdf(token: string, factureId: number, numero: string): Promise<void> {
+  const res = await fetch(`${API_URL}/api/invoices/client/${factureId}/pdf`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  
+  if (!res.ok) {
+    let message = "Erreur lors du téléchargement de la facture.";
+    try {
+      const data = await res.json();
+      if (data && data.error) message = data.error;
+    } catch {}
+    throw new Error(message);
+  }
+  
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `facture-${numero}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+}
+
 export function createSupportTicket(token: string | null, input: { sujet: string; message: string; nom?: string; email?: string; telephone?: string }) {
   return apiFetch("/api/support", { method: "POST", token, body: JSON.stringify(input) });
 }

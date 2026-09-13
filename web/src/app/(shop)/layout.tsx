@@ -3,6 +3,7 @@ import type { CategorieListItem, SiteContentPublic } from "@/lib/types";
 import { getSiteContent, getVisibleCategories, getBrands } from "@/lib/api";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
+import { NewsletterSection } from "@/components/layout/NewsletterSection";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
@@ -63,6 +64,7 @@ export default async function ShopLayout({ children }: { children: ReactNode }) 
           {children}
         </main>
 
+        <NewsletterSection />
         <Footer categories={categories} />
       </StorefrontShell>
 

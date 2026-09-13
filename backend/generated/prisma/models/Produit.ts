@@ -29,7 +29,12 @@ export type AggregateProduit = {
 export type ProduitAvgAggregateOutputType = {
   id: number | null
   prix: runtime.Decimal | null
+  prixAchat: runtime.Decimal | null
+  cump: runtime.Decimal | null
+  tva: runtime.Decimal | null
   stock: number | null
+  qteAchat: number | null
+  qteVente: number | null
   remise: runtime.Decimal | null
   sousCategorieId: number | null
   marqueId: number | null
@@ -38,7 +43,12 @@ export type ProduitAvgAggregateOutputType = {
 export type ProduitSumAggregateOutputType = {
   id: number | null
   prix: runtime.Decimal | null
+  prixAchat: runtime.Decimal | null
+  cump: runtime.Decimal | null
+  tva: runtime.Decimal | null
   stock: number | null
+  qteAchat: number | null
+  qteVente: number | null
   remise: runtime.Decimal | null
   sousCategorieId: number | null
   marqueId: number | null
@@ -51,7 +61,13 @@ export type ProduitMinAggregateOutputType = {
   description: string | null
   expirationDate: Date | null
   prix: runtime.Decimal | null
+  prixAchat: runtime.Decimal | null
+  cump: runtime.Decimal | null
+  tva: runtime.Decimal | null
   stock: number | null
+  qteAchat: number | null
+  qteVente: number | null
+  disponibleALaVente: boolean | null
   video: string | null
   ficheTechnique: string | null
   remise: runtime.Decimal | null
@@ -69,7 +85,13 @@ export type ProduitMaxAggregateOutputType = {
   description: string | null
   expirationDate: Date | null
   prix: runtime.Decimal | null
+  prixAchat: runtime.Decimal | null
+  cump: runtime.Decimal | null
+  tva: runtime.Decimal | null
   stock: number | null
+  qteAchat: number | null
+  qteVente: number | null
+  disponibleALaVente: boolean | null
   video: string | null
   ficheTechnique: string | null
   remise: runtime.Decimal | null
@@ -87,7 +109,13 @@ export type ProduitCountAggregateOutputType = {
   description: number
   expirationDate: number
   prix: number
+  prixAchat: number
+  cump: number
+  tva: number
   stock: number
+  qteAchat: number
+  qteVente: number
+  disponibleALaVente: number
   images: number
   video: number
   motsCles: number
@@ -105,7 +133,12 @@ export type ProduitCountAggregateOutputType = {
 export type ProduitAvgAggregateInputType = {
   id?: true
   prix?: true
+  prixAchat?: true
+  cump?: true
+  tva?: true
   stock?: true
+  qteAchat?: true
+  qteVente?: true
   remise?: true
   sousCategorieId?: true
   marqueId?: true
@@ -114,7 +147,12 @@ export type ProduitAvgAggregateInputType = {
 export type ProduitSumAggregateInputType = {
   id?: true
   prix?: true
+  prixAchat?: true
+  cump?: true
+  tva?: true
   stock?: true
+  qteAchat?: true
+  qteVente?: true
   remise?: true
   sousCategorieId?: true
   marqueId?: true
@@ -127,7 +165,13 @@ export type ProduitMinAggregateInputType = {
   description?: true
   expirationDate?: true
   prix?: true
+  prixAchat?: true
+  cump?: true
+  tva?: true
   stock?: true
+  qteAchat?: true
+  qteVente?: true
+  disponibleALaVente?: true
   video?: true
   ficheTechnique?: true
   remise?: true
@@ -145,7 +189,13 @@ export type ProduitMaxAggregateInputType = {
   description?: true
   expirationDate?: true
   prix?: true
+  prixAchat?: true
+  cump?: true
+  tva?: true
   stock?: true
+  qteAchat?: true
+  qteVente?: true
+  disponibleALaVente?: true
   video?: true
   ficheTechnique?: true
   remise?: true
@@ -163,7 +213,13 @@ export type ProduitCountAggregateInputType = {
   description?: true
   expirationDate?: true
   prix?: true
+  prixAchat?: true
+  cump?: true
+  tva?: true
   stock?: true
+  qteAchat?: true
+  qteVente?: true
+  disponibleALaVente?: true
   images?: true
   video?: true
   motsCles?: true
@@ -270,7 +326,13 @@ export type ProduitGroupByOutputType = {
   description: string | null
   expirationDate: Date | null
   prix: runtime.Decimal
+  prixAchat: runtime.Decimal | null
+  cump: runtime.Decimal | null
+  tva: runtime.Decimal | null
   stock: number
+  qteAchat: number
+  qteVente: number
+  disponibleALaVente: boolean
   images: string[]
   video: string | null
   motsCles: string[]
@@ -313,7 +375,13 @@ export type ProduitWhereInput = {
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
   expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFilter<"Produit"> | number
+  qteAchat?: Prisma.IntFilter<"Produit"> | number
+  qteVente?: Prisma.IntFilter<"Produit"> | number
+  disponibleALaVente?: Prisma.BoolFilter<"Produit"> | boolean
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
@@ -327,6 +395,10 @@ export type ProduitWhereInput = {
   sousCategorie?: Prisma.XOR<Prisma.SousCategorieScalarRelationFilter, Prisma.SousCategorieWhereInput>
   marque?: Prisma.XOR<Prisma.MarqueScalarRelationFilter, Prisma.MarqueWhereInput>
   lignesCommande?: Prisma.LigneCommandeListRelationFilter
+  lignesBonLivraison?: Prisma.LigneBonLivraisonListRelationFilter
+  lignesDevis?: Prisma.LigneDevisListRelationFilter
+  mouvementsStock?: Prisma.StockMovementListRelationFilter
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryListRelationFilter
 }
 
 export type ProduitOrderByWithRelationInput = {
@@ -336,7 +408,13 @@ export type ProduitOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrderInput | Prisma.SortOrder
+  cump?: Prisma.SortOrderInput | Prisma.SortOrder
+  tva?: Prisma.SortOrderInput | Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
+  disponibleALaVente?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   motsCles?: Prisma.SortOrder
@@ -350,6 +428,10 @@ export type ProduitOrderByWithRelationInput = {
   sousCategorie?: Prisma.SousCategorieOrderByWithRelationInput
   marque?: Prisma.MarqueOrderByWithRelationInput
   lignesCommande?: Prisma.LigneCommandeOrderByRelationAggregateInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonOrderByRelationAggregateInput
+  lignesDevis?: Prisma.LigneDevisOrderByRelationAggregateInput
+  mouvementsStock?: Prisma.StockMovementOrderByRelationAggregateInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryOrderByRelationAggregateInput
 }
 
 export type ProduitWhereUniqueInput = Prisma.AtLeast<{
@@ -362,7 +444,13 @@ export type ProduitWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
   expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFilter<"Produit"> | number
+  qteAchat?: Prisma.IntFilter<"Produit"> | number
+  qteVente?: Prisma.IntFilter<"Produit"> | number
+  disponibleALaVente?: Prisma.BoolFilter<"Produit"> | boolean
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
@@ -376,6 +464,10 @@ export type ProduitWhereUniqueInput = Prisma.AtLeast<{
   sousCategorie?: Prisma.XOR<Prisma.SousCategorieScalarRelationFilter, Prisma.SousCategorieWhereInput>
   marque?: Prisma.XOR<Prisma.MarqueScalarRelationFilter, Prisma.MarqueWhereInput>
   lignesCommande?: Prisma.LigneCommandeListRelationFilter
+  lignesBonLivraison?: Prisma.LigneBonLivraisonListRelationFilter
+  lignesDevis?: Prisma.LigneDevisListRelationFilter
+  mouvementsStock?: Prisma.StockMovementListRelationFilter
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryListRelationFilter
 }, "id" | "reference">
 
 export type ProduitOrderByWithAggregationInput = {
@@ -385,7 +477,13 @@ export type ProduitOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrderInput | Prisma.SortOrder
+  cump?: Prisma.SortOrderInput | Prisma.SortOrder
+  tva?: Prisma.SortOrderInput | Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
+  disponibleALaVente?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   motsCles?: Prisma.SortOrder
@@ -413,7 +511,13 @@ export type ProduitScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Produit"> | string | null
   expirationDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.DecimalNullableWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.DecimalNullableWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.DecimalNullableWithAggregatesFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntWithAggregatesFilter<"Produit"> | number
+  qteAchat?: Prisma.IntWithAggregatesFilter<"Produit"> | number
+  qteVente?: Prisma.IntWithAggregatesFilter<"Produit"> | number
+  disponibleALaVente?: Prisma.BoolWithAggregatesFilter<"Produit"> | boolean
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableWithAggregatesFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
@@ -432,7 +536,13 @@ export type ProduitCreateInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -444,6 +554,10 @@ export type ProduitCreateInput = {
   sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
   marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
   lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
 }
 
 export type ProduitUncheckedCreateInput = {
@@ -453,7 +567,13 @@ export type ProduitUncheckedCreateInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -465,6 +585,10 @@ export type ProduitUncheckedCreateInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProduitUpdateInput = {
@@ -473,7 +597,13 @@ export type ProduitUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -485,6 +615,10 @@ export type ProduitUpdateInput = {
   sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
   marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
   lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateInput = {
@@ -494,7 +628,13 @@ export type ProduitUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -506,6 +646,10 @@ export type ProduitUncheckedUpdateInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitCreateManyInput = {
@@ -515,7 +659,13 @@ export type ProduitCreateManyInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -534,7 +684,13 @@ export type ProduitUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -552,7 +708,13 @@ export type ProduitUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -590,7 +752,13 @@ export type ProduitCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrder
+  cump?: Prisma.SortOrder
+  tva?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
+  disponibleALaVente?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrder
   motsCles?: Prisma.SortOrder
@@ -606,7 +774,12 @@ export type ProduitCountOrderByAggregateInput = {
 export type ProduitAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrder
+  cump?: Prisma.SortOrder
+  tva?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -619,7 +792,13 @@ export type ProduitMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrder
+  cump?: Prisma.SortOrder
+  tva?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
+  disponibleALaVente?: Prisma.SortOrder
   video?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrder
   remise?: Prisma.SortOrder
@@ -637,7 +816,13 @@ export type ProduitMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   expirationDate?: Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrder
+  cump?: Prisma.SortOrder
+  tva?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
+  disponibleALaVente?: Prisma.SortOrder
   video?: Prisma.SortOrder
   ficheTechnique?: Prisma.SortOrder
   remise?: Prisma.SortOrder
@@ -651,7 +836,12 @@ export type ProduitMinOrderByAggregateInput = {
 export type ProduitSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   prix?: Prisma.SortOrder
+  prixAchat?: Prisma.SortOrder
+  cump?: Prisma.SortOrder
+  tva?: Prisma.SortOrder
   stock?: Prisma.SortOrder
+  qteAchat?: Prisma.SortOrder
+  qteVente?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   sousCategorieId?: Prisma.SortOrder
   marqueId?: Prisma.SortOrder
@@ -660,6 +850,11 @@ export type ProduitSumOrderByAggregateInput = {
 export type ProduitScalarRelationFilter = {
   is?: Prisma.ProduitWhereInput
   isNot?: Prisma.ProduitWhereInput
+}
+
+export type ProduitNullableScalarRelationFilter = {
+  is?: Prisma.ProduitWhereInput | null
+  isNot?: Prisma.ProduitWhereInput | null
 }
 
 export type ProduitCreateNestedManyWithoutSousCategorieInput = {
@@ -754,6 +949,14 @@ export type ProduitCreatemotsClesInput = {
   set: string[]
 }
 
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type ProduitUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
@@ -762,6 +965,34 @@ export type ProduitUpdateimagesInput = {
 export type ProduitUpdatemotsClesInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type ProduitCreateNestedOneWithoutMouvementsStockInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutMouvementsStockInput, Prisma.ProduitUncheckedCreateWithoutMouvementsStockInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutMouvementsStockInput
+  connect?: Prisma.ProduitWhereUniqueInput
+}
+
+export type ProduitUpdateOneRequiredWithoutMouvementsStockNestedInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutMouvementsStockInput, Prisma.ProduitUncheckedCreateWithoutMouvementsStockInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutMouvementsStockInput
+  upsert?: Prisma.ProduitUpsertWithoutMouvementsStockInput
+  connect?: Prisma.ProduitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProduitUpdateToOneWithWhereWithoutMouvementsStockInput, Prisma.ProduitUpdateWithoutMouvementsStockInput>, Prisma.ProduitUncheckedUpdateWithoutMouvementsStockInput>
+}
+
+export type ProduitCreateNestedOneWithoutHistoriquesPrixAchatInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedCreateWithoutHistoriquesPrixAchatInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutHistoriquesPrixAchatInput
+  connect?: Prisma.ProduitWhereUniqueInput
+}
+
+export type ProduitUpdateOneRequiredWithoutHistoriquesPrixAchatNestedInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedCreateWithoutHistoriquesPrixAchatInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutHistoriquesPrixAchatInput
+  upsert?: Prisma.ProduitUpsertWithoutHistoriquesPrixAchatInput
+  connect?: Prisma.ProduitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProduitUpdateToOneWithWhereWithoutHistoriquesPrixAchatInput, Prisma.ProduitUpdateWithoutHistoriquesPrixAchatInput>, Prisma.ProduitUncheckedUpdateWithoutHistoriquesPrixAchatInput>
 }
 
 export type ProduitCreateNestedOneWithoutLignesCommandeInput = {
@@ -778,13 +1009,51 @@ export type ProduitUpdateOneRequiredWithoutLignesCommandeNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProduitUpdateToOneWithWhereWithoutLignesCommandeInput, Prisma.ProduitUpdateWithoutLignesCommandeInput>, Prisma.ProduitUncheckedUpdateWithoutLignesCommandeInput>
 }
 
+export type ProduitCreateNestedOneWithoutLignesBonLivraisonInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedCreateWithoutLignesBonLivraisonInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutLignesBonLivraisonInput
+  connect?: Prisma.ProduitWhereUniqueInput
+}
+
+export type ProduitUpdateOneWithoutLignesBonLivraisonNestedInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedCreateWithoutLignesBonLivraisonInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutLignesBonLivraisonInput
+  upsert?: Prisma.ProduitUpsertWithoutLignesBonLivraisonInput
+  disconnect?: Prisma.ProduitWhereInput | boolean
+  delete?: Prisma.ProduitWhereInput | boolean
+  connect?: Prisma.ProduitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProduitUpdateToOneWithWhereWithoutLignesBonLivraisonInput, Prisma.ProduitUpdateWithoutLignesBonLivraisonInput>, Prisma.ProduitUncheckedUpdateWithoutLignesBonLivraisonInput>
+}
+
+export type ProduitCreateNestedOneWithoutLignesDevisInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutLignesDevisInput, Prisma.ProduitUncheckedCreateWithoutLignesDevisInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutLignesDevisInput
+  connect?: Prisma.ProduitWhereUniqueInput
+}
+
+export type ProduitUpdateOneWithoutLignesDevisNestedInput = {
+  create?: Prisma.XOR<Prisma.ProduitCreateWithoutLignesDevisInput, Prisma.ProduitUncheckedCreateWithoutLignesDevisInput>
+  connectOrCreate?: Prisma.ProduitCreateOrConnectWithoutLignesDevisInput
+  upsert?: Prisma.ProduitUpsertWithoutLignesDevisInput
+  disconnect?: Prisma.ProduitWhereInput | boolean
+  delete?: Prisma.ProduitWhereInput | boolean
+  connect?: Prisma.ProduitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProduitUpdateToOneWithWhereWithoutLignesDevisInput, Prisma.ProduitUpdateWithoutLignesDevisInput>, Prisma.ProduitUncheckedUpdateWithoutLignesDevisInput>
+}
+
 export type ProduitCreateWithoutSousCategorieInput = {
   nom: string
   reference: string
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -795,6 +1064,10 @@ export type ProduitCreateWithoutSousCategorieInput = {
   misAJourLe?: Date | string
   marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
   lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
 }
 
 export type ProduitUncheckedCreateWithoutSousCategorieInput = {
@@ -804,7 +1077,13 @@ export type ProduitUncheckedCreateWithoutSousCategorieInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -815,6 +1094,10 @@ export type ProduitUncheckedCreateWithoutSousCategorieInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProduitCreateOrConnectWithoutSousCategorieInput = {
@@ -853,7 +1136,13 @@ export type ProduitScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Produit"> | string | null
   expirationDate?: Prisma.DateTimeNullableFilter<"Produit"> | Date | string | null
   prix?: Prisma.DecimalFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.DecimalNullableFilter<"Produit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFilter<"Produit"> | number
+  qteAchat?: Prisma.IntFilter<"Produit"> | number
+  qteVente?: Prisma.IntFilter<"Produit"> | number
+  disponibleALaVente?: Prisma.BoolFilter<"Produit"> | boolean
   images?: Prisma.StringNullableListFilter<"Produit">
   video?: Prisma.StringNullableFilter<"Produit"> | string | null
   motsCles?: Prisma.StringNullableListFilter<"Produit">
@@ -872,7 +1161,13 @@ export type ProduitCreateWithoutMarqueInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -883,6 +1178,10 @@ export type ProduitCreateWithoutMarqueInput = {
   misAJourLe?: Date | string
   sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
   lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
 }
 
 export type ProduitUncheckedCreateWithoutMarqueInput = {
@@ -892,7 +1191,13 @@ export type ProduitUncheckedCreateWithoutMarqueInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -903,6 +1208,10 @@ export type ProduitUncheckedCreateWithoutMarqueInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProduitCreateOrConnectWithoutMarqueInput = {
@@ -931,13 +1240,19 @@ export type ProduitUpdateManyWithWhereWithoutMarqueInput = {
   data: Prisma.XOR<Prisma.ProduitUpdateManyMutationInput, Prisma.ProduitUncheckedUpdateManyWithoutMarqueInput>
 }
 
-export type ProduitCreateWithoutLignesCommandeInput = {
+export type ProduitCreateWithoutMouvementsStockInput = {
   nom: string
   reference: string
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -948,16 +1263,26 @@ export type ProduitCreateWithoutLignesCommandeInput = {
   misAJourLe?: Date | string
   sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
   marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
+  lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
 }
 
-export type ProduitUncheckedCreateWithoutLignesCommandeInput = {
+export type ProduitUncheckedCreateWithoutMouvementsStockInput = {
   id?: number
   nom: string
   reference: string
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -968,6 +1293,278 @@ export type ProduitUncheckedCreateWithoutLignesCommandeInput = {
   marqueId: number
   creeLe?: Date | string
   misAJourLe?: Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProduitCreateOrConnectWithoutMouvementsStockInput = {
+  where: Prisma.ProduitWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutMouvementsStockInput, Prisma.ProduitUncheckedCreateWithoutMouvementsStockInput>
+}
+
+export type ProduitUpsertWithoutMouvementsStockInput = {
+  update: Prisma.XOR<Prisma.ProduitUpdateWithoutMouvementsStockInput, Prisma.ProduitUncheckedUpdateWithoutMouvementsStockInput>
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutMouvementsStockInput, Prisma.ProduitUncheckedCreateWithoutMouvementsStockInput>
+  where?: Prisma.ProduitWhereInput
+}
+
+export type ProduitUpdateToOneWithWhereWithoutMouvementsStockInput = {
+  where?: Prisma.ProduitWhereInput
+  data: Prisma.XOR<Prisma.ProduitUpdateWithoutMouvementsStockInput, Prisma.ProduitUncheckedUpdateWithoutMouvementsStockInput>
+}
+
+export type ProduitUpdateWithoutMouvementsStockInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
+  marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
+  lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitUncheckedUpdateWithoutMouvementsStockInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
+  marqueId?: Prisma.IntFieldUpdateOperationsInput | number
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitCreateWithoutHistoriquesPrixAchatInput = {
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
+  marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
+  lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+}
+
+export type ProduitUncheckedCreateWithoutHistoriquesPrixAchatInput = {
+  id?: number
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  sousCategorieId: number
+  marqueId: number
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProduitCreateOrConnectWithoutHistoriquesPrixAchatInput = {
+  where: Prisma.ProduitWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedCreateWithoutHistoriquesPrixAchatInput>
+}
+
+export type ProduitUpsertWithoutHistoriquesPrixAchatInput = {
+  update: Prisma.XOR<Prisma.ProduitUpdateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedUpdateWithoutHistoriquesPrixAchatInput>
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedCreateWithoutHistoriquesPrixAchatInput>
+  where?: Prisma.ProduitWhereInput
+}
+
+export type ProduitUpdateToOneWithWhereWithoutHistoriquesPrixAchatInput = {
+  where?: Prisma.ProduitWhereInput
+  data: Prisma.XOR<Prisma.ProduitUpdateWithoutHistoriquesPrixAchatInput, Prisma.ProduitUncheckedUpdateWithoutHistoriquesPrixAchatInput>
+}
+
+export type ProduitUpdateWithoutHistoriquesPrixAchatInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
+  marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
+  lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitUncheckedUpdateWithoutHistoriquesPrixAchatInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
+  marqueId?: Prisma.IntFieldUpdateOperationsInput | number
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitCreateWithoutLignesCommandeInput = {
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
+  marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
+}
+
+export type ProduitUncheckedCreateWithoutLignesCommandeInput = {
+  id?: number
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  sousCategorieId: number
+  marqueId: number
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProduitCreateOrConnectWithoutLignesCommandeInput = {
@@ -992,7 +1589,13 @@ export type ProduitUpdateWithoutLignesCommandeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1003,6 +1606,10 @@ export type ProduitUpdateWithoutLignesCommandeInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
   marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateWithoutLignesCommandeInput = {
@@ -1012,7 +1619,13 @@ export type ProduitUncheckedUpdateWithoutLignesCommandeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1023,6 +1636,278 @@ export type ProduitUncheckedUpdateWithoutLignesCommandeInput = {
   marqueId?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitCreateWithoutLignesBonLivraisonInput = {
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
+  marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
+  lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
+}
+
+export type ProduitUncheckedCreateWithoutLignesBonLivraisonInput = {
+  id?: number
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  sousCategorieId: number
+  marqueId: number
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesDevis?: Prisma.LigneDevisUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProduitCreateOrConnectWithoutLignesBonLivraisonInput = {
+  where: Prisma.ProduitWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedCreateWithoutLignesBonLivraisonInput>
+}
+
+export type ProduitUpsertWithoutLignesBonLivraisonInput = {
+  update: Prisma.XOR<Prisma.ProduitUpdateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedUpdateWithoutLignesBonLivraisonInput>
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedCreateWithoutLignesBonLivraisonInput>
+  where?: Prisma.ProduitWhereInput
+}
+
+export type ProduitUpdateToOneWithWhereWithoutLignesBonLivraisonInput = {
+  where?: Prisma.ProduitWhereInput
+  data: Prisma.XOR<Prisma.ProduitUpdateWithoutLignesBonLivraisonInput, Prisma.ProduitUncheckedUpdateWithoutLignesBonLivraisonInput>
+}
+
+export type ProduitUpdateWithoutLignesBonLivraisonInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
+  marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
+  lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitUncheckedUpdateWithoutLignesBonLivraisonInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
+  marqueId?: Prisma.IntFieldUpdateOperationsInput | number
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitCreateWithoutLignesDevisInput = {
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  sousCategorie: Prisma.SousCategorieCreateNestedOneWithoutProduitsInput
+  marque: Prisma.MarqueCreateNestedOneWithoutProduitsInput
+  lignesCommande?: Prisma.LigneCommandeCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryCreateNestedManyWithoutProductInput
+}
+
+export type ProduitUncheckedCreateWithoutLignesDevisInput = {
+  id?: number
+  nom: string
+  reference: string
+  description?: string | null
+  expirationDate?: Date | string | null
+  prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
+  images?: Prisma.ProduitCreateimagesInput | string[]
+  video?: string | null
+  motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
+  ficheTechnique?: string | null
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: boolean
+  sousCategorieId: number
+  marqueId: number
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedCreateNestedManyWithoutProduitInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutProduitInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProduitCreateOrConnectWithoutLignesDevisInput = {
+  where: Prisma.ProduitWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutLignesDevisInput, Prisma.ProduitUncheckedCreateWithoutLignesDevisInput>
+}
+
+export type ProduitUpsertWithoutLignesDevisInput = {
+  update: Prisma.XOR<Prisma.ProduitUpdateWithoutLignesDevisInput, Prisma.ProduitUncheckedUpdateWithoutLignesDevisInput>
+  create: Prisma.XOR<Prisma.ProduitCreateWithoutLignesDevisInput, Prisma.ProduitUncheckedCreateWithoutLignesDevisInput>
+  where?: Prisma.ProduitWhereInput
+}
+
+export type ProduitUpdateToOneWithWhereWithoutLignesDevisInput = {
+  where?: Prisma.ProduitWhereInput
+  data: Prisma.XOR<Prisma.ProduitUpdateWithoutLignesDevisInput, Prisma.ProduitUncheckedUpdateWithoutLignesDevisInput>
+}
+
+export type ProduitUpdateWithoutLignesDevisInput = {
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
+  marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
+  lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
+}
+
+export type ProduitUncheckedUpdateWithoutLignesDevisInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nom?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  images?: Prisma.ProduitUpdateimagesInput | string[]
+  video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
+  ficheTechnique?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  disponible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sousCategorieId?: Prisma.IntFieldUpdateOperationsInput | number
+  marqueId?: Prisma.IntFieldUpdateOperationsInput | number
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitCreateManySousCategorieInput = {
@@ -1032,7 +1917,13 @@ export type ProduitCreateManySousCategorieInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -1050,7 +1941,13 @@ export type ProduitUpdateWithoutSousCategorieInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1061,6 +1958,10 @@ export type ProduitUpdateWithoutSousCategorieInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   marque?: Prisma.MarqueUpdateOneRequiredWithoutProduitsNestedInput
   lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateWithoutSousCategorieInput = {
@@ -1070,7 +1971,13 @@ export type ProduitUncheckedUpdateWithoutSousCategorieInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1081,6 +1988,10 @@ export type ProduitUncheckedUpdateWithoutSousCategorieInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateManyWithoutSousCategorieInput = {
@@ -1090,7 +2001,13 @@ export type ProduitUncheckedUpdateManyWithoutSousCategorieInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1109,7 +2026,13 @@ export type ProduitCreateManyMarqueInput = {
   description?: string | null
   expirationDate?: Date | string | null
   prix: runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: number
+  qteAchat?: number
+  qteVente?: number
+  disponibleALaVente?: boolean
   images?: Prisma.ProduitCreateimagesInput | string[]
   video?: string | null
   motsCles?: Prisma.ProduitCreatemotsClesInput | string[]
@@ -1127,7 +2050,13 @@ export type ProduitUpdateWithoutMarqueInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1138,6 +2067,10 @@ export type ProduitUpdateWithoutMarqueInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sousCategorie?: Prisma.SousCategorieUpdateOneRequiredWithoutProduitsNestedInput
   lignesCommande?: Prisma.LigneCommandeUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateWithoutMarqueInput = {
@@ -1147,7 +2080,13 @@ export type ProduitUncheckedUpdateWithoutMarqueInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1158,6 +2097,10 @@ export type ProduitUncheckedUpdateWithoutMarqueInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignesCommande?: Prisma.LigneCommandeUncheckedUpdateManyWithoutProduitNestedInput
+  lignesBonLivraison?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutProduitNestedInput
+  lignesDevis?: Prisma.LigneDevisUncheckedUpdateManyWithoutProduitNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+  historiquesPrixAchat?: Prisma.PurchasePriceHistoryUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProduitUncheckedUpdateManyWithoutMarqueInput = {
@@ -1167,7 +2110,13 @@ export type ProduitUncheckedUpdateManyWithoutMarqueInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prix?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  prixAchat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cump?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tva?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stock?: Prisma.IntFieldUpdateOperationsInput | number
+  qteAchat?: Prisma.IntFieldUpdateOperationsInput | number
+  qteVente?: Prisma.IntFieldUpdateOperationsInput | number
+  disponibleALaVente?: Prisma.BoolFieldUpdateOperationsInput | boolean
   images?: Prisma.ProduitUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   motsCles?: Prisma.ProduitUpdatemotsClesInput | string[]
@@ -1186,10 +2135,18 @@ export type ProduitUncheckedUpdateManyWithoutMarqueInput = {
 
 export type ProduitCountOutputType = {
   lignesCommande: number
+  lignesBonLivraison: number
+  lignesDevis: number
+  mouvementsStock: number
+  historiquesPrixAchat: number
 }
 
 export type ProduitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lignesCommande?: boolean | ProduitCountOutputTypeCountLignesCommandeArgs
+  lignesBonLivraison?: boolean | ProduitCountOutputTypeCountLignesBonLivraisonArgs
+  lignesDevis?: boolean | ProduitCountOutputTypeCountLignesDevisArgs
+  mouvementsStock?: boolean | ProduitCountOutputTypeCountMouvementsStockArgs
+  historiquesPrixAchat?: boolean | ProduitCountOutputTypeCountHistoriquesPrixAchatArgs
 }
 
 /**
@@ -1209,6 +2166,34 @@ export type ProduitCountOutputTypeCountLignesCommandeArgs<ExtArgs extends runtim
   where?: Prisma.LigneCommandeWhereInput
 }
 
+/**
+ * ProduitCountOutputType without action
+ */
+export type ProduitCountOutputTypeCountLignesBonLivraisonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LigneBonLivraisonWhereInput
+}
+
+/**
+ * ProduitCountOutputType without action
+ */
+export type ProduitCountOutputTypeCountLignesDevisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LigneDevisWhereInput
+}
+
+/**
+ * ProduitCountOutputType without action
+ */
+export type ProduitCountOutputTypeCountMouvementsStockArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StockMovementWhereInput
+}
+
+/**
+ * ProduitCountOutputType without action
+ */
+export type ProduitCountOutputTypeCountHistoriquesPrixAchatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PurchasePriceHistoryWhereInput
+}
+
 
 export type ProduitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1217,7 +2202,13 @@ export type ProduitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   expirationDate?: boolean
   prix?: boolean
+  prixAchat?: boolean
+  cump?: boolean
+  tva?: boolean
   stock?: boolean
+  qteAchat?: boolean
+  qteVente?: boolean
+  disponibleALaVente?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
@@ -1231,6 +2222,10 @@ export type ProduitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   sousCategorie?: boolean | Prisma.SousCategorieDefaultArgs<ExtArgs>
   marque?: boolean | Prisma.MarqueDefaultArgs<ExtArgs>
   lignesCommande?: boolean | Prisma.Produit$lignesCommandeArgs<ExtArgs>
+  lignesBonLivraison?: boolean | Prisma.Produit$lignesBonLivraisonArgs<ExtArgs>
+  lignesDevis?: boolean | Prisma.Produit$lignesDevisArgs<ExtArgs>
+  mouvementsStock?: boolean | Prisma.Produit$mouvementsStockArgs<ExtArgs>
+  historiquesPrixAchat?: boolean | Prisma.Produit$historiquesPrixAchatArgs<ExtArgs>
   _count?: boolean | Prisma.ProduitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["produit"]>
 
@@ -1241,7 +2236,13 @@ export type ProduitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   expirationDate?: boolean
   prix?: boolean
+  prixAchat?: boolean
+  cump?: boolean
+  tva?: boolean
   stock?: boolean
+  qteAchat?: boolean
+  qteVente?: boolean
+  disponibleALaVente?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
@@ -1263,7 +2264,13 @@ export type ProduitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   expirationDate?: boolean
   prix?: boolean
+  prixAchat?: boolean
+  cump?: boolean
+  tva?: boolean
   stock?: boolean
+  qteAchat?: boolean
+  qteVente?: boolean
+  disponibleALaVente?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
@@ -1285,7 +2292,13 @@ export type ProduitSelectScalar = {
   description?: boolean
   expirationDate?: boolean
   prix?: boolean
+  prixAchat?: boolean
+  cump?: boolean
+  tva?: boolean
   stock?: boolean
+  qteAchat?: boolean
+  qteVente?: boolean
+  disponibleALaVente?: boolean
   images?: boolean
   video?: boolean
   motsCles?: boolean
@@ -1298,11 +2311,15 @@ export type ProduitSelectScalar = {
   misAJourLe?: boolean
 }
 
-export type ProduitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "reference" | "description" | "expirationDate" | "prix" | "stock" | "images" | "video" | "motsCles" | "ficheTechnique" | "remise" | "disponible" | "sousCategorieId" | "marqueId" | "creeLe" | "misAJourLe", ExtArgs["result"]["produit"]>
+export type ProduitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "reference" | "description" | "expirationDate" | "prix" | "prixAchat" | "cump" | "tva" | "stock" | "qteAchat" | "qteVente" | "disponibleALaVente" | "images" | "video" | "motsCles" | "ficheTechnique" | "remise" | "disponible" | "sousCategorieId" | "marqueId" | "creeLe" | "misAJourLe", ExtArgs["result"]["produit"]>
 export type ProduitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sousCategorie?: boolean | Prisma.SousCategorieDefaultArgs<ExtArgs>
   marque?: boolean | Prisma.MarqueDefaultArgs<ExtArgs>
   lignesCommande?: boolean | Prisma.Produit$lignesCommandeArgs<ExtArgs>
+  lignesBonLivraison?: boolean | Prisma.Produit$lignesBonLivraisonArgs<ExtArgs>
+  lignesDevis?: boolean | Prisma.Produit$lignesDevisArgs<ExtArgs>
+  mouvementsStock?: boolean | Prisma.Produit$mouvementsStockArgs<ExtArgs>
+  historiquesPrixAchat?: boolean | Prisma.Produit$historiquesPrixAchatArgs<ExtArgs>
   _count?: boolean | Prisma.ProduitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProduitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1320,6 +2337,10 @@ export type $ProduitPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     sousCategorie: Prisma.$SousCategoriePayload<ExtArgs>
     marque: Prisma.$MarquePayload<ExtArgs>
     lignesCommande: Prisma.$LigneCommandePayload<ExtArgs>[]
+    lignesBonLivraison: Prisma.$LigneBonLivraisonPayload<ExtArgs>[]
+    lignesDevis: Prisma.$LigneDevisPayload<ExtArgs>[]
+    mouvementsStock: Prisma.$StockMovementPayload<ExtArgs>[]
+    historiquesPrixAchat: Prisma.$PurchasePriceHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1328,7 +2349,13 @@ export type $ProduitPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string | null
     expirationDate: Date | null
     prix: runtime.Decimal
+    prixAchat: runtime.Decimal | null
+    cump: runtime.Decimal | null
+    tva: runtime.Decimal | null
     stock: number
+    qteAchat: number
+    qteVente: number
+    disponibleALaVente: boolean
     images: string[]
     video: string | null
     motsCles: string[]
@@ -1736,6 +2763,10 @@ export interface Prisma__ProduitClient<T, Null = never, ExtArgs extends runtime.
   sousCategorie<T extends Prisma.SousCategorieDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SousCategorieDefaultArgs<ExtArgs>>): Prisma.Prisma__SousCategorieClient<runtime.Types.Result.GetResult<Prisma.$SousCategoriePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   marque<T extends Prisma.MarqueDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MarqueDefaultArgs<ExtArgs>>): Prisma.Prisma__MarqueClient<runtime.Types.Result.GetResult<Prisma.$MarquePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   lignesCommande<T extends Prisma.Produit$lignesCommandeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produit$lignesCommandeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneCommandePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lignesBonLivraison<T extends Prisma.Produit$lignesBonLivraisonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produit$lignesBonLivraisonArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneBonLivraisonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lignesDevis<T extends Prisma.Produit$lignesDevisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produit$lignesDevisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneDevisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mouvementsStock<T extends Prisma.Produit$mouvementsStockArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produit$mouvementsStockArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  historiquesPrixAchat<T extends Prisma.Produit$historiquesPrixAchatArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produit$historiquesPrixAchatArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePriceHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1771,7 +2802,13 @@ export interface ProduitFieldRefs {
   readonly description: Prisma.FieldRef<"Produit", 'String'>
   readonly expirationDate: Prisma.FieldRef<"Produit", 'DateTime'>
   readonly prix: Prisma.FieldRef<"Produit", 'Decimal'>
+  readonly prixAchat: Prisma.FieldRef<"Produit", 'Decimal'>
+  readonly cump: Prisma.FieldRef<"Produit", 'Decimal'>
+  readonly tva: Prisma.FieldRef<"Produit", 'Decimal'>
   readonly stock: Prisma.FieldRef<"Produit", 'Int'>
+  readonly qteAchat: Prisma.FieldRef<"Produit", 'Int'>
+  readonly qteVente: Prisma.FieldRef<"Produit", 'Int'>
+  readonly disponibleALaVente: Prisma.FieldRef<"Produit", 'Boolean'>
   readonly images: Prisma.FieldRef<"Produit", 'String[]'>
   readonly video: Prisma.FieldRef<"Produit", 'String'>
   readonly motsCles: Prisma.FieldRef<"Produit", 'String[]'>
@@ -2204,6 +3241,102 @@ export type Produit$lignesCommandeArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.LigneCommandeScalarFieldEnum | Prisma.LigneCommandeScalarFieldEnum[]
+}
+
+/**
+ * Produit.lignesBonLivraison
+ */
+export type Produit$lignesBonLivraisonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LigneBonLivraison
+   */
+  select?: Prisma.LigneBonLivraisonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LigneBonLivraison
+   */
+  omit?: Prisma.LigneBonLivraisonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LigneBonLivraisonInclude<ExtArgs> | null
+  where?: Prisma.LigneBonLivraisonWhereInput
+  orderBy?: Prisma.LigneBonLivraisonOrderByWithRelationInput | Prisma.LigneBonLivraisonOrderByWithRelationInput[]
+  cursor?: Prisma.LigneBonLivraisonWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LigneBonLivraisonScalarFieldEnum | Prisma.LigneBonLivraisonScalarFieldEnum[]
+}
+
+/**
+ * Produit.lignesDevis
+ */
+export type Produit$lignesDevisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LigneDevis
+   */
+  select?: Prisma.LigneDevisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LigneDevis
+   */
+  omit?: Prisma.LigneDevisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LigneDevisInclude<ExtArgs> | null
+  where?: Prisma.LigneDevisWhereInput
+  orderBy?: Prisma.LigneDevisOrderByWithRelationInput | Prisma.LigneDevisOrderByWithRelationInput[]
+  cursor?: Prisma.LigneDevisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LigneDevisScalarFieldEnum | Prisma.LigneDevisScalarFieldEnum[]
+}
+
+/**
+ * Produit.mouvementsStock
+ */
+export type Produit$mouvementsStockArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StockMovement
+   */
+  select?: Prisma.StockMovementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StockMovement
+   */
+  omit?: Prisma.StockMovementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockMovementInclude<ExtArgs> | null
+  where?: Prisma.StockMovementWhereInput
+  orderBy?: Prisma.StockMovementOrderByWithRelationInput | Prisma.StockMovementOrderByWithRelationInput[]
+  cursor?: Prisma.StockMovementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StockMovementScalarFieldEnum | Prisma.StockMovementScalarFieldEnum[]
+}
+
+/**
+ * Produit.historiquesPrixAchat
+ */
+export type Produit$historiquesPrixAchatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PurchasePriceHistory
+   */
+  select?: Prisma.PurchasePriceHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PurchasePriceHistory
+   */
+  omit?: Prisma.PurchasePriceHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PurchasePriceHistoryInclude<ExtArgs> | null
+  where?: Prisma.PurchasePriceHistoryWhereInput
+  orderBy?: Prisma.PurchasePriceHistoryOrderByWithRelationInput | Prisma.PurchasePriceHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.PurchasePriceHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PurchasePriceHistoryScalarFieldEnum | Prisma.PurchasePriceHistoryScalarFieldEnum[]
 }
 
 /**

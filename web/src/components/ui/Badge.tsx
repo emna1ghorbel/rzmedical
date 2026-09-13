@@ -20,9 +20,9 @@ const VARIANTS: Record<BadgeVariant, string> = {
   success: "bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-[0_0_8px_rgba(18,183,106,0.12)]",
   warning: "bg-amber-50 text-amber-700 border border-amber-200/60 shadow-[0_0_8px_rgba(247,144,9,0.12)]",
   error: "bg-red-50 text-red-700 border border-red-200/60 shadow-[0_0_8px_rgba(240,68,56,0.12)]",
-  promo: "bg-gradient-to-r from-red-500 to-rose-500 text-white border border-red-400/30 shadow-[0_0_12px_rgba(240,68,56,0.35)]",
-  new: "bg-gradient-to-r from-azure-500 to-electric-500 text-white border border-azure-400/30 shadow-[0_0_12px_rgba(14,165,233,0.35)]",
-  gold: "bg-gradient-to-r from-amber-400 to-yellow-400 text-amber-900 border border-amber-300/50 shadow-[0_0_12px_rgba(245,158,11,0.3)]",
+  promo: "bg-red-500 text-white border border-red-600 shadow-sm",
+  new: "bg-azure-600 text-white border border-azure-700 shadow-sm",
+  gold: "bg-amber-400 text-amber-900 border border-amber-500 shadow-sm",
 };
 
 const SIZES: Record<BadgeSize, string> = {

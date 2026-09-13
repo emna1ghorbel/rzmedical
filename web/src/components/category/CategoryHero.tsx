@@ -58,11 +58,8 @@ export function CategoryHero({ category, videoHero }: CategoryHeroProps) {
         </video>
       ) : (
         <>
-          {/* Ambient orbs */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-azure-500/10 blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-electric-500/5 blur-[100px] pointer-events-none" />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 grid-pattern opacity-15 pointer-events-none" />
+          {/* Subtle texture: light top border highlight */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-white/10 pointer-events-none" />
         </>
       )}
 
@@ -73,13 +70,10 @@ export function CategoryHero({ category, videoHero }: CategoryHeroProps) {
       <Container className="relative z-20 pb-14 pt-32 lg:pb-20">
         <div className="max-w-2xl">
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-azure-400/30 bg-azure-500/10 backdrop-blur-sm px-4 py-1.5 mb-5">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-azure-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-azure-400" />
-            </span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-azure-400/30 bg-azure-500/10 px-4 py-1.5 mb-5">
+            <span className="h-px w-4 bg-azure-400/60" />
             <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-azure-300">
-              Catégorie active
+              Catégorie
             </span>
           </div>
 

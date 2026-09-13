@@ -87,6 +87,7 @@ router.get('/', requireAuth, async (req: Request, res: Response) => {
     // Notifications Commandes
     for (const order of recentOrders) {
       const clientName = [order.utilisateur.prenom, order.utilisateur.nom].filter(Boolean).join(' ') || order.utilisateur.email;
+      const statusValue = String(order.statut);
       notifications.push({
         id: `order_${order.id}`,
         type: 'order',
@@ -95,8 +96,8 @@ router.get('/', requireAuth, async (req: Request, res: Response) => {
         photo: order.utilisateur.photo,
         date: order.creeLe,
         link: '/orders',
-        severity: order.statut === 'PAYEE' ? 'success' : order.statut === 'ANNULEE' ? 'error' : 'warning',
-        extra: order.statut
+        severity: statusValue === 'PAYEE' ? 'success' : statusValue === 'ANNULEE' ? 'error' : 'warning',
+        extra: statusValue
       });
     }
 

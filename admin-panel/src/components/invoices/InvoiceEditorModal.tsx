@@ -106,6 +106,8 @@ export default function InvoiceEditorModal({
   );
   const [clientEmail, setClientEmail] = useState(order.utilisateur.email || "");
   const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
+  const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([]);
+  const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([]);
 
   // ── Invoice Lines ──
   const [lignes, setLignes] = useState<InvoiceLineForm[]>(() =>
@@ -132,6 +134,29 @@ export default function InvoiceEditorModal({
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [successMsg, setSuccessMsg] = useState("");
   const previewBlobRef = useRef<Blob | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/company-info`)
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((config) => {
+        const tvaRates = Array.isArray(config.valeursTva)
+          ? config.valeursTva.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b)
+          : [];
+        const timbreRates = Array.isArray(config.valeursTimbre)
+          ? config.valeursTimbre.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b)
+          : [];
+        setCompanyTvaRates(tvaRates);
+        setCompanyTimbreRates(timbreRates);
+        if (tvaRates.length) {
+          setLignes((prev) => prev.map((line) => ({
+            ...line,
+            tauxTVA: tvaRates.includes(line.tauxTVA) ? line.tauxTVA : tvaRates[0],
+          })));
+        }
+        if (timbreRates.length) setTimbreFiscal((value) => timbreRates.includes(value) ? value : timbreRates[0]);
+      })
+      .catch(() => undefined);
+  }, []);
 
   // ── Load invoice number ──
   useEffect(() => {
@@ -181,7 +206,7 @@ export default function InvoiceEditorModal({
         designation: "",
         quantite: 1,
         prixUnitaireHT: 0,
-        tauxTVA: DEFAULT_TVA_RATE,
+        tauxTVA: companyTvaRates[0] ?? DEFAULT_TVA_RATE,
         totalHT: 0,
       },
     ]);
@@ -206,15 +231,14 @@ export default function InvoiceEditorModal({
 
     if (!clientNom.trim()) errs.clientNom = "Le nom du client est requis";
 
-    if (isNaN(timbreFiscal) || timbreFiscal < 0)
-      errs.timbreFiscal = "Timbre fiscal invalide";
+    if (!companyTimbreRates.includes(timbreFiscal))
+      errs.timbreFiscal = "Sélectionnez un timbre fiscal configuré";
 
     const lineErrors: string[] = lignes.map((l, i) => {
       if (!l.designation.trim()) return `Ligne ${i + 1}: désignation requise`;
-      if (l.quantite <= 0) return `Ligne ${i + 1}: quantité invalide`;
+      if (!Number.isInteger(l.quantite) || l.quantite <= 0) return `Ligne ${i + 1}: quantité entière invalide`;
       if (l.prixUnitaireHT < 0) return `Ligne ${i + 1}: prix invalide`;
-      if (l.tauxTVA < 0 || l.tauxTVA > 100)
-        return `Ligne ${i + 1}: TVA invalide (0–100%)`;
+      if (!companyTvaRates.includes(l.tauxTVA)) return `Ligne ${i + 1}: TVA non configurée`;
       return "";
     });
     const hasLineErrors = lineErrors.some(Boolean);
@@ -571,6 +595,7 @@ export default function InvoiceEditorModal({
                       <th className="px-3 py-3 font-semibold text-right w-32">P.U.HT (TND)</th>
                       <th className="px-3 py-3 font-semibold text-center w-24">T.TVA %</th>
                       <th className="px-3 py-3 font-semibold text-right w-32">P.T.HT (TND)</th>
+                      <th className="px-3 py-3 font-semibold text-right w-32">Total TTC (TND)</th>
                       <th className="w-10"></th>
                     </tr>
                   </thead>
@@ -591,11 +616,11 @@ export default function InvoiceEditorModal({
                         <td className="px-3 py-2">
                           <input
                             type="number"
-                            min="0.001"
-                            step="0.001"
+                            min="1"
+                            step="1"
                             value={ligne.quantite}
                             onChange={(e) =>
-                              updateLine(idx, "quantite", parseFloat(e.target.value) || 0)
+                              updateLine(idx, "quantite", Math.max(1, Math.trunc(Number(e.target.value) || 1)))
                             }
                             className="w-full rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center focus:border-blue-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                           />
@@ -613,21 +638,24 @@ export default function InvoiceEditorModal({
                           />
                         </td>
                         <td className="px-3 py-2">
-                          <input
-                            type="number"
-                            min="0"
-                            max="100"
-                            step="0.01"
+                          <select
                             value={ligne.tauxTVA}
                             onChange={(e) =>
-                              updateLine(idx, "tauxTVA", parseFloat(e.target.value) || 0)
+                              updateLine(idx, "tauxTVA", Number(e.target.value))
                             }
                             className="w-full rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center focus:border-blue-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                          />
+                          >
+                            {companyTvaRates.map((rate) => <option key={rate} value={rate}>{rate}%</option>)}
+                          </select>
                         </td>
                         <td className="px-3 py-2 text-right">
                           <span className="font-semibold text-blue-700 dark:text-blue-400 tabular-nums">
                             {formatTND(ligne.totalHT)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          <span className="font-bold text-gray-900 dark:text-white tabular-nums">
+                            {formatTND(round3(ligne.totalHT * (1 + ligne.tauxTVA / 100)))}
                           </span>
                         </td>
                         <td className="px-2 py-2 text-center">
@@ -664,17 +692,14 @@ export default function InvoiceEditorModal({
               {/* Fiscalité */}
               <Section title="Fiscalité" icon="🏛️">
                 <Field label="Timbre Fiscal (TND)" error={errors.timbreFiscal}>
-                  <input
+                  <select
                     id="invoice-timbre"
-                    type="number"
-                    min="0"
-                    step="0.001"
                     value={timbreFiscal}
-                    onChange={(e) =>
-                      setTimbreFiscal(parseFloat(e.target.value) || 0)
-                    }
+                    onChange={(e) => setTimbreFiscal(Number(e.target.value))}
                     className={inputClass(!!errors.timbreFiscal)}
-                  />
+                  >
+                    {companyTimbreRates.map((rate) => <option key={rate} value={rate}>{rate.toFixed(3)} TND</option>)}
+                  </select>
                 </Field>
               </Section>
 
@@ -833,8 +858,7 @@ function SummaryRow({
 }
 
 const inputClass = (hasError: boolean) =>
-  `w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none transition-colors dark:bg-gray-800 dark:text-white ${
-    hasError
-      ? "border-red-400 bg-red-50 focus:border-red-500 dark:bg-red-950/20 dark:border-red-700"
-      : "border-gray-200 bg-white focus:border-blue-400 dark:border-gray-700"
+  `w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none transition-colors dark:bg-gray-800 dark:text-white ${hasError
+    ? "border-red-400 bg-red-50 focus:border-red-500 dark:bg-red-950/20 dark:border-red-700"
+    : "border-gray-200 bg-white focus:border-blue-400 dark:border-gray-700"
   }`;

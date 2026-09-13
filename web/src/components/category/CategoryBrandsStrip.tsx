@@ -31,18 +31,20 @@ export async function CategoryBrandsStrip({
     <section className="bg-white border-t border-slate-100">
       <Container className="py-12 lg:py-16">
         <div className="flex items-end justify-between mb-8">
-          <SectionHeading
+        <SectionHeading
             eyebrow="Partenaires"
             title={`Marques ${category.nom}`}
             description="Les meilleures références sélectionnées pour leur qualité professionnelle."
+            extraAction={
+              <Link
+                href={`/${slug}/marques`}
+                className="inline-flex h-10 flex-shrink-0 items-center justify-center gap-2 rounded-lg border border-azure-200 bg-white px-5 text-sm font-medium text-azure-700 shadow-sm hover:bg-azure-50 hover:border-azure-400 transition-all duration-200"
+              >
+                Toutes les marques
+                <ArrowRightIcon size={16} />
+              </Link>
+            }
           />
-          <Link
-            href={`/${slug}/marques`}
-            className="hidden sm:inline-flex items-center gap-2 text-[13px] font-semibold text-azure-600 hover:text-azure-700 transition-colors shrink-0 mb-2"
-          >
-            Toutes les marques
-            <ArrowRightIcon size={14} />
-          </Link>
         </div>
 
         <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">

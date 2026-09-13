@@ -33,7 +33,7 @@ function useReducedMotion(): boolean {
   return v;
 }
 
-export function AnnouncementBar({ annonces }: { annonces: AnnonceSite[] }) {
+export function AnnouncementBar({ annonces, onDismiss }: { annonces: AnnonceSite[]; onDismiss?: () => void; }) {
   const reduced = useReducedMotion();
   const company = useCompany();
 
@@ -227,7 +227,7 @@ export function AnnouncementBar({ annonces }: { annonces: AnnonceSite[] }) {
 
             <button
               type="button"
-              onClick={() => setDismissed(true)}
+              onClick={() => { setDismissed(true); onDismiss?.(); }}
               className="-mr-1 ml-1 rounded-sm p-1.5 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
               aria-label="Masquer la barre"
             >

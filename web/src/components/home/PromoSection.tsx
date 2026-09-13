@@ -30,18 +30,17 @@ export async function PromoSection() {
               Offres du moment
             </p>
             <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              Promotions
+              Ce qu'on a en promo en ce moment
             </h2>
             <p className="mt-2 text-[15px] leading-relaxed text-navy-200">
-              Profitez de remises sur une sélection de produits, dans la limite
-              des stocks disponibles.
+              Des prix réduits sur du vrai matériel — jusqu'à épuisement du stock, alors ne tardez pas trop.
             </p>
           </div>
           <Link
             href="/catalogue?promo=1"
             className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 text-sm font-medium text-white hover:bg-white/20 hover:border-white/30 transition-all duration-200"
           >
-            Toutes les promotions
+            Voir toutes les promos
             <ArrowRightIcon size={16} />
           </Link>
         </div>

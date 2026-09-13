@@ -14,7 +14,7 @@ export const runtime = "nodejs";
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MAX_TOOL_ROUNDS = 4; // évite les boucles infinies d'appels d'outils
 
-async function groqChat(body: Record<string, unknown>) {
+async function groqChat(body: Record<string, unknown>, fallbackModel?: string) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) throw new Error("GROQ_API_KEY n'est pas configurée.");
 
@@ -28,6 +28,11 @@ async function groqChat(body: Record<string, unknown>) {
   });
 
   if (!response.ok) {
+    // On 429 (rate limit), automatically retry with the smaller model
+    if (response.status === 429 && fallbackModel && body.model !== fallbackModel) {
+      console.warn(`Rate limit on ${body.model}, retrying with ${fallbackModel}`);
+      return groqChat({ ...body, model: fallbackModel });
+    }
     const error = await response.text();
     throw new Error(`Erreur Groq (${response.status}): ${error}`);
   }
@@ -57,14 +62,21 @@ Règles importantes :
   INTERDIT (formulation à la 2e personne, comme si toi tu demandais) : "Souhaitez-vous connaître nos horaires d'ouverture ?"
   CORRECT (le client parle) : "Quels sont vos horaires d'ouverture ?"
   Autres exemples corrects : "[SUGGESTION|Avez-vous d'autres marques ?] [SUGGESTION|Quels sont les frais de livraison ?] [SUGGESTION|Ce produit est-il disponible en stock ?]"
-- Si l'outil ne trouve rien, excuse-toi poliment et propose d'autres termes de recherche plus génériques.
 - Si le client demande un numéro de téléphone, un email, une adresse ou le site web de RZMedical, tu DOIS utiliser l'outil get_contact_info. Ne devine et n'invente JAMAIS ces informations — si l'outil renvoie une valeur vide (null), dis au client que cette information n'est pas encore disponible et propose une alternative (ex: page contact du site).
 - Si un outil renvoie une erreur d'authentification, explique poliment au client qu'il doit se connecter à son compte pour accéder à cette information.
+
+--- RÈGLES SPÉCIALES POUR LA RECHERCHE PAR IMAGE ---
+Quand le message contient une balise [Image identifiée : ...] avec des caractéristiques extraites par l'IA :
+1. Lis attentivement les caractéristiques détectées (type, marque, modèle, usage, matière, couleur).
+2. Effectue PLUSIEURS recherches ciblées avec les mots-clés les plus pertinents (ex: si c'est un "stéthoscope Littmann", cherche d'abord "stéthoscope Littmann" puis "stéthoscope" si rien).
+3. Si des produits similaires sont trouvés : présente-les avec les cartes [PRODUCT|...] et explique en quoi ils correspondent à l'image.
+4. Si AUCUN produit n'est trouvé après plusieurs tentatives : NE DIS PAS juste "nous n'avons pas ce produit". À la place, résume les caractéristiques du produit identifié sur l'image (type, marque probable, usage, matière, dimensions si visibles) de manière professionnelle. Par exemple : "D'après l'image, il s'agit d'un **stéthoscope cardio** double pavillon, probablement de marque Littmann, avec un tube en PVC de couleur noire. Ce type d'équipement n'est pas actuellement disponible dans notre catalogue, mais je vous encourage à contacter notre équipe pour une commande spéciale."
 `;
 
 export interface ChatMessage {
   role: "user" | "model" | "assistant" | "system" | "tool";
   content: string;
+  image?: string;
 }
 
 // Déclaration des outils au format OpenAI/Groq
@@ -239,6 +251,55 @@ async function runToolCall(toolCall: ToolCall, clientToken?: string) {
   };
 }
 
+async function analyzeImageWithVision(base64Image: string): Promise<string> {
+  // Groq vision-capable models available on this account
+  const VISION_MODELS = [
+    "qwen/qwen3.6-27b",
+    "qwen/qwen3.8-27b",
+  ];
+
+  const visionMessages = [
+    {
+      role: "user",
+      content: [
+        {
+          type: "text",
+          text: `Tu es un expert en matériel médical. Identifie l'équipement sur cette image.
+Réponds en moins de 80 mots avec ce format :
+Type: [type d'équipement]
+Marque: [marque ou inconnu]
+Usage: [spécialité médicale]
+Mots-clés: [2-3 mots-clés courts pour chercher dans un catalogue médical]`,
+        },
+        {
+          type: "image_url",
+          image_url: {
+            url: base64Image,
+          },
+        },
+      ],
+    },
+  ];
+
+  let lastError = "";
+  for (const model of VISION_MODELS) {
+    try {
+      const res = await groqChat({
+        model,
+        messages: visionMessages,
+        temperature: 0.1,
+        max_tokens: 120,
+      });
+      const text = res.choices?.[0]?.message?.content;
+      if (text) return text;
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error);
+      console.error(`Groq vision (${model}) failed:`, lastError);
+    }
+  }
+  return `Équipement médical (analyse échouée : ${lastError}).`;
+}
+
 export async function POST(req: Request) {
   try {
     const { messages } = (await req.json()) as { messages: ChatMessage[] };
@@ -252,12 +313,27 @@ export async function POST(req: Request) {
     const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
     const clientToken = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
 
+    // Traitement des images avant l'orchestration principale
+    const processedMessages = await Promise.all(
+      messages.map(async (m) => {
+        if (m.image) {
+          const characteristics = await analyzeImageWithVision(m.image);
+          const userText = m.content && m.content !== "Image partagée." ? m.content : "Avez-vous un produit similaire à celui sur cette image ?";
+          return {
+            role: m.role === "model" ? "assistant" : m.role,
+            content: `[Image identifiée : ${characteristics}]\n\nDemande du client : ${userText}`,
+          };
+        }
+        return {
+          role: m.role === "model" ? "assistant" : m.role,
+          content: m.content,
+        };
+      })
+    );
+
     const groqMessages: any[] = [
       { role: "system", content: SYSTEM_PROMPT },
-      ...messages.map((m) => ({
-        role: m.role === "model" ? "assistant" : m.role,
-        content: m.content,
-      })),
+      ...processedMessages,
     ];
 
     const encoder = new TextEncoder();
@@ -274,7 +350,7 @@ export async function POST(req: Request) {
               tools,
               tool_choice: "auto",
               stream: false,
-            });
+            }, "openai/gpt-oss-20b");
 
             const choice = response.choices?.[0];
             const message = choice?.message;

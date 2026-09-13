@@ -37,9 +37,8 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 /** Borne la quantité entre 1 et le stock (si connu). */
-function clampQty(qty: number, stock: number): number {
-  const q = Math.max(1, Math.floor(qty));
-  return stock && stock > 0 ? Math.min(q, stock) : q;
+function clampQty(qty: number, _stock: number): number {
+  return Math.max(1, Math.floor(qty));
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {

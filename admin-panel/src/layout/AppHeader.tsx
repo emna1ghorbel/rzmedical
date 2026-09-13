@@ -2,6 +2,7 @@
 import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
+import ExerciceDropdown from "@/components/header/ExerciceDropdown";
 import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,19 +42,19 @@ const AppHeader: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 flex w-full border-b border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/95">
-      <div className="flex w-full items-center justify-between px-3 py-2.5 sm:px-4 lg:px-6">
+    <header className="sticky top-0 z-40 flex w-full overflow-visible border-b border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/95">
+      <div className="flex w-full min-w-0 items-center justify-between px-2 py-2 sm:px-3 lg:px-5">
         {/* Left Area: Sidebar Toggle & Brand */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
             {isMobileOpen ? (
               <svg
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -66,8 +67,8 @@ const AppHeader: React.FC = () => {
               </svg>
             ) : (
               <svg
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -82,26 +83,27 @@ const AppHeader: React.FC = () => {
             )}
           </button>
 
-          <Link href="/" className="flex items-center lg:hidden">
+          <Link href="/" className="hidden items-center sm:flex lg:hidden">
             <Image
               width={120}
               height={28}
-              className="h-7 w-auto object-contain dark:hidden"
+              className="h-6 w-auto object-contain dark:hidden"
               src="/images/logo/logo-rzmedical.png"
               alt="RZMedical Logo"
             />
             <Image
               width={120}
               height={28}
-              className="hidden h-7 w-auto object-contain dark:block"
+              className="hidden h-6 w-auto object-contain dark:block"
               src="/images/logo/logo-rzmedical.png"
               alt="RZMedical Logo"
             />
           </Link>
         </div>
 
-        {/* Right Area: Theme Toggle, Notifications, Profile */}
-        <div className="flex items-center gap-1.5 sm:gap-3">
+        {/* Right Area: Exercice Selector, Theme Toggle, Notifications, Profile */}
+        <div className="flex min-w-0 shrink-0 items-center gap-1 sm:gap-2">
+          <ExerciceDropdown />
           <ThemeToggleButton />
           <NotificationDropdown />
           <UserDropdown />

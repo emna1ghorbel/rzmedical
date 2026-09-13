@@ -29,27 +29,44 @@ export type AggregateFacture = {
 export type FactureAvgAggregateOutputType = {
   id: number | null
   commandeId: number | null
+  bonLivraisonId: number | null
+  utilisateurId: number | null
+  devisId: number | null
   timbreFiscal: runtime.Decimal | null
   montantHT: runtime.Decimal | null
   montantTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  retenueSurce: runtime.Decimal | null
 }
 
 export type FactureSumAggregateOutputType = {
   id: number | null
   commandeId: number | null
+  bonLivraisonId: number | null
+  utilisateurId: number | null
+  devisId: number | null
   timbreFiscal: runtime.Decimal | null
   montantHT: runtime.Decimal | null
   montantTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  retenueSurce: runtime.Decimal | null
 }
 
 export type FactureMinAggregateOutputType = {
   id: number | null
   numero: string | null
+  numeroAvoir: string | null
   statut: $Enums.StatutFacture | null
+  statutPaiement: $Enums.StatutPaiement | null
+  typeFacture: $Enums.TypeFacture | null
+  etat: $Enums.EtatFacture | null
   commandeId: number | null
+  bonLivraisonId: number | null
+  utilisateurId: number | null
+  devisId: number | null
   dateEmission: Date | null
+  dateEcheance: Date | null
+  dateEstimationPaiement: Date | null
   clientNom: string | null
   clientMF: string | null
   clientAdresse: string | null
@@ -59,7 +76,13 @@ export type FactureMinAggregateOutputType = {
   montantHT: runtime.Decimal | null
   montantTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  retenueSurce: runtime.Decimal | null
   montantEnLettres: string | null
+  devise: string | null
+  commentaire: string | null
+  projet: string | null
+  incoterm: string | null
+  origineDesProuits: string | null
   fichierPdf: string | null
   creeLe: Date | null
   misAJourLe: Date | null
@@ -68,9 +91,18 @@ export type FactureMinAggregateOutputType = {
 export type FactureMaxAggregateOutputType = {
   id: number | null
   numero: string | null
+  numeroAvoir: string | null
   statut: $Enums.StatutFacture | null
+  statutPaiement: $Enums.StatutPaiement | null
+  typeFacture: $Enums.TypeFacture | null
+  etat: $Enums.EtatFacture | null
   commandeId: number | null
+  bonLivraisonId: number | null
+  utilisateurId: number | null
+  devisId: number | null
   dateEmission: Date | null
+  dateEcheance: Date | null
+  dateEstimationPaiement: Date | null
   clientNom: string | null
   clientMF: string | null
   clientAdresse: string | null
@@ -80,7 +112,13 @@ export type FactureMaxAggregateOutputType = {
   montantHT: runtime.Decimal | null
   montantTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  retenueSurce: runtime.Decimal | null
   montantEnLettres: string | null
+  devise: string | null
+  commentaire: string | null
+  projet: string | null
+  incoterm: string | null
+  origineDesProuits: string | null
   fichierPdf: string | null
   creeLe: Date | null
   misAJourLe: Date | null
@@ -89,9 +127,18 @@ export type FactureMaxAggregateOutputType = {
 export type FactureCountAggregateOutputType = {
   id: number
   numero: number
+  numeroAvoir: number
   statut: number
+  statutPaiement: number
+  typeFacture: number
+  etat: number
   commandeId: number
+  bonLivraisonId: number
+  utilisateurId: number
+  devisId: number
   dateEmission: number
+  dateEcheance: number
+  dateEstimationPaiement: number
   clientNom: number
   clientMF: number
   clientAdresse: number
@@ -101,7 +148,13 @@ export type FactureCountAggregateOutputType = {
   montantHT: number
   montantTVA: number
   montantTTC: number
+  retenueSurce: number
   montantEnLettres: number
+  devise: number
+  commentaire: number
+  projet: number
+  incoterm: number
+  origineDesProuits: number
   fichierPdf: number
   creeLe: number
   misAJourLe: number
@@ -112,27 +165,44 @@ export type FactureCountAggregateOutputType = {
 export type FactureAvgAggregateInputType = {
   id?: true
   commandeId?: true
+  bonLivraisonId?: true
+  utilisateurId?: true
+  devisId?: true
   timbreFiscal?: true
   montantHT?: true
   montantTVA?: true
   montantTTC?: true
+  retenueSurce?: true
 }
 
 export type FactureSumAggregateInputType = {
   id?: true
   commandeId?: true
+  bonLivraisonId?: true
+  utilisateurId?: true
+  devisId?: true
   timbreFiscal?: true
   montantHT?: true
   montantTVA?: true
   montantTTC?: true
+  retenueSurce?: true
 }
 
 export type FactureMinAggregateInputType = {
   id?: true
   numero?: true
+  numeroAvoir?: true
   statut?: true
+  statutPaiement?: true
+  typeFacture?: true
+  etat?: true
   commandeId?: true
+  bonLivraisonId?: true
+  utilisateurId?: true
+  devisId?: true
   dateEmission?: true
+  dateEcheance?: true
+  dateEstimationPaiement?: true
   clientNom?: true
   clientMF?: true
   clientAdresse?: true
@@ -142,7 +212,13 @@ export type FactureMinAggregateInputType = {
   montantHT?: true
   montantTVA?: true
   montantTTC?: true
+  retenueSurce?: true
   montantEnLettres?: true
+  devise?: true
+  commentaire?: true
+  projet?: true
+  incoterm?: true
+  origineDesProuits?: true
   fichierPdf?: true
   creeLe?: true
   misAJourLe?: true
@@ -151,9 +227,18 @@ export type FactureMinAggregateInputType = {
 export type FactureMaxAggregateInputType = {
   id?: true
   numero?: true
+  numeroAvoir?: true
   statut?: true
+  statutPaiement?: true
+  typeFacture?: true
+  etat?: true
   commandeId?: true
+  bonLivraisonId?: true
+  utilisateurId?: true
+  devisId?: true
   dateEmission?: true
+  dateEcheance?: true
+  dateEstimationPaiement?: true
   clientNom?: true
   clientMF?: true
   clientAdresse?: true
@@ -163,7 +248,13 @@ export type FactureMaxAggregateInputType = {
   montantHT?: true
   montantTVA?: true
   montantTTC?: true
+  retenueSurce?: true
   montantEnLettres?: true
+  devise?: true
+  commentaire?: true
+  projet?: true
+  incoterm?: true
+  origineDesProuits?: true
   fichierPdf?: true
   creeLe?: true
   misAJourLe?: true
@@ -172,9 +263,18 @@ export type FactureMaxAggregateInputType = {
 export type FactureCountAggregateInputType = {
   id?: true
   numero?: true
+  numeroAvoir?: true
   statut?: true
+  statutPaiement?: true
+  typeFacture?: true
+  etat?: true
   commandeId?: true
+  bonLivraisonId?: true
+  utilisateurId?: true
+  devisId?: true
   dateEmission?: true
+  dateEcheance?: true
+  dateEstimationPaiement?: true
   clientNom?: true
   clientMF?: true
   clientAdresse?: true
@@ -184,7 +284,13 @@ export type FactureCountAggregateInputType = {
   montantHT?: true
   montantTVA?: true
   montantTTC?: true
+  retenueSurce?: true
   montantEnLettres?: true
+  devise?: true
+  commentaire?: true
+  projet?: true
+  incoterm?: true
+  origineDesProuits?: true
   fichierPdf?: true
   creeLe?: true
   misAJourLe?: true
@@ -280,9 +386,18 @@ export type FactureGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type FactureGroupByOutputType = {
   id: number
   numero: string
+  numeroAvoir: string | null
   statut: $Enums.StatutFacture
-  commandeId: number
+  statutPaiement: $Enums.StatutPaiement
+  typeFacture: $Enums.TypeFacture
+  etat: $Enums.EtatFacture
+  commandeId: number | null
+  bonLivraisonId: number | null
+  utilisateurId: number | null
+  devisId: number | null
   dateEmission: Date
+  dateEcheance: Date | null
+  dateEstimationPaiement: Date | null
   clientNom: string
   clientMF: string | null
   clientAdresse: string | null
@@ -292,7 +407,13 @@ export type FactureGroupByOutputType = {
   montantHT: runtime.Decimal
   montantTVA: runtime.Decimal
   montantTTC: runtime.Decimal
+  retenueSurce: runtime.Decimal
   montantEnLettres: string | null
+  devise: string
+  commentaire: string | null
+  projet: string | null
+  incoterm: string | null
+  origineDesProuits: string | null
   fichierPdf: string | null
   creeLe: Date
   misAJourLe: Date
@@ -324,9 +445,18 @@ export type FactureWhereInput = {
   NOT?: Prisma.FactureWhereInput | Prisma.FactureWhereInput[]
   id?: Prisma.IntFilter<"Facture"> | number
   numero?: Prisma.StringFilter<"Facture"> | string
+  numeroAvoir?: Prisma.StringNullableFilter<"Facture"> | string | null
   statut?: Prisma.EnumStatutFactureFilter<"Facture"> | $Enums.StatutFacture
-  commandeId?: Prisma.IntFilter<"Facture"> | number
+  statutPaiement?: Prisma.EnumStatutPaiementFilter<"Facture"> | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFilter<"Facture"> | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFilter<"Facture"> | $Enums.EtatFacture
+  commandeId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  bonLivraisonId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  utilisateurId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  devisId?: Prisma.IntNullableFilter<"Facture"> | number | null
   dateEmission?: Prisma.DateTimeFilter<"Facture"> | Date | string
+  dateEcheance?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
+  dateEstimationPaiement?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
   clientNom?: Prisma.StringFilter<"Facture"> | string
   clientMF?: Prisma.StringNullableFilter<"Facture"> | string | null
   clientAdresse?: Prisma.StringNullableFilter<"Facture"> | string | null
@@ -336,20 +466,40 @@ export type FactureWhereInput = {
   montantHT?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.StringNullableFilter<"Facture"> | string | null
+  devise?: Prisma.StringFilter<"Facture"> | string
+  commentaire?: Prisma.StringNullableFilter<"Facture"> | string | null
+  projet?: Prisma.StringNullableFilter<"Facture"> | string | null
+  incoterm?: Prisma.StringNullableFilter<"Facture"> | string | null
+  origineDesProuits?: Prisma.StringNullableFilter<"Facture"> | string | null
   fichierPdf?: Prisma.StringNullableFilter<"Facture"> | string | null
   creeLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
-  commande?: Prisma.XOR<Prisma.CommandeScalarRelationFilter, Prisma.CommandeWhereInput>
+  commande?: Prisma.XOR<Prisma.CommandeNullableScalarRelationFilter, Prisma.CommandeWhereInput> | null
+  bonLivraison?: Prisma.XOR<Prisma.BonLivraisonNullableScalarRelationFilter, Prisma.BonLivraisonWhereInput> | null
+  utilisateur?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
+  devis?: Prisma.XOR<Prisma.DevisNullableScalarRelationFilter, Prisma.DevisWhereInput> | null
   lignes?: Prisma.LigneFactureListRelationFilter
+  paiements?: Prisma.PaiementListRelationFilter
+  bonsLivraison?: Prisma.FactureBonLivraisonListRelationFilter
 }
 
 export type FactureOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   numero?: Prisma.SortOrder
+  numeroAvoir?: Prisma.SortOrderInput | Prisma.SortOrder
   statut?: Prisma.SortOrder
-  commandeId?: Prisma.SortOrder
+  statutPaiement?: Prisma.SortOrder
+  typeFacture?: Prisma.SortOrder
+  etat?: Prisma.SortOrder
+  commandeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrderInput | Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrderInput | Prisma.SortOrder
+  devisId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateEmission?: Prisma.SortOrder
+  dateEcheance?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateEstimationPaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   clientNom?: Prisma.SortOrder
   clientMF?: Prisma.SortOrderInput | Prisma.SortOrder
   clientAdresse?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,23 +509,43 @@ export type FactureOrderByWithRelationInput = {
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
   montantEnLettres?: Prisma.SortOrderInput | Prisma.SortOrder
+  devise?: Prisma.SortOrder
+  commentaire?: Prisma.SortOrderInput | Prisma.SortOrder
+  projet?: Prisma.SortOrderInput | Prisma.SortOrder
+  incoterm?: Prisma.SortOrderInput | Prisma.SortOrder
+  origineDesProuits?: Prisma.SortOrderInput | Prisma.SortOrder
   fichierPdf?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   commande?: Prisma.CommandeOrderByWithRelationInput
+  bonLivraison?: Prisma.BonLivraisonOrderByWithRelationInput
+  utilisateur?: Prisma.UtilisateurOrderByWithRelationInput
+  devis?: Prisma.DevisOrderByWithRelationInput
   lignes?: Prisma.LigneFactureOrderByRelationAggregateInput
+  paiements?: Prisma.PaiementOrderByRelationAggregateInput
+  bonsLivraison?: Prisma.FactureBonLivraisonOrderByRelationAggregateInput
 }
 
 export type FactureWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   numero?: string
-  commandeId?: number
+  numeroAvoir?: string
   AND?: Prisma.FactureWhereInput | Prisma.FactureWhereInput[]
   OR?: Prisma.FactureWhereInput[]
   NOT?: Prisma.FactureWhereInput | Prisma.FactureWhereInput[]
   statut?: Prisma.EnumStatutFactureFilter<"Facture"> | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFilter<"Facture"> | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFilter<"Facture"> | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFilter<"Facture"> | $Enums.EtatFacture
+  commandeId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  bonLivraisonId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  utilisateurId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  devisId?: Prisma.IntNullableFilter<"Facture"> | number | null
   dateEmission?: Prisma.DateTimeFilter<"Facture"> | Date | string
+  dateEcheance?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
+  dateEstimationPaiement?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
   clientNom?: Prisma.StringFilter<"Facture"> | string
   clientMF?: Prisma.StringNullableFilter<"Facture"> | string | null
   clientAdresse?: Prisma.StringNullableFilter<"Facture"> | string | null
@@ -385,20 +555,40 @@ export type FactureWhereUniqueInput = Prisma.AtLeast<{
   montantHT?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.StringNullableFilter<"Facture"> | string | null
+  devise?: Prisma.StringFilter<"Facture"> | string
+  commentaire?: Prisma.StringNullableFilter<"Facture"> | string | null
+  projet?: Prisma.StringNullableFilter<"Facture"> | string | null
+  incoterm?: Prisma.StringNullableFilter<"Facture"> | string | null
+  origineDesProuits?: Prisma.StringNullableFilter<"Facture"> | string | null
   fichierPdf?: Prisma.StringNullableFilter<"Facture"> | string | null
   creeLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
-  commande?: Prisma.XOR<Prisma.CommandeScalarRelationFilter, Prisma.CommandeWhereInput>
+  commande?: Prisma.XOR<Prisma.CommandeNullableScalarRelationFilter, Prisma.CommandeWhereInput> | null
+  bonLivraison?: Prisma.XOR<Prisma.BonLivraisonNullableScalarRelationFilter, Prisma.BonLivraisonWhereInput> | null
+  utilisateur?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
+  devis?: Prisma.XOR<Prisma.DevisNullableScalarRelationFilter, Prisma.DevisWhereInput> | null
   lignes?: Prisma.LigneFactureListRelationFilter
-}, "id" | "numero" | "commandeId">
+  paiements?: Prisma.PaiementListRelationFilter
+  bonsLivraison?: Prisma.FactureBonLivraisonListRelationFilter
+}, "id" | "numero" | "numeroAvoir">
 
 export type FactureOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   numero?: Prisma.SortOrder
+  numeroAvoir?: Prisma.SortOrderInput | Prisma.SortOrder
   statut?: Prisma.SortOrder
-  commandeId?: Prisma.SortOrder
+  statutPaiement?: Prisma.SortOrder
+  typeFacture?: Prisma.SortOrder
+  etat?: Prisma.SortOrder
+  commandeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrderInput | Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrderInput | Prisma.SortOrder
+  devisId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateEmission?: Prisma.SortOrder
+  dateEcheance?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateEstimationPaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   clientNom?: Prisma.SortOrder
   clientMF?: Prisma.SortOrderInput | Prisma.SortOrder
   clientAdresse?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -408,7 +598,13 @@ export type FactureOrderByWithAggregationInput = {
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
   montantEnLettres?: Prisma.SortOrderInput | Prisma.SortOrder
+  devise?: Prisma.SortOrder
+  commentaire?: Prisma.SortOrderInput | Prisma.SortOrder
+  projet?: Prisma.SortOrderInput | Prisma.SortOrder
+  incoterm?: Prisma.SortOrderInput | Prisma.SortOrder
+  origineDesProuits?: Prisma.SortOrderInput | Prisma.SortOrder
   fichierPdf?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -425,9 +621,18 @@ export type FactureScalarWhereWithAggregatesInput = {
   NOT?: Prisma.FactureScalarWhereWithAggregatesInput | Prisma.FactureScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Facture"> | number
   numero?: Prisma.StringWithAggregatesFilter<"Facture"> | string
+  numeroAvoir?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
   statut?: Prisma.EnumStatutFactureWithAggregatesFilter<"Facture"> | $Enums.StatutFacture
-  commandeId?: Prisma.IntWithAggregatesFilter<"Facture"> | number
+  statutPaiement?: Prisma.EnumStatutPaiementWithAggregatesFilter<"Facture"> | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureWithAggregatesFilter<"Facture"> | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureWithAggregatesFilter<"Facture"> | $Enums.EtatFacture
+  commandeId?: Prisma.IntNullableWithAggregatesFilter<"Facture"> | number | null
+  bonLivraisonId?: Prisma.IntNullableWithAggregatesFilter<"Facture"> | number | null
+  utilisateurId?: Prisma.IntNullableWithAggregatesFilter<"Facture"> | number | null
+  devisId?: Prisma.IntNullableWithAggregatesFilter<"Facture"> | number | null
   dateEmission?: Prisma.DateTimeWithAggregatesFilter<"Facture"> | Date | string
+  dateEcheance?: Prisma.DateTimeNullableWithAggregatesFilter<"Facture"> | Date | string | null
+  dateEstimationPaiement?: Prisma.DateTimeNullableWithAggregatesFilter<"Facture"> | Date | string | null
   clientNom?: Prisma.StringWithAggregatesFilter<"Facture"> | string
   clientMF?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
   clientAdresse?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
@@ -437,7 +642,13 @@ export type FactureScalarWhereWithAggregatesInput = {
   montantHT?: Prisma.DecimalWithAggregatesFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalWithAggregatesFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalWithAggregatesFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalWithAggregatesFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
+  devise?: Prisma.StringWithAggregatesFilter<"Facture"> | string
+  commentaire?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
+  projet?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
+  incoterm?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
+  origineDesProuits?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
   fichierPdf?: Prisma.StringNullableWithAggregatesFilter<"Facture"> | string | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"Facture"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"Facture"> | Date | string
@@ -445,8 +656,14 @@ export type FactureScalarWhereWithAggregatesInput = {
 
 export type FactureCreateInput = {
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -456,20 +673,40 @@ export type FactureCreateInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
-  commande: Prisma.CommandeCreateNestedOneWithoutFactureInput
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
   lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
 }
 
 export type FactureUncheckedCreateInput = {
   id?: number
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
-  commandeId: number
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -479,17 +716,31 @@ export type FactureUncheckedCreateInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
 }
 
 export type FactureUpdateInput = {
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -499,20 +750,40 @@ export type FactureUpdateInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  commande?: Prisma.CommandeUpdateOneRequiredWithoutFactureNestedInput
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
   lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
 }
 
 export type FactureUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
-  commandeId?: Prisma.IntFieldUpdateOperationsInput | number
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -522,19 +793,36 @@ export type FactureUncheckedUpdateInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
 }
 
 export type FactureCreateManyInput = {
   id?: number
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
-  commandeId: number
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -544,7 +832,13 @@ export type FactureCreateManyInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
@@ -552,8 +846,14 @@ export type FactureCreateManyInput = {
 
 export type FactureUpdateManyMutationInput = {
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -563,7 +863,13 @@ export type FactureUpdateManyMutationInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -572,9 +878,18 @@ export type FactureUpdateManyMutationInput = {
 export type FactureUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
-  commandeId?: Prisma.IntFieldUpdateOperationsInput | number
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -584,23 +899,43 @@ export type FactureUncheckedUpdateManyInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type FactureNullableScalarRelationFilter = {
-  is?: Prisma.FactureWhereInput | null
-  isNot?: Prisma.FactureWhereInput | null
+export type FactureListRelationFilter = {
+  every?: Prisma.FactureWhereInput
+  some?: Prisma.FactureWhereInput
+  none?: Prisma.FactureWhereInput
+}
+
+export type FactureOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type FactureCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   numero?: Prisma.SortOrder
+  numeroAvoir?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  statutPaiement?: Prisma.SortOrder
+  typeFacture?: Prisma.SortOrder
+  etat?: Prisma.SortOrder
   commandeId?: Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrder
+  devisId?: Prisma.SortOrder
   dateEmission?: Prisma.SortOrder
+  dateEcheance?: Prisma.SortOrder
+  dateEstimationPaiement?: Prisma.SortOrder
   clientNom?: Prisma.SortOrder
   clientMF?: Prisma.SortOrder
   clientAdresse?: Prisma.SortOrder
@@ -610,7 +945,13 @@ export type FactureCountOrderByAggregateInput = {
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
   montantEnLettres?: Prisma.SortOrder
+  devise?: Prisma.SortOrder
+  commentaire?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
+  incoterm?: Prisma.SortOrder
+  origineDesProuits?: Prisma.SortOrder
   fichierPdf?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -619,18 +960,31 @@ export type FactureCountOrderByAggregateInput = {
 export type FactureAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   commandeId?: Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrder
+  devisId?: Prisma.SortOrder
   timbreFiscal?: Prisma.SortOrder
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
 }
 
 export type FactureMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   numero?: Prisma.SortOrder
+  numeroAvoir?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  statutPaiement?: Prisma.SortOrder
+  typeFacture?: Prisma.SortOrder
+  etat?: Prisma.SortOrder
   commandeId?: Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrder
+  devisId?: Prisma.SortOrder
   dateEmission?: Prisma.SortOrder
+  dateEcheance?: Prisma.SortOrder
+  dateEstimationPaiement?: Prisma.SortOrder
   clientNom?: Prisma.SortOrder
   clientMF?: Prisma.SortOrder
   clientAdresse?: Prisma.SortOrder
@@ -640,7 +994,13 @@ export type FactureMaxOrderByAggregateInput = {
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
   montantEnLettres?: Prisma.SortOrder
+  devise?: Prisma.SortOrder
+  commentaire?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
+  incoterm?: Prisma.SortOrder
+  origineDesProuits?: Prisma.SortOrder
   fichierPdf?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -649,9 +1009,18 @@ export type FactureMaxOrderByAggregateInput = {
 export type FactureMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   numero?: Prisma.SortOrder
+  numeroAvoir?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  statutPaiement?: Prisma.SortOrder
+  typeFacture?: Prisma.SortOrder
+  etat?: Prisma.SortOrder
   commandeId?: Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrder
+  devisId?: Prisma.SortOrder
   dateEmission?: Prisma.SortOrder
+  dateEcheance?: Prisma.SortOrder
+  dateEstimationPaiement?: Prisma.SortOrder
   clientNom?: Prisma.SortOrder
   clientMF?: Prisma.SortOrder
   clientAdresse?: Prisma.SortOrder
@@ -661,7 +1030,13 @@ export type FactureMinOrderByAggregateInput = {
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
   montantEnLettres?: Prisma.SortOrder
+  devise?: Prisma.SortOrder
+  commentaire?: Prisma.SortOrder
+  projet?: Prisma.SortOrder
+  incoterm?: Prisma.SortOrder
+  origineDesProuits?: Prisma.SortOrder
   fichierPdf?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
@@ -670,10 +1045,14 @@ export type FactureMinOrderByAggregateInput = {
 export type FactureSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   commandeId?: Prisma.SortOrder
+  bonLivraisonId?: Prisma.SortOrder
+  utilisateurId?: Prisma.SortOrder
+  devisId?: Prisma.SortOrder
   timbreFiscal?: Prisma.SortOrder
   montantHT?: Prisma.SortOrder
   montantTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  retenueSurce?: Prisma.SortOrder
 }
 
 export type FactureScalarRelationFilter = {
@@ -681,40 +1060,202 @@ export type FactureScalarRelationFilter = {
   isNot?: Prisma.FactureWhereInput
 }
 
-export type FactureCreateNestedOneWithoutCommandeInput = {
-  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
-  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput
-  connect?: Prisma.FactureWhereUniqueInput
+export type FactureCreateNestedManyWithoutUtilisateurInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput> | Prisma.FactureCreateWithoutUtilisateurInput[] | Prisma.FactureUncheckedCreateWithoutUtilisateurInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutUtilisateurInput | Prisma.FactureCreateOrConnectWithoutUtilisateurInput[]
+  createMany?: Prisma.FactureCreateManyUtilisateurInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
 }
 
-export type FactureUncheckedCreateNestedOneWithoutCommandeInput = {
-  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
-  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput
-  connect?: Prisma.FactureWhereUniqueInput
+export type FactureUncheckedCreateNestedManyWithoutUtilisateurInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput> | Prisma.FactureCreateWithoutUtilisateurInput[] | Prisma.FactureUncheckedCreateWithoutUtilisateurInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutUtilisateurInput | Prisma.FactureCreateOrConnectWithoutUtilisateurInput[]
+  createMany?: Prisma.FactureCreateManyUtilisateurInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
 }
 
-export type FactureUpdateOneWithoutCommandeNestedInput = {
-  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
-  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput
-  upsert?: Prisma.FactureUpsertWithoutCommandeInput
-  disconnect?: Prisma.FactureWhereInput | boolean
-  delete?: Prisma.FactureWhereInput | boolean
-  connect?: Prisma.FactureWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FactureUpdateToOneWithWhereWithoutCommandeInput, Prisma.FactureUpdateWithoutCommandeInput>, Prisma.FactureUncheckedUpdateWithoutCommandeInput>
+export type FactureUpdateManyWithoutUtilisateurNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput> | Prisma.FactureCreateWithoutUtilisateurInput[] | Prisma.FactureUncheckedCreateWithoutUtilisateurInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutUtilisateurInput | Prisma.FactureCreateOrConnectWithoutUtilisateurInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutUtilisateurInput | Prisma.FactureUpsertWithWhereUniqueWithoutUtilisateurInput[]
+  createMany?: Prisma.FactureCreateManyUtilisateurInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutUtilisateurInput | Prisma.FactureUpdateWithWhereUniqueWithoutUtilisateurInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutUtilisateurInput | Prisma.FactureUpdateManyWithWhereWithoutUtilisateurInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
 }
 
-export type FactureUncheckedUpdateOneWithoutCommandeNestedInput = {
-  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
-  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput
-  upsert?: Prisma.FactureUpsertWithoutCommandeInput
-  disconnect?: Prisma.FactureWhereInput | boolean
-  delete?: Prisma.FactureWhereInput | boolean
-  connect?: Prisma.FactureWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FactureUpdateToOneWithWhereWithoutCommandeInput, Prisma.FactureUpdateWithoutCommandeInput>, Prisma.FactureUncheckedUpdateWithoutCommandeInput>
+export type FactureUncheckedUpdateManyWithoutUtilisateurNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput> | Prisma.FactureCreateWithoutUtilisateurInput[] | Prisma.FactureUncheckedCreateWithoutUtilisateurInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutUtilisateurInput | Prisma.FactureCreateOrConnectWithoutUtilisateurInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutUtilisateurInput | Prisma.FactureUpsertWithWhereUniqueWithoutUtilisateurInput[]
+  createMany?: Prisma.FactureCreateManyUtilisateurInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutUtilisateurInput | Prisma.FactureUpdateWithWhereUniqueWithoutUtilisateurInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutUtilisateurInput | Prisma.FactureUpdateManyWithWhereWithoutUtilisateurInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureCreateNestedManyWithoutCommandeInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput> | Prisma.FactureCreateWithoutCommandeInput[] | Prisma.FactureUncheckedCreateWithoutCommandeInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput | Prisma.FactureCreateOrConnectWithoutCommandeInput[]
+  createMany?: Prisma.FactureCreateManyCommandeInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUncheckedCreateNestedManyWithoutCommandeInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput> | Prisma.FactureCreateWithoutCommandeInput[] | Prisma.FactureUncheckedCreateWithoutCommandeInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput | Prisma.FactureCreateOrConnectWithoutCommandeInput[]
+  createMany?: Prisma.FactureCreateManyCommandeInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUpdateManyWithoutCommandeNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput> | Prisma.FactureCreateWithoutCommandeInput[] | Prisma.FactureUncheckedCreateWithoutCommandeInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput | Prisma.FactureCreateOrConnectWithoutCommandeInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutCommandeInput | Prisma.FactureUpsertWithWhereUniqueWithoutCommandeInput[]
+  createMany?: Prisma.FactureCreateManyCommandeInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutCommandeInput | Prisma.FactureUpdateWithWhereUniqueWithoutCommandeInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutCommandeInput | Prisma.FactureUpdateManyWithWhereWithoutCommandeInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureUncheckedUpdateManyWithoutCommandeNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput> | Prisma.FactureCreateWithoutCommandeInput[] | Prisma.FactureUncheckedCreateWithoutCommandeInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutCommandeInput | Prisma.FactureCreateOrConnectWithoutCommandeInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutCommandeInput | Prisma.FactureUpsertWithWhereUniqueWithoutCommandeInput[]
+  createMany?: Prisma.FactureCreateManyCommandeInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutCommandeInput | Prisma.FactureUpdateWithWhereUniqueWithoutCommandeInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutCommandeInput | Prisma.FactureUpdateManyWithWhereWithoutCommandeInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureCreateNestedManyWithoutBonLivraisonInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput> | Prisma.FactureCreateWithoutBonLivraisonInput[] | Prisma.FactureUncheckedCreateWithoutBonLivraisonInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonLivraisonInput | Prisma.FactureCreateOrConnectWithoutBonLivraisonInput[]
+  createMany?: Prisma.FactureCreateManyBonLivraisonInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUncheckedCreateNestedManyWithoutBonLivraisonInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput> | Prisma.FactureCreateWithoutBonLivraisonInput[] | Prisma.FactureUncheckedCreateWithoutBonLivraisonInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonLivraisonInput | Prisma.FactureCreateOrConnectWithoutBonLivraisonInput[]
+  createMany?: Prisma.FactureCreateManyBonLivraisonInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUpdateManyWithoutBonLivraisonNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput> | Prisma.FactureCreateWithoutBonLivraisonInput[] | Prisma.FactureUncheckedCreateWithoutBonLivraisonInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonLivraisonInput | Prisma.FactureCreateOrConnectWithoutBonLivraisonInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutBonLivraisonInput | Prisma.FactureUpsertWithWhereUniqueWithoutBonLivraisonInput[]
+  createMany?: Prisma.FactureCreateManyBonLivraisonInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutBonLivraisonInput | Prisma.FactureUpdateWithWhereUniqueWithoutBonLivraisonInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutBonLivraisonInput | Prisma.FactureUpdateManyWithWhereWithoutBonLivraisonInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureUncheckedUpdateManyWithoutBonLivraisonNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput> | Prisma.FactureCreateWithoutBonLivraisonInput[] | Prisma.FactureUncheckedCreateWithoutBonLivraisonInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonLivraisonInput | Prisma.FactureCreateOrConnectWithoutBonLivraisonInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutBonLivraisonInput | Prisma.FactureUpsertWithWhereUniqueWithoutBonLivraisonInput[]
+  createMany?: Prisma.FactureCreateManyBonLivraisonInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutBonLivraisonInput | Prisma.FactureUpdateWithWhereUniqueWithoutBonLivraisonInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutBonLivraisonInput | Prisma.FactureUpdateManyWithWhereWithoutBonLivraisonInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
 }
 
 export type EnumStatutFactureFieldUpdateOperationsInput = {
   set?: $Enums.StatutFacture
+}
+
+export type EnumStatutPaiementFieldUpdateOperationsInput = {
+  set?: $Enums.StatutPaiement
+}
+
+export type EnumTypeFactureFieldUpdateOperationsInput = {
+  set?: $Enums.TypeFacture
+}
+
+export type EnumEtatFactureFieldUpdateOperationsInput = {
+  set?: $Enums.EtatFacture
+}
+
+export type FactureCreateNestedManyWithoutDevisInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput> | Prisma.FactureCreateWithoutDevisInput[] | Prisma.FactureUncheckedCreateWithoutDevisInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutDevisInput | Prisma.FactureCreateOrConnectWithoutDevisInput[]
+  createMany?: Prisma.FactureCreateManyDevisInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUncheckedCreateNestedManyWithoutDevisInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput> | Prisma.FactureCreateWithoutDevisInput[] | Prisma.FactureUncheckedCreateWithoutDevisInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutDevisInput | Prisma.FactureCreateOrConnectWithoutDevisInput[]
+  createMany?: Prisma.FactureCreateManyDevisInputEnvelope
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+}
+
+export type FactureUpdateManyWithoutDevisNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput> | Prisma.FactureCreateWithoutDevisInput[] | Prisma.FactureUncheckedCreateWithoutDevisInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutDevisInput | Prisma.FactureCreateOrConnectWithoutDevisInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutDevisInput | Prisma.FactureUpsertWithWhereUniqueWithoutDevisInput[]
+  createMany?: Prisma.FactureCreateManyDevisInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutDevisInput | Prisma.FactureUpdateWithWhereUniqueWithoutDevisInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutDevisInput | Prisma.FactureUpdateManyWithWhereWithoutDevisInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureUncheckedUpdateManyWithoutDevisNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput> | Prisma.FactureCreateWithoutDevisInput[] | Prisma.FactureUncheckedCreateWithoutDevisInput[]
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutDevisInput | Prisma.FactureCreateOrConnectWithoutDevisInput[]
+  upsert?: Prisma.FactureUpsertWithWhereUniqueWithoutDevisInput | Prisma.FactureUpsertWithWhereUniqueWithoutDevisInput[]
+  createMany?: Prisma.FactureCreateManyDevisInputEnvelope
+  set?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  disconnect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  delete?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  connect?: Prisma.FactureWhereUniqueInput | Prisma.FactureWhereUniqueInput[]
+  update?: Prisma.FactureUpdateWithWhereUniqueWithoutDevisInput | Prisma.FactureUpdateWithWhereUniqueWithoutDevisInput[]
+  updateMany?: Prisma.FactureUpdateManyWithWhereWithoutDevisInput | Prisma.FactureUpdateManyWithWhereWithoutDevisInput[]
+  deleteMany?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+}
+
+export type FactureCreateNestedOneWithoutBonsLivraisonInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonsLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonsLivraisonInput>
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonsLivraisonInput
+  connect?: Prisma.FactureWhereUniqueInput
+}
+
+export type FactureUpdateOneRequiredWithoutBonsLivraisonNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutBonsLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonsLivraisonInput>
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutBonsLivraisonInput
+  upsert?: Prisma.FactureUpsertWithoutBonsLivraisonInput
+  connect?: Prisma.FactureWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FactureUpdateToOneWithWhereWithoutBonsLivraisonInput, Prisma.FactureUpdateWithoutBonsLivraisonInput>, Prisma.FactureUncheckedUpdateWithoutBonsLivraisonInput>
 }
 
 export type FactureCreateNestedOneWithoutLignesInput = {
@@ -731,10 +1272,30 @@ export type FactureUpdateOneRequiredWithoutLignesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FactureUpdateToOneWithWhereWithoutLignesInput, Prisma.FactureUpdateWithoutLignesInput>, Prisma.FactureUncheckedUpdateWithoutLignesInput>
 }
 
-export type FactureCreateWithoutCommandeInput = {
+export type FactureCreateNestedOneWithoutPaiementsInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutPaiementsInput, Prisma.FactureUncheckedCreateWithoutPaiementsInput>
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutPaiementsInput
+  connect?: Prisma.FactureWhereUniqueInput
+}
+
+export type FactureUpdateOneRequiredWithoutPaiementsNestedInput = {
+  create?: Prisma.XOR<Prisma.FactureCreateWithoutPaiementsInput, Prisma.FactureUncheckedCreateWithoutPaiementsInput>
+  connectOrCreate?: Prisma.FactureCreateOrConnectWithoutPaiementsInput
+  upsert?: Prisma.FactureUpsertWithoutPaiementsInput
+  connect?: Prisma.FactureWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FactureUpdateToOneWithWhereWithoutPaiementsInput, Prisma.FactureUpdateWithoutPaiementsInput>, Prisma.FactureUncheckedUpdateWithoutPaiementsInput>
+}
+
+export type FactureCreateWithoutUtilisateurInput = {
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -744,18 +1305,178 @@ export type FactureCreateWithoutCommandeInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
   lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
+}
+
+export type FactureUncheckedCreateWithoutUtilisateurInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
+}
+
+export type FactureCreateOrConnectWithoutUtilisateurInput = {
+  where: Prisma.FactureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput>
+}
+
+export type FactureCreateManyUtilisateurInputEnvelope = {
+  data: Prisma.FactureCreateManyUtilisateurInput | Prisma.FactureCreateManyUtilisateurInput[]
+  skipDuplicates?: boolean
+}
+
+export type FactureUpsertWithWhereUniqueWithoutUtilisateurInput = {
+  where: Prisma.FactureWhereUniqueInput
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutUtilisateurInput, Prisma.FactureUncheckedUpdateWithoutUtilisateurInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutUtilisateurInput, Prisma.FactureUncheckedCreateWithoutUtilisateurInput>
+}
+
+export type FactureUpdateWithWhereUniqueWithoutUtilisateurInput = {
+  where: Prisma.FactureWhereUniqueInput
+  data: Prisma.XOR<Prisma.FactureUpdateWithoutUtilisateurInput, Prisma.FactureUncheckedUpdateWithoutUtilisateurInput>
+}
+
+export type FactureUpdateManyWithWhereWithoutUtilisateurInput = {
+  where: Prisma.FactureScalarWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateManyMutationInput, Prisma.FactureUncheckedUpdateManyWithoutUtilisateurInput>
+}
+
+export type FactureScalarWhereInput = {
+  AND?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+  OR?: Prisma.FactureScalarWhereInput[]
+  NOT?: Prisma.FactureScalarWhereInput | Prisma.FactureScalarWhereInput[]
+  id?: Prisma.IntFilter<"Facture"> | number
+  numero?: Prisma.StringFilter<"Facture"> | string
+  numeroAvoir?: Prisma.StringNullableFilter<"Facture"> | string | null
+  statut?: Prisma.EnumStatutFactureFilter<"Facture"> | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFilter<"Facture"> | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFilter<"Facture"> | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFilter<"Facture"> | $Enums.EtatFacture
+  commandeId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  bonLivraisonId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  utilisateurId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  devisId?: Prisma.IntNullableFilter<"Facture"> | number | null
+  dateEmission?: Prisma.DateTimeFilter<"Facture"> | Date | string
+  dateEcheance?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
+  dateEstimationPaiement?: Prisma.DateTimeNullableFilter<"Facture"> | Date | string | null
+  clientNom?: Prisma.StringFilter<"Facture"> | string
+  clientMF?: Prisma.StringNullableFilter<"Facture"> | string | null
+  clientAdresse?: Prisma.StringNullableFilter<"Facture"> | string | null
+  clientTelephone?: Prisma.StringNullableFilter<"Facture"> | string | null
+  clientEmail?: Prisma.StringNullableFilter<"Facture"> | string | null
+  timbreFiscal?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFilter<"Facture"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.StringNullableFilter<"Facture"> | string | null
+  devise?: Prisma.StringFilter<"Facture"> | string
+  commentaire?: Prisma.StringNullableFilter<"Facture"> | string | null
+  projet?: Prisma.StringNullableFilter<"Facture"> | string | null
+  incoterm?: Prisma.StringNullableFilter<"Facture"> | string | null
+  origineDesProuits?: Prisma.StringNullableFilter<"Facture"> | string | null
+  fichierPdf?: Prisma.StringNullableFilter<"Facture"> | string | null
+  creeLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
+  misAJourLe?: Prisma.DateTimeFilter<"Facture"> | Date | string
+}
+
+export type FactureCreateWithoutCommandeInput = {
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
+  lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
 }
 
 export type FactureUncheckedCreateWithoutCommandeInput = {
   id?: number
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -765,11 +1486,19 @@ export type FactureUncheckedCreateWithoutCommandeInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
 }
 
 export type FactureCreateOrConnectWithoutCommandeInput = {
@@ -777,62 +1506,37 @@ export type FactureCreateOrConnectWithoutCommandeInput = {
   create: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
 }
 
-export type FactureUpsertWithoutCommandeInput = {
-  update: Prisma.XOR<Prisma.FactureUpdateWithoutCommandeInput, Prisma.FactureUncheckedUpdateWithoutCommandeInput>
-  create: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
-  where?: Prisma.FactureWhereInput
+export type FactureCreateManyCommandeInputEnvelope = {
+  data: Prisma.FactureCreateManyCommandeInput | Prisma.FactureCreateManyCommandeInput[]
+  skipDuplicates?: boolean
 }
 
-export type FactureUpdateToOneWithWhereWithoutCommandeInput = {
-  where?: Prisma.FactureWhereInput
+export type FactureUpsertWithWhereUniqueWithoutCommandeInput = {
+  where: Prisma.FactureWhereUniqueInput
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutCommandeInput, Prisma.FactureUncheckedUpdateWithoutCommandeInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutCommandeInput, Prisma.FactureUncheckedCreateWithoutCommandeInput>
+}
+
+export type FactureUpdateWithWhereUniqueWithoutCommandeInput = {
+  where: Prisma.FactureWhereUniqueInput
   data: Prisma.XOR<Prisma.FactureUpdateWithoutCommandeInput, Prisma.FactureUncheckedUpdateWithoutCommandeInput>
 }
 
-export type FactureUpdateWithoutCommandeInput = {
-  numero?: Prisma.StringFieldUpdateOperationsInput | string
-  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
-  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
-  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+export type FactureUpdateManyWithWhereWithoutCommandeInput = {
+  where: Prisma.FactureScalarWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateManyMutationInput, Prisma.FactureUncheckedUpdateManyWithoutCommandeInput>
 }
 
-export type FactureUncheckedUpdateWithoutCommandeInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  numero?: Prisma.StringFieldUpdateOperationsInput | string
-  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
-  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
-  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
-}
-
-export type FactureCreateWithoutLignesInput = {
+export type FactureCreateWithoutBonLivraisonInput = {
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -842,19 +1546,407 @@ export type FactureCreateWithoutLignesInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
-  commande: Prisma.CommandeCreateNestedOneWithoutFactureInput
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
+  lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
+}
+
+export type FactureUncheckedCreateWithoutBonLivraisonInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
+}
+
+export type FactureCreateOrConnectWithoutBonLivraisonInput = {
+  where: Prisma.FactureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput>
+}
+
+export type FactureCreateManyBonLivraisonInputEnvelope = {
+  data: Prisma.FactureCreateManyBonLivraisonInput | Prisma.FactureCreateManyBonLivraisonInput[]
+  skipDuplicates?: boolean
+}
+
+export type FactureUpsertWithWhereUniqueWithoutBonLivraisonInput = {
+  where: Prisma.FactureWhereUniqueInput
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutBonLivraisonInput, Prisma.FactureUncheckedUpdateWithoutBonLivraisonInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutBonLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonLivraisonInput>
+}
+
+export type FactureUpdateWithWhereUniqueWithoutBonLivraisonInput = {
+  where: Prisma.FactureWhereUniqueInput
+  data: Prisma.XOR<Prisma.FactureUpdateWithoutBonLivraisonInput, Prisma.FactureUncheckedUpdateWithoutBonLivraisonInput>
+}
+
+export type FactureUpdateManyWithWhereWithoutBonLivraisonInput = {
+  where: Prisma.FactureScalarWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateManyMutationInput, Prisma.FactureUncheckedUpdateManyWithoutBonLivraisonInput>
+}
+
+export type FactureCreateWithoutDevisInput = {
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
+}
+
+export type FactureUncheckedCreateWithoutDevisInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
+}
+
+export type FactureCreateOrConnectWithoutDevisInput = {
+  where: Prisma.FactureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput>
+}
+
+export type FactureCreateManyDevisInputEnvelope = {
+  data: Prisma.FactureCreateManyDevisInput | Prisma.FactureCreateManyDevisInput[]
+  skipDuplicates?: boolean
+}
+
+export type FactureUpsertWithWhereUniqueWithoutDevisInput = {
+  where: Prisma.FactureWhereUniqueInput
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutDevisInput, Prisma.FactureUncheckedUpdateWithoutDevisInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutDevisInput, Prisma.FactureUncheckedCreateWithoutDevisInput>
+}
+
+export type FactureUpdateWithWhereUniqueWithoutDevisInput = {
+  where: Prisma.FactureWhereUniqueInput
+  data: Prisma.XOR<Prisma.FactureUpdateWithoutDevisInput, Prisma.FactureUncheckedUpdateWithoutDevisInput>
+}
+
+export type FactureUpdateManyWithWhereWithoutDevisInput = {
+  where: Prisma.FactureScalarWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateManyMutationInput, Prisma.FactureUncheckedUpdateManyWithoutDevisInput>
+}
+
+export type FactureCreateWithoutBonsLivraisonInput = {
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
+  lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+}
+
+export type FactureUncheckedCreateWithoutBonsLivraisonInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+}
+
+export type FactureCreateOrConnectWithoutBonsLivraisonInput = {
+  where: Prisma.FactureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FactureCreateWithoutBonsLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonsLivraisonInput>
+}
+
+export type FactureUpsertWithoutBonsLivraisonInput = {
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutBonsLivraisonInput, Prisma.FactureUncheckedUpdateWithoutBonsLivraisonInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutBonsLivraisonInput, Prisma.FactureUncheckedCreateWithoutBonsLivraisonInput>
+  where?: Prisma.FactureWhereInput
+}
+
+export type FactureUpdateToOneWithWhereWithoutBonsLivraisonInput = {
+  where?: Prisma.FactureWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateWithoutBonsLivraisonInput, Prisma.FactureUncheckedUpdateWithoutBonsLivraisonInput>
+}
+
+export type FactureUpdateWithoutBonsLivraisonInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutBonsLivraisonInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureCreateWithoutLignesInput = {
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
+  paiements?: Prisma.PaiementCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
 }
 
 export type FactureUncheckedCreateWithoutLignesInput = {
   id?: number
   numero: string
+  numeroAvoir?: string | null
   statut?: $Enums.StatutFacture
-  commandeId: number
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
   dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
   clientNom: string
   clientMF?: string | null
   clientAdresse?: string | null
@@ -864,10 +1956,18 @@ export type FactureUncheckedCreateWithoutLignesInput = {
   montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
   fichierPdf?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  paiements?: Prisma.PaiementUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
 }
 
 export type FactureCreateOrConnectWithoutLignesInput = {
@@ -888,8 +1988,14 @@ export type FactureUpdateToOneWithWhereWithoutLignesInput = {
 
 export type FactureUpdateWithoutLignesInput = {
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -899,19 +2005,39 @@ export type FactureUpdateWithoutLignesInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  commande?: Prisma.CommandeUpdateOneRequiredWithoutFactureNestedInput
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
 }
 
 export type FactureUncheckedUpdateWithoutLignesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
-  commandeId?: Prisma.IntFieldUpdateOperationsInput | number
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clientNom?: Prisma.StringFieldUpdateOperationsInput | string
   clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -921,7 +2047,761 @@ export type FactureUncheckedUpdateWithoutLignesInput = {
   montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureCreateWithoutPaiementsInput = {
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutFacturesInput
+  bonLivraison?: Prisma.BonLivraisonCreateNestedOneWithoutFacturesInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutFacturesInput
+  devis?: Prisma.DevisCreateNestedOneWithoutFacturesInput
+  lignes?: Prisma.LigneFactureCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonCreateNestedManyWithoutFactureInput
+}
+
+export type FactureUncheckedCreateWithoutPaiementsInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneFactureUncheckedCreateNestedManyWithoutFactureInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutFactureInput
+}
+
+export type FactureCreateOrConnectWithoutPaiementsInput = {
+  where: Prisma.FactureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FactureCreateWithoutPaiementsInput, Prisma.FactureUncheckedCreateWithoutPaiementsInput>
+}
+
+export type FactureUpsertWithoutPaiementsInput = {
+  update: Prisma.XOR<Prisma.FactureUpdateWithoutPaiementsInput, Prisma.FactureUncheckedUpdateWithoutPaiementsInput>
+  create: Prisma.XOR<Prisma.FactureCreateWithoutPaiementsInput, Prisma.FactureUncheckedCreateWithoutPaiementsInput>
+  where?: Prisma.FactureWhereInput
+}
+
+export type FactureUpdateToOneWithWhereWithoutPaiementsInput = {
+  where?: Prisma.FactureWhereInput
+  data: Prisma.XOR<Prisma.FactureUpdateWithoutPaiementsInput, Prisma.FactureUncheckedUpdateWithoutPaiementsInput>
+}
+
+export type FactureUpdateWithoutPaiementsInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutPaiementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureCreateManyUtilisateurInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type FactureUpdateWithoutUtilisateurInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutUtilisateurInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateManyWithoutUtilisateurInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FactureCreateManyCommandeInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type FactureUpdateWithoutCommandeInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutCommandeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateManyWithoutCommandeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FactureCreateManyBonLivraisonInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type FactureUpdateWithoutBonLivraisonInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutBonLivraisonInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateManyWithoutBonLivraisonInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FactureCreateManyDevisInput = {
+  id?: number
+  numero: string
+  numeroAvoir?: string | null
+  statut?: $Enums.StatutFacture
+  statutPaiement?: $Enums.StatutPaiement
+  typeFacture?: $Enums.TypeFacture
+  etat?: $Enums.EtatFacture
+  commandeId?: number | null
+  bonLivraisonId?: number | null
+  utilisateurId?: number | null
+  dateEmission: Date | string
+  dateEcheance?: Date | string | null
+  dateEstimationPaiement?: Date | string | null
+  clientNom: string
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTelephone?: string | null
+  clientEmail?: string | null
+  timbreFiscal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: string | null
+  devise?: string
+  commentaire?: string | null
+  projet?: string | null
+  incoterm?: string | null
+  origineDesProuits?: string | null
+  fichierPdf?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type FactureUpdateWithoutDevisInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutFacturesNestedInput
+  bonLivraison?: Prisma.BonLivraisonUpdateOneWithoutFacturesNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutFacturesNestedInput
+  lignes?: Prisma.LigneFactureUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateWithoutDevisInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneFactureUncheckedUpdateManyWithoutFactureNestedInput
+  paiements?: Prisma.PaiementUncheckedUpdateManyWithoutFactureNestedInput
+  bonsLivraison?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutFactureNestedInput
+}
+
+export type FactureUncheckedUpdateManyWithoutDevisInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroAvoir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statut?: Prisma.EnumStatutFactureFieldUpdateOperationsInput | $Enums.StatutFacture
+  statutPaiement?: Prisma.EnumStatutPaiementFieldUpdateOperationsInput | $Enums.StatutPaiement
+  typeFacture?: Prisma.EnumTypeFactureFieldUpdateOperationsInput | $Enums.TypeFacture
+  etat?: Prisma.EnumEtatFactureFieldUpdateOperationsInput | $Enums.EtatFacture
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonLivraisonId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dateEmission?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateEcheance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateEstimationPaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientNom?: Prisma.StringFieldUpdateOperationsInput | string
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTelephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timbreFiscal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  retenueSurce?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantEnLettres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  devise?: Prisma.StringFieldUpdateOperationsInput | string
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  incoterm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origineDesProuits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fichierPdf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -934,10 +2814,14 @@ export type FactureUncheckedUpdateWithoutLignesInput = {
 
 export type FactureCountOutputType = {
   lignes: number
+  paiements: number
+  bonsLivraison: number
 }
 
 export type FactureCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lignes?: boolean | FactureCountOutputTypeCountLignesArgs
+  paiements?: boolean | FactureCountOutputTypeCountPaiementsArgs
+  bonsLivraison?: boolean | FactureCountOutputTypeCountBonsLivraisonArgs
 }
 
 /**
@@ -957,13 +2841,36 @@ export type FactureCountOutputTypeCountLignesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.LigneFactureWhereInput
 }
 
+/**
+ * FactureCountOutputType without action
+ */
+export type FactureCountOutputTypeCountPaiementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaiementWhereInput
+}
+
+/**
+ * FactureCountOutputType without action
+ */
+export type FactureCountOutputTypeCountBonsLivraisonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FactureBonLivraisonWhereInput
+}
+
 
 export type FactureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   numero?: boolean
+  numeroAvoir?: boolean
   statut?: boolean
+  statutPaiement?: boolean
+  typeFacture?: boolean
+  etat?: boolean
   commandeId?: boolean
+  bonLivraisonId?: boolean
+  utilisateurId?: boolean
+  devisId?: boolean
   dateEmission?: boolean
+  dateEcheance?: boolean
+  dateEstimationPaiement?: boolean
   clientNom?: boolean
   clientMF?: boolean
   clientAdresse?: boolean
@@ -973,21 +2880,41 @@ export type FactureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   montantHT?: boolean
   montantTVA?: boolean
   montantTTC?: boolean
+  retenueSurce?: boolean
   montantEnLettres?: boolean
+  devise?: boolean
+  commentaire?: boolean
+  projet?: boolean
+  incoterm?: boolean
+  origineDesProuits?: boolean
   fichierPdf?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
   lignes?: boolean | Prisma.Facture$lignesArgs<ExtArgs>
+  paiements?: boolean | Prisma.Facture$paiementsArgs<ExtArgs>
+  bonsLivraison?: boolean | Prisma.Facture$bonsLivraisonArgs<ExtArgs>
   _count?: boolean | Prisma.FactureCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["facture"]>
 
 export type FactureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   numero?: boolean
+  numeroAvoir?: boolean
   statut?: boolean
+  statutPaiement?: boolean
+  typeFacture?: boolean
+  etat?: boolean
   commandeId?: boolean
+  bonLivraisonId?: boolean
+  utilisateurId?: boolean
+  devisId?: boolean
   dateEmission?: boolean
+  dateEcheance?: boolean
+  dateEstimationPaiement?: boolean
   clientNom?: boolean
   clientMF?: boolean
   clientAdresse?: boolean
@@ -997,19 +2924,37 @@ export type FactureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   montantHT?: boolean
   montantTVA?: boolean
   montantTTC?: boolean
+  retenueSurce?: boolean
   montantEnLettres?: boolean
+  devise?: boolean
+  commentaire?: boolean
+  projet?: boolean
+  incoterm?: boolean
+  origineDesProuits?: boolean
   fichierPdf?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
 }, ExtArgs["result"]["facture"]>
 
 export type FactureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   numero?: boolean
+  numeroAvoir?: boolean
   statut?: boolean
+  statutPaiement?: boolean
+  typeFacture?: boolean
+  etat?: boolean
   commandeId?: boolean
+  bonLivraisonId?: boolean
+  utilisateurId?: boolean
+  devisId?: boolean
   dateEmission?: boolean
+  dateEcheance?: boolean
+  dateEstimationPaiement?: boolean
   clientNom?: boolean
   clientMF?: boolean
   clientAdresse?: boolean
@@ -1019,19 +2964,37 @@ export type FactureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   montantHT?: boolean
   montantTVA?: boolean
   montantTTC?: boolean
+  retenueSurce?: boolean
   montantEnLettres?: boolean
+  devise?: boolean
+  commentaire?: boolean
+  projet?: boolean
+  incoterm?: boolean
+  origineDesProuits?: boolean
   fichierPdf?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
 }, ExtArgs["result"]["facture"]>
 
 export type FactureSelectScalar = {
   id?: boolean
   numero?: boolean
+  numeroAvoir?: boolean
   statut?: boolean
+  statutPaiement?: boolean
+  typeFacture?: boolean
+  etat?: boolean
   commandeId?: boolean
+  bonLivraisonId?: boolean
+  utilisateurId?: boolean
+  devisId?: boolean
   dateEmission?: boolean
+  dateEcheance?: boolean
+  dateEstimationPaiement?: boolean
   clientNom?: boolean
   clientMF?: boolean
   clientAdresse?: boolean
@@ -1041,37 +3004,68 @@ export type FactureSelectScalar = {
   montantHT?: boolean
   montantTVA?: boolean
   montantTTC?: boolean
+  retenueSurce?: boolean
   montantEnLettres?: boolean
+  devise?: boolean
+  commentaire?: boolean
+  projet?: boolean
+  incoterm?: boolean
+  origineDesProuits?: boolean
   fichierPdf?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type FactureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numero" | "statut" | "commandeId" | "dateEmission" | "clientNom" | "clientMF" | "clientAdresse" | "clientTelephone" | "clientEmail" | "timbreFiscal" | "montantHT" | "montantTVA" | "montantTTC" | "montantEnLettres" | "fichierPdf" | "creeLe" | "misAJourLe", ExtArgs["result"]["facture"]>
+export type FactureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numero" | "numeroAvoir" | "statut" | "statutPaiement" | "typeFacture" | "etat" | "commandeId" | "bonLivraisonId" | "utilisateurId" | "devisId" | "dateEmission" | "dateEcheance" | "dateEstimationPaiement" | "clientNom" | "clientMF" | "clientAdresse" | "clientTelephone" | "clientEmail" | "timbreFiscal" | "montantHT" | "montantTVA" | "montantTTC" | "retenueSurce" | "montantEnLettres" | "devise" | "commentaire" | "projet" | "incoterm" | "origineDesProuits" | "fichierPdf" | "creeLe" | "misAJourLe", ExtArgs["result"]["facture"]>
 export type FactureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
   lignes?: boolean | Prisma.Facture$lignesArgs<ExtArgs>
+  paiements?: boolean | Prisma.Facture$paiementsArgs<ExtArgs>
+  bonsLivraison?: boolean | Prisma.Facture$bonsLivraisonArgs<ExtArgs>
   _count?: boolean | Prisma.FactureCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FactureIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
 }
 export type FactureIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  commande?: boolean | Prisma.CommandeDefaultArgs<ExtArgs>
+  commande?: boolean | Prisma.Facture$commandeArgs<ExtArgs>
+  bonLivraison?: boolean | Prisma.Facture$bonLivraisonArgs<ExtArgs>
+  utilisateur?: boolean | Prisma.Facture$utilisateurArgs<ExtArgs>
+  devis?: boolean | Prisma.Facture$devisArgs<ExtArgs>
 }
 
 export type $FacturePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Facture"
   objects: {
-    commande: Prisma.$CommandePayload<ExtArgs>
+    commande: Prisma.$CommandePayload<ExtArgs> | null
+    bonLivraison: Prisma.$BonLivraisonPayload<ExtArgs> | null
+    utilisateur: Prisma.$UtilisateurPayload<ExtArgs> | null
+    devis: Prisma.$DevisPayload<ExtArgs> | null
     lignes: Prisma.$LigneFacturePayload<ExtArgs>[]
+    paiements: Prisma.$PaiementPayload<ExtArgs>[]
+    bonsLivraison: Prisma.$FactureBonLivraisonPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     numero: string
+    numeroAvoir: string | null
     statut: $Enums.StatutFacture
-    commandeId: number
+    statutPaiement: $Enums.StatutPaiement
+    typeFacture: $Enums.TypeFacture
+    etat: $Enums.EtatFacture
+    commandeId: number | null
+    bonLivraisonId: number | null
+    utilisateurId: number | null
+    devisId: number | null
     dateEmission: Date
+    dateEcheance: Date | null
+    dateEstimationPaiement: Date | null
     clientNom: string
     clientMF: string | null
     clientAdresse: string | null
@@ -1081,7 +3075,13 @@ export type $FacturePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     montantHT: runtime.Decimal
     montantTVA: runtime.Decimal
     montantTTC: runtime.Decimal
+    retenueSurce: runtime.Decimal
     montantEnLettres: string | null
+    devise: string
+    commentaire: string | null
+    projet: string | null
+    incoterm: string | null
+    origineDesProuits: string | null
     fichierPdf: string | null
     creeLe: Date
     misAJourLe: Date
@@ -1479,8 +3479,13 @@ readonly fields: FactureFieldRefs;
  */
 export interface Prisma__FactureClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  commande<T extends Prisma.CommandeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommandeDefaultArgs<ExtArgs>>): Prisma.Prisma__CommandeClient<runtime.Types.Result.GetResult<Prisma.$CommandePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  commande<T extends Prisma.Facture$commandeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$commandeArgs<ExtArgs>>): Prisma.Prisma__CommandeClient<runtime.Types.Result.GetResult<Prisma.$CommandePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  bonLivraison<T extends Prisma.Facture$bonLivraisonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$bonLivraisonArgs<ExtArgs>>): Prisma.Prisma__BonLivraisonClient<runtime.Types.Result.GetResult<Prisma.$BonLivraisonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  utilisateur<T extends Prisma.Facture$utilisateurArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$utilisateurArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  devis<T extends Prisma.Facture$devisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$devisArgs<ExtArgs>>): Prisma.Prisma__DevisClient<runtime.Types.Result.GetResult<Prisma.$DevisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   lignes<T extends Prisma.Facture$lignesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$lignesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneFacturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paiements<T extends Prisma.Facture$paiementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$paiementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaiementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bonsLivraison<T extends Prisma.Facture$bonsLivraisonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Facture$bonsLivraisonArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FactureBonLivraisonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1512,9 +3517,18 @@ export interface Prisma__FactureClient<T, Null = never, ExtArgs extends runtime.
 export interface FactureFieldRefs {
   readonly id: Prisma.FieldRef<"Facture", 'Int'>
   readonly numero: Prisma.FieldRef<"Facture", 'String'>
+  readonly numeroAvoir: Prisma.FieldRef<"Facture", 'String'>
   readonly statut: Prisma.FieldRef<"Facture", 'StatutFacture'>
+  readonly statutPaiement: Prisma.FieldRef<"Facture", 'StatutPaiement'>
+  readonly typeFacture: Prisma.FieldRef<"Facture", 'TypeFacture'>
+  readonly etat: Prisma.FieldRef<"Facture", 'EtatFacture'>
   readonly commandeId: Prisma.FieldRef<"Facture", 'Int'>
+  readonly bonLivraisonId: Prisma.FieldRef<"Facture", 'Int'>
+  readonly utilisateurId: Prisma.FieldRef<"Facture", 'Int'>
+  readonly devisId: Prisma.FieldRef<"Facture", 'Int'>
   readonly dateEmission: Prisma.FieldRef<"Facture", 'DateTime'>
+  readonly dateEcheance: Prisma.FieldRef<"Facture", 'DateTime'>
+  readonly dateEstimationPaiement: Prisma.FieldRef<"Facture", 'DateTime'>
   readonly clientNom: Prisma.FieldRef<"Facture", 'String'>
   readonly clientMF: Prisma.FieldRef<"Facture", 'String'>
   readonly clientAdresse: Prisma.FieldRef<"Facture", 'String'>
@@ -1524,7 +3538,13 @@ export interface FactureFieldRefs {
   readonly montantHT: Prisma.FieldRef<"Facture", 'Decimal'>
   readonly montantTVA: Prisma.FieldRef<"Facture", 'Decimal'>
   readonly montantTTC: Prisma.FieldRef<"Facture", 'Decimal'>
+  readonly retenueSurce: Prisma.FieldRef<"Facture", 'Decimal'>
   readonly montantEnLettres: Prisma.FieldRef<"Facture", 'String'>
+  readonly devise: Prisma.FieldRef<"Facture", 'String'>
+  readonly commentaire: Prisma.FieldRef<"Facture", 'String'>
+  readonly projet: Prisma.FieldRef<"Facture", 'String'>
+  readonly incoterm: Prisma.FieldRef<"Facture", 'String'>
+  readonly origineDesProuits: Prisma.FieldRef<"Facture", 'String'>
   readonly fichierPdf: Prisma.FieldRef<"Facture", 'String'>
   readonly creeLe: Prisma.FieldRef<"Facture", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"Facture", 'DateTime'>
@@ -1929,6 +3949,82 @@ export type FactureDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Facture.commande
+ */
+export type Facture$commandeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Commande
+   */
+  select?: Prisma.CommandeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Commande
+   */
+  omit?: Prisma.CommandeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommandeInclude<ExtArgs> | null
+  where?: Prisma.CommandeWhereInput
+}
+
+/**
+ * Facture.bonLivraison
+ */
+export type Facture$bonLivraisonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BonLivraison
+   */
+  select?: Prisma.BonLivraisonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BonLivraison
+   */
+  omit?: Prisma.BonLivraisonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BonLivraisonInclude<ExtArgs> | null
+  where?: Prisma.BonLivraisonWhereInput
+}
+
+/**
+ * Facture.utilisateur
+ */
+export type Facture$utilisateurArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
+ * Facture.devis
+ */
+export type Facture$devisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Devis
+   */
+  select?: Prisma.DevisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Devis
+   */
+  omit?: Prisma.DevisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevisInclude<ExtArgs> | null
+  where?: Prisma.DevisWhereInput
+}
+
+/**
  * Facture.lignes
  */
 export type Facture$lignesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1950,6 +4046,54 @@ export type Facture$lignesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.LigneFactureScalarFieldEnum | Prisma.LigneFactureScalarFieldEnum[]
+}
+
+/**
+ * Facture.paiements
+ */
+export type Facture$paiementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Paiement
+   */
+  select?: Prisma.PaiementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Paiement
+   */
+  omit?: Prisma.PaiementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaiementInclude<ExtArgs> | null
+  where?: Prisma.PaiementWhereInput
+  orderBy?: Prisma.PaiementOrderByWithRelationInput | Prisma.PaiementOrderByWithRelationInput[]
+  cursor?: Prisma.PaiementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaiementScalarFieldEnum | Prisma.PaiementScalarFieldEnum[]
+}
+
+/**
+ * Facture.bonsLivraison
+ */
+export type Facture$bonsLivraisonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FactureBonLivraison
+   */
+  select?: Prisma.FactureBonLivraisonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FactureBonLivraison
+   */
+  omit?: Prisma.FactureBonLivraisonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FactureBonLivraisonInclude<ExtArgs> | null
+  where?: Prisma.FactureBonLivraisonWhereInput
+  orderBy?: Prisma.FactureBonLivraisonOrderByWithRelationInput | Prisma.FactureBonLivraisonOrderByWithRelationInput[]
+  cursor?: Prisma.FactureBonLivraisonWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FactureBonLivraisonScalarFieldEnum | Prisma.FactureBonLivraisonScalarFieldEnum[]
 }
 
 /**

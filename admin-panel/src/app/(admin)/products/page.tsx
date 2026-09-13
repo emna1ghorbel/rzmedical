@@ -26,8 +26,15 @@ interface Produit {
   nom: string;
   reference: string;
   prix: number;
+  prixAchat?: number | null;
+  cump?: number | null;
+  mouvementsStock?: { unitPrice?: number | null }[];
+  tva?: number | null;
   remise: number;
   stock: number;
+  qteAchat?: number;
+  qteVente?: number;
+  disponibleALaVente?: boolean;
   disponible: boolean;
   description?: string;
   expirationDate?: string | null;
@@ -55,6 +62,8 @@ export default function ProductsPage() {
   const [formNom, setFormNom] = useState("");
   const [formRef, setFormRef] = useState("");
   const [formPrix, setFormPrix] = useState("");
+  const [formPrixAchat, setFormPrixAchat] = useState("");
+  const [formTva, setFormTva] = useState("0");
   const [formRemise, setFormRemise] = useState("0");
   const [formStock, setFormStock] = useState("0");
   const [formSubCatId, setFormSubCatId] = useState("");
@@ -85,6 +94,8 @@ export default function ProductsPage() {
   const [inlineStock, setInlineStock] = useState("0");
   const [inlineStockSaving, setInlineStockSaving] = useState(false);
   const [inlineStockError, setInlineStockError] = useState<string | null>(null);
+  const [availabilitySavingId, setAvailabilitySavingId] = useState<number | null>(null);
+  const [availabilityError, setAvailabilityError] = useState<number | null>(null);
 
   // Quick filters & search
   const [activeFilter, setActiveFilter] = useState<"all" | "new" | "promo" | "rupture" | "indisponible">("all");
@@ -151,7 +162,7 @@ export default function ProductsPage() {
 
   const openAdd = (brandId?: number) => {
     setEditing(null);
-    setFormNom(""); setFormRef(""); setFormPrix(""); setFormRemise("0"); setFormStock("0"); setFormDispo(true);
+    setFormNom(""); setFormRef(""); setFormPrix(""); setFormPrixAchat(""); setFormTva("0"); setFormRemise("0"); setFormStock("0"); setFormDispo(true);
     setFormDesc(""); setFormExpirationDate(""); setFormImages([]); setFormFicheTechnique(""); setFormVideo(""); setFormMotsCles(""); setFormTags([]);
     setFormSubCatId(subcategories.length > 0 ? subcategories[0].id.toString() : "");
     setFormBrandId(brandId?.toString() || (brands.length > 0 ? brands[0].id.toString() : ""));
@@ -161,6 +172,8 @@ export default function ProductsPage() {
   const openEdit = (item: Produit) => {
     setEditing(item);
     setFormNom(item.nom); setFormRef(item.reference); setFormPrix(item.prix.toString());
+    setFormPrixAchat(item.prixAchat != null ? item.prixAchat.toString() : "");
+    setFormTva(item.tva != null ? item.tva.toString() : "0");
     setFormRemise((item.remise ?? 0).toString());
     setFormStock(item.stock.toString()); setFormDispo(item.disponible);
     setFormDesc(item.description || "");
@@ -191,6 +204,8 @@ export default function ProductsPage() {
           nom: formNom.trim(),
           reference: formRef.trim(),
           prix: Number(formPrix),
+          prixAchat: formPrixAchat !== "" ? Number(formPrixAchat) : null,
+          tva: Number(formTva) || 0,
           remise: Number(formRemise) || 0,
           stock: Number(formStock),
           disponible: formDispo,
@@ -288,8 +303,8 @@ export default function ProductsPage() {
   const saveInlineStockEdit = async (item: Produit, newStockVal?: number, e?: React.MouseEvent | React.FormEvent) => {
     if (e) e.stopPropagation();
     const stockNum = newStockVal !== undefined ? newStockVal : parseInt(inlineStock, 10);
-    if (isNaN(stockNum) || stockNum < 0) {
-      setInlineStockError("Stock invalide (>= 0)");
+    if (isNaN(stockNum)) {
+      setInlineStockError("Stock invalide");
       return;
     }
     setInlineStockSaving(true);
@@ -324,6 +339,31 @@ export default function ProductsPage() {
       setInlineStockError(err instanceof Error ? err.message : "Erreur");
     } finally {
       setInlineStockSaving(false);
+    }
+  };
+
+  const toggleAvailability = async (item: Produit, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const nextValue = !(item.disponibleALaVente !== false);
+    setAvailabilitySavingId(item.id);
+    setAvailabilityError(null);
+    try {
+      const res = await fetch(`${API_URL}/products/${item.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ disponible: nextValue, disponibleALaVente: nextValue }),
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.error || "Erreur de disponibilité");
+      }
+      setItems((current) => current.map((product) => product.id === item.id
+        ? { ...product, disponible: nextValue, disponibleALaVente: nextValue }
+        : product));
+    } catch {
+      setAvailabilityError(item.id);
+    } finally {
+      setAvailabilitySavingId(null);
     }
   };
 
@@ -472,8 +512,14 @@ export default function ProductsPage() {
                   <TableCell isHeader className="px-4 py-3 text-start">Image</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-start">Réf</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-start">Nom</TableCell>
-                  <TableCell isHeader className="px-4 py-3 text-start">Prix / Remise</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Prix vente / Remise</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Prix achat</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">CUMP</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-start">Stock</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Qté achat</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Qté vente</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Marge</TableCell>
+                  <TableCell isHeader className="px-4 py-3 text-start">Disponible</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-start">Sous-Catégorie</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-start">Marque</TableCell>
                   <TableCell isHeader className="px-4 py-3 text-end">Actions</TableCell>
@@ -592,6 +638,15 @@ export default function ProductsPage() {
                           </div>
                         )}
                       </TableCell>
+                      <TableCell className="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
+                        {item.mouvementsStock?.[0]?.unitPrice != null
+                          ? `${Number(item.mouvementsStock[0].unitPrice).toFixed(3)} TND`
+                          : item.prixAchat != null ? `${Number(item.prixAchat).toFixed(3)} TND` : "-"}
+                        <span className="mt-1 block text-[10px] text-gray-400">Dernier achat</span>
+                      </TableCell>
+                      <TableCell className="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
+                        {item.cump != null ? `${Number(item.cump).toFixed(3)} TND` : "-"}
+                      </TableCell>
                       <TableCell className="px-4 py-4 min-w-[130px]">
                         {inlineStockEditId === item.id ? (
                           <div className="flex flex-col gap-1 p-1.5 bg-white dark:bg-gray-800 rounded-xl border border-brand-300 dark:border-brand-700 shadow-sm">
@@ -601,7 +656,7 @@ export default function ProductsPage() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   const current = parseInt(inlineStock, 10) || 0;
-                                  if (current > 0) setInlineStock((current - 1).toString());
+                                  setInlineStock((current - 1).toString());
                                 }}
                                 className="w-6 h-6 flex items-center justify-center text-xs font-bold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
                               >
@@ -609,7 +664,6 @@ export default function ProductsPage() {
                               </button>
                               <input
                                 type="number"
-                                min="0"
                                 autoFocus
                                 value={inlineStock}
                                 onChange={(e) => setInlineStock(e.target.value)}
@@ -665,6 +719,25 @@ export default function ProductsPage() {
                             </span>
                           </div>
                         )}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{item.qteAchat ?? 0}</TableCell>
+                      <TableCell className="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{item.qteVente ?? 0}</TableCell>
+                      <TableCell className="px-4 py-4 text-sm">
+                        {item.prixAchat != null ? `${(Number(item.prix) - Number(item.prixAchat)).toFixed(3)} TND` : "—"}
+                      </TableCell>
+                      <TableCell className="px-4 py-4">
+                        <button
+                          type="button"
+                          onClick={(e) => void toggleAvailability(item, e)}
+                          disabled={availabilitySavingId === item.id}
+                          title="Modifier la disponibilité à la vente"
+                          className="disabled:cursor-wait disabled:opacity-50"
+                        >
+                          <Badge color={item.disponibleALaVente !== false ? "success" : "error"} size="sm">
+                            {availabilitySavingId === item.id ? "..." : item.disponibleALaVente !== false ? "Oui" : "Non"}
+                          </Badge>
+                        </button>
+                        {availabilityError === item.id && <span className="mt-1 block text-[10px] text-red-500">Erreur</span>}
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm text-gray-500">{item.sousCategorie?.nom} <span className="text-xs">({item.sousCategorie?.categorie?.nom})</span></TableCell>
                       <TableCell className="px-4 py-4 text-sm text-gray-500">{item.marque?.nom}</TableCell>
@@ -727,10 +800,26 @@ export default function ProductsPage() {
               </div>
             </div>
 
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Prix de vente (TND) *</label>
+                <input type="number" step="0.01" min="0" value={formPrix} onChange={(e) => setFormPrix(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Prix d&apos;achat (TND)</label>
+                <input type="number" step="0.001" min="0" value={formPrixAchat} onChange={(e) => setFormPrixAchat(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" placeholder="Optionnel" />
+              </div>
+            </div>
+
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Prix (TND) *</label>
-                <input type="number" step="0.01" min="0" value={formPrix} onChange={(e) => setFormPrix(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">TVA (%)</label>
+                <select value={formTva} onChange={(e) => setFormTva(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+                  <option value="0">0% (Exonéré)</option>
+                  <option value="7">7%</option>
+                  <option value="13">13%</option>
+                  <option value="19">19%</option>
+                </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Remise (%)</label>
@@ -738,7 +827,7 @@ export default function ProductsPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Stock initial</label>
-                <input type="number" min="0" value={formStock} onChange={(e) => setFormStock(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                <input type="number" value={formStock} onChange={(e) => setFormStock(e.target.value)} className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
               </div>
             </div>
 

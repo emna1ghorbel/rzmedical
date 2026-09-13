@@ -140,7 +140,7 @@ export function CartDrawer() {
             <ul className="flex-1 overflow-y-auto px-5 divide-y divide-slate-100">
               {items.map((item) => {
                 const unit = clientPrice(item.prix, item.remise, isAuthenticated ? user?.remise ?? 0 : 0);
-                const outOfStock = !item.disponible || item.stock <= 0;
+                const outOfStock = !item.disponibleALaVente;
                 return (
                   <li key={item.produitId} className="flex gap-3 py-4">
                     {/* Image */}
@@ -185,7 +185,7 @@ export function CartDrawer() {
                         <QuantityStepper
                           value={item.quantite}
                           onChange={(q) => setQuantity(item.produitId, q)}
-                          max={item.stock}
+                          max={undefined}
                           size="sm"
                         />
                         <span className="text-[13px] font-black tabular-nums text-navy-900">

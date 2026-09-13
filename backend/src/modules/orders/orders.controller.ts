@@ -1,8 +1,10 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthRequest } from '../auth/auth.middleware';
 import * as service from './orders.service';
 import { OrderError } from './orders.service';
 import { notifyAdminNewOrder } from '../notifications/whatsapp.service';
+import { sendOrderStatusEmail } from '../client-auth/client-auth.service';
+import * as bonsLivraisonService from '../bons-livraison/bons-livraison.service';
 
 // Sérialise les Decimal (total, prixUnitaire) en Number pour la réponse JSON
 export const serializeOrder = (order: any) => ({
@@ -11,6 +13,9 @@ export const serializeOrder = (order: any) => ({
   lignes: Array.isArray(order.lignes)
     ? order.lignes.map((l: any) => ({ ...l, prixUnitaire: Number(l.prixUnitaire) }))
     : order.lignes,
+  facture:
+    order.facture ||
+    (Array.isArray(order.factures) && order.factures.length > 0 ? order.factures[0] : null),
 });
 
 export const create = async (req: AuthRequest, res: Response) => {
@@ -82,6 +87,23 @@ export const listAll = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const getOneAdmin = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Identifiant de commande invalide' });
+    }
+    const order = await service.getOrderById(id);
+    if (!order) {
+      return res.status(404).json({ error: 'Commande introuvable' });
+    }
+    res.json(serializeOrder(order));
+  } catch (err: unknown) {
+    console.error('GET /api/orders/admin/:id error:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération de la commande' });
+  }
+};
+
 export const updateStatus = async (req: AuthRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
@@ -93,6 +115,26 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ error: 'Statut requis' });
     }
     const order = await service.updateOrderStatus(id, status);
+
+    const hasActiveBL = Array.isArray((order as any).bonsLivraison)
+      ? (order as any).bonsLivraison.some((bl: any) => bl?.statut && bl.statut !== 'ANNULE')
+      : false;
+
+    if (status === 'LIVREE' && !hasActiveBL) {
+      await bonsLivraisonService.createBLFromOrder(id);
+    }
+
+    // Notify the client by email (fire-and-forget)
+    const client = (order as any).utilisateur;
+    if (client?.email) {
+      sendOrderStatusEmail(
+        client.email,
+        client.prenom ?? client.nom ?? 'Client',
+        order.id,
+        status
+      ).catch((e) => console.error('Email statut commande error:', e));
+    }
+
     res.json(serializeOrder(order));
   } catch (err: unknown) {
     if (err instanceof OrderError) {
@@ -120,5 +162,19 @@ export const updateItems = async (req: AuthRequest, res: Response) => {
     }
     console.error('PATCH /api/orders/admin/:id/items error:', err);
     res.status(500).json({ error: 'Erreur lors de la modification des lignes de la commande' });
+  }
+};
+
+export const trackPublic = async (req: Request, res: Response) => {
+  try {
+    const { code } = req.params;
+    const order = await service.trackOrderPublicly(code);
+    res.json(order);
+  } catch (err: unknown) {
+    if (err instanceof OrderError) {
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+    console.error('GET /api/orders/public/track/:code error:', err);
+    res.status(500).json({ error: 'Erreur lors du suivi de la commande' });
   }
 };

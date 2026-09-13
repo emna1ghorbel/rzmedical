@@ -53,6 +53,16 @@ export type Marque = Prisma.MarqueModel
  */
 export type Produit = Prisma.ProduitModel
 /**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel
+/**
+ * Model PurchasePriceHistory
+ * 
+ */
+export type PurchasePriceHistory = Prisma.PurchasePriceHistoryModel
+/**
  * Model Commande
  * 
  */
@@ -63,15 +73,50 @@ export type Commande = Prisma.CommandeModel
  */
 export type LigneCommande = Prisma.LigneCommandeModel
 /**
+ * Model BonLivraison
+ * 
+ */
+export type BonLivraison = Prisma.BonLivraisonModel
+/**
+ * Model LigneBonLivraison
+ * 
+ */
+export type LigneBonLivraison = Prisma.LigneBonLivraisonModel
+/**
  * Model Facture
  * 
  */
 export type Facture = Prisma.FactureModel
 /**
+ * Model Devis
+ * 
+ */
+export type Devis = Prisma.DevisModel
+/**
+ * Model LigneDevis
+ * 
+ */
+export type LigneDevis = Prisma.LigneDevisModel
+/**
+ * Model FactureBonLivraison
+ * 
+ */
+export type FactureBonLivraison = Prisma.FactureBonLivraisonModel
+/**
  * Model LigneFacture
  * 
  */
 export type LigneFacture = Prisma.LigneFactureModel
+/**
+ * Model Paiement
+ * 
+ */
+export type Paiement = Prisma.PaiementModel
+/**
+ * Model Service
+ * 
+ */
+export type Service = Prisma.ServiceModel
 /**
  * Model AlerteSite
  * 
@@ -98,7 +143,77 @@ export type VideoHero = Prisma.VideoHeroModel
  */
 export type TokenReset = Prisma.TokenResetModel
 /**
+ * Model NewsletterAbonne
+ * 
+ */
+export type NewsletterAbonne = Prisma.NewsletterAbonneModel
+/**
  * Model InfoSociete
  * 
  */
 export type InfoSociete = Prisma.InfoSocieteModel
+/**
+ * Model Exercice
+ * 
+ */
+export type Exercice = Prisma.ExerciceModel
+/**
+ * Model DocumentSequence
+ * 
+ */
+export type DocumentSequence = Prisma.DocumentSequenceModel
+/**
+ * Model Fournisseur
+ * 
+ */
+export type Fournisseur = Prisma.FournisseurModel
+/**
+ * Model BonCommande
+ * 
+ */
+export type BonCommande = Prisma.BonCommandeModel
+/**
+ * Model LigneBonCommande
+ * 
+ */
+export type LigneBonCommande = Prisma.LigneBonCommandeModel
+/**
+ * Model BonReception
+ * 
+ */
+export type BonReception = Prisma.BonReceptionModel
+/**
+ * Model LigneBonReception
+ * 
+ */
+export type LigneBonReception = Prisma.LigneBonReceptionModel
+/**
+ * Model FactureFournisseur
+ * 
+ */
+export type FactureFournisseur = Prisma.FactureFournisseurModel
+/**
+ * Model ChargeGenerale
+ * 
+ */
+export type ChargeGenerale = Prisma.ChargeGeneraleModel
+/**
+ * Model ChargeCnss
+ * 
+ */
+export type ChargeCnss = Prisma.ChargeCnssModel
+/**
+ * Model Charge9ba4a
+ * 
+ */
+export type Charge9ba4a = Prisma.Charge9ba4aModel
+/**
+ * Model LigneFactureFournisseur
+ * 
+ */
+export type LigneFactureFournisseur = Prisma.LigneFactureFournisseurModel
+/**
+ * Model PaiementFactureFournisseur
+ * 
+ */
+export type PaiementFactureFournisseur = Prisma.PaiementFactureFournisseurModel

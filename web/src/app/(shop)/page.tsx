@@ -81,7 +81,7 @@ export default async function HomePage() {
       {/* Brands */}
       {brands.length > 0 && (
         <section className="relative bg-slate-50 overflow-hidden border-t border-slate-200/60">
-          <div className="absolute inset-0 grid-pattern opacity-[0.12] pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white to-slate-50 pointer-events-none" />
           <Container className="relative py-14 lg:py-20">
             <SectionHeading
               eyebrow="Confiance"
@@ -94,9 +94,7 @@ export default async function HomePage() {
       )}
       {categories.length > 0 && (
         <section className="relative bg-navy-960 overflow-hidden">
-          {/* Ambient atmosphere */}
-          <div className="absolute inset-0 grid-pattern opacity-25 pointer-events-none" />
-          <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-azure-500/4 blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-white/10 pointer-events-none" />
 
           <Container className="relative py-14 lg:py-20">
             <SectionHeading
@@ -118,18 +116,10 @@ export default async function HomePage() {
 
       {/* Expert CTA section */}
       <section className="relative overflow-hidden bg-white border-t border-slate-200/60">
-        {/* Animated scan line */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-azure-500/20 to-transparent animate-[scanLine_8s_ease-in-out_infinite]" />
-        </div>
-        {/* Ambient orbs */}
-        <div className="absolute -top-20 right-0 w-80 h-80 rounded-full bg-azure-500/10 blur-[80px] pointer-events-none" />
-        <div className="absolute -bottom-20 left-0 w-80 h-80 rounded-full bg-slate-400/20 blur-[80px] pointer-events-none" />
-
         <Container className="grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-20 relative">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-azure-200 bg-azure-50 px-4 py-1.5 mb-5 select-none shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-azure-500 animate-pulse" />
+              <span className="h-px w-3 bg-azure-500/60" />
               <span className="text-[10px] font-black uppercase tracking-[0.15em] text-azure-600">
                 Support client dédié
               </span>

@@ -20,6 +20,7 @@ function toCartItem(product: Produit): AddItemInput {
     remise: parsePrice(product.remise),
     stock: product.stock,
     disponible: product.disponible,
+    disponibleALaVente: product.disponibleALaVente,
   };
 }
 
@@ -57,7 +58,7 @@ export function AddToCartButton({
   const [added, setAdded] = useState(false);
   const timer = useRef<number | null>(null);
 
-  const outOfStock = !product.disponible || product.stock <= 0;
+  const outOfStock = !product.disponibleALaVente;
 
   const handleAdd = useCallback(() => {
     if (outOfStock) return;
@@ -134,10 +135,6 @@ export function AddToCartButton({
         )}
       </div>
 
-      {/* Premium shimmer effect */}
-      {!added && !outOfStock && (
-        <div className="absolute inset-0 -h-[50%] -w-[50%] bg-gradient-to-r from-transparent via-white/20 to-transparent rotate-[45deg] animate-[shimmer_1.4s_ease-in-out_infinite] group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      )}
     </Button>
   );
 }

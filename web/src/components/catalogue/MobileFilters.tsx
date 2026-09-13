@@ -16,6 +16,8 @@ interface MobileFiltersProps {
   subcategories: SousCategorieListItem[];
   brands: MarqueListItem[];
   hideCategory?: boolean;
+  currentCategorieId?: string;
+  currentSousCategorieId?: string;
 }
 
 /** Bouton « Filtres » (mobile/tablette) ouvrant le panneau de filtres en modale. */
@@ -24,12 +26,14 @@ export function MobileFilters({
   subcategories,
   brands,
   hideCategory = false,
+  currentCategorieId,
+  currentSousCategorieId,
 }: MobileFiltersProps) {
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
 
-  const categorieId = searchParams.get("categorieId");
-  const sousCategorieId = searchParams.get("sousCategorieId");
+  const categorieId = searchParams.get("categorieId") ?? currentCategorieId;
+  const sousCategorieId = searchParams.get("sousCategorieId") ?? currentSousCategorieId;
   const marqueId = searchParams.get("marqueId");
   const promo = searchParams.get("promo");
   const disponible = searchParams.get("disponible");
@@ -72,6 +76,8 @@ export function MobileFilters({
           brands={brands}
           hideCategory={hideCategory}
           onNavigate={() => setOpen(false)}
+          currentCategorieId={currentCategorieId}
+          currentSousCategorieId={currentSousCategorieId}
         />
       </Modal>
     </>

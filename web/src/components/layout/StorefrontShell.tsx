@@ -76,7 +76,7 @@ export function StorefrontShell({
         aria-hidden={!mobileMenuOpen}
         role="complementary"
         aria-label="Menu de navigation"
-        className="fixed left-0 z-30 overflow-hidden bg-white/90 backdrop-blur-3xl border-r border-slate-200/60 shadow-[20px_0_60px_rgba(0,0,0,0.06),_1px_0_0_rgba(255,255,255,0.8)_inset] transition-all duration-500 ease-out-quint"
+        className="fixed left-0 z-30 overflow-hidden bg-white/90 backdrop-blur-md border-r border-slate-200 shadow-2xl transition-all duration-500 ease-out-quint"
         style={{
           top: topOffset,
           width: mobileMenuOpen ? SIDEBAR_W : 0,
@@ -87,9 +87,7 @@ export function StorefrontShell({
           className="flex h-full flex-col overflow-y-auto overscroll-contain relative"
           style={{ width: SIDEBAR_W }}
         >
-          {/* Ambient Glows inside the sidebar */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-azure-200/20 rounded-full blur-[80px] pointer-events-none -z-10" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-200/20 rounded-full blur-[80px] pointer-events-none -z-10" />
+          {/* Removed ambient blobs for flat design */}
 
           <div className="absolute inset-0 grid-pattern opacity-[0.05] pointer-events-none -z-10" />
 
@@ -123,17 +121,15 @@ export function StorefrontShell({
                   <Link
                     href={href}
                     onClick={closeMobileMenu}
-                    className="group flex w-full items-center gap-4 rounded-2xl bg-white/50 border border-slate-200/60 p-2.5 pr-5 text-[15px] font-bold text-navy-900 transition-all duration-300 hover:bg-white hover:border-azure-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04),0_1px_0_rgba(255,255,255,1)_inset]"
+                    className="group flex w-full items-center gap-3 rounded-md px-3 py-2 text-[14px] font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-navy-900"
                   >
-                    <span className={cn(
-                      "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 border bg-gradient-to-br shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
-                      color === "azure" && "from-azure-50 to-white border-azure-100 text-azure-600 group-hover:scale-105 group-hover:border-azure-200 group-hover:shadow-[0_0_15px_rgba(14,165,233,0.2)]",
-                      color === "error" && "from-red-50 to-white border-red-100 text-red-500 group-hover:scale-105 group-hover:border-red-200 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]",
-                      color === "amber" && "from-amber-50 to-white border-amber-100 text-amber-500 group-hover:scale-105 group-hover:border-amber-200 group-hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]",
-                      color === "navy" && "from-slate-50 to-white border-slate-200 text-slate-600 group-hover:scale-105 group-hover:border-slate-300 group-hover:text-navy-900 group-hover:shadow-[0_0_15px_rgba(0,0,0,0.06)]"
-                    )}>
-                      <Icon size={20} className="transition-transform duration-300 group-hover:scale-110" />
-                    </span>
+                    <Icon size={18} className={cn(
+                      "shrink-0 transition-colors duration-150",
+                      color === "azure" && "text-azure-500 group-hover:text-azure-600",
+                      color === "error" && "text-red-500 group-hover:text-red-600",
+                      color === "amber" && "text-amber-500 group-hover:text-amber-600",
+                      color === "navy" && "text-slate-400 group-hover:text-navy-900"
+                    )} />
                     {label}
                   </Link>
                 </li>
@@ -160,17 +156,15 @@ export function StorefrontShell({
                       <Link
                         href={href}
                         onClick={closeMobileMenu}
-                        className="group flex w-full items-center gap-4 rounded-2xl bg-white/50 border border-slate-200/60 p-2.5 pr-5 text-[15px] font-bold text-navy-900 transition-all duration-300 hover:bg-white hover:border-azure-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04),0_1px_0_rgba(255,255,255,1)_inset]"
+                        className="group flex w-full items-center gap-3 rounded-md px-3 py-2 text-[14px] font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-navy-900"
                       >
-                        <span className={cn(
-                          "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 border bg-gradient-to-br shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
-                          color === "azure" && "from-azure-50 to-white border-azure-100 text-azure-600 group-hover:scale-105 group-hover:border-azure-200 group-hover:shadow-[0_0_15px_rgba(14,165,233,0.2)]",
-                          color === "error" && "from-red-50 to-white border-red-100 text-red-500 group-hover:scale-105 group-hover:border-red-200 group-hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]",
-                          color === "amber" && "from-amber-50 to-white border-amber-100 text-amber-500 group-hover:scale-105 group-hover:border-amber-200 group-hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]",
-                          color === "navy" && "from-slate-50 to-white border-slate-200 text-slate-600 group-hover:scale-105 group-hover:border-slate-300 group-hover:text-navy-900 group-hover:shadow-[0_0_15px_rgba(0,0,0,0.06)]"
-                        )}>
-                          <Icon size={20} className="transition-transform duration-300 group-hover:scale-110" />
-                        </span>
+                        <Icon size={18} className={cn(
+                          "shrink-0 transition-colors duration-150",
+                          color === "azure" && "text-azure-500 group-hover:text-azure-600",
+                          color === "error" && "text-red-500 group-hover:text-red-600",
+                          color === "amber" && "text-amber-500 group-hover:text-amber-600",
+                          color === "navy" && "text-slate-400 group-hover:text-navy-900"
+                        )} />
                         {label}
                       </Link>
                     </li>
@@ -179,7 +173,7 @@ export function StorefrontShell({
               </>
             )}
 
-            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+            <div className="my-8 h-[1px] w-full bg-slate-200" />
 
             {/* ── Explorer les sous-catégories ─────────── */}
             <div className="mb-8">
@@ -206,13 +200,11 @@ export function StorefrontShell({
                         <Link
                           href={`/catalogue?sousCategorieId=${sub.id}`}
                           onClick={closeMobileMenu}
-                          className="group flex w-full items-center gap-3.5 rounded-2xl bg-white border border-slate-200/60 px-4 py-3 text-[14px] font-semibold text-navy-800 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-azure-200 hover:bg-white hover:shadow-[0_4px_16px_rgba(14,165,233,0.08),0_1px_0_rgba(255,255,255,1)_inset] hover:text-azure-700"
+                          className="group flex w-full items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-navy-900"
                         >
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-slate-200/80 text-slate-400 transition-all duration-300 group-hover:bg-azure-50 group-hover:border-azure-200 group-hover:text-azure-500 group-hover:shadow-[0_0_10px_rgba(14,165,233,0.15)]">
-                            <PackageIcon size={15} className="transition-transform duration-300 group-hover:scale-110" />
-                          </span>
+                          <PackageIcon size={16} className="shrink-0 text-slate-400 transition-colors duration-150 group-hover:text-azure-600" />
                           <span className="flex-1 truncate">{sub.nom}</span>
-                          <ChevronDownIcon size={14} className="shrink-0 -rotate-90 text-slate-300 transition-all duration-300 group-hover:text-azure-400 group-hover:translate-x-0.5" />
+                          <ChevronDownIcon size={14} className="shrink-0 -rotate-90 text-slate-300 transition-colors duration-150 group-hover:text-azure-600" />
                         </Link>
                       </li>
                     ))
@@ -227,7 +219,7 @@ export function StorefrontShell({
               )}
             </div>
 
-            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+            <div className="my-8 h-[1px] w-full bg-slate-200" />
 
             {/* ── Marques ─────────── */}
             {marques.length > 0 && (
@@ -272,7 +264,7 @@ export function StorefrontShell({
               </div>
             )}
 
-            <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+            <div className="my-8 h-[1px] w-full bg-slate-200" />
 
             {/* ── Compte & Panier ──────────────────────────── */}
             <div className="mb-8">
@@ -330,7 +322,7 @@ export function StorefrontShell({
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/support"
                   onClick={closeMobileMenu}
                   className="flex items-center gap-2 rounded-lg bg-slate-50 border border-slate-200 px-3 py-2 text-[12px] font-bold text-slate-500 transition-all hover:bg-white hover:text-navy-900 hover:shadow-sm"
                 >

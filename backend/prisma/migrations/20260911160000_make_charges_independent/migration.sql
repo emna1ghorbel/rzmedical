@@ -1,0 +1,11 @@
+ALTER TABLE "charges_generales" DROP CONSTRAINT "charges_generales_factureFournisseurId_fkey";
+ALTER TABLE "charges_cnss" DROP CONSTRAINT "charges_cnss_factureFournisseurId_fkey";
+ALTER TABLE "charges_9ba4a" DROP CONSTRAINT "charges_9ba4a_factureFournisseurId_fkey";
+DROP INDEX "charges_generales_factureFournisseurId_key";
+DROP INDEX "charges_cnss_factureFournisseurId_key";
+DROP INDEX "charges_9ba4a_factureFournisseurId_key";
+ALTER TABLE "charges_generales" DROP COLUMN "factureFournisseurId", ADD COLUMN "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, ADD COLUMN "montantHT" DECIMAL(12,3) NOT NULL DEFAULT 0, ADD COLUMN "tauxTVA" DECIMAL(5,2) NOT NULL DEFAULT 0, ADD COLUMN "montantTTC" DECIMAL(12,3) NOT NULL DEFAULT 0, ADD COLUMN "statutPaiement" "StatutPaiementFournisseur" NOT NULL DEFAULT 'NON_PAYEE';
+ALTER TABLE "charges_cnss" DROP COLUMN "factureFournisseurId", ADD COLUMN "totalCnss" DECIMAL(12,3) NOT NULL DEFAULT 0, ADD COLUMN "statutPaiement" "StatutPaiementFournisseur" NOT NULL DEFAULT 'NON_PAYEE';
+ALTER TABLE "charges_9ba4a" DROP COLUMN "factureFournisseurId", ADD COLUMN "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, ADD COLUMN "montant" DECIMAL(12,3) NOT NULL DEFAULT 0, ADD COLUMN "statutPaiement" "StatutPaiementFournisseur" NOT NULL DEFAULT 'NON_PAYEE';
+CREATE UNIQUE INDEX "charges_generales_numeroCharge_key" ON "charges_generales"("numeroCharge");
+CREATE UNIQUE INDEX "charges_9ba4a_numero_key" ON "charges_9ba4a"("numero");

@@ -58,16 +58,39 @@ export const ModelName = {
   SousCategorie: 'SousCategorie',
   Marque: 'Marque',
   Produit: 'Produit',
+  StockMovement: 'StockMovement',
+  PurchasePriceHistory: 'PurchasePriceHistory',
   Commande: 'Commande',
   LigneCommande: 'LigneCommande',
+  BonLivraison: 'BonLivraison',
+  LigneBonLivraison: 'LigneBonLivraison',
   Facture: 'Facture',
+  Devis: 'Devis',
+  LigneDevis: 'LigneDevis',
+  FactureBonLivraison: 'FactureBonLivraison',
   LigneFacture: 'LigneFacture',
+  Paiement: 'Paiement',
+  Service: 'Service',
   AlerteSite: 'AlerteSite',
   AnnonceSite: 'AnnonceSite',
   BanniereSite: 'BanniereSite',
   VideoHero: 'VideoHero',
   TokenReset: 'TokenReset',
-  InfoSociete: 'InfoSociete'
+  NewsletterAbonne: 'NewsletterAbonne',
+  InfoSociete: 'InfoSociete',
+  Exercice: 'Exercice',
+  DocumentSequence: 'DocumentSequence',
+  Fournisseur: 'Fournisseur',
+  BonCommande: 'BonCommande',
+  LigneBonCommande: 'LigneBonCommande',
+  BonReception: 'BonReception',
+  LigneBonReception: 'LigneBonReception',
+  FactureFournisseur: 'FactureFournisseur',
+  ChargeGenerale: 'ChargeGenerale',
+  ChargeCnss: 'ChargeCnss',
+  Charge9ba4a: 'Charge9ba4a',
+  LigneFactureFournisseur: 'LigneFactureFournisseur',
+  PaiementFactureFournisseur: 'PaiementFactureFournisseur'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -186,7 +209,13 @@ export const ProduitScalarFieldEnum = {
   description: 'description',
   expirationDate: 'expirationDate',
   prix: 'prix',
+  prixAchat: 'prixAchat',
+  cump: 'cump',
+  tva: 'tva',
   stock: 'stock',
+  qteAchat: 'qteAchat',
+  qteVente: 'qteVente',
+  disponibleALaVente: 'disponibleALaVente',
   images: 'images',
   video: 'video',
   motsCles: 'motsCles',
@@ -202,8 +231,52 @@ export const ProduitScalarFieldEnum = {
 export type ProduitScalarFieldEnum = (typeof ProduitScalarFieldEnum)[keyof typeof ProduitScalarFieldEnum]
 
 
+export const StockMovementScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  quantity: 'quantity',
+  stockDelta: 'stockDelta',
+  quantityCosted: 'quantityCosted',
+  quantityPending: 'quantityPending',
+  unitPrice: 'unitPrice',
+  unitCost: 'unitCost',
+  totalCost: 'totalCost',
+  totalValue: 'totalValue',
+  cump: 'cump',
+  stockAfter: 'stockAfter',
+  valuation: 'valuation',
+  depot: 'depot',
+  documentType: 'documentType',
+  nature: 'nature',
+  productId: 'productId',
+  reference: 'reference',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  operationKey: 'operationKey'
+} as const
+
+export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
+
+
+export const PurchasePriceHistoryScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  quantity: 'quantity',
+  unitPriceHT: 'unitPriceHT',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  bonReceptionId: 'bonReceptionId',
+  createdAt: 'createdAt'
+} as const
+
+export type PurchasePriceHistoryScalarFieldEnum = (typeof PurchasePriceHistoryScalarFieldEnum)[keyof typeof PurchasePriceHistoryScalarFieldEnum]
+
+
 export const CommandeScalarFieldEnum = {
   id: 'id',
+  numero: 'numero',
   utilisateurId: 'utilisateurId',
   statut: 'statut',
   total: 'total',
@@ -225,12 +298,57 @@ export const LigneCommandeScalarFieldEnum = {
 export type LigneCommandeScalarFieldEnum = (typeof LigneCommandeScalarFieldEnum)[keyof typeof LigneCommandeScalarFieldEnum]
 
 
+export const BonLivraisonScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  commandeId: 'commandeId',
+  utilisateurId: 'utilisateurId',
+  devisId: 'devisId',
+  clientNom: 'clientNom',
+  clientMF: 'clientMF',
+  clientAdresse: 'clientAdresse',
+  clientTel: 'clientTel',
+  clientEmail: 'clientEmail',
+  dateLivraison: 'dateLivraison',
+  statut: 'statut',
+  stockMisAJour: 'stockMisAJour',
+  commentaire: 'commentaire',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type BonLivraisonScalarFieldEnum = (typeof BonLivraisonScalarFieldEnum)[keyof typeof BonLivraisonScalarFieldEnum]
+
+
+export const LigneBonLivraisonScalarFieldEnum = {
+  id: 'id',
+  bonId: 'bonId',
+  produitId: 'produitId',
+  designation: 'designation',
+  quantiteCmd: 'quantiteCmd',
+  quantiteLivree: 'quantiteLivree',
+  prixUnitaireHT: 'prixUnitaireHT',
+  tauxTVA: 'tauxTVA'
+} as const
+
+export type LigneBonLivraisonScalarFieldEnum = (typeof LigneBonLivraisonScalarFieldEnum)[keyof typeof LigneBonLivraisonScalarFieldEnum]
+
+
 export const FactureScalarFieldEnum = {
   id: 'id',
   numero: 'numero',
+  numeroAvoir: 'numeroAvoir',
   statut: 'statut',
+  statutPaiement: 'statutPaiement',
+  typeFacture: 'typeFacture',
+  etat: 'etat',
   commandeId: 'commandeId',
+  bonLivraisonId: 'bonLivraisonId',
+  utilisateurId: 'utilisateurId',
+  devisId: 'devisId',
   dateEmission: 'dateEmission',
+  dateEcheance: 'dateEcheance',
+  dateEstimationPaiement: 'dateEstimationPaiement',
   clientNom: 'clientNom',
   clientMF: 'clientMF',
   clientAdresse: 'clientAdresse',
@@ -240,13 +358,72 @@ export const FactureScalarFieldEnum = {
   montantHT: 'montantHT',
   montantTVA: 'montantTVA',
   montantTTC: 'montantTTC',
+  retenueSurce: 'retenueSurce',
   montantEnLettres: 'montantEnLettres',
+  devise: 'devise',
+  commentaire: 'commentaire',
+  projet: 'projet',
+  incoterm: 'incoterm',
+  origineDesProuits: 'origineDesProuits',
   fichierPdf: 'fichierPdf',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
 
 export type FactureScalarFieldEnum = (typeof FactureScalarFieldEnum)[keyof typeof FactureScalarFieldEnum]
+
+
+export const DevisScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  dateDevis: 'dateDevis',
+  dateValidite: 'dateValidite',
+  statut: 'statut',
+  etat: 'etat',
+  typeDevis: 'typeDevis',
+  devise: 'devise',
+  utilisateurId: 'utilisateurId',
+  clientNom: 'clientNom',
+  clientMF: 'clientMF',
+  clientAdresse: 'clientAdresse',
+  clientTelephone: 'clientTelephone',
+  clientEmail: 'clientEmail',
+  timbreFiscal: 'timbreFiscal',
+  montantHT: 'montantHT',
+  montantRemise: 'montantRemise',
+  montantTVA: 'montantTVA',
+  montantTTC: 'montantTTC',
+  commentaire: 'commentaire',
+  fichierPdf: 'fichierPdf',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type DevisScalarFieldEnum = (typeof DevisScalarFieldEnum)[keyof typeof DevisScalarFieldEnum]
+
+
+export const LigneDevisScalarFieldEnum = {
+  id: 'id',
+  devisId: 'devisId',
+  produitId: 'produitId',
+  serviceId: 'serviceId',
+  designation: 'designation',
+  quantite: 'quantite',
+  prixUnitaireHT: 'prixUnitaireHT',
+  remise: 'remise',
+  tauxTVA: 'tauxTVA',
+  totalHT: 'totalHT'
+} as const
+
+export type LigneDevisScalarFieldEnum = (typeof LigneDevisScalarFieldEnum)[keyof typeof LigneDevisScalarFieldEnum]
+
+
+export const FactureBonLivraisonScalarFieldEnum = {
+  factureId: 'factureId',
+  bonLivraisonId: 'bonLivraisonId'
+} as const
+
+export type FactureBonLivraisonScalarFieldEnum = (typeof FactureBonLivraisonScalarFieldEnum)[keyof typeof FactureBonLivraisonScalarFieldEnum]
 
 
 export const LigneFactureScalarFieldEnum = {
@@ -260,6 +437,29 @@ export const LigneFactureScalarFieldEnum = {
 } as const
 
 export type LigneFactureScalarFieldEnum = (typeof LigneFactureScalarFieldEnum)[keyof typeof LigneFactureScalarFieldEnum]
+
+
+export const PaiementScalarFieldEnum = {
+  id: 'id',
+  factureId: 'factureId',
+  montant: 'montant',
+  modePaiement: 'modePaiement',
+  datePaiement: 'datePaiement',
+  reference: 'reference',
+  commentaire: 'commentaire',
+  creeLe: 'creeLe'
+} as const
+
+export type PaiementScalarFieldEnum = (typeof PaiementScalarFieldEnum)[keyof typeof PaiementScalarFieldEnum]
+
+
+export const ServiceScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  actif: 'actif'
+} as const
+
+export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
 
 
 export const AlerteSiteScalarFieldEnum = {
@@ -336,6 +536,16 @@ export const TokenResetScalarFieldEnum = {
 export type TokenResetScalarFieldEnum = (typeof TokenResetScalarFieldEnum)[keyof typeof TokenResetScalarFieldEnum]
 
 
+export const NewsletterAbonneScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  actif: 'actif',
+  creeLe: 'creeLe'
+} as const
+
+export type NewsletterAbonneScalarFieldEnum = (typeof NewsletterAbonneScalarFieldEnum)[keyof typeof NewsletterAbonneScalarFieldEnum]
+
+
 export const InfoSocieteScalarFieldEnum = {
   id: 'id',
   nomSociete: 'nomSociete',
@@ -344,10 +554,276 @@ export const InfoSocieteScalarFieldEnum = {
   email: 'email',
   adresse: 'adresse',
   siteWeb: 'siteWeb',
+  valeursTva: 'valeursTva',
+  valeursTimbre: 'valeursTimbre',
+  tauxFrais: 'tauxFrais',
+  timbreFiscal: 'timbreFiscal',
   misAJourLe: 'misAJourLe'
 } as const
 
 export type InfoSocieteScalarFieldEnum = (typeof InfoSocieteScalarFieldEnum)[keyof typeof InfoSocieteScalarFieldEnum]
+
+
+export const ExerciceScalarFieldEnum = {
+  id: 'id',
+  annee: 'annee',
+  label: 'label',
+  dateDebut: 'dateDebut',
+  dateFin: 'dateFin',
+  isActif: 'isActif',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type ExerciceScalarFieldEnum = (typeof ExerciceScalarFieldEnum)[keyof typeof ExerciceScalarFieldEnum]
+
+
+export const DocumentSequenceScalarFieldEnum = {
+  id: 'id',
+  exerciseId: 'exerciseId',
+  documentType: 'documentType',
+  lastNumber: 'lastNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DocumentSequenceScalarFieldEnum = (typeof DocumentSequenceScalarFieldEnum)[keyof typeof DocumentSequenceScalarFieldEnum]
+
+
+export const FournisseurScalarFieldEnum = {
+  id: 'id',
+  nom: 'nom',
+  contactNom: 'contactNom',
+  contactPrenom: 'contactPrenom',
+  email: 'email',
+  telephone: 'telephone',
+  telephone2: 'telephone2',
+  adresse: 'adresse',
+  ville: 'ville',
+  codePostal: 'codePostal',
+  pays: 'pays',
+  matriculeFiscale: 'matriculeFiscale',
+  registreCommerce: 'registreCommerce',
+  categorie: 'categorie',
+  delaiPaiement: 'delaiPaiement',
+  modePaiement: 'modePaiement',
+  rib: 'rib',
+  banque: 'banque',
+  siteWeb: 'siteWeb',
+  notes: 'notes',
+  actif: 'actif',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type FournisseurScalarFieldEnum = (typeof FournisseurScalarFieldEnum)[keyof typeof FournisseurScalarFieldEnum]
+
+
+export const BonCommandeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  dateCommande: 'dateCommande',
+  dateLivraisonPrevue: 'dateLivraisonPrevue',
+  statut: 'statut',
+  fournisseurId: 'fournisseurId',
+  fournisseurNom: 'fournisseurNom',
+  fournisseurMF: 'fournisseurMF',
+  fournisseurAdresse: 'fournisseurAdresse',
+  fournisseurTel: 'fournisseurTel',
+  fournisseurEmail: 'fournisseurEmail',
+  devise: 'devise',
+  montantHT: 'montantHT',
+  montantRemise: 'montantRemise',
+  montantTVA: 'montantTVA',
+  timbreFiscal: 'timbreFiscal',
+  montantTTC: 'montantTTC',
+  commentaire: 'commentaire',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type BonCommandeScalarFieldEnum = (typeof BonCommandeScalarFieldEnum)[keyof typeof BonCommandeScalarFieldEnum]
+
+
+export const LigneBonCommandeScalarFieldEnum = {
+  id: 'id',
+  bonCommandeId: 'bonCommandeId',
+  produitId: 'produitId',
+  designation: 'designation',
+  quantite: 'quantite',
+  prixUnitaireHT: 'prixUnitaireHT',
+  remise: 'remise',
+  tauxTVA: 'tauxTVA',
+  totalHT: 'totalHT'
+} as const
+
+export type LigneBonCommandeScalarFieldEnum = (typeof LigneBonCommandeScalarFieldEnum)[keyof typeof LigneBonCommandeScalarFieldEnum]
+
+
+export const BonReceptionScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  dateReception: 'dateReception',
+  statut: 'statut',
+  stockMisAJour: 'stockMisAJour',
+  bonCommandeId: 'bonCommandeId',
+  fournisseurId: 'fournisseurId',
+  fournisseurNom: 'fournisseurNom',
+  commentaire: 'commentaire',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type BonReceptionScalarFieldEnum = (typeof BonReceptionScalarFieldEnum)[keyof typeof BonReceptionScalarFieldEnum]
+
+
+export const LigneBonReceptionScalarFieldEnum = {
+  id: 'id',
+  bonReceptionId: 'bonReceptionId',
+  produitId: 'produitId',
+  designation: 'designation',
+  quantiteCmd: 'quantiteCmd',
+  quantiteRecue: 'quantiteRecue',
+  prixUnitaireHT: 'prixUnitaireHT',
+  tauxTVA: 'tauxTVA'
+} as const
+
+export type LigneBonReceptionScalarFieldEnum = (typeof LigneBonReceptionScalarFieldEnum)[keyof typeof LigneBonReceptionScalarFieldEnum]
+
+
+export const FactureFournisseurScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  numeroFactureFournisseur: 'numeroFactureFournisseur',
+  statut: 'statut',
+  statutPaiement: 'statutPaiement',
+  typeFacture: 'typeFacture',
+  categorie: 'categorie',
+  etat: 'etat',
+  dateFacture: 'dateFacture',
+  dateEcheance: 'dateEcheance',
+  bonCommandeId: 'bonCommandeId',
+  bonReceptionId: 'bonReceptionId',
+  fournisseurId: 'fournisseurId',
+  fournisseurNom: 'fournisseurNom',
+  fournisseurMF: 'fournisseurMF',
+  fournisseurAdresse: 'fournisseurAdresse',
+  fournisseurTel: 'fournisseurTel',
+  fournisseurEmail: 'fournisseurEmail',
+  devise: 'devise',
+  montantHT: 'montantHT',
+  montantRemise: 'montantRemise',
+  montantTVA: 'montantTVA',
+  timbreFiscal: 'timbreFiscal',
+  equilibre: 'equilibre',
+  montantTTC: 'montantTTC',
+  montantPaye: 'montantPaye',
+  solde: 'solde',
+  calculManuel: 'calculManuel',
+  stockMisAJour: 'stockMisAJour',
+  commentaire: 'commentaire',
+  documentJointUrl: 'documentJointUrl',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type FactureFournisseurScalarFieldEnum = (typeof FactureFournisseurScalarFieldEnum)[keyof typeof FactureFournisseurScalarFieldEnum]
+
+
+export const ChargeGeneraleScalarFieldEnum = {
+  id: 'id',
+  numeroCharge: 'numeroCharge',
+  date: 'date',
+  nature: 'nature',
+  description: 'description',
+  periodeConcernee: 'periodeConcernee',
+  beneficiaire: 'beneficiaire',
+  montantHT: 'montantHT',
+  tauxTVA: 'tauxTVA',
+  montantTTC: 'montantTTC',
+  statutPaiement: 'statutPaiement',
+  modePaiement: 'modePaiement',
+  datePaiement: 'datePaiement',
+  referenceFacture: 'referenceFacture',
+  pieceJustificativeUrl: 'pieceJustificativeUrl',
+  notes: 'notes',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type ChargeGeneraleScalarFieldEnum = (typeof ChargeGeneraleScalarFieldEnum)[keyof typeof ChargeGeneraleScalarFieldEnum]
+
+
+export const ChargeCnssScalarFieldEnum = {
+  id: 'id',
+  numeroDeclaration: 'numeroDeclaration',
+  periodeDeclaration: 'periodeDeclaration',
+  matriculeEmployeur: 'matriculeEmployeur',
+  nombreSalaries: 'nombreSalaries',
+  masseSalariale: 'masseSalariale',
+  partPatronale: 'partPatronale',
+  partSalariale: 'partSalariale',
+  totalCnss: 'totalCnss',
+  statutPaiement: 'statutPaiement',
+  dateLimitePaiement: 'dateLimitePaiement',
+  datePaiement: 'datePaiement',
+  modePaiement: 'modePaiement',
+  referencePaiement: 'referencePaiement',
+  pieceJustificativeUrl: 'pieceJustificativeUrl',
+  notes: 'notes',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type ChargeCnssScalarFieldEnum = (typeof ChargeCnssScalarFieldEnum)[keyof typeof ChargeCnssScalarFieldEnum]
+
+
+export const Charge9ba4aScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  date: 'date',
+  description: 'description',
+  beneficiaire: 'beneficiaire',
+  montant: 'montant',
+  statutPaiement: 'statutPaiement',
+  modePaiement: 'modePaiement',
+  pieceJustificativeUrl: 'pieceJustificativeUrl',
+  notes: 'notes',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type Charge9ba4aScalarFieldEnum = (typeof Charge9ba4aScalarFieldEnum)[keyof typeof Charge9ba4aScalarFieldEnum]
+
+
+export const LigneFactureFournisseurScalarFieldEnum = {
+  id: 'id',
+  factureFournisseurId: 'factureFournisseurId',
+  produitId: 'produitId',
+  designation: 'designation',
+  quantite: 'quantite',
+  prixUnitaireHT: 'prixUnitaireHT',
+  remise: 'remise',
+  tauxTVA: 'tauxTVA',
+  totalHT: 'totalHT',
+  totalTTC: 'totalTTC'
+} as const
+
+export type LigneFactureFournisseurScalarFieldEnum = (typeof LigneFactureFournisseurScalarFieldEnum)[keyof typeof LigneFactureFournisseurScalarFieldEnum]
+
+
+export const PaiementFactureFournisseurScalarFieldEnum = {
+  id: 'id',
+  factureFournisseurId: 'factureFournisseurId',
+  montant: 'montant',
+  modePaiement: 'modePaiement',
+  datePaiement: 'datePaiement',
+  reference: 'reference',
+  commentaire: 'commentaire',
+  creeLe: 'creeLe'
+} as const
+
+export type PaiementFactureFournisseurScalarFieldEnum = (typeof PaiementFactureFournisseurScalarFieldEnum)[keyof typeof PaiementFactureFournisseurScalarFieldEnum]
 
 
 export const SortOrder = {

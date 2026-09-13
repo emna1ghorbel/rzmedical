@@ -21,6 +21,7 @@ import {
   getMyOrders,
   imageUrl,
   updateMe,
+  downloadInvoicePdf,
 } from "@/lib/api";
 import type { Commande, StatutCommande, Utilisateur } from "@/lib/types";
 import { formatDate, formatTND, orderNumber, STATUT_LABELS } from "@/lib/format";
@@ -737,13 +738,28 @@ function OrdersPanel({ token }: { token: string }) {
   return (
     <div className="space-y-5">
       {orders.map((order) => (
-        <OrderCard key={order.id} order={order} />
+        <OrderCard key={order.id} order={order} token={token} />
       ))}
     </div>
   );
 }
 
-function OrderCard({ order }: { order: Commande }) {
+function OrderCard({ order, token }: { order: Commande; token: string }) {
+  const toast = useToast();
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadInvoice = async () => {
+    if (!order.facture) return;
+    setDownloading(true);
+    try {
+      await downloadInvoicePdf(token, order.facture.id, order.facture.numero);
+    } catch (err: any) {
+      toast.error(err.message || "Impossible de télécharger la facture.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <article className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-surface-2 px-5 py-4">
@@ -816,21 +832,35 @@ function OrderCard({ order }: { order: Commande }) {
         })}
       </ul>
 
-      {order.facture && (
+      {(order.bonsLivraison?.length || order.facture) && (
         <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-border bg-surface-2 px-5 py-3.5">
-          <p className="text-sm text-muted">
-            Facture <span className="font-semibold text-navy-900">N° {order.facture.numero}</span>
-          </p>
-          {order.facture.fichierPdf && (
-            <a
-              href={imageUrl(order.facture.fichierPdf)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-azure-600 transition-colors hover:text-azure-700"
-            >
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted">
+            {order.bonsLivraison?.map((bon) => (
+              <p key={bon.id}>
+                Bon de livraison <span className="font-semibold text-navy-900">{bon.code}</span>
+                <span className="ml-2 text-xs">({bon.statut})</span>
+              </p>
+            ))}
+            {order.facture && (
+              <p>
+                Facture <span className="font-semibold text-navy-900">N° {order.facture.numero}</span>
+              </p>
+            )}
+          </div>
+          {order.facture && (
+          <button
+            type="button"
+            onClick={handleDownloadInvoice}
+            disabled={downloading}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-azure-600 transition-colors hover:text-azure-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {downloading ? (
+              <span className="h-4 w-4 shrink-0 rounded-full border-2 border-azure-600 border-t-transparent animate-spin" />
+            ) : (
               <DownloadIcon size={16} />
-              Télécharger la facture
-            </a>
+            )}
+            Télécharger la facture
+          </button>
           )}
         </footer>
       )}

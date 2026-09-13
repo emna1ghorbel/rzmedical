@@ -18,6 +18,15 @@ import siteContentRoutes from './modules/site-content/site-content.routes';
 import invoicesRoutes from './modules/invoices/invoices.routes';
 import supportRoutes from './modules/support/support.routes';
 import companyInfoRoutes from './modules/company-info/company-info.routes';
+import newsletterRoutes from './modules/newsletter/newsletter.routes';
+import bonsLivraisonRoutes from './modules/bons-livraison/bons-livraison.routes';
+import servicesRoutes from './modules/services/services.routes';
+import devisRoutes from './modules/devis/devis.routes';
+import exercicesRoutes from './modules/exercices/exercices.routes';
+import fournisseursRoutes from './modules/fournisseurs/fournisseurs.routes';
+import tiersRoutes from './modules/tiers/tiers.routes';
+import achatsRoutes from './modules/achats/achats.routes';
+import stockRoutes from './modules/stock/stock.routes';
 
 const app = express();
 
@@ -50,6 +59,15 @@ app.use('/api/site-content', siteContentRoutes);
 app.use('/api/invoices', invoicesRoutes);
 app.use('/api/support', supportRoutes);
 app.use('/api/company-info', companyInfoRoutes);
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/bons-livraison', bonsLivraisonRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/devis', devisRoutes);
+app.use('/api/exercices', exercicesRoutes);
+app.use('/api/fournisseurs', fournisseursRoutes);
+app.use('/api/tiers', tiersRoutes);
+app.use('/api/achats', achatsRoutes);
+app.use('/api/stock', stockRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Bienvenue sur l\'API MediSupply' });

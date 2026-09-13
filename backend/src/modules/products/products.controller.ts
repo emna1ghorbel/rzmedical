@@ -76,13 +76,13 @@ export const getByReference = async (req: Request, res: Response) => {
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const { nom, reference, description, expirationDate, prix, remise, stock, images, video, motsCles, ficheTechnique, disponible, sousCategorieId, marqueId } = req.body;
+    const { nom, reference, description, expirationDate, prix, prixAchat, tva, remise, stock, images, video, motsCles, ficheTechnique, disponible, disponibleALaVente, sousCategorieId, marqueId } = req.body;
     if (!nom || !reference || prix === undefined || !sousCategorieId || !marqueId) {
       return res.status(400).json({ error: 'Champs requis manquants' });
     }
     const data = await service.create({
-      nom, reference, description, expirationDate: expirationDate ? new Date(expirationDate) : null, prix: Number(prix), remise: remise !== undefined ? Number(remise) : 0, stock: stock ? Number(stock) : 0,
-      images, video, motsCles, ficheTechnique, disponible, sousCategorieId: Number(sousCategorieId), marqueId: Number(marqueId)
+      nom, reference, description, expirationDate: expirationDate ? new Date(expirationDate) : null, prix: Number(prix), prixAchat: prixAchat !== undefined && prixAchat !== null ? Number(prixAchat) : null, tva: tva !== undefined ? Number(tva) : 0, remise: remise !== undefined ? Number(remise) : 0, stock: stock ? Number(stock) : 0,
+      images, video, motsCles, ficheTechnique, disponible, disponibleALaVente: disponibleALaVente ?? disponible ?? true, sousCategorieId: Number(sousCategorieId), marqueId: Number(marqueId)
     });
     res.status(201).json(data);
   } catch (err: any) {
@@ -95,8 +95,13 @@ export const update = async (req: Request, res: Response) => {
   try {
     const updateData = { ...req.body };
     if (updateData.prix !== undefined) updateData.prix = Number(updateData.prix);
+    if (updateData.prixAchat !== undefined) updateData.prixAchat = updateData.prixAchat !== null ? Number(updateData.prixAchat) : null;
+    if (updateData.tva !== undefined) updateData.tva = Number(updateData.tva);
     if (updateData.remise !== undefined) updateData.remise = Number(updateData.remise);
     if (updateData.stock !== undefined) updateData.stock = Number(updateData.stock);
+    if (updateData.disponibleALaVente === undefined && updateData.disponible !== undefined) {
+      updateData.disponibleALaVente = updateData.disponible;
+    }
     if (updateData.sousCategorieId !== undefined) updateData.sousCategorieId = Number(updateData.sousCategorieId);
     if (updateData.marqueId !== undefined) updateData.marqueId = Number(updateData.marqueId);
     if (updateData.expirationDate !== undefined) updateData.expirationDate = updateData.expirationDate ? new Date(updateData.expirationDate) : null;
