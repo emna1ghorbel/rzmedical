@@ -8,7 +8,7 @@ test('stock : la quantité exposée correspond au produit retourné par l’API'
   await mockProductReferenceData(page);
   await page.goto('/stock');
 
-  await expect(page.getByRole('heading', { name: 'Stock' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Stock', exact: true })).toBeVisible();
   await expect(page.getByText(productFixture.nom)).toBeVisible();
-  await expect(page.getByText(String(productFixture.stock), { exact: true })).toBeVisible();
+  await expect(page.getByText(`${productFixture.stock} en stock`)).toBeVisible();
 });

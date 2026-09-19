@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test';
 import { productReferenceData } from '../data/test-data';
 
 export async function mockProductReferenceData(page: Page) {
-  await page.route('**/api/products', async route => {
+  await page.route('**/api/products*', async route => {
     if (route.request().method() === 'GET') {
       await route.fulfill({ contentType: 'application/json', body: JSON.stringify(productReferenceData.products) });
       return;

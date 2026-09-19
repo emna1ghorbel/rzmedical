@@ -11,7 +11,7 @@ test.describe('Produits — liste et validation UI', () => {
 
   test('affiche, recherche et ouvre le formulaire de création avec les référentiels', async ({ page }) => {
     await page.goto('/products');
-    await expect(page.getByRole('heading', { name: 'Produits' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Gestion des produits' })).toBeVisible();
     await expect(page.getByText(productFixture.nom)).toBeVisible();
 
     const search = page.getByPlaceholder('Rechercher nom, réf, marque...');

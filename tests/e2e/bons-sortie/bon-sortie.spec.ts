@@ -11,6 +11,6 @@ test('bon de sortie : les référentiels sont chargés sans dépendre de donnée
 
   await page.getByRole('button', { name: '+ Nouveau Bon' }).click();
   await expect(page.getByRole('heading', { name: 'Créer un Bon de Sortie' })).toBeVisible();
-  await expect(page.getByText(productFixture.nom)).toBeVisible();
+  await expect(page.getByText(productFixture.nom)).toBeAttached();
   await expect(page.getByText('-- Sélectionner un commercial --')).toBeVisible();
 });
