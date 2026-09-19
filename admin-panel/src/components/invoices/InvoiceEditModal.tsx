@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { getApiUrl } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
-import { DEFAULT_TIMBRE_FISCAL } from "@/utils/invoiceConfig";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import CustomDatePicker from "./CustomDatePicker";
 
 const API_URL = getApiUrl();
@@ -33,6 +33,7 @@ export default function InvoiceEditModal({
   onSuccess,
 }: InvoiceEditProps) {
   const { getToken } = useAuth();
+  const { defaultTimbre, defaultTva, tvaRates: companyTvaRates, timbreRates: companyTimbreRates } = useCompanyInfo();
 
   // Trouver la date de la dernière facture antérieure pour désactiver les dates précédentes
   const minDateEmission = useMemo(() => {
@@ -67,7 +68,7 @@ export default function InvoiceEditModal({
 
   // Financials
   const [timbreFiscal, setTimbreFiscal] = useState<number>(
-    invoice.timbreFiscal !== undefined ? Number(invoice.timbreFiscal) : DEFAULT_TIMBRE_FISCAL
+    invoice.timbreFiscal !== undefined ? Number(invoice.timbreFiscal) : defaultTimbre
   );
   const [retenueSurce, setRetenueSurce] = useState<number>(
     invoice.retenueSurce !== undefined ? Number(invoice.retenueSurce) : 0
@@ -90,7 +91,7 @@ export default function InvoiceEditModal({
         designation: "",
         quantite: 1,
         prixUnitaireHT: 0,
-        tauxTVA: 19,
+        tauxTVA: defaultTva,
         totalHT: 0,
       },
     ];
@@ -99,27 +100,16 @@ export default function InvoiceEditModal({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ── Config société : taux TVA et timbre fiscal depuis la base
-  const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([]);
-  const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([]);
-
   useEffect(() => {
-    fetch(`${API_URL}/company-info`)
-      .then(r => r.json())
-      .then(data => {
-        if (Array.isArray(data.valeursTva) && data.valeursTva.length > 0) {
-          const rates = data.valeursTva.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b);
-          setCompanyTvaRates(rates);
-          setLignes((prev) => prev.map((line) => ({ ...line, tauxTVA: rates.includes(line.tauxTVA) ? line.tauxTVA : rates[0] })));
-        }
-        if (Array.isArray(data.valeursTimbre) && data.valeursTimbre.length > 0) {
-          const rates = data.valeursTimbre.map(Number).filter(Number.isFinite).sort((a: number, b: number) => a - b);
-          setCompanyTimbreRates(rates);
-          setTimbreFiscal((value) => rates.includes(value) ? value : rates[0]);
-        }
-      })
-      .catch(console.error);
-  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+    if (companyTvaRates.length > 0) {
+      setLignes((prev) =>
+        prev.map((line) => ({
+          ...line,
+          tauxTVA: companyTvaRates.includes(line.tauxTVA) ? line.tauxTVA : defaultTva,
+        }))
+      );
+    }
+  }, [companyTvaRates, defaultTva]);
 
   // Calculations
   const updateLine = (idx: number, field: keyof EditLine, val: any) => {

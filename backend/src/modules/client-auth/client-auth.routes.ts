@@ -64,7 +64,7 @@ router.post('/register', async (req: Request, res: Response) => {
 
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    const existing = await prisma.utilisateur.findUnique({ where: { email: normalizedEmail } });
+    const existing = await prisma.utilisateur.findFirst({ where: { email: normalizedEmail, typeUtilisateur: 'CLIENT' } });
     if (existing) {
       return res.status(409).json({ error: 'Un compte avec cet email existe deja' });
     }
@@ -119,9 +119,9 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     const normalizedEmail = String(email).trim().toLowerCase();
-    const user = await prisma.utilisateur.findUnique({ where: { email: normalizedEmail } });
+    const user = await prisma.utilisateur.findFirst({ where: { email: normalizedEmail, typeUtilisateur: 'CLIENT' } });
 
-    if (!user || user.typeUtilisateur !== 'CLIENT') {
+    if (!user) {
       return res.status(401).json({ error: 'Email ou mot de passe incorrect' });
     }
 
@@ -152,8 +152,8 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
     const normalizedEmail = String(email).trim().toLowerCase();
     const genericResponse = { message: "Si ce compte existe, un email de reinitialisation a ete envoye." };
 
-    const user = await prisma.utilisateur.findUnique({ where: { email: normalizedEmail } });
-    if (!user || user.typeUtilisateur !== 'CLIENT') {
+    const user = await prisma.utilisateur.findFirst({ where: { email: normalizedEmail, typeUtilisateur: 'CLIENT' } });
+    if (!user) {
       return res.json(genericResponse);
     }
 
@@ -255,7 +255,7 @@ router.patch('/me', requireClient, async (req: AuthRequest, res: Response) => {
 
     if (email !== undefined) {
       const normalizedEmail = String(email).trim().toLowerCase();
-      const existing = await prisma.utilisateur.findUnique({ where: { email: normalizedEmail } });
+      const existing = await prisma.utilisateur.findFirst({ where: { email: normalizedEmail, typeUtilisateur: 'CLIENT' } });
       if (existing && existing.id !== userId) {
         return res.status(409).json({ error: 'Cet email est deja utilise' });
       }

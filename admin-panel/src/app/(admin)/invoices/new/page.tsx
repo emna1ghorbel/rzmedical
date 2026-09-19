@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, Suspense, useRef, useMemo } fr
 import { useRouter, useSearchParams } from "next/navigation";
 import { getApiUrl } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
-import { DEFAULT_TIMBRE_FISCAL, DEFAULT_TVA_RATE } from "@/utils/invoiceConfig";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import CustomDatePicker from "@/components/invoices/CustomDatePicker";
 import SearchableSelect from "@/components/invoices/SearchableSelect";
 import { useExercice } from "@/context/ExerciceContext";
@@ -62,6 +62,27 @@ interface BonLivraison {
   }[];
 }
 
+interface BonSortie {
+  id: number;
+  code: string;
+  statut: string;
+  commercialId: number;
+  commercial: { nom: string; prenom: string };
+  lignes?: {
+    id: number;
+    produitId: number;
+    quantite: number;
+    produit: {
+      id: number;
+      nom: string;
+      prixVenteHT: number;
+      prix: number;
+      remise: number;
+      tva: number;
+    };
+  }[];
+}
+
 interface InvoiceLine {
   produitId?: number;
   serviceId?: number;
@@ -104,6 +125,7 @@ function AddFactureForm() {
   const blIdParam = searchParams.get("blId");
   const { getToken } = useAuth();
   const { activeExercice } = useExercice();
+  const { defaultTimbre, defaultTva, tvaRates, timbreRates } = useCompanyInfo();
 
   const [type, setType] = useState<FactureType>("PRODUITS");
 
@@ -117,35 +139,14 @@ function AddFactureForm() {
   const [products, setProducts] = useState<Product[]>([]);
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [allBLs, setAllBLs] = useState<BonLivraison[]>([]);
+  const [bonsSortie, setBonsSortie] = useState<BonSortie[]>([]);
 
   // ── Config Société (TVA + Timbre Fiscal depuis la base)
   const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([0, 7, 13, 19]);
   const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([0, 1]);
-  const [companyTimbreFiscal, setCompanyTimbreFiscal] = useState<number>(DEFAULT_TIMBRE_FISCAL);
+  const [companyTimbreFiscal, setCompanyTimbreFiscal] = useState<number>(defaultTimbre);
 
-  // ── Searchable options memoized
-  const clientOptions = useMemo(() => {
-    return clients.map(c => ({
-      value: c.id,
-      label: `${c.nom || ""} ${c.prenom || ""}`.trim() || c.email,
-      sublabel: [c.telephone, c.matriculeFiscale, c.email].filter(Boolean).join(" • "),
-    }));
-  }, [clients]);
 
-  const productOptions = useMemo(() => {
-    return products.map(p => ({
-      value: p.id,
-      label: p.nom,
-      sublabel: `Réf: ${p.reference} • Prix: ${Number(p.prix).toFixed(3)} TND • TVA: ${p.tva}%`,
-    }));
-  }, [products]);
-
-  const serviceOptions = useMemo(() => {
-    return services.filter(s => s.actif).map(s => ({
-      value: s.id,
-      label: s.label,
-    }));
-  }, [services]);
 
   // ── Form — Générales
   const [numero, setNumero] = useState("");
@@ -164,7 +165,7 @@ function AddFactureForm() {
   const [dateEcheance, setDateEcheance] = useState("");
   const [dateEstimation, setDateEstimation] = useState("");
   const [devise, setDevise] = useState("TND");
-  const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
+  const [timbreFiscal, setTimbreFiscal] = useState(defaultTimbre);
   const [addPaiementData, setAddPaiementData] = useState(false);
   const [recurrente, setRecurrente] = useState(false);
   const [addImage, setAddImage] = useState(false);
@@ -182,12 +183,15 @@ function AddFactureForm() {
 
   // ── Form — Lines (Produits / Services)
   const [lignes, setLignes] = useState<InvoiceLine[]>([
-    { designation: "", quantite: 1, quantiteAv: 0, prixUnitaireHT: 0, remise: 0, tauxTVA: DEFAULT_TVA_RATE },
+    { designation: "", quantite: 1, quantiteAv: 0, prixUnitaireHT: 0, remise: 0, tauxTVA: defaultTva },
   ]);
 
   // ── Form — BL multi-selection
   const [selectedBLIds, setSelectedBLIds] = useState<number[]>([]);
   const [clientBLs, setClientBLs] = useState<BonLivraison[]>([]);
+
+  // ── Form — Bon de Sortie (optional)
+  const [selectedBSId, setSelectedBSId] = useState<number | "">("");
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -202,6 +206,41 @@ function AddFactureForm() {
   const [qcAdresse, setQcAdresse] = useState("");
   const [qcTel, setQcTel] = useState("");
   const [qcMatriculeFiscale, setQcMatriculeFiscale] = useState("");
+
+  // ── Searchable options memoized
+  const clientOptions = useMemo(() => {
+    return clients.map(c => ({
+      value: c.id,
+      label: `${c.nom || ""} ${c.prenom || ""}`.trim() || c.email,
+      sublabel: [c.telephone, c.matriculeFiscale, c.email].filter(Boolean).join(" • "),
+    }));
+  }, [clients]);
+
+  const productOptions = useMemo(() => {
+    let filteredProducts = products;
+    
+    // Si un Bon de Sortie est sélectionné, on ne garde que les produits présents dans ce BS
+    if (selectedBSId) {
+      const bs = bonsSortie.find(b => b.id === selectedBSId);
+      if (bs && Array.isArray(bs.lignes)) {
+        const bsProductIds = bs.lignes.map(l => l.produitId);
+        filteredProducts = products.filter(p => bsProductIds.includes(p.id));
+      }
+    }
+
+    return filteredProducts.map(p => ({
+      value: p.id,
+      label: p.nom,
+      sublabel: `Réf: ${p.reference} • Prix: ${Number(p.prix).toFixed(3)} TND • TVA: ${p.tva}%`,
+    }));
+  }, [products, selectedBSId, bonsSortie]);
+
+  const serviceOptions = useMemo(() => {
+    return services.filter(s => s.actif).map(s => ({
+      value: s.id,
+      label: s.label,
+    }));
+  }, [services]);
 
   // ── Fetch BLs
   const fetchBLs = useCallback(() => {
@@ -224,6 +263,16 @@ function AddFactureForm() {
     (bl.factures?.length ?? 0) > 0 ||
     (bl.facturesJonction?.length ?? 0) > 0;
 
+  // ── Handle BS Selection
+  const handleBSSelection = (bsId: number | "") => {
+    setSelectedBSId(bsId);
+    
+    // On vide les lignes actuelles pour forcer la sélection depuis le nouveau stock (BS ou Dépôt)
+    setLignes([
+      { designation: "", quantite: 1, quantiteAv: 0, prixUnitaireHT: 0, remise: 0, tauxTVA: defaultTva }
+    ]);
+  };
+
   // ── Fetch Initial Data
   useEffect(() => {
     const token = getToken();
@@ -232,6 +281,9 @@ function AddFactureForm() {
     fetch(`${API_URL}/clients`, { headers }).then(r => r.json()).then(setClients).catch(console.error);
     fetch(`${API_URL}/products`).then(r => r.json()).then(setProducts).catch(console.error);
     fetch(`${API_URL}/services`, { headers }).then(r => r.json()).then(setServices).catch(console.error);
+    fetch(`${API_URL}/stock-commercial/bons-sortie`, { headers }).then(r => r.json()).then(data => {
+      setBonsSortie(data.filter((bs: BonSortie) => bs.statut === "VALIDE"));
+    }).catch(console.error);
     fetchBLs();
 
     // Charger la configuration société (taux TVA + timbre fiscal)
@@ -321,7 +373,7 @@ function AddFactureForm() {
             quantiteAv: 0,
             prixUnitaireHT: Number(l.prixUnitaire) || Number(l.produit?.prix) || 0,
             remise: Number(l.produit?.remise) || 0,
-            tauxTVA: Number(l.produit?.tva) || DEFAULT_TVA_RATE,
+            tauxTVA: Number(l.produit?.tva) || defaultTva,
           }));
           setLignes(ordLines);
         }
@@ -424,7 +476,7 @@ function AddFactureForm() {
   const addLine = () => {
     setLignes(prev => [...prev, {
       designation: "", quantite: 1, quantiteAv: 0,
-      prixUnitaireHT: 0, remise: 0, tauxTVA: DEFAULT_TVA_RATE,
+      prixUnitaireHT: 0, remise: 0, tauxTVA: defaultTva,
     }]);
   };
 
@@ -437,7 +489,7 @@ function AddFactureForm() {
         if (prod) {
           line.designation = prod.nom;
           line.prixUnitaireHT = Number(prod.prix);
-          line.tauxTVA = Number(prod.tva) || DEFAULT_TVA_RATE;
+          line.tauxTVA = Number(prod.tva) || defaultTva;
           line.remise = Number(prod.remise) || 0;
         }
       }
@@ -580,6 +632,8 @@ function AddFactureForm() {
             projet: projet || undefined,
             incoterm: incoterm || undefined,
             origineDesProuits: origineDesProuits || undefined,
+            bonSortieId: selectedBSId || undefined,
+            commercialId: selectedBSId ? bonsSortie.find(b => b.id === Number(selectedBSId))?.commercialId : undefined,
             lignes: lignesValides.map(l => ({
               produitId: l.produitId || undefined,
               designation: l.designation,
@@ -627,7 +681,7 @@ function AddFactureForm() {
                   } else {
                     setSelectedBLIds([]);
                     setLignes([
-                      { designation: "", quantite: 1, quantiteAv: 0, prixUnitaireHT: 0, remise: 0, tauxTVA: DEFAULT_TVA_RATE },
+                      { designation: "", quantite: 1, quantiteAv: 0, prixUnitaireHT: 0, remise: 0, tauxTVA: defaultTva },
                     ]);
                   }
                 }}
@@ -1116,6 +1170,35 @@ function AddFactureForm() {
             >
               <span className="text-lg">+</span> Ajouter une ligne
             </button>
+
+            {type === "PRODUITS" && (
+              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 max-w-md">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Bon de Sortie (Optionnel - Pour les Commerciaux)
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  value={selectedBSId}
+                  onChange={e => handleBSSelection(Number(e.target.value) || "")}
+                >
+                  <option value="">-- Aucun Bon de Sortie (Stock Dépôt) --</option>
+                  {bonsSortie.map(bs => {
+                    const hasValidatedInventory = bs.inventaires?.some((inv: any) => inv.statut === 'VALIDE');
+                    return (
+                      <option 
+                        key={bs.id} 
+                        value={bs.id} 
+                        disabled={hasValidatedInventory}
+                        className={hasValidatedInventory ? "text-gray-400 bg-gray-50 dark:bg-gray-700" : ""}
+                      >
+                        {bs.code} - {bs.commercial.prenom} {bs.commercial.nom} {hasValidatedInventory ? "(Inventaire Validé - Inutilisable)" : ""}
+                      </option>
+                    );
+                  })}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Si vous sélectionnez un Bon de Sortie, le stock sera déduit de la voiture de ce commercial au lieu du stock principal.</p>
+              </div>
+            )}
           </Section>
         )}
 

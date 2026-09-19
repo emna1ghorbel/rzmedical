@@ -436,7 +436,12 @@ export const ModelName = {
   ChargeCnss: 'ChargeCnss',
   Charge9ba4a: 'Charge9ba4a',
   LigneFactureFournisseur: 'LigneFactureFournisseur',
-  PaiementFactureFournisseur: 'PaiementFactureFournisseur'
+  PaiementFactureFournisseur: 'PaiementFactureFournisseur',
+  StockCommercial: 'StockCommercial',
+  BonSortie: 'BonSortie',
+  LigneBonSortie: 'LigneBonSortie',
+  InventaireCommercial: 'InventaireCommercial',
+  LigneInventaire: 'LigneInventaire'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -452,7 +457,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "utilisateur" | "ticketSupport" | "messageSupport" | "categorie" | "sousCategorie" | "marque" | "produit" | "stockMovement" | "purchasePriceHistory" | "commande" | "ligneCommande" | "bonLivraison" | "ligneBonLivraison" | "facture" | "devis" | "ligneDevis" | "factureBonLivraison" | "ligneFacture" | "paiement" | "service" | "alerteSite" | "annonceSite" | "banniereSite" | "videoHero" | "tokenReset" | "newsletterAbonne" | "infoSociete" | "exercice" | "documentSequence" | "fournisseur" | "bonCommande" | "ligneBonCommande" | "bonReception" | "ligneBonReception" | "factureFournisseur" | "chargeGenerale" | "chargeCnss" | "charge9ba4a" | "ligneFactureFournisseur" | "paiementFactureFournisseur"
+    modelProps: "utilisateur" | "ticketSupport" | "messageSupport" | "categorie" | "sousCategorie" | "marque" | "produit" | "stockMovement" | "purchasePriceHistory" | "commande" | "ligneCommande" | "bonLivraison" | "ligneBonLivraison" | "facture" | "devis" | "ligneDevis" | "factureBonLivraison" | "ligneFacture" | "paiement" | "service" | "alerteSite" | "annonceSite" | "banniereSite" | "videoHero" | "tokenReset" | "newsletterAbonne" | "infoSociete" | "exercice" | "documentSequence" | "fournisseur" | "bonCommande" | "ligneBonCommande" | "bonReception" | "ligneBonReception" | "factureFournisseur" | "chargeGenerale" | "chargeCnss" | "charge9ba4a" | "ligneFactureFournisseur" | "paiementFactureFournisseur" | "stockCommercial" | "bonSortie" | "ligneBonSortie" | "inventaireCommercial" | "ligneInventaire"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3416,6 +3421,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StockCommercial: {
+      payload: Prisma.$StockCommercialPayload<ExtArgs>
+      fields: Prisma.StockCommercialFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StockCommercialFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StockCommercialFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        findFirst: {
+          args: Prisma.StockCommercialFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StockCommercialFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        findMany: {
+          args: Prisma.StockCommercialFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>[]
+        }
+        create: {
+          args: Prisma.StockCommercialCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        createMany: {
+          args: Prisma.StockCommercialCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StockCommercialCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>[]
+        }
+        delete: {
+          args: Prisma.StockCommercialDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        update: {
+          args: Prisma.StockCommercialUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        deleteMany: {
+          args: Prisma.StockCommercialDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StockCommercialUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StockCommercialUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>[]
+        }
+        upsert: {
+          args: Prisma.StockCommercialUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockCommercialPayload>
+        }
+        aggregate: {
+          args: Prisma.StockCommercialAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStockCommercial>
+        }
+        groupBy: {
+          args: Prisma.StockCommercialGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StockCommercialGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StockCommercialCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StockCommercialCountAggregateOutputType> | number
+        }
+      }
+    }
+    BonSortie: {
+      payload: Prisma.$BonSortiePayload<ExtArgs>
+      fields: Prisma.BonSortieFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BonSortieFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BonSortieFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        findFirst: {
+          args: Prisma.BonSortieFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BonSortieFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        findMany: {
+          args: Prisma.BonSortieFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>[]
+        }
+        create: {
+          args: Prisma.BonSortieCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        createMany: {
+          args: Prisma.BonSortieCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BonSortieCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>[]
+        }
+        delete: {
+          args: Prisma.BonSortieDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        update: {
+          args: Prisma.BonSortieUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        deleteMany: {
+          args: Prisma.BonSortieDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BonSortieUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BonSortieUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>[]
+        }
+        upsert: {
+          args: Prisma.BonSortieUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BonSortiePayload>
+        }
+        aggregate: {
+          args: Prisma.BonSortieAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBonSortie>
+        }
+        groupBy: {
+          args: Prisma.BonSortieGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BonSortieGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BonSortieCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BonSortieCountAggregateOutputType> | number
+        }
+      }
+    }
+    LigneBonSortie: {
+      payload: Prisma.$LigneBonSortiePayload<ExtArgs>
+      fields: Prisma.LigneBonSortieFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LigneBonSortieFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LigneBonSortieFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        findFirst: {
+          args: Prisma.LigneBonSortieFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LigneBonSortieFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        findMany: {
+          args: Prisma.LigneBonSortieFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>[]
+        }
+        create: {
+          args: Prisma.LigneBonSortieCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        createMany: {
+          args: Prisma.LigneBonSortieCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LigneBonSortieCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>[]
+        }
+        delete: {
+          args: Prisma.LigneBonSortieDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        update: {
+          args: Prisma.LigneBonSortieUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        deleteMany: {
+          args: Prisma.LigneBonSortieDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LigneBonSortieUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LigneBonSortieUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>[]
+        }
+        upsert: {
+          args: Prisma.LigneBonSortieUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneBonSortiePayload>
+        }
+        aggregate: {
+          args: Prisma.LigneBonSortieAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLigneBonSortie>
+        }
+        groupBy: {
+          args: Prisma.LigneBonSortieGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LigneBonSortieGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LigneBonSortieCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LigneBonSortieCountAggregateOutputType> | number
+        }
+      }
+    }
+    InventaireCommercial: {
+      payload: Prisma.$InventaireCommercialPayload<ExtArgs>
+      fields: Prisma.InventaireCommercialFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventaireCommercialFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventaireCommercialFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        findFirst: {
+          args: Prisma.InventaireCommercialFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventaireCommercialFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        findMany: {
+          args: Prisma.InventaireCommercialFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>[]
+        }
+        create: {
+          args: Prisma.InventaireCommercialCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        createMany: {
+          args: Prisma.InventaireCommercialCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventaireCommercialCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>[]
+        }
+        delete: {
+          args: Prisma.InventaireCommercialDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        update: {
+          args: Prisma.InventaireCommercialUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        deleteMany: {
+          args: Prisma.InventaireCommercialDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventaireCommercialUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventaireCommercialUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>[]
+        }
+        upsert: {
+          args: Prisma.InventaireCommercialUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventaireCommercialPayload>
+        }
+        aggregate: {
+          args: Prisma.InventaireCommercialAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventaireCommercial>
+        }
+        groupBy: {
+          args: Prisma.InventaireCommercialGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventaireCommercialGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventaireCommercialCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventaireCommercialCountAggregateOutputType> | number
+        }
+      }
+    }
+    LigneInventaire: {
+      payload: Prisma.$LigneInventairePayload<ExtArgs>
+      fields: Prisma.LigneInventaireFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LigneInventaireFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LigneInventaireFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        findFirst: {
+          args: Prisma.LigneInventaireFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LigneInventaireFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        findMany: {
+          args: Prisma.LigneInventaireFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>[]
+        }
+        create: {
+          args: Prisma.LigneInventaireCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        createMany: {
+          args: Prisma.LigneInventaireCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LigneInventaireCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>[]
+        }
+        delete: {
+          args: Prisma.LigneInventaireDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        update: {
+          args: Prisma.LigneInventaireUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        deleteMany: {
+          args: Prisma.LigneInventaireDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LigneInventaireUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LigneInventaireUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>[]
+        }
+        upsert: {
+          args: Prisma.LigneInventaireUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LigneInventairePayload>
+        }
+        aggregate: {
+          args: Prisma.LigneInventaireAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLigneInventaire>
+        }
+        groupBy: {
+          args: Prisma.LigneInventaireGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LigneInventaireGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LigneInventaireCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LigneInventaireCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3468,6 +3843,7 @@ export const UtilisateurScalarFieldEnum = {
   typeUtilisateur: 'typeUtilisateur',
   remise: 'remise',
   matriculeFiscale: 'matriculeFiscale',
+  matriculeVoiture: 'matriculeVoiture',
   activite: 'activite',
   activiteCategoryId: 'activiteCategoryId',
   otpCode: 'otpCode',
@@ -3659,6 +4035,8 @@ export const BonLivraisonScalarFieldEnum = {
   statut: 'statut',
   stockMisAJour: 'stockMisAJour',
   commentaire: 'commentaire',
+  commercialId: 'commercialId',
+  bonSortieId: 'bonSortieId',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
@@ -3674,7 +4052,9 @@ export const LigneBonLivraisonScalarFieldEnum = {
   quantiteCmd: 'quantiteCmd',
   quantiteLivree: 'quantiteLivree',
   prixUnitaireHT: 'prixUnitaireHT',
-  tauxTVA: 'tauxTVA'
+  tauxTVA: 'tauxTVA',
+  bonSortieId: 'bonSortieId',
+  ligneBonSortieId: 'ligneBonSortieId'
 } as const
 
 export type LigneBonLivraisonScalarFieldEnum = (typeof LigneBonLivraisonScalarFieldEnum)[keyof typeof LigneBonLivraisonScalarFieldEnum]
@@ -3896,10 +4276,14 @@ export const InfoSocieteScalarFieldEnum = {
   id: 'id',
   nomSociete: 'nomSociete',
   logoUrl: 'logoUrl',
+  matriculeFiscale: 'matriculeFiscale',
   telephone: 'telephone',
+  fax: 'fax',
   email: 'email',
   adresse: 'adresse',
   siteWeb: 'siteWeb',
+  banque: 'banque',
+  rib: 'rib',
   valeursTva: 'valeursTva',
   valeursTimbre: 'valeursTimbre',
   tauxFrais: 'tauxFrais',
@@ -4088,11 +4472,13 @@ export const ChargeGeneraleScalarFieldEnum = {
   tauxTVA: 'tauxTVA',
   montantTTC: 'montantTTC',
   statutPaiement: 'statutPaiement',
+  montantPaye: 'montantPaye',
   modePaiement: 'modePaiement',
   datePaiement: 'datePaiement',
   referenceFacture: 'referenceFacture',
   pieceJustificativeUrl: 'pieceJustificativeUrl',
   notes: 'notes',
+  commercialId: 'commercialId',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
@@ -4111,12 +4497,14 @@ export const ChargeCnssScalarFieldEnum = {
   partSalariale: 'partSalariale',
   totalCnss: 'totalCnss',
   statutPaiement: 'statutPaiement',
+  montantPaye: 'montantPaye',
   dateLimitePaiement: 'dateLimitePaiement',
   datePaiement: 'datePaiement',
   modePaiement: 'modePaiement',
   referencePaiement: 'referencePaiement',
   pieceJustificativeUrl: 'pieceJustificativeUrl',
   notes: 'notes',
+  commercialId: 'commercialId',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
@@ -4132,9 +4520,11 @@ export const Charge9ba4aScalarFieldEnum = {
   beneficiaire: 'beneficiaire',
   montant: 'montant',
   statutPaiement: 'statutPaiement',
+  montantPaye: 'montantPaye',
   modePaiement: 'modePaiement',
   pieceJustificativeUrl: 'pieceJustificativeUrl',
   notes: 'notes',
+  commercialId: 'commercialId',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe'
 } as const
@@ -4170,6 +4560,76 @@ export const PaiementFactureFournisseurScalarFieldEnum = {
 } as const
 
 export type PaiementFactureFournisseurScalarFieldEnum = (typeof PaiementFactureFournisseurScalarFieldEnum)[keyof typeof PaiementFactureFournisseurScalarFieldEnum]
+
+
+export const StockCommercialScalarFieldEnum = {
+  id: 'id',
+  commercialId: 'commercialId',
+  produitId: 'produitId',
+  quantite: 'quantite',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type StockCommercialScalarFieldEnum = (typeof StockCommercialScalarFieldEnum)[keyof typeof StockCommercialScalarFieldEnum]
+
+
+export const BonSortieScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  commercialId: 'commercialId',
+  depotNom: 'depotNom',
+  statut: 'statut',
+  commentaire: 'commentaire',
+  valideLe: 'valideLe',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type BonSortieScalarFieldEnum = (typeof BonSortieScalarFieldEnum)[keyof typeof BonSortieScalarFieldEnum]
+
+
+export const LigneBonSortieScalarFieldEnum = {
+  id: 'id',
+  bonId: 'bonId',
+  produitId: 'produitId',
+  quantite: 'quantite'
+} as const
+
+export type LigneBonSortieScalarFieldEnum = (typeof LigneBonSortieScalarFieldEnum)[keyof typeof LigneBonSortieScalarFieldEnum]
+
+
+export const InventaireCommercialScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  bonSortieId: 'bonSortieId',
+  commercialId: 'commercialId',
+  statut: 'statut',
+  commentaire: 'commentaire',
+  totalEcartQte: 'totalEcartQte',
+  totalValeurEcart: 'totalValeurEcart',
+  valideParId: 'valideParId',
+  valideLe: 'valideLe',
+  creeLe: 'creeLe',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type InventaireCommercialScalarFieldEnum = (typeof InventaireCommercialScalarFieldEnum)[keyof typeof InventaireCommercialScalarFieldEnum]
+
+
+export const LigneInventaireScalarFieldEnum = {
+  id: 'id',
+  inventaireId: 'inventaireId',
+  produitId: 'produitId',
+  quantiteSortie: 'quantiteSortie',
+  quantiteVendue: 'quantiteVendue',
+  quantiteRestante: 'quantiteRestante',
+  quantiteVoiture: 'quantiteVoiture',
+  ecart: 'ecart',
+  pmpSnapshot: 'pmpSnapshot',
+  valeurEcart: 'valeurEcart'
+} as const
+
+export type LigneInventaireScalarFieldEnum = (typeof LigneInventaireScalarFieldEnum)[keyof typeof LigneInventaireScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -4560,6 +5020,34 @@ export type ListEnumEtatFactureFournisseurFieldRefInput<$PrismaModel> = FieldRef
 
 
 /**
+ * Reference to a field of type 'StatutBonCommercial'
+ */
+export type EnumStatutBonCommercialFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutBonCommercial'>
+    
+
+
+/**
+ * Reference to a field of type 'StatutBonCommercial[]'
+ */
+export type ListEnumStatutBonCommercialFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutBonCommercial[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StatutInventaire'
+ */
+export type EnumStatutInventaireFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutInventaire'>
+    
+
+
+/**
+ * Reference to a field of type 'StatutInventaire[]'
+ */
+export type ListEnumStatutInventaireFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutInventaire[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -4763,6 +5251,11 @@ export type GlobalOmitConfig = {
   charge9ba4a?: Prisma.Charge9ba4aOmit
   ligneFactureFournisseur?: Prisma.LigneFactureFournisseurOmit
   paiementFactureFournisseur?: Prisma.PaiementFactureFournisseurOmit
+  stockCommercial?: Prisma.StockCommercialOmit
+  bonSortie?: Prisma.BonSortieOmit
+  ligneBonSortie?: Prisma.LigneBonSortieOmit
+  inventaireCommercial?: Prisma.InventaireCommercialOmit
+  ligneInventaire?: Prisma.LigneInventaireOmit
 }
 
 /* Types for Logging */

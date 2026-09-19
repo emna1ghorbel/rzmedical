@@ -114,7 +114,7 @@ export const getFactureForPdf = async (factureId: number, userId?: number) => {
   return facture;
 };
 
-// ─── Company Info Fallback ──────────────────────────────────────────────────
+// ─── Company Info (dynamique depuis la DB) ──────────────────────────────────
 
 interface CompanyConfig {
   nomSociete: string;
@@ -125,50 +125,64 @@ interface CompanyConfig {
   email: string;
   banque: string;
   rib: string;
+  logoUrl: string | null;
 }
 
 const getCompanyInfo = async (): Promise<CompanyConfig> => {
   try {
-    const info = await (prisma as any).infoSociete?.findUnique({ where: { id: 1 } });
+    const info = await prisma.infoSociete.findUnique({ where: { id: 1 } });
     if (info) {
       return {
-        nomSociete: info.nomSociete || 'R and Z Medical',
-        matriculeFiscale: info.matriculeFiscale || '1742623LAM000',
-        adresse: info.adresse || '23 Rue Salem harzallah\nimm echafai 2 eme\netage 3000, sfax Tunisie',
-        telephone: info.telephone || '28113131',
-        fax: info.fax || '-',
-        email: info.email || 'randzmedical@outlook.com',
-        banque: info.banque || 'UIB BANK',
-        rib: info.rib || '12023000003303530971',
+        nomSociete: info.nomSociete || '',
+        matriculeFiscale: (info as any).matriculeFiscale || '',
+        adresse: info.adresse || '',
+        telephone: info.telephone || '',
+        fax: (info as any).fax || '',
+        email: info.email || '',
+        banque: (info as any).banque || '',
+        rib: (info as any).rib || '',
+        logoUrl: info.logoUrl || null,
       };
     }
   } catch (e) {
-    // InfoSociete model might not exist in Prisma, use default
+    console.warn('Could not fetch infoSociete for PDF:', e);
   }
 
+  // Fallback neutre — aucune donnée réelle codée en dur
   return {
-    nomSociete: 'R and Z Medical',
-    matriculeFiscale: '1742623LAM000',
-    adresse: '23 Rue Salem harzallah\nimm echafai 2 eme\netage 3000, sfax Tunisie',
-    telephone: '28113131',
-    fax: '-',
-    email: 'randzmedical@outlook.com',
-    banque: 'UIB BANK',
-    rib: '12023000003303530971',
+    nomSociete: '',
+    matriculeFiscale: '',
+    adresse: '',
+    telephone: '',
+    fax: '',
+    email: '',
+    banque: '',
+    rib: '',
+    logoUrl: null,
   };
 };
 
-function getLogoPath(): string | null {
-  const candidates = [
-    path.resolve(__dirname, '../../../assets/logo-rzmedical.png'),
-    path.resolve(process.cwd(), 'assets/logo-rzmedical.png'),
-    path.resolve(process.cwd(), '../web/public/images/logo/logo-rzmedical.png'),
-    path.resolve(__dirname, '../../../../web/public/images/logo/logo-rzmedical.png'),
-    path.resolve('E:/rzmedical/backend/assets/logo-rzmedical.png'),
-  ];
-  for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
-  }
+/**
+ * Résout le chemin absolu vers le logo depuis logoUrl stocké en DB.
+ * logoUrl peut être une URL relative (/uploads/logo.png) ou un chemin absolu.
+ * Retourne null si aucun logo n'est configuré ou si le fichier n'existe pas.
+ */
+function resolveLogoPath(logoUrl: string | null): string | null {
+  if (!logoUrl) return null;
+
+  // Si c'est déjà un chemin absolu existant
+  if (path.isAbsolute(logoUrl) && fs.existsSync(logoUrl)) return logoUrl;
+
+  // Si c'est une URL relative /uploads/..., la résoudre depuis le dossier uploads
+  const uploadDir = process.env.UPLOAD_DIR || 'uploads';
+  const relativePath = logoUrl.startsWith('/') ? logoUrl.slice(1) : logoUrl;
+  const resolvedFromUploads = path.resolve(process.cwd(), relativePath);
+  if (fs.existsSync(resolvedFromUploads)) return resolvedFromUploads;
+
+  // Essai depuis uploadDir configuré
+  const resolvedFromUploadDir = path.resolve(process.cwd(), uploadDir, path.basename(logoUrl));
+  if (fs.existsSync(resolvedFromUploadDir)) return resolvedFromUploadDir;
+
   return null;
 }
 
@@ -201,7 +215,7 @@ export const generateInvoicePdf = async (factureId: number, userId?: number): Pr
     const WHITE = '#ffffff';
 
     // ── 1. Top Left: Logo & Company / Invoice Title ──────────────────────────
-    const logoPath = getLogoPath();
+    const logoPath = resolveLogoPath(company.logoUrl);
     if (logoPath) {
       try {
         doc.image(logoPath, 20, 16, { width: 75, height: 95, fit: [75, 95] });

@@ -217,3 +217,28 @@ export type LigneFactureFournisseur = Prisma.LigneFactureFournisseurModel
  * 
  */
 export type PaiementFactureFournisseur = Prisma.PaiementFactureFournisseurModel
+/**
+ * Model StockCommercial
+ * 
+ */
+export type StockCommercial = Prisma.StockCommercialModel
+/**
+ * Model BonSortie
+ * 
+ */
+export type BonSortie = Prisma.BonSortieModel
+/**
+ * Model LigneBonSortie
+ * 
+ */
+export type LigneBonSortie = Prisma.LigneBonSortieModel
+/**
+ * Model InventaireCommercial
+ * 
+ */
+export type InventaireCommercial = Prisma.InventaireCommercialModel
+/**
+ * Model LigneInventaire
+ * 
+ */
+export type LigneInventaire = Prisma.LigneInventaireModel

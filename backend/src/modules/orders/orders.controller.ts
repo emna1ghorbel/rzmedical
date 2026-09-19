@@ -168,7 +168,7 @@ export const updateItems = async (req: AuthRequest, res: Response) => {
 export const trackPublic = async (req: Request, res: Response) => {
   try {
     const { code } = req.params;
-    const order = await service.trackOrderPublicly(code);
+    const order = await service.trackOrderPublicly(String(code));
     res.json(order);
   } catch (err: unknown) {
     if (err instanceof OrderError) {

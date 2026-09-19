@@ -33,6 +33,8 @@ export type ChargeCnssAvgAggregateOutputType = {
   partPatronale: runtime.Decimal | null
   partSalariale: runtime.Decimal | null
   totalCnss: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type ChargeCnssSumAggregateOutputType = {
@@ -42,6 +44,8 @@ export type ChargeCnssSumAggregateOutputType = {
   partPatronale: runtime.Decimal | null
   partSalariale: runtime.Decimal | null
   totalCnss: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type ChargeCnssMinAggregateOutputType = {
@@ -55,12 +59,14 @@ export type ChargeCnssMinAggregateOutputType = {
   partSalariale: runtime.Decimal | null
   totalCnss: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   dateLimitePaiement: Date | null
   datePaiement: Date | null
   modePaiement: string | null
   referencePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -76,12 +82,14 @@ export type ChargeCnssMaxAggregateOutputType = {
   partSalariale: runtime.Decimal | null
   totalCnss: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   dateLimitePaiement: Date | null
   datePaiement: Date | null
   modePaiement: string | null
   referencePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -97,12 +105,14 @@ export type ChargeCnssCountAggregateOutputType = {
   partSalariale: number
   totalCnss: number
   statutPaiement: number
+  montantPaye: number
   dateLimitePaiement: number
   datePaiement: number
   modePaiement: number
   referencePaiement: number
   pieceJustificativeUrl: number
   notes: number
+  commercialId: number
   creeLe: number
   misAJourLe: number
   _all: number
@@ -116,6 +126,8 @@ export type ChargeCnssAvgAggregateInputType = {
   partPatronale?: true
   partSalariale?: true
   totalCnss?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type ChargeCnssSumAggregateInputType = {
@@ -125,6 +137,8 @@ export type ChargeCnssSumAggregateInputType = {
   partPatronale?: true
   partSalariale?: true
   totalCnss?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type ChargeCnssMinAggregateInputType = {
@@ -138,12 +152,14 @@ export type ChargeCnssMinAggregateInputType = {
   partSalariale?: true
   totalCnss?: true
   statutPaiement?: true
+  montantPaye?: true
   dateLimitePaiement?: true
   datePaiement?: true
   modePaiement?: true
   referencePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -159,12 +175,14 @@ export type ChargeCnssMaxAggregateInputType = {
   partSalariale?: true
   totalCnss?: true
   statutPaiement?: true
+  montantPaye?: true
   dateLimitePaiement?: true
   datePaiement?: true
   modePaiement?: true
   referencePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -180,12 +198,14 @@ export type ChargeCnssCountAggregateInputType = {
   partSalariale?: true
   totalCnss?: true
   statutPaiement?: true
+  montantPaye?: true
   dateLimitePaiement?: true
   datePaiement?: true
   modePaiement?: true
   referencePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
   _all?: true
@@ -288,12 +308,14 @@ export type ChargeCnssGroupByOutputType = {
   partSalariale: runtime.Decimal
   totalCnss: runtime.Decimal
   statutPaiement: $Enums.StatutPaiementFournisseur
+  montantPaye: runtime.Decimal
   dateLimitePaiement: Date | null
   datePaiement: Date | null
   modePaiement: string | null
   referencePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date
   misAJourLe: Date
   _count: ChargeCnssCountAggregateOutputType | null
@@ -332,14 +354,17 @@ export type ChargeCnssWhereInput = {
   partSalariale?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeCnss"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
   datePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
   modePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   referencePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   notes?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeCnss"> | number | null
   creeLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }
 
 export type ChargeCnssOrderByWithRelationInput = {
@@ -353,14 +378,17 @@ export type ChargeCnssOrderByWithRelationInput = {
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   dateLimitePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   datePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   referencePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+  commercial?: Prisma.UtilisateurOrderByWithRelationInput
 }
 
 export type ChargeCnssWhereUniqueInput = Prisma.AtLeast<{
@@ -377,14 +405,17 @@ export type ChargeCnssWhereUniqueInput = Prisma.AtLeast<{
   partSalariale?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeCnss"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
   datePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
   modePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   referencePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
   notes?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeCnss"> | number | null
   creeLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }, "id">
 
 export type ChargeCnssOrderByWithAggregationInput = {
@@ -398,12 +429,14 @@ export type ChargeCnssOrderByWithAggregationInput = {
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   dateLimitePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   datePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   referencePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.ChargeCnssCountOrderByAggregateInput
@@ -427,12 +460,14 @@ export type ChargeCnssScalarWhereWithAggregatesInput = {
   partSalariale?: Prisma.DecimalWithAggregatesFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalWithAggregatesFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurWithAggregatesFilter<"ChargeCnss"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalWithAggregatesFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.DateTimeNullableWithAggregatesFilter<"ChargeCnss"> | Date | string | null
   datePaiement?: Prisma.DateTimeNullableWithAggregatesFilter<"ChargeCnss"> | Date | string | null
   modePaiement?: Prisma.StringNullableWithAggregatesFilter<"ChargeCnss"> | string | null
   referencePaiement?: Prisma.StringNullableWithAggregatesFilter<"ChargeCnss"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableWithAggregatesFilter<"ChargeCnss"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"ChargeCnss"> | string | null
+  commercialId?: Prisma.IntNullableWithAggregatesFilter<"ChargeCnss"> | number | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"ChargeCnss"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"ChargeCnss"> | Date | string
 }
@@ -447,6 +482,7 @@ export type ChargeCnssCreateInput = {
   partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Date | string | null
   datePaiement?: Date | string | null
   modePaiement?: string | null
@@ -455,6 +491,7 @@ export type ChargeCnssCreateInput = {
   notes?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutChargesCnssInput
 }
 
 export type ChargeCnssUncheckedCreateInput = {
@@ -468,12 +505,14 @@ export type ChargeCnssUncheckedCreateInput = {
   partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Date | string | null
   datePaiement?: Date | string | null
   modePaiement?: string | null
   referencePaiement?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -488,6 +527,7 @@ export type ChargeCnssUpdateInput = {
   partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -496,6 +536,7 @@ export type ChargeCnssUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commercial?: Prisma.UtilisateurUpdateOneWithoutChargesCnssNestedInput
 }
 
 export type ChargeCnssUncheckedUpdateInput = {
@@ -509,12 +550,14 @@ export type ChargeCnssUncheckedUpdateInput = {
   partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referencePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -530,12 +573,14 @@ export type ChargeCnssCreateManyInput = {
   partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Date | string | null
   datePaiement?: Date | string | null
   modePaiement?: string | null
   referencePaiement?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -550,6 +595,7 @@ export type ChargeCnssUpdateManyMutationInput = {
   partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -571,14 +617,26 @@ export type ChargeCnssUncheckedUpdateManyInput = {
   partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referencePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeCnssListRelationFilter = {
+  every?: Prisma.ChargeCnssWhereInput
+  some?: Prisma.ChargeCnssWhereInput
+  none?: Prisma.ChargeCnssWhereInput
+}
+
+export type ChargeCnssOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ChargeCnssCountOrderByAggregateInput = {
@@ -592,12 +650,14 @@ export type ChargeCnssCountOrderByAggregateInput = {
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   dateLimitePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   referencePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -609,6 +669,8 @@ export type ChargeCnssAvgOrderByAggregateInput = {
   partPatronale?: Prisma.SortOrder
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
 }
 
 export type ChargeCnssMaxOrderByAggregateInput = {
@@ -622,12 +684,14 @@ export type ChargeCnssMaxOrderByAggregateInput = {
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   dateLimitePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   referencePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -643,12 +707,14 @@ export type ChargeCnssMinOrderByAggregateInput = {
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   dateLimitePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   referencePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -660,6 +726,232 @@ export type ChargeCnssSumOrderByAggregateInput = {
   partPatronale?: Prisma.SortOrder
   partSalariale?: Prisma.SortOrder
   totalCnss?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+}
+
+export type ChargeCnssCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput> | Prisma.ChargeCnssCreateWithoutCommercialInput[] | Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput | Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.ChargeCnssCreateManyCommercialInputEnvelope
+  connect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+}
+
+export type ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput> | Prisma.ChargeCnssCreateWithoutCommercialInput[] | Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput | Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.ChargeCnssCreateManyCommercialInputEnvelope
+  connect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+}
+
+export type ChargeCnssUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput> | Prisma.ChargeCnssCreateWithoutCommercialInput[] | Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput | Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.ChargeCnssUpsertWithWhereUniqueWithoutCommercialInput | Prisma.ChargeCnssUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.ChargeCnssCreateManyCommercialInputEnvelope
+  set?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  disconnect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  delete?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  connect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  update?: Prisma.ChargeCnssUpdateWithWhereUniqueWithoutCommercialInput | Prisma.ChargeCnssUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.ChargeCnssUpdateManyWithWhereWithoutCommercialInput | Prisma.ChargeCnssUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.ChargeCnssScalarWhereInput | Prisma.ChargeCnssScalarWhereInput[]
+}
+
+export type ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput> | Prisma.ChargeCnssCreateWithoutCommercialInput[] | Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput | Prisma.ChargeCnssCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.ChargeCnssUpsertWithWhereUniqueWithoutCommercialInput | Prisma.ChargeCnssUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.ChargeCnssCreateManyCommercialInputEnvelope
+  set?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  disconnect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  delete?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  connect?: Prisma.ChargeCnssWhereUniqueInput | Prisma.ChargeCnssWhereUniqueInput[]
+  update?: Prisma.ChargeCnssUpdateWithWhereUniqueWithoutCommercialInput | Prisma.ChargeCnssUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.ChargeCnssUpdateManyWithWhereWithoutCommercialInput | Prisma.ChargeCnssUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.ChargeCnssScalarWhereInput | Prisma.ChargeCnssScalarWhereInput[]
+}
+
+export type ChargeCnssCreateWithoutCommercialInput = {
+  numeroDeclaration: string
+  periodeDeclaration: string
+  matriculeEmployeur: string
+  nombreSalaries: number
+  masseSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Date | string | null
+  datePaiement?: Date | string | null
+  modePaiement?: string | null
+  referencePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeCnssUncheckedCreateWithoutCommercialInput = {
+  id?: number
+  numeroDeclaration: string
+  periodeDeclaration: string
+  matriculeEmployeur: string
+  nombreSalaries: number
+  masseSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Date | string | null
+  datePaiement?: Date | string | null
+  modePaiement?: string | null
+  referencePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeCnssCreateOrConnectWithoutCommercialInput = {
+  where: Prisma.ChargeCnssWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput>
+}
+
+export type ChargeCnssCreateManyCommercialInputEnvelope = {
+  data: Prisma.ChargeCnssCreateManyCommercialInput | Prisma.ChargeCnssCreateManyCommercialInput[]
+  skipDuplicates?: boolean
+}
+
+export type ChargeCnssUpsertWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.ChargeCnssWhereUniqueInput
+  update: Prisma.XOR<Prisma.ChargeCnssUpdateWithoutCommercialInput, Prisma.ChargeCnssUncheckedUpdateWithoutCommercialInput>
+  create: Prisma.XOR<Prisma.ChargeCnssCreateWithoutCommercialInput, Prisma.ChargeCnssUncheckedCreateWithoutCommercialInput>
+}
+
+export type ChargeCnssUpdateWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.ChargeCnssWhereUniqueInput
+  data: Prisma.XOR<Prisma.ChargeCnssUpdateWithoutCommercialInput, Prisma.ChargeCnssUncheckedUpdateWithoutCommercialInput>
+}
+
+export type ChargeCnssUpdateManyWithWhereWithoutCommercialInput = {
+  where: Prisma.ChargeCnssScalarWhereInput
+  data: Prisma.XOR<Prisma.ChargeCnssUpdateManyMutationInput, Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialInput>
+}
+
+export type ChargeCnssScalarWhereInput = {
+  AND?: Prisma.ChargeCnssScalarWhereInput | Prisma.ChargeCnssScalarWhereInput[]
+  OR?: Prisma.ChargeCnssScalarWhereInput[]
+  NOT?: Prisma.ChargeCnssScalarWhereInput | Prisma.ChargeCnssScalarWhereInput[]
+  id?: Prisma.IntFilter<"ChargeCnss"> | number
+  numeroDeclaration?: Prisma.StringFilter<"ChargeCnss"> | string
+  periodeDeclaration?: Prisma.StringFilter<"ChargeCnss"> | string
+  matriculeEmployeur?: Prisma.StringFilter<"ChargeCnss"> | string
+  nombreSalaries?: Prisma.IntFilter<"ChargeCnss"> | number
+  masseSalariale?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeCnss"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeCnss"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
+  datePaiement?: Prisma.DateTimeNullableFilter<"ChargeCnss"> | Date | string | null
+  modePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  referencePaiement?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  notes?: Prisma.StringNullableFilter<"ChargeCnss"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeCnss"> | number | null
+  creeLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
+  misAJourLe?: Prisma.DateTimeFilter<"ChargeCnss"> | Date | string
+}
+
+export type ChargeCnssCreateManyCommercialInput = {
+  id?: number
+  numeroDeclaration: string
+  periodeDeclaration: string
+  matriculeEmployeur: string
+  nombreSalaries: number
+  masseSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale: runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Date | string | null
+  datePaiement?: Date | string | null
+  modePaiement?: string | null
+  referencePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeCnssUpdateWithoutCommercialInput = {
+  numeroDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  periodeDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  matriculeEmployeur?: Prisma.StringFieldUpdateOperationsInput | string
+  nombreSalaries?: Prisma.IntFieldUpdateOperationsInput | number
+  masseSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referencePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeCnssUncheckedUpdateWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  periodeDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  matriculeEmployeur?: Prisma.StringFieldUpdateOperationsInput | string
+  nombreSalaries?: Prisma.IntFieldUpdateOperationsInput | number
+  masseSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referencePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeCnssUncheckedUpdateManyWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  periodeDeclaration?: Prisma.StringFieldUpdateOperationsInput | string
+  matriculeEmployeur?: Prisma.StringFieldUpdateOperationsInput | string
+  nombreSalaries?: Prisma.IntFieldUpdateOperationsInput | number
+  masseSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partPatronale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  partSalariale?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  totalCnss?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  dateLimitePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referencePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -675,14 +967,17 @@ export type ChargeCnssSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   partSalariale?: boolean
   totalCnss?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   dateLimitePaiement?: boolean
   datePaiement?: boolean
   modePaiement?: boolean
   referencePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeCnss"]>
 
 export type ChargeCnssSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -696,14 +991,17 @@ export type ChargeCnssSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   partSalariale?: boolean
   totalCnss?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   dateLimitePaiement?: boolean
   datePaiement?: boolean
   modePaiement?: boolean
   referencePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeCnss"]>
 
 export type ChargeCnssSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -717,14 +1015,17 @@ export type ChargeCnssSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   partSalariale?: boolean
   totalCnss?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   dateLimitePaiement?: boolean
   datePaiement?: boolean
   modePaiement?: boolean
   referencePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeCnss"]>
 
 export type ChargeCnssSelectScalar = {
@@ -738,21 +1039,34 @@ export type ChargeCnssSelectScalar = {
   partSalariale?: boolean
   totalCnss?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   dateLimitePaiement?: boolean
   datePaiement?: boolean
   modePaiement?: boolean
   referencePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type ChargeCnssOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numeroDeclaration" | "periodeDeclaration" | "matriculeEmployeur" | "nombreSalaries" | "masseSalariale" | "partPatronale" | "partSalariale" | "totalCnss" | "statutPaiement" | "dateLimitePaiement" | "datePaiement" | "modePaiement" | "referencePaiement" | "pieceJustificativeUrl" | "notes" | "creeLe" | "misAJourLe", ExtArgs["result"]["chargeCnss"]>
+export type ChargeCnssOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numeroDeclaration" | "periodeDeclaration" | "matriculeEmployeur" | "nombreSalaries" | "masseSalariale" | "partPatronale" | "partSalariale" | "totalCnss" | "statutPaiement" | "montantPaye" | "dateLimitePaiement" | "datePaiement" | "modePaiement" | "referencePaiement" | "pieceJustificativeUrl" | "notes" | "commercialId" | "creeLe" | "misAJourLe", ExtArgs["result"]["chargeCnss"]>
+export type ChargeCnssInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
+}
+export type ChargeCnssIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
+}
+export type ChargeCnssIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeCnss$commercialArgs<ExtArgs>
+}
 
 export type $ChargeCnssPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ChargeCnss"
-  objects: {}
+  objects: {
+    commercial: Prisma.$UtilisateurPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     numeroDeclaration: string
@@ -764,12 +1078,14 @@ export type $ChargeCnssPayload<ExtArgs extends runtime.Types.Extensions.Internal
     partSalariale: runtime.Decimal
     totalCnss: runtime.Decimal
     statutPaiement: $Enums.StatutPaiementFournisseur
+    montantPaye: runtime.Decimal
     dateLimitePaiement: Date | null
     datePaiement: Date | null
     modePaiement: string | null
     referencePaiement: string | null
     pieceJustificativeUrl: string | null
     notes: string | null
+    commercialId: number | null
     creeLe: Date
     misAJourLe: Date
   }, ExtArgs["result"]["chargeCnss"]>
@@ -1166,6 +1482,7 @@ readonly fields: ChargeCnssFieldRefs;
  */
 export interface Prisma__ChargeCnssClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  commercial<T extends Prisma.ChargeCnss$commercialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChargeCnss$commercialArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1205,12 +1522,14 @@ export interface ChargeCnssFieldRefs {
   readonly partSalariale: Prisma.FieldRef<"ChargeCnss", 'Decimal'>
   readonly totalCnss: Prisma.FieldRef<"ChargeCnss", 'Decimal'>
   readonly statutPaiement: Prisma.FieldRef<"ChargeCnss", 'StatutPaiementFournisseur'>
+  readonly montantPaye: Prisma.FieldRef<"ChargeCnss", 'Decimal'>
   readonly dateLimitePaiement: Prisma.FieldRef<"ChargeCnss", 'DateTime'>
   readonly datePaiement: Prisma.FieldRef<"ChargeCnss", 'DateTime'>
   readonly modePaiement: Prisma.FieldRef<"ChargeCnss", 'String'>
   readonly referencePaiement: Prisma.FieldRef<"ChargeCnss", 'String'>
   readonly pieceJustificativeUrl: Prisma.FieldRef<"ChargeCnss", 'String'>
   readonly notes: Prisma.FieldRef<"ChargeCnss", 'String'>
+  readonly commercialId: Prisma.FieldRef<"ChargeCnss", 'Int'>
   readonly creeLe: Prisma.FieldRef<"ChargeCnss", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"ChargeCnss", 'DateTime'>
 }
@@ -1230,6 +1549,10 @@ export type ChargeCnssFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeCnss to fetch.
    */
   where: Prisma.ChargeCnssWhereUniqueInput
@@ -1248,6 +1571,10 @@ export type ChargeCnssFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeCnss to fetch.
    */
   where: Prisma.ChargeCnssWhereUniqueInput
@@ -1265,6 +1592,10 @@ export type ChargeCnssFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the ChargeCnss
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
   /**
    * Filter, which ChargeCnss to fetch.
    */
@@ -1314,6 +1645,10 @@ export type ChargeCnssFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeCnss to fetch.
    */
   where?: Prisma.ChargeCnssWhereInput
@@ -1361,6 +1696,10 @@ export type ChargeCnssFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the ChargeCnss
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
   /**
    * Filter, which ChargeCnsses to fetch.
    */
@@ -1410,6 +1749,10 @@ export type ChargeCnssCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  /**
    * The data needed to create a ChargeCnss.
    */
   data: Prisma.XOR<Prisma.ChargeCnssCreateInput, Prisma.ChargeCnssUncheckedCreateInput>
@@ -1443,6 +1786,10 @@ export type ChargeCnssCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.ChargeCnssCreateManyInput | Prisma.ChargeCnssCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1457,6 +1804,10 @@ export type ChargeCnssUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the ChargeCnss
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
   /**
    * The data needed to update a ChargeCnss.
    */
@@ -1509,6 +1860,10 @@ export type ChargeCnssUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many ChargeCnsses to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1523,6 +1878,10 @@ export type ChargeCnssUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the ChargeCnss
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
   /**
    * The filter to search for the ChargeCnss to update in case it exists.
    */
@@ -1550,6 +1909,10 @@ export type ChargeCnssDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  /**
    * Filter which ChargeCnss to delete.
    */
   where: Prisma.ChargeCnssWhereUniqueInput
@@ -1570,6 +1933,25 @@ export type ChargeCnssDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * ChargeCnss.commercial
+ */
+export type ChargeCnss$commercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
  * ChargeCnss without action
  */
 export type ChargeCnssDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1581,4 +1963,8 @@ export type ChargeCnssDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the ChargeCnss
    */
   omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
 }

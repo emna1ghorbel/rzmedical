@@ -1,22 +1,14 @@
 /**
- * RZMedical company configuration for invoice generation.
- * Centralized here so any update reflects everywhere.
+ * Valeurs de repli neutres pour les formulaires de facture/devis.
+ * Ces constantes ne sont utilisées que comme état initial avant
+ * le chargement des données depuis l'API (/api/company-info).
+ *
+ * ⚠️ Ne pas mettre de vraies données métier ici — elles doivent
+ * venir de la base de données via useCompanyInfo().
  */
-export const COMPANY_INFO = {
-  nom: 'R and Z Medical',
-  matriculeFiscale: '1742623LAM000',
-  adresse: '23 Rue Salem harzallah',
-  adresseSuite: 'imm echafai 2 eme etage',
-  codePostalVille: '3000, sfax Tunisie',
-  telephone: '28113131',
-  fax: '-',
-  email: 'randzmedical@outlook.com',
-  banque: 'UIB BANK',
-  numeroCompte: '12023000003303530971',
-} as const;
 
-/** Default timbre fiscal value in TND (Tunisian dinar, 3 decimal places) */
-export const DEFAULT_TIMBRE_FISCAL = 1.0;
+/** Timbre fiscal initial (0 = neutre, sera remplacé par la valeur DB) */
+export const DEFAULT_TIMBRE_FISCAL = 0;
 
-/** Default TVA rate (%) when not specified per product */
-export const DEFAULT_TVA_RATE = 7;
+/** Taux TVA initial (0 = neutre, sera remplacé par la valeur DB) */
+export const DEFAULT_TVA_RATE = 0;

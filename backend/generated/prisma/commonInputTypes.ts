@@ -613,6 +613,40 @@ export type EnumEtatFactureFournisseurWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumEtatFactureFournisseurFilter<$PrismaModel>
 }
 
+export type EnumStatutBonCommercialFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutBonCommercial | Prisma.EnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel> | $Enums.StatutBonCommercial
+}
+
+export type EnumStatutBonCommercialWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutBonCommercial | Prisma.EnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutBonCommercialWithAggregatesFilter<$PrismaModel> | $Enums.StatutBonCommercial
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel>
+}
+
+export type EnumStatutInventaireFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutInventaire | Prisma.EnumStatutInventaireFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel> | $Enums.StatutInventaire
+}
+
+export type EnumStatutInventaireWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutInventaire | Prisma.EnumStatutInventaireFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutInventaireWithAggregatesFilter<$PrismaModel> | $Enums.StatutInventaire
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -1223,6 +1257,40 @@ export type NestedEnumEtatFactureFournisseurWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEtatFactureFournisseurFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEtatFactureFournisseurFilter<$PrismaModel>
+}
+
+export type NestedEnumStatutBonCommercialFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutBonCommercial | Prisma.EnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel> | $Enums.StatutBonCommercial
+}
+
+export type NestedEnumStatutBonCommercialWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutBonCommercial | Prisma.EnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutBonCommercial[] | Prisma.ListEnumStatutBonCommercialFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutBonCommercialWithAggregatesFilter<$PrismaModel> | $Enums.StatutBonCommercial
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatutBonCommercialFilter<$PrismaModel>
+}
+
+export type NestedEnumStatutInventaireFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutInventaire | Prisma.EnumStatutInventaireFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel> | $Enums.StatutInventaire
+}
+
+export type NestedEnumStatutInventaireWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatutInventaire | Prisma.EnumStatutInventaireFieldRefInput<$PrismaModel>
+  in?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatutInventaire[] | Prisma.ListEnumStatutInventaireFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatutInventaireWithAggregatesFilter<$PrismaModel> | $Enums.StatutInventaire
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatutInventaireFilter<$PrismaModel>
 }
 
 

@@ -27,6 +27,7 @@ import fournisseursRoutes from './modules/fournisseurs/fournisseurs.routes';
 import tiersRoutes from './modules/tiers/tiers.routes';
 import achatsRoutes from './modules/achats/achats.routes';
 import stockRoutes from './modules/stock/stock.routes';
+import stockCommercialRoutes from './modules/stock-commercial/stock-commercial.routes';
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use('/api/fournisseurs', fournisseursRoutes);
 app.use('/api/tiers', tiersRoutes);
 app.use('/api/achats', achatsRoutes);
 app.use('/api/stock', stockRoutes);
+app.use('/api/stock-commercial', stockCommercialRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Bienvenue sur l\'API MediSupply' });

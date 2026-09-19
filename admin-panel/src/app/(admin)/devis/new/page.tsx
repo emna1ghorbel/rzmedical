@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getApiUrl } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
-import { DEFAULT_TIMBRE_FISCAL, DEFAULT_TVA_RATE } from "@/utils/invoiceConfig";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import CustomDatePicker from "@/components/invoices/CustomDatePicker";
 import SearchableSelect from "@/components/invoices/SearchableSelect";
 import { useExercice } from "@/context/ExerciceContext";
@@ -75,6 +75,7 @@ function AddDevisForm() {
   const editId = searchParams.get("editId");
   const { getToken } = useAuth();
   const { activeExercice } = useExercice();
+  const { defaultTimbre, defaultTva, tvaRates, timbreRates } = useCompanyInfo();
 
   const [type, setType] = useState<DevisType>("PRODUITS");
 
@@ -86,7 +87,7 @@ function AddDevisForm() {
   // ── Config Société
   const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([0, 7, 13, 19]);
   const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([0, 1]);
-  const [companyTimbreFiscal, setCompanyTimbreFiscal] = useState<number>(DEFAULT_TIMBRE_FISCAL);
+  const [companyTimbreFiscal, setCompanyTimbreFiscal] = useState<number>(defaultTimbre);
 
   // ── Form — Générales
   const [numero, setNumero] = useState("");
@@ -101,7 +102,7 @@ function AddDevisForm() {
   const [dateDevis, setDateDevis] = useState(todayISO());
   const [dateValidite, setDateValidite] = useState("");
   const [devise, setDevise] = useState("TND");
-  const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
+  const [timbreFiscal, setTimbreFiscal] = useState(defaultTimbre);
   const [commentaire, setCommentaire] = useState("");
 
   // ── Form — Lignes
@@ -206,7 +207,7 @@ function AddDevisForm() {
         setEtat(d.etat || "NORMAL");
         setType(d.typeDevis === "SERVICE" ? "SERVICE" : "PRODUITS");
         setDevise(d.devise || "TND");
-        setTimbreFiscal(Number(d.timbreFiscal) || DEFAULT_TIMBRE_FISCAL);
+        setTimbreFiscal(Number(d.timbreFiscal) || defaultTimbre);
         setCommentaire(d.commentaire || "");
 
         // Client
@@ -228,7 +229,7 @@ function AddDevisForm() {
               quantiteAv: 0,
               prixUnitaireHT: Number(l.prixUnitaireHT) || 0,
               remise: Number(l.remise) || 0,
-              tauxTVA: Number(l.tauxTVA) || DEFAULT_TVA_RATE,
+              tauxTVA: Number(l.tauxTVA) || defaultTva,
             }))
           );
         }
@@ -313,7 +314,7 @@ function AddDevisForm() {
         quantiteAv: 0,
         prixUnitaireHT: 0,
         remise: 0,
-        tauxTVA: DEFAULT_TVA_RATE,
+        tauxTVA: defaultTva,
       },
     ]);
   };
@@ -327,7 +328,7 @@ function AddDevisForm() {
         if (prod) {
           line.designation = prod.nom;
           line.prixUnitaireHT = Number(prod.prix);
-          line.tauxTVA = Number(prod.tva) || DEFAULT_TVA_RATE;
+          line.tauxTVA = Number(prod.tva) || defaultTva;
           line.remise = Number(prod.remise) || 0;
         }
       }

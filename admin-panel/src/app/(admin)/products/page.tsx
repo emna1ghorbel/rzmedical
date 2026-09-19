@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
+import StockRepartitionModal from "./StockRepartitionModal";
 
 const API_URL = getApiUrl();
 
@@ -96,6 +97,7 @@ export default function ProductsPage() {
   const [inlineStockError, setInlineStockError] = useState<string | null>(null);
   const [availabilitySavingId, setAvailabilitySavingId] = useState<number | null>(null);
   const [availabilityError, setAvailabilityError] = useState<number | null>(null);
+  const [repartitionModalId, setRepartitionModalId] = useState<number | null>(null);
 
   // Quick filters & search
   const [activeFilter, setActiveFilter] = useState<"all" | "new" | "promo" | "rupture" | "indisponible">("all");
@@ -743,6 +745,7 @@ export default function ProductsPage() {
                       <TableCell className="px-4 py-4 text-sm text-gray-500">{item.marque?.nom}</TableCell>
                       <TableCell className="px-4 py-4 text-xs">{(() => { if (!item.expirationDate) return <span className="text-gray-400">Pas de date</span>; const days = Math.ceil((new Date(item.expirationDate).getTime() - Date.now()) / 86400000); return days < 0 ? <span className="font-medium text-red-500">Date expirée</span> : days <= 30 ? <span className="font-medium text-amber-500">Date proche</span> : <span className="text-green-600">Date normale</span>; })()}</TableCell>
                       <TableCell className="px-4 py-4 text-end whitespace-nowrap">
+                        <button onClick={() => setRepartitionModalId(item.id)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mr-3 underline">Détails Stock</button>
                         <button onClick={() => openEdit(item)} className="text-sm text-brand-500 hover:underline mr-3">Modifier</button>
                         <button onClick={() => setDeleteId(item.id)} className="text-sm text-red-500 hover:underline">Supprimer</button>
                       </TableCell>
@@ -966,6 +969,13 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {repartitionModalId && (
+        <StockRepartitionModal 
+          produitId={repartitionModalId} 
+          onClose={() => setRepartitionModalId(null)} 
+        />
       )}
     </div>
   );

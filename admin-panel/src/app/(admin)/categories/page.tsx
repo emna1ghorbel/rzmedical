@@ -46,6 +46,7 @@ export default function CategoriesPage() {
   const [formNom, setFormNom] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Delete confirm
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -146,15 +147,24 @@ export default function CategoriesPage() {
             {categories.length} catégorie{categories.length !== 1 ? "s" : ""} au total
           </p>
         </div>
-        <button
-          onClick={() => openAdd()}
-          className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          Ajouter une catégorie
-        </button>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Rechercher une catégorie..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-56 px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500"
+          />
+          <button
+            onClick={() => openAdd()}
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Ajouter une catégorie
+          </button>
+        </div>
       </div>
 
       {/* Tableau */}
@@ -170,7 +180,7 @@ export default function CategoriesPage() {
               Réessayer
             </button>
           </div>
-        ) : categories.length === 0 ? (
+        ) : categories.filter(cat => !searchQuery.trim() || cat.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <p className="text-gray-500 dark:text-gray-400">Aucune catégorie trouvée</p>
             <button onClick={() => openAdd()} className="text-sm text-brand-500 underline">
@@ -190,7 +200,7 @@ export default function CategoriesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {categories.map((cat) => (
+                {categories.filter(cat => !searchQuery.trim() || cat.nom.toLowerCase().includes(searchQuery.toLowerCase())).map((cat) => (
                   <TableRow key={cat.id} className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                     <TableCell className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{cat.id}</TableCell>
                     <TableCell className="px-6 py-4">

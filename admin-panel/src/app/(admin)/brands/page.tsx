@@ -33,6 +33,7 @@ export default function BrandsPage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = useCallback(async () => {
     setLoading(true); setError(null);
@@ -116,9 +117,18 @@ export default function BrandsPage() {
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">Gestion des marques</h3>
           <p className="text-sm text-gray-500">{items.length} marque(s)</p>
         </div>
-        <button onClick={() => openAdd()} className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors">
-          Ajouter
-        </button>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Rechercher une marque..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-48 px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500"
+          />
+          <button onClick={() => openAdd()} className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors">
+            Ajouter
+          </button>
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -126,7 +136,7 @@ export default function BrandsPage() {
           <div className="flex items-center justify-center py-20"><div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent" /></div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3"><p className="text-red-500">{error}</p><button onClick={fetchData} className="text-sm text-brand-500 underline">Réessayer</button></div>
-        ) : items.length === 0 ? (
+        ) : items.filter(item => !searchQuery.trim() || item.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3"><p className="text-gray-500">Aucune marque</p><button onClick={() => openAdd()} className="text-sm text-brand-500 underline">Créer</button></div>
         ) : (
           <div className="max-w-full overflow-x-auto">
@@ -141,7 +151,7 @@ export default function BrandsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {items.map((item) => (
+                {items.filter(item => !searchQuery.trim() || item.nom.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => (
                   <TableRow key={item.id}>
                     <TableCell className="px-6 py-4">
                       {item.logo ? <img src={item.logo} alt={item.nom} className="h-10 w-10 object-contain rounded-md border" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">-</div>}

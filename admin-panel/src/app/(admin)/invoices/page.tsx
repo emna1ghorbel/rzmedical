@@ -92,6 +92,7 @@ export default function InvoicesPage() {
   const [selectedInvoiceForEdit, setSelectedInvoiceForEdit] = useState<Invoice | null>(null);
 
   const [activeFilter, setActiveFilter] = useState<"ACTIVES" | "BROUILLON" | "VALIDEE" | "PAYEE" | "TOUTES">("ACTIVES");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchInvoices = useCallback(async () => {
     setLoading(true);
@@ -184,11 +185,19 @@ export default function InvoicesPage() {
 
   // Filtered list
   const displayedInvoices = invoices.filter((inv) => {
-    if (activeFilter === "ACTIVES") return inv.statut !== "ANNULEE";
-    if (activeFilter === "BROUILLON") return inv.statut === "BROUILLON";
-    if (activeFilter === "VALIDEE") return inv.statut === "VALIDEE" || inv.statut === "ENVOYEE";
-    if (activeFilter === "PAYEE") return inv.statutPaiement === "PAYEE" && inv.statut !== "ANNULEE";
-    return true; // TOUTES
+    if (activeFilter === "ACTIVES" && inv.statut === "ANNULEE") return false;
+    if (activeFilter === "BROUILLON" && inv.statut !== "BROUILLON") return false;
+    if (activeFilter === "VALIDEE" && inv.statut !== "VALIDEE" && inv.statut !== "ENVOYEE") return false;
+    if (activeFilter === "PAYEE" && (inv.statutPaiement !== "PAYEE" || inv.statut === "ANNULEE")) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      return (
+        inv.numero?.toLowerCase().includes(q) ||
+        inv.clientNom?.toLowerCase().includes(q) ||
+        inv.clientMF?.toLowerCase().includes(q)
+      );
+    }
+    return true;
   });
 
   // Stats calculations
@@ -282,8 +291,8 @@ export default function InvoicesPage() {
         </div>
       )}
 
-      {/* Filter Tabs */}
-      <div className="shrink-0 flex flex-wrap items-center gap-2 mb-4">
+      {/* Filter Tabs + Search */}
+      <div className="shrink-0 flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
         <button
           onClick={() => setActiveFilter("ACTIVES")}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${activeFilter === "ACTIVES"
@@ -329,6 +338,15 @@ export default function InvoicesPage() {
         >
           Tout inclure ({invoices.length})
         </button>
+        <div className="sm:ml-auto w-full sm:w-56">
+          <input
+            type="text"
+            placeholder="Rechercher numéro, client..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+          />
+        </div>
       </div>
 
       {/* Table — the only scrollable region on this page */}

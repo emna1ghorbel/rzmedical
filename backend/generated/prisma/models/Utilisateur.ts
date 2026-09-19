@@ -51,6 +51,7 @@ export type UtilisateurMinAggregateOutputType = {
   typeUtilisateur: $Enums.TypeUtilisateur | null
   remise: runtime.Decimal | null
   matriculeFiscale: string | null
+  matriculeVoiture: string | null
   activite: string | null
   activiteCategoryId: number | null
   otpCode: string | null
@@ -73,6 +74,7 @@ export type UtilisateurMaxAggregateOutputType = {
   typeUtilisateur: $Enums.TypeUtilisateur | null
   remise: runtime.Decimal | null
   matriculeFiscale: string | null
+  matriculeVoiture: string | null
   activite: string | null
   activiteCategoryId: number | null
   otpCode: string | null
@@ -95,6 +97,7 @@ export type UtilisateurCountAggregateOutputType = {
   typeUtilisateur: number
   remise: number
   matriculeFiscale: number
+  matriculeVoiture: number
   activite: number
   activiteCategoryId: number
   otpCode: number
@@ -131,6 +134,7 @@ export type UtilisateurMinAggregateInputType = {
   typeUtilisateur?: true
   remise?: true
   matriculeFiscale?: true
+  matriculeVoiture?: true
   activite?: true
   activiteCategoryId?: true
   otpCode?: true
@@ -153,6 +157,7 @@ export type UtilisateurMaxAggregateInputType = {
   typeUtilisateur?: true
   remise?: true
   matriculeFiscale?: true
+  matriculeVoiture?: true
   activite?: true
   activiteCategoryId?: true
   otpCode?: true
@@ -175,6 +180,7 @@ export type UtilisateurCountAggregateInputType = {
   typeUtilisateur?: true
   remise?: true
   matriculeFiscale?: true
+  matriculeVoiture?: true
   activite?: true
   activiteCategoryId?: true
   otpCode?: true
@@ -274,7 +280,7 @@ export type UtilisateurGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type UtilisateurGroupByOutputType = {
   id: number
   email: string
-  motDePasseHash: string
+  motDePasseHash: string | null
   prenom: string | null
   nom: string | null
   telephone: string | null
@@ -284,6 +290,7 @@ export type UtilisateurGroupByOutputType = {
   typeUtilisateur: $Enums.TypeUtilisateur
   remise: runtime.Decimal
   matriculeFiscale: string | null
+  matriculeVoiture: string | null
   activite: string | null
   activiteCategoryId: number | null
   otpCode: string | null
@@ -319,7 +326,7 @@ export type UtilisateurWhereInput = {
   NOT?: Prisma.UtilisateurWhereInput | Prisma.UtilisateurWhereInput[]
   id?: Prisma.IntFilter<"Utilisateur"> | number
   email?: Prisma.StringFilter<"Utilisateur"> | string
-  motDePasseHash?: Prisma.StringFilter<"Utilisateur"> | string
+  motDePasseHash?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   prenom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   nom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   telephone?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -329,6 +336,7 @@ export type UtilisateurWhereInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFilter<"Utilisateur"> | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFilter<"Utilisateur"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  matriculeVoiture?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activite?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activiteCategoryId?: Prisma.IntNullableFilter<"Utilisateur"> | number | null
   otpCode?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -344,12 +352,20 @@ export type UtilisateurWhereInput = {
   devis?: Prisma.DevisListRelationFilter
   ticketsSupport?: Prisma.TicketSupportListRelationFilter
   tokenReset?: Prisma.XOR<Prisma.TokenResetNullableScalarRelationFilter, Prisma.TokenResetWhereInput> | null
+  chargesGenerales?: Prisma.ChargeGeneraleListRelationFilter
+  chargesCnss?: Prisma.ChargeCnssListRelationFilter
+  charges9ba4a?: Prisma.Charge9ba4aListRelationFilter
+  stockCommercial?: Prisma.StockCommercialListRelationFilter
+  bonsEntree?: Prisma.BonSortieListRelationFilter
+  bonsLivraisonAsComm?: Prisma.BonLivraisonListRelationFilter
+  inventaires?: Prisma.InventaireCommercialListRelationFilter
+  inventairesValides?: Prisma.InventaireCommercialListRelationFilter
 }
 
 export type UtilisateurOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  motDePasseHash?: Prisma.SortOrder
+  motDePasseHash?: Prisma.SortOrderInput | Prisma.SortOrder
   prenom?: Prisma.SortOrderInput | Prisma.SortOrder
   nom?: Prisma.SortOrderInput | Prisma.SortOrder
   telephone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,6 +375,7 @@ export type UtilisateurOrderByWithRelationInput = {
   typeUtilisateur?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   matriculeFiscale?: Prisma.SortOrderInput | Prisma.SortOrder
+  matriculeVoiture?: Prisma.SortOrderInput | Prisma.SortOrder
   activite?: Prisma.SortOrderInput | Prisma.SortOrder
   activiteCategoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -374,15 +391,24 @@ export type UtilisateurOrderByWithRelationInput = {
   devis?: Prisma.DevisOrderByRelationAggregateInput
   ticketsSupport?: Prisma.TicketSupportOrderByRelationAggregateInput
   tokenReset?: Prisma.TokenResetOrderByWithRelationInput
+  chargesGenerales?: Prisma.ChargeGeneraleOrderByRelationAggregateInput
+  chargesCnss?: Prisma.ChargeCnssOrderByRelationAggregateInput
+  charges9ba4a?: Prisma.Charge9ba4aOrderByRelationAggregateInput
+  stockCommercial?: Prisma.StockCommercialOrderByRelationAggregateInput
+  bonsEntree?: Prisma.BonSortieOrderByRelationAggregateInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonOrderByRelationAggregateInput
+  inventaires?: Prisma.InventaireCommercialOrderByRelationAggregateInput
+  inventairesValides?: Prisma.InventaireCommercialOrderByRelationAggregateInput
 }
 
 export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  email?: string
+  email_typeUtilisateur?: Prisma.UtilisateurEmailTypeUtilisateurCompoundUniqueInput
   AND?: Prisma.UtilisateurWhereInput | Prisma.UtilisateurWhereInput[]
   OR?: Prisma.UtilisateurWhereInput[]
   NOT?: Prisma.UtilisateurWhereInput | Prisma.UtilisateurWhereInput[]
-  motDePasseHash?: Prisma.StringFilter<"Utilisateur"> | string
+  email?: Prisma.StringFilter<"Utilisateur"> | string
+  motDePasseHash?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   prenom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   nom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   telephone?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -392,6 +418,7 @@ export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFilter<"Utilisateur"> | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFilter<"Utilisateur"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  matriculeVoiture?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activite?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activiteCategoryId?: Prisma.IntNullableFilter<"Utilisateur"> | number | null
   otpCode?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -407,12 +434,20 @@ export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   devis?: Prisma.DevisListRelationFilter
   ticketsSupport?: Prisma.TicketSupportListRelationFilter
   tokenReset?: Prisma.XOR<Prisma.TokenResetNullableScalarRelationFilter, Prisma.TokenResetWhereInput> | null
-}, "id" | "email">
+  chargesGenerales?: Prisma.ChargeGeneraleListRelationFilter
+  chargesCnss?: Prisma.ChargeCnssListRelationFilter
+  charges9ba4a?: Prisma.Charge9ba4aListRelationFilter
+  stockCommercial?: Prisma.StockCommercialListRelationFilter
+  bonsEntree?: Prisma.BonSortieListRelationFilter
+  bonsLivraisonAsComm?: Prisma.BonLivraisonListRelationFilter
+  inventaires?: Prisma.InventaireCommercialListRelationFilter
+  inventairesValides?: Prisma.InventaireCommercialListRelationFilter
+}, "id" | "email_typeUtilisateur">
 
 export type UtilisateurOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  motDePasseHash?: Prisma.SortOrder
+  motDePasseHash?: Prisma.SortOrderInput | Prisma.SortOrder
   prenom?: Prisma.SortOrderInput | Prisma.SortOrder
   nom?: Prisma.SortOrderInput | Prisma.SortOrder
   telephone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -422,6 +457,7 @@ export type UtilisateurOrderByWithAggregationInput = {
   typeUtilisateur?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   matriculeFiscale?: Prisma.SortOrderInput | Prisma.SortOrder
+  matriculeVoiture?: Prisma.SortOrderInput | Prisma.SortOrder
   activite?: Prisma.SortOrderInput | Prisma.SortOrder
   activiteCategoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -442,7 +478,7 @@ export type UtilisateurScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UtilisateurScalarWhereWithAggregatesInput | Prisma.UtilisateurScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Utilisateur"> | number
   email?: Prisma.StringWithAggregatesFilter<"Utilisateur"> | string
-  motDePasseHash?: Prisma.StringWithAggregatesFilter<"Utilisateur"> | string
+  motDePasseHash?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
   prenom?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
   nom?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
   telephone?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
@@ -452,6 +488,7 @@ export type UtilisateurScalarWhereWithAggregatesInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurWithAggregatesFilter<"Utilisateur"> | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalWithAggregatesFilter<"Utilisateur"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
+  matriculeVoiture?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
   activite?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
   activiteCategoryId?: Prisma.IntNullableWithAggregatesFilter<"Utilisateur"> | number | null
   otpCode?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
@@ -463,7 +500,7 @@ export type UtilisateurScalarWhereWithAggregatesInput = {
 
 export type UtilisateurCreateInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -473,6 +510,7 @@ export type UtilisateurCreateInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -487,12 +525,20 @@ export type UtilisateurCreateInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -502,6 +548,7 @@ export type UtilisateurUncheckedCreateInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -516,11 +563,19 @@ export type UtilisateurUncheckedCreateInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -530,6 +585,7 @@ export type UtilisateurUpdateInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -544,12 +600,20 @@ export type UtilisateurUpdateInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -559,6 +623,7 @@ export type UtilisateurUncheckedUpdateInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -573,12 +638,20 @@ export type UtilisateurUncheckedUpdateInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateManyInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -588,6 +661,7 @@ export type UtilisateurCreateManyInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -599,7 +673,7 @@ export type UtilisateurCreateManyInput = {
 
 export type UtilisateurUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -609,6 +683,7 @@ export type UtilisateurUpdateManyMutationInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -620,7 +695,7 @@ export type UtilisateurUpdateManyMutationInput = {
 export type UtilisateurUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -630,6 +705,7 @@ export type UtilisateurUncheckedUpdateManyInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -637,6 +713,11 @@ export type UtilisateurUncheckedUpdateManyInput = {
   dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UtilisateurEmailTypeUtilisateurCompoundUniqueInput = {
+  email: string
+  typeUtilisateur: $Enums.TypeUtilisateur
 }
 
 export type UtilisateurCountOrderByAggregateInput = {
@@ -652,6 +733,7 @@ export type UtilisateurCountOrderByAggregateInput = {
   typeUtilisateur?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   matriculeFiscale?: Prisma.SortOrder
+  matriculeVoiture?: Prisma.SortOrder
   activite?: Prisma.SortOrder
   activiteCategoryId?: Prisma.SortOrder
   otpCode?: Prisma.SortOrder
@@ -680,6 +762,7 @@ export type UtilisateurMaxOrderByAggregateInput = {
   typeUtilisateur?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   matriculeFiscale?: Prisma.SortOrder
+  matriculeVoiture?: Prisma.SortOrder
   activite?: Prisma.SortOrder
   activiteCategoryId?: Prisma.SortOrder
   otpCode?: Prisma.SortOrder
@@ -702,6 +785,7 @@ export type UtilisateurMinOrderByAggregateInput = {
   typeUtilisateur?: Prisma.SortOrder
   remise?: Prisma.SortOrder
   matriculeFiscale?: Prisma.SortOrder
+  matriculeVoiture?: Prisma.SortOrder
   activite?: Prisma.SortOrder
   activiteCategoryId?: Prisma.SortOrder
   otpCode?: Prisma.SortOrder
@@ -875,6 +959,12 @@ export type UtilisateurCreateNestedOneWithoutBonsLivraisonInput = {
   connect?: Prisma.UtilisateurWhereUniqueInput
 }
 
+export type UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonAsCommInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutBonsLivraisonAsCommInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
 export type UtilisateurUpdateOneWithoutBonsLivraisonNestedInput = {
   create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonInput>
   connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutBonsLivraisonInput
@@ -883,6 +973,16 @@ export type UtilisateurUpdateOneWithoutBonsLivraisonNestedInput = {
   delete?: Prisma.UtilisateurWhereInput | boolean
   connect?: Prisma.UtilisateurWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutBonsLivraisonInput, Prisma.UtilisateurUpdateWithoutBonsLivraisonInput>, Prisma.UtilisateurUncheckedUpdateWithoutBonsLivraisonInput>
+}
+
+export type UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonAsCommInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutBonsLivraisonAsCommInput
+  upsert?: Prisma.UtilisateurUpsertWithoutBonsLivraisonAsCommInput
+  disconnect?: Prisma.UtilisateurWhereInput | boolean
+  delete?: Prisma.UtilisateurWhereInput | boolean
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUpdateWithoutBonsLivraisonAsCommInput>, Prisma.UtilisateurUncheckedUpdateWithoutBonsLivraisonAsCommInput>
 }
 
 export type UtilisateurCreateNestedOneWithoutFacturesInput = {
@@ -931,9 +1031,115 @@ export type UtilisateurUpdateOneRequiredWithoutTokenResetNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutTokenResetInput, Prisma.UtilisateurUpdateWithoutTokenResetInput>, Prisma.UtilisateurUncheckedUpdateWithoutTokenResetInput>
 }
 
+export type UtilisateurCreateNestedOneWithoutChargesGeneralesInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedCreateWithoutChargesGeneralesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutChargesGeneralesInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneWithoutChargesGeneralesNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedCreateWithoutChargesGeneralesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutChargesGeneralesInput
+  upsert?: Prisma.UtilisateurUpsertWithoutChargesGeneralesInput
+  disconnect?: Prisma.UtilisateurWhereInput | boolean
+  delete?: Prisma.UtilisateurWhereInput | boolean
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutChargesGeneralesInput, Prisma.UtilisateurUpdateWithoutChargesGeneralesInput>, Prisma.UtilisateurUncheckedUpdateWithoutChargesGeneralesInput>
+}
+
+export type UtilisateurCreateNestedOneWithoutChargesCnssInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedCreateWithoutChargesCnssInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutChargesCnssInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneWithoutChargesCnssNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedCreateWithoutChargesCnssInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutChargesCnssInput
+  upsert?: Prisma.UtilisateurUpsertWithoutChargesCnssInput
+  disconnect?: Prisma.UtilisateurWhereInput | boolean
+  delete?: Prisma.UtilisateurWhereInput | boolean
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutChargesCnssInput, Prisma.UtilisateurUpdateWithoutChargesCnssInput>, Prisma.UtilisateurUncheckedUpdateWithoutChargesCnssInput>
+}
+
+export type UtilisateurCreateNestedOneWithoutCharges9ba4aInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedCreateWithoutCharges9ba4aInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutCharges9ba4aInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneWithoutCharges9ba4aNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedCreateWithoutCharges9ba4aInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutCharges9ba4aInput
+  upsert?: Prisma.UtilisateurUpsertWithoutCharges9ba4aInput
+  disconnect?: Prisma.UtilisateurWhereInput | boolean
+  delete?: Prisma.UtilisateurWhereInput | boolean
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutCharges9ba4aInput, Prisma.UtilisateurUpdateWithoutCharges9ba4aInput>, Prisma.UtilisateurUncheckedUpdateWithoutCharges9ba4aInput>
+}
+
+export type UtilisateurCreateNestedOneWithoutStockCommercialInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedCreateWithoutStockCommercialInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutStockCommercialInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneRequiredWithoutStockCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedCreateWithoutStockCommercialInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutStockCommercialInput
+  upsert?: Prisma.UtilisateurUpsertWithoutStockCommercialInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutStockCommercialInput, Prisma.UtilisateurUpdateWithoutStockCommercialInput>, Prisma.UtilisateurUncheckedUpdateWithoutStockCommercialInput>
+}
+
+export type UtilisateurCreateNestedOneWithoutBonsEntreeInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedCreateWithoutBonsEntreeInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutBonsEntreeInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneRequiredWithoutBonsEntreeNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedCreateWithoutBonsEntreeInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutBonsEntreeInput
+  upsert?: Prisma.UtilisateurUpsertWithoutBonsEntreeInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutBonsEntreeInput, Prisma.UtilisateurUpdateWithoutBonsEntreeInput>, Prisma.UtilisateurUncheckedUpdateWithoutBonsEntreeInput>
+}
+
+export type UtilisateurCreateNestedOneWithoutInventairesInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutInventairesInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurCreateNestedOneWithoutInventairesValidesInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesValidesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutInventairesValidesInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneRequiredWithoutInventairesNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutInventairesInput
+  upsert?: Prisma.UtilisateurUpsertWithoutInventairesInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutInventairesInput, Prisma.UtilisateurUpdateWithoutInventairesInput>, Prisma.UtilisateurUncheckedUpdateWithoutInventairesInput>
+}
+
+export type UtilisateurUpdateOneWithoutInventairesValidesNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesValidesInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutInventairesValidesInput
+  upsert?: Prisma.UtilisateurUpsertWithoutInventairesValidesInput
+  disconnect?: Prisma.UtilisateurWhereInput | boolean
+  delete?: Prisma.UtilisateurWhereInput | boolean
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutInventairesValidesInput, Prisma.UtilisateurUpdateWithoutInventairesValidesInput>, Prisma.UtilisateurUncheckedUpdateWithoutInventairesValidesInput>
+}
+
 export type UtilisateurCreateWithoutTicketsSupportInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -943,6 +1149,7 @@ export type UtilisateurCreateWithoutTicketsSupportInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -956,12 +1163,20 @@ export type UtilisateurCreateWithoutTicketsSupportInput = {
   factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutTicketsSupportInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -971,6 +1186,7 @@ export type UtilisateurUncheckedCreateWithoutTicketsSupportInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -984,6 +1200,14 @@ export type UtilisateurUncheckedCreateWithoutTicketsSupportInput = {
   factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutTicketsSupportInput = {
@@ -1004,7 +1228,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutTicketsSupportInput = {
 
 export type UtilisateurUpdateWithoutTicketsSupportInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1014,6 +1238,7 @@ export type UtilisateurUpdateWithoutTicketsSupportInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1027,12 +1252,20 @@ export type UtilisateurUpdateWithoutTicketsSupportInput = {
   factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutTicketsSupportInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1042,6 +1275,7 @@ export type UtilisateurUncheckedUpdateWithoutTicketsSupportInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1055,11 +1289,19 @@ export type UtilisateurUncheckedUpdateWithoutTicketsSupportInput = {
   factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutActiviteCategorieInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1069,6 +1311,7 @@ export type UtilisateurCreateWithoutActiviteCategorieInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1082,12 +1325,20 @@ export type UtilisateurCreateWithoutActiviteCategorieInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutActiviteCategorieInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1097,6 +1348,7 @@ export type UtilisateurUncheckedCreateWithoutActiviteCategorieInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1110,6 +1362,14 @@ export type UtilisateurUncheckedCreateWithoutActiviteCategorieInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutActiviteCategorieInput = {
@@ -1144,7 +1404,7 @@ export type UtilisateurScalarWhereInput = {
   NOT?: Prisma.UtilisateurScalarWhereInput | Prisma.UtilisateurScalarWhereInput[]
   id?: Prisma.IntFilter<"Utilisateur"> | number
   email?: Prisma.StringFilter<"Utilisateur"> | string
-  motDePasseHash?: Prisma.StringFilter<"Utilisateur"> | string
+  motDePasseHash?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   prenom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   nom?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   telephone?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -1154,6 +1414,7 @@ export type UtilisateurScalarWhereInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFilter<"Utilisateur"> | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFilter<"Utilisateur"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  matriculeVoiture?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activite?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
   activiteCategoryId?: Prisma.IntNullableFilter<"Utilisateur"> | number | null
   otpCode?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
@@ -1165,7 +1426,7 @@ export type UtilisateurScalarWhereInput = {
 
 export type UtilisateurCreateWithoutMouvementsStockInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1175,6 +1436,7 @@ export type UtilisateurCreateWithoutMouvementsStockInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1188,12 +1450,20 @@ export type UtilisateurCreateWithoutMouvementsStockInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutMouvementsStockInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1203,6 +1473,7 @@ export type UtilisateurUncheckedCreateWithoutMouvementsStockInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1216,6 +1487,14 @@ export type UtilisateurUncheckedCreateWithoutMouvementsStockInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutMouvementsStockInput = {
@@ -1236,7 +1515,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutMouvementsStockInput = {
 
 export type UtilisateurUpdateWithoutMouvementsStockInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1246,6 +1525,7 @@ export type UtilisateurUpdateWithoutMouvementsStockInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1259,12 +1539,20 @@ export type UtilisateurUpdateWithoutMouvementsStockInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutMouvementsStockInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1274,6 +1562,7 @@ export type UtilisateurUncheckedUpdateWithoutMouvementsStockInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1287,11 +1576,19 @@ export type UtilisateurUncheckedUpdateWithoutMouvementsStockInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutCommandesInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1301,6 +1598,7 @@ export type UtilisateurCreateWithoutCommandesInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1314,12 +1612,20 @@ export type UtilisateurCreateWithoutCommandesInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutCommandesInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1329,6 +1635,7 @@ export type UtilisateurUncheckedCreateWithoutCommandesInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1342,6 +1649,14 @@ export type UtilisateurUncheckedCreateWithoutCommandesInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutCommandesInput = {
@@ -1362,7 +1677,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutCommandesInput = {
 
 export type UtilisateurUpdateWithoutCommandesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1372,6 +1687,7 @@ export type UtilisateurUpdateWithoutCommandesInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1385,12 +1701,20 @@ export type UtilisateurUpdateWithoutCommandesInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutCommandesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1400,6 +1724,7 @@ export type UtilisateurUncheckedUpdateWithoutCommandesInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1413,11 +1738,19 @@ export type UtilisateurUncheckedUpdateWithoutCommandesInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutBonsLivraisonInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1427,6 +1760,7 @@ export type UtilisateurCreateWithoutBonsLivraisonInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1440,12 +1774,20 @@ export type UtilisateurCreateWithoutBonsLivraisonInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutBonsLivraisonInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1455,6 +1797,7 @@ export type UtilisateurUncheckedCreateWithoutBonsLivraisonInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1468,11 +1811,97 @@ export type UtilisateurUncheckedCreateWithoutBonsLivraisonInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutBonsLivraisonInput = {
   where: Prisma.UtilisateurWhereUniqueInput
   create: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonInput>
+}
+
+export type UtilisateurCreateWithoutBonsLivraisonAsCommInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutBonsLivraisonAsCommInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutBonsLivraisonAsCommInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonAsCommInput>
 }
 
 export type UtilisateurUpsertWithoutBonsLivraisonInput = {
@@ -1488,7 +1917,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutBonsLivraisonInput = {
 
 export type UtilisateurUpdateWithoutBonsLivraisonInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1498,6 +1927,7 @@ export type UtilisateurUpdateWithoutBonsLivraisonInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1511,12 +1941,20 @@ export type UtilisateurUpdateWithoutBonsLivraisonInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutBonsLivraisonInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1526,6 +1964,7 @@ export type UtilisateurUncheckedUpdateWithoutBonsLivraisonInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1539,11 +1978,103 @@ export type UtilisateurUncheckedUpdateWithoutBonsLivraisonInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUpsertWithoutBonsLivraisonAsCommInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedUpdateWithoutBonsLivraisonAsCommInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedCreateWithoutBonsLivraisonAsCommInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutBonsLivraisonAsCommInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutBonsLivraisonAsCommInput, Prisma.UtilisateurUncheckedUpdateWithoutBonsLivraisonAsCommInput>
+}
+
+export type UtilisateurUpdateWithoutBonsLivraisonAsCommInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutBonsLivraisonAsCommInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutFacturesInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1553,6 +2084,7 @@ export type UtilisateurCreateWithoutFacturesInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1566,12 +2098,20 @@ export type UtilisateurCreateWithoutFacturesInput = {
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutFacturesInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1581,6 +2121,7 @@ export type UtilisateurUncheckedCreateWithoutFacturesInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1594,6 +2135,14 @@ export type UtilisateurUncheckedCreateWithoutFacturesInput = {
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutFacturesInput = {
@@ -1614,7 +2163,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutFacturesInput = {
 
 export type UtilisateurUpdateWithoutFacturesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1624,6 +2173,7 @@ export type UtilisateurUpdateWithoutFacturesInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1637,12 +2187,20 @@ export type UtilisateurUpdateWithoutFacturesInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutFacturesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1652,6 +2210,7 @@ export type UtilisateurUncheckedUpdateWithoutFacturesInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1665,11 +2224,19 @@ export type UtilisateurUncheckedUpdateWithoutFacturesInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutDevisInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1679,6 +2246,7 @@ export type UtilisateurCreateWithoutDevisInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1692,12 +2260,20 @@ export type UtilisateurCreateWithoutDevisInput = {
   factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutDevisInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1707,6 +2283,7 @@ export type UtilisateurUncheckedCreateWithoutDevisInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1720,6 +2297,14 @@ export type UtilisateurUncheckedCreateWithoutDevisInput = {
   factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
   tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutDevisInput = {
@@ -1740,7 +2325,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutDevisInput = {
 
 export type UtilisateurUpdateWithoutDevisInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1750,6 +2335,7 @@ export type UtilisateurUpdateWithoutDevisInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1763,12 +2349,20 @@ export type UtilisateurUpdateWithoutDevisInput = {
   factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutDevisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1778,6 +2372,7 @@ export type UtilisateurUncheckedUpdateWithoutDevisInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1791,11 +2386,19 @@ export type UtilisateurUncheckedUpdateWithoutDevisInput = {
   factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurCreateWithoutTokenResetInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1805,6 +2408,7 @@ export type UtilisateurCreateWithoutTokenResetInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1818,12 +2422,20 @@ export type UtilisateurCreateWithoutTokenResetInput = {
   factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
   devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurUncheckedCreateWithoutTokenResetInput = {
   id?: number
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1833,6 +2445,7 @@ export type UtilisateurUncheckedCreateWithoutTokenResetInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   activiteCategoryId?: number | null
   otpCode?: string | null
@@ -1846,6 +2459,14 @@ export type UtilisateurUncheckedCreateWithoutTokenResetInput = {
   factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
   devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
   ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
 }
 
 export type UtilisateurCreateOrConnectWithoutTokenResetInput = {
@@ -1866,7 +2487,7 @@ export type UtilisateurUpdateToOneWithWhereWithoutTokenResetInput = {
 
 export type UtilisateurUpdateWithoutTokenResetInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1876,6 +2497,7 @@ export type UtilisateurUpdateWithoutTokenResetInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1889,12 +2511,20 @@ export type UtilisateurUpdateWithoutTokenResetInput = {
   factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutTokenResetInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1904,6 +2534,7 @@ export type UtilisateurUncheckedUpdateWithoutTokenResetInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1917,12 +2548,19 @@ export type UtilisateurUncheckedUpdateWithoutTokenResetInput = {
   factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
-export type UtilisateurCreateManyActiviteCategorieInput = {
-  id?: number
+export type UtilisateurCreateWithoutChargesGeneralesInput = {
   email: string
-  motDePasseHash: string
+  motDePasseHash?: string | null
   prenom?: string | null
   nom?: string | null
   telephone?: string | null
@@ -1932,6 +2570,1142 @@ export type UtilisateurCreateManyActiviteCategorieInput = {
   typeUtilisateur?: $Enums.TypeUtilisateur
   remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutChargesGeneralesInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutChargesGeneralesInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedCreateWithoutChargesGeneralesInput>
+}
+
+export type UtilisateurUpsertWithoutChargesGeneralesInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedUpdateWithoutChargesGeneralesInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedCreateWithoutChargesGeneralesInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutChargesGeneralesInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutChargesGeneralesInput, Prisma.UtilisateurUncheckedUpdateWithoutChargesGeneralesInput>
+}
+
+export type UtilisateurUpdateWithoutChargesGeneralesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutChargesGeneralesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurCreateWithoutChargesCnssInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutChargesCnssInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutChargesCnssInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedCreateWithoutChargesCnssInput>
+}
+
+export type UtilisateurUpsertWithoutChargesCnssInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedUpdateWithoutChargesCnssInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedCreateWithoutChargesCnssInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutChargesCnssInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutChargesCnssInput, Prisma.UtilisateurUncheckedUpdateWithoutChargesCnssInput>
+}
+
+export type UtilisateurUpdateWithoutChargesCnssInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutChargesCnssInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurCreateWithoutCharges9ba4aInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutCharges9ba4aInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutCharges9ba4aInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedCreateWithoutCharges9ba4aInput>
+}
+
+export type UtilisateurUpsertWithoutCharges9ba4aInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedUpdateWithoutCharges9ba4aInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedCreateWithoutCharges9ba4aInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutCharges9ba4aInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutCharges9ba4aInput, Prisma.UtilisateurUncheckedUpdateWithoutCharges9ba4aInput>
+}
+
+export type UtilisateurUpdateWithoutCharges9ba4aInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutCharges9ba4aInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurCreateWithoutStockCommercialInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutStockCommercialInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutStockCommercialInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedCreateWithoutStockCommercialInput>
+}
+
+export type UtilisateurUpsertWithoutStockCommercialInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedUpdateWithoutStockCommercialInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedCreateWithoutStockCommercialInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutStockCommercialInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutStockCommercialInput, Prisma.UtilisateurUncheckedUpdateWithoutStockCommercialInput>
+}
+
+export type UtilisateurUpdateWithoutStockCommercialInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutStockCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurCreateWithoutBonsEntreeInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutBonsEntreeInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutBonsEntreeInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedCreateWithoutBonsEntreeInput>
+}
+
+export type UtilisateurUpsertWithoutBonsEntreeInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedUpdateWithoutBonsEntreeInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedCreateWithoutBonsEntreeInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutBonsEntreeInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutBonsEntreeInput, Prisma.UtilisateurUncheckedUpdateWithoutBonsEntreeInput>
+}
+
+export type UtilisateurUpdateWithoutBonsEntreeInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutBonsEntreeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurCreateWithoutInventairesInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurUncheckedCreateWithoutInventairesInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutValideParInput
+}
+
+export type UtilisateurCreateOrConnectWithoutInventairesInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesInput>
+}
+
+export type UtilisateurCreateWithoutInventairesValidesInput = {
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  activiteCategorie?: Prisma.CategorieCreateNestedOneWithoutUtilisateursInput
+  commandes?: Prisma.CommandeCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialCreateNestedManyWithoutCommercialInput
+}
+
+export type UtilisateurUncheckedCreateWithoutInventairesValidesInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
+  activite?: string | null
+  activiteCategoryId?: number | null
+  otpCode?: string | null
+  otpExpire?: Date | string | null
+  dernierLogin?: Date | string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commandes?: Prisma.CommandeUncheckedCreateNestedManyWithoutUtilisateurInput
+  mouvementsStock?: Prisma.StockMovementUncheckedCreateNestedManyWithoutUserInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutUtilisateurInput
+  devis?: Prisma.DevisUncheckedCreateNestedManyWithoutUtilisateurInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedCreateNestedManyWithoutUtilisateurInput
+  tokenReset?: Prisma.TokenResetUncheckedCreateNestedOneWithoutUtilisateurInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedCreateNestedManyWithoutCommercialInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput
+  stockCommercial?: Prisma.StockCommercialUncheckedCreateNestedManyWithoutCommercialInput
+  bonsEntree?: Prisma.BonSortieUncheckedCreateNestedManyWithoutCommercialInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput
+  inventaires?: Prisma.InventaireCommercialUncheckedCreateNestedManyWithoutCommercialInput
+}
+
+export type UtilisateurCreateOrConnectWithoutInventairesValidesInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesValidesInput>
+}
+
+export type UtilisateurUpsertWithoutInventairesInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutInventairesInput, Prisma.UtilisateurUncheckedUpdateWithoutInventairesInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutInventairesInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutInventairesInput, Prisma.UtilisateurUncheckedUpdateWithoutInventairesInput>
+}
+
+export type UtilisateurUpdateWithoutInventairesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutInventairesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
+}
+
+export type UtilisateurUpsertWithoutInventairesValidesInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedUpdateWithoutInventairesValidesInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedCreateWithoutInventairesValidesInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutInventairesValidesInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutInventairesValidesInput, Prisma.UtilisateurUncheckedUpdateWithoutInventairesValidesInput>
+}
+
+export type UtilisateurUpdateWithoutInventairesValidesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activiteCategorie?: Prisma.CategorieUpdateOneWithoutUtilisateursNestedInput
+  commandes?: Prisma.CommandeUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutInventairesValidesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateNaissance?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
+  remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activiteCategoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dernierLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commandes?: Prisma.CommandeUncheckedUpdateManyWithoutUtilisateurNestedInput
+  mouvementsStock?: Prisma.StockMovementUncheckedUpdateManyWithoutUserNestedInput
+  bonsLivraison?: Prisma.BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutUtilisateurNestedInput
+  devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
+  ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
+  tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+}
+
+export type UtilisateurCreateManyActiviteCategorieInput = {
+  id?: number
+  email: string
+  motDePasseHash?: string | null
+  prenom?: string | null
+  nom?: string | null
+  telephone?: string | null
+  photo?: string | null
+  adresse?: string | null
+  dateNaissance?: Date | string | null
+  typeUtilisateur?: $Enums.TypeUtilisateur
+  remise?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  matriculeFiscale?: string | null
+  matriculeVoiture?: string | null
   activite?: string | null
   otpCode?: string | null
   otpExpire?: Date | string | null
@@ -1942,7 +3716,7 @@ export type UtilisateurCreateManyActiviteCategorieInput = {
 
 export type UtilisateurUpdateWithoutActiviteCategorieInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1952,6 +3726,7 @@ export type UtilisateurUpdateWithoutActiviteCategorieInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1965,12 +3740,20 @@ export type UtilisateurUpdateWithoutActiviteCategorieInput = {
   devis?: Prisma.DevisUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutActiviteCategorieInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1980,6 +3763,7 @@ export type UtilisateurUncheckedUpdateWithoutActiviteCategorieInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1993,12 +3777,20 @@ export type UtilisateurUncheckedUpdateWithoutActiviteCategorieInput = {
   devis?: Prisma.DevisUncheckedUpdateManyWithoutUtilisateurNestedInput
   ticketsSupport?: Prisma.TicketSupportUncheckedUpdateManyWithoutUtilisateurNestedInput
   tokenReset?: Prisma.TokenResetUncheckedUpdateOneWithoutUtilisateurNestedInput
+  chargesGenerales?: Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput
+  chargesCnss?: Prisma.ChargeCnssUncheckedUpdateManyWithoutCommercialNestedInput
+  charges9ba4a?: Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput
+  stockCommercial?: Prisma.StockCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsEntree?: Prisma.BonSortieUncheckedUpdateManyWithoutCommercialNestedInput
+  bonsLivraisonAsComm?: Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput
+  inventaires?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutCommercialNestedInput
+  inventairesValides?: Prisma.InventaireCommercialUncheckedUpdateManyWithoutValideParNestedInput
 }
 
 export type UtilisateurUncheckedUpdateManyWithoutActiviteCategorieInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasseHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prenom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telephone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2008,6 +3800,7 @@ export type UtilisateurUncheckedUpdateManyWithoutActiviteCategorieInput = {
   typeUtilisateur?: Prisma.EnumTypeUtilisateurFieldUpdateOperationsInput | $Enums.TypeUtilisateur
   remise?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   matriculeFiscale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  matriculeVoiture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpire?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2028,6 +3821,14 @@ export type UtilisateurCountOutputType = {
   factures: number
   devis: number
   ticketsSupport: number
+  chargesGenerales: number
+  chargesCnss: number
+  charges9ba4a: number
+  stockCommercial: number
+  bonsEntree: number
+  bonsLivraisonAsComm: number
+  inventaires: number
+  inventairesValides: number
 }
 
 export type UtilisateurCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2037,6 +3838,14 @@ export type UtilisateurCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   factures?: boolean | UtilisateurCountOutputTypeCountFacturesArgs
   devis?: boolean | UtilisateurCountOutputTypeCountDevisArgs
   ticketsSupport?: boolean | UtilisateurCountOutputTypeCountTicketsSupportArgs
+  chargesGenerales?: boolean | UtilisateurCountOutputTypeCountChargesGeneralesArgs
+  chargesCnss?: boolean | UtilisateurCountOutputTypeCountChargesCnssArgs
+  charges9ba4a?: boolean | UtilisateurCountOutputTypeCountCharges9ba4aArgs
+  stockCommercial?: boolean | UtilisateurCountOutputTypeCountStockCommercialArgs
+  bonsEntree?: boolean | UtilisateurCountOutputTypeCountBonsEntreeArgs
+  bonsLivraisonAsComm?: boolean | UtilisateurCountOutputTypeCountBonsLivraisonAsCommArgs
+  inventaires?: boolean | UtilisateurCountOutputTypeCountInventairesArgs
+  inventairesValides?: boolean | UtilisateurCountOutputTypeCountInventairesValidesArgs
 }
 
 /**
@@ -2091,6 +3900,62 @@ export type UtilisateurCountOutputTypeCountTicketsSupportArgs<ExtArgs extends ru
   where?: Prisma.TicketSupportWhereInput
 }
 
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountChargesGeneralesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChargeGeneraleWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountChargesCnssArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChargeCnssWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountCharges9ba4aArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.Charge9ba4aWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountStockCommercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StockCommercialWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountBonsEntreeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BonSortieWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountBonsLivraisonAsCommArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BonLivraisonWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountInventairesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventaireCommercialWhereInput
+}
+
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountInventairesValidesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventaireCommercialWhereInput
+}
+
 
 export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2105,6 +3970,7 @@ export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   typeUtilisateur?: boolean
   remise?: boolean
   matriculeFiscale?: boolean
+  matriculeVoiture?: boolean
   activite?: boolean
   activiteCategoryId?: boolean
   otpCode?: boolean
@@ -2120,6 +3986,14 @@ export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   devis?: boolean | Prisma.Utilisateur$devisArgs<ExtArgs>
   ticketsSupport?: boolean | Prisma.Utilisateur$ticketsSupportArgs<ExtArgs>
   tokenReset?: boolean | Prisma.Utilisateur$tokenResetArgs<ExtArgs>
+  chargesGenerales?: boolean | Prisma.Utilisateur$chargesGeneralesArgs<ExtArgs>
+  chargesCnss?: boolean | Prisma.Utilisateur$chargesCnssArgs<ExtArgs>
+  charges9ba4a?: boolean | Prisma.Utilisateur$charges9ba4aArgs<ExtArgs>
+  stockCommercial?: boolean | Prisma.Utilisateur$stockCommercialArgs<ExtArgs>
+  bonsEntree?: boolean | Prisma.Utilisateur$bonsEntreeArgs<ExtArgs>
+  bonsLivraisonAsComm?: boolean | Prisma.Utilisateur$bonsLivraisonAsCommArgs<ExtArgs>
+  inventaires?: boolean | Prisma.Utilisateur$inventairesArgs<ExtArgs>
+  inventairesValides?: boolean | Prisma.Utilisateur$inventairesValidesArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["utilisateur"]>
 
@@ -2136,6 +4010,7 @@ export type UtilisateurSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   typeUtilisateur?: boolean
   remise?: boolean
   matriculeFiscale?: boolean
+  matriculeVoiture?: boolean
   activite?: boolean
   activiteCategoryId?: boolean
   otpCode?: boolean
@@ -2159,6 +4034,7 @@ export type UtilisateurSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   typeUtilisateur?: boolean
   remise?: boolean
   matriculeFiscale?: boolean
+  matriculeVoiture?: boolean
   activite?: boolean
   activiteCategoryId?: boolean
   otpCode?: boolean
@@ -2182,6 +4058,7 @@ export type UtilisateurSelectScalar = {
   typeUtilisateur?: boolean
   remise?: boolean
   matriculeFiscale?: boolean
+  matriculeVoiture?: boolean
   activite?: boolean
   activiteCategoryId?: boolean
   otpCode?: boolean
@@ -2191,7 +4068,7 @@ export type UtilisateurSelectScalar = {
   misAJourLe?: boolean
 }
 
-export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "motDePasseHash" | "prenom" | "nom" | "telephone" | "photo" | "adresse" | "dateNaissance" | "typeUtilisateur" | "remise" | "matriculeFiscale" | "activite" | "activiteCategoryId" | "otpCode" | "otpExpire" | "dernierLogin" | "creeLe" | "misAJourLe", ExtArgs["result"]["utilisateur"]>
+export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "motDePasseHash" | "prenom" | "nom" | "telephone" | "photo" | "adresse" | "dateNaissance" | "typeUtilisateur" | "remise" | "matriculeFiscale" | "matriculeVoiture" | "activite" | "activiteCategoryId" | "otpCode" | "otpExpire" | "dernierLogin" | "creeLe" | "misAJourLe", ExtArgs["result"]["utilisateur"]>
 export type UtilisateurInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   activiteCategorie?: boolean | Prisma.Utilisateur$activiteCategorieArgs<ExtArgs>
   commandes?: boolean | Prisma.Utilisateur$commandesArgs<ExtArgs>
@@ -2201,6 +4078,14 @@ export type UtilisateurInclude<ExtArgs extends runtime.Types.Extensions.Internal
   devis?: boolean | Prisma.Utilisateur$devisArgs<ExtArgs>
   ticketsSupport?: boolean | Prisma.Utilisateur$ticketsSupportArgs<ExtArgs>
   tokenReset?: boolean | Prisma.Utilisateur$tokenResetArgs<ExtArgs>
+  chargesGenerales?: boolean | Prisma.Utilisateur$chargesGeneralesArgs<ExtArgs>
+  chargesCnss?: boolean | Prisma.Utilisateur$chargesCnssArgs<ExtArgs>
+  charges9ba4a?: boolean | Prisma.Utilisateur$charges9ba4aArgs<ExtArgs>
+  stockCommercial?: boolean | Prisma.Utilisateur$stockCommercialArgs<ExtArgs>
+  bonsEntree?: boolean | Prisma.Utilisateur$bonsEntreeArgs<ExtArgs>
+  bonsLivraisonAsComm?: boolean | Prisma.Utilisateur$bonsLivraisonAsCommArgs<ExtArgs>
+  inventaires?: boolean | Prisma.Utilisateur$inventairesArgs<ExtArgs>
+  inventairesValides?: boolean | Prisma.Utilisateur$inventairesValidesArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UtilisateurIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2221,11 +4106,19 @@ export type $UtilisateurPayload<ExtArgs extends runtime.Types.Extensions.Interna
     devis: Prisma.$DevisPayload<ExtArgs>[]
     ticketsSupport: Prisma.$TicketSupportPayload<ExtArgs>[]
     tokenReset: Prisma.$TokenResetPayload<ExtArgs> | null
+    chargesGenerales: Prisma.$ChargeGeneralePayload<ExtArgs>[]
+    chargesCnss: Prisma.$ChargeCnssPayload<ExtArgs>[]
+    charges9ba4a: Prisma.$Charge9ba4aPayload<ExtArgs>[]
+    stockCommercial: Prisma.$StockCommercialPayload<ExtArgs>[]
+    bonsEntree: Prisma.$BonSortiePayload<ExtArgs>[]
+    bonsLivraisonAsComm: Prisma.$BonLivraisonPayload<ExtArgs>[]
+    inventaires: Prisma.$InventaireCommercialPayload<ExtArgs>[]
+    inventairesValides: Prisma.$InventaireCommercialPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     email: string
-    motDePasseHash: string
+    motDePasseHash: string | null
     prenom: string | null
     nom: string | null
     telephone: string | null
@@ -2235,6 +4128,7 @@ export type $UtilisateurPayload<ExtArgs extends runtime.Types.Extensions.Interna
     typeUtilisateur: $Enums.TypeUtilisateur
     remise: runtime.Decimal
     matriculeFiscale: string | null
+    matriculeVoiture: string | null
     activite: string | null
     activiteCategoryId: number | null
     otpCode: string | null
@@ -2644,6 +4538,14 @@ export interface Prisma__UtilisateurClient<T, Null = never, ExtArgs extends runt
   devis<T extends Prisma.Utilisateur$devisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$devisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ticketsSupport<T extends Prisma.Utilisateur$ticketsSupportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$ticketsSupportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketSupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tokenReset<T extends Prisma.Utilisateur$tokenResetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$tokenResetArgs<ExtArgs>>): Prisma.Prisma__TokenResetClient<runtime.Types.Result.GetResult<Prisma.$TokenResetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  chargesGenerales<T extends Prisma.Utilisateur$chargesGeneralesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$chargesGeneralesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargeGeneralePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chargesCnss<T extends Prisma.Utilisateur$chargesCnssArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$chargesCnssArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargeCnssPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  charges9ba4a<T extends Prisma.Utilisateur$charges9ba4aArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$charges9ba4aArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Charge9ba4aPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stockCommercial<T extends Prisma.Utilisateur$stockCommercialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$stockCommercialArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockCommercialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bonsEntree<T extends Prisma.Utilisateur$bonsEntreeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$bonsEntreeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BonSortiePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bonsLivraisonAsComm<T extends Prisma.Utilisateur$bonsLivraisonAsCommArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$bonsLivraisonAsCommArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BonLivraisonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventaires<T extends Prisma.Utilisateur$inventairesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$inventairesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventaireCommercialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventairesValides<T extends Prisma.Utilisateur$inventairesValidesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$inventairesValidesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventaireCommercialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2685,6 +4587,7 @@ export interface UtilisateurFieldRefs {
   readonly typeUtilisateur: Prisma.FieldRef<"Utilisateur", 'TypeUtilisateur'>
   readonly remise: Prisma.FieldRef<"Utilisateur", 'Decimal'>
   readonly matriculeFiscale: Prisma.FieldRef<"Utilisateur", 'String'>
+  readonly matriculeVoiture: Prisma.FieldRef<"Utilisateur", 'String'>
   readonly activite: Prisma.FieldRef<"Utilisateur", 'String'>
   readonly activiteCategoryId: Prisma.FieldRef<"Utilisateur", 'Int'>
   readonly otpCode: Prisma.FieldRef<"Utilisateur", 'String'>
@@ -3272,6 +5175,198 @@ export type Utilisateur$tokenResetArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.TokenResetInclude<ExtArgs> | null
   where?: Prisma.TokenResetWhereInput
+}
+
+/**
+ * Utilisateur.chargesGenerales
+ */
+export type Utilisateur$chargesGeneralesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChargeGenerale
+   */
+  select?: Prisma.ChargeGeneraleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChargeGenerale
+   */
+  omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  where?: Prisma.ChargeGeneraleWhereInput
+  orderBy?: Prisma.ChargeGeneraleOrderByWithRelationInput | Prisma.ChargeGeneraleOrderByWithRelationInput[]
+  cursor?: Prisma.ChargeGeneraleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChargeGeneraleScalarFieldEnum | Prisma.ChargeGeneraleScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.chargesCnss
+ */
+export type Utilisateur$chargesCnssArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChargeCnss
+   */
+  select?: Prisma.ChargeCnssSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChargeCnss
+   */
+  omit?: Prisma.ChargeCnssOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeCnssInclude<ExtArgs> | null
+  where?: Prisma.ChargeCnssWhereInput
+  orderBy?: Prisma.ChargeCnssOrderByWithRelationInput | Prisma.ChargeCnssOrderByWithRelationInput[]
+  cursor?: Prisma.ChargeCnssWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChargeCnssScalarFieldEnum | Prisma.ChargeCnssScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.charges9ba4a
+ */
+export type Utilisateur$charges9ba4aArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Charge9ba4a
+   */
+  select?: Prisma.Charge9ba4aSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Charge9ba4a
+   */
+  omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  where?: Prisma.Charge9ba4aWhereInput
+  orderBy?: Prisma.Charge9ba4aOrderByWithRelationInput | Prisma.Charge9ba4aOrderByWithRelationInput[]
+  cursor?: Prisma.Charge9ba4aWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Charge9ba4aScalarFieldEnum | Prisma.Charge9ba4aScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.stockCommercial
+ */
+export type Utilisateur$stockCommercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StockCommercial
+   */
+  select?: Prisma.StockCommercialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StockCommercial
+   */
+  omit?: Prisma.StockCommercialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockCommercialInclude<ExtArgs> | null
+  where?: Prisma.StockCommercialWhereInput
+  orderBy?: Prisma.StockCommercialOrderByWithRelationInput | Prisma.StockCommercialOrderByWithRelationInput[]
+  cursor?: Prisma.StockCommercialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StockCommercialScalarFieldEnum | Prisma.StockCommercialScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.bonsEntree
+ */
+export type Utilisateur$bonsEntreeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BonSortie
+   */
+  select?: Prisma.BonSortieSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BonSortie
+   */
+  omit?: Prisma.BonSortieOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BonSortieInclude<ExtArgs> | null
+  where?: Prisma.BonSortieWhereInput
+  orderBy?: Prisma.BonSortieOrderByWithRelationInput | Prisma.BonSortieOrderByWithRelationInput[]
+  cursor?: Prisma.BonSortieWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BonSortieScalarFieldEnum | Prisma.BonSortieScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.bonsLivraisonAsComm
+ */
+export type Utilisateur$bonsLivraisonAsCommArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BonLivraison
+   */
+  select?: Prisma.BonLivraisonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BonLivraison
+   */
+  omit?: Prisma.BonLivraisonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BonLivraisonInclude<ExtArgs> | null
+  where?: Prisma.BonLivraisonWhereInput
+  orderBy?: Prisma.BonLivraisonOrderByWithRelationInput | Prisma.BonLivraisonOrderByWithRelationInput[]
+  cursor?: Prisma.BonLivraisonWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BonLivraisonScalarFieldEnum | Prisma.BonLivraisonScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.inventaires
+ */
+export type Utilisateur$inventairesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventaireCommercial
+   */
+  select?: Prisma.InventaireCommercialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventaireCommercial
+   */
+  omit?: Prisma.InventaireCommercialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventaireCommercialInclude<ExtArgs> | null
+  where?: Prisma.InventaireCommercialWhereInput
+  orderBy?: Prisma.InventaireCommercialOrderByWithRelationInput | Prisma.InventaireCommercialOrderByWithRelationInput[]
+  cursor?: Prisma.InventaireCommercialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventaireCommercialScalarFieldEnum | Prisma.InventaireCommercialScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.inventairesValides
+ */
+export type Utilisateur$inventairesValidesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventaireCommercial
+   */
+  select?: Prisma.InventaireCommercialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventaireCommercial
+   */
+  omit?: Prisma.InventaireCommercialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventaireCommercialInclude<ExtArgs> | null
+  where?: Prisma.InventaireCommercialWhereInput
+  orderBy?: Prisma.InventaireCommercialOrderByWithRelationInput | Prisma.InventaireCommercialOrderByWithRelationInput[]
+  cursor?: Prisma.InventaireCommercialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventaireCommercialScalarFieldEnum | Prisma.InventaireCommercialScalarFieldEnum[]
 }
 
 /**

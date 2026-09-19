@@ -453,6 +453,7 @@ export default function BonsLivraisonPage() {
   const [bls, setBls] = useState<BonLivraison[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchBLs = useCallback(async () => {
     try {
@@ -472,7 +473,14 @@ export default function BonsLivraisonPage() {
   useEffect(() => { fetchBLs(); }, [fetchBLs]);
 
   // Stats calculations
-  const validBLs = bls.filter(b => b.statut !== "ANNULEE");
+  const filteredBls = bls.filter(b => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    const clientName = (b.clientNom || (b.utilisateur ? `${b.utilisateur.nom || ""} ${b.utilisateur.prenom || ""}`.trim() : "")).toLowerCase();
+    return b.code.toLowerCase().includes(q) || clientName.includes(q);
+  });
+
+  const validBLs = filteredBls.filter(b => b.statut !== "ANNULEE");
   const totalBLsTTC = validBLs.reduce(
     (acc, bonLivraison) => acc + bonLivraison.lignes.reduce(
       (total, ligne) => total + Number(ligne.quantiteLivree) * Number(ligne.prixUnitaireHT) * (1 + Number(ligne.tauxTVA) / 100),
@@ -507,7 +515,16 @@ export default function BonsLivraisonPage() {
       <div className="shrink-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Bons de Livraison</h2>
-          <p className="text-sm text-gray-500 mt-1">{bls.length} bon(s) de livraison</p>
+          <p className="text-sm text-gray-500 mt-1">{filteredBls.length} bon(s) de livraison</p>
+        </div>
+        <div className="w-full sm:w-64">
+          <input
+            type="text"
+            placeholder="Rechercher code, client..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+          />
         </div>
       </div>
 
@@ -523,7 +540,7 @@ export default function BonsLivraisonPage() {
                 <th className="px-5 py-3.5 font-semibold">Référence</th>
                 <th className="px-5 py-3.5 font-semibold">Date</th>
                 <th className="px-5 py-3.5 font-semibold">Client</th>
-                <th className="px-5 py-3.5 font-semibold">Commande</th>
+                <th className="px-5 py-3.5 font-semibold">Commande / BS</th>
                 <th className="px-5 py-3.5 font-semibold">Factures</th>
                 <th className="px-5 py-3.5 font-semibold text-center">Statut</th>
                 <th className="px-5 py-3.5 font-semibold text-right">Edition</th>
@@ -532,10 +549,10 @@ export default function BonsLivraisonPage() {
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
               {loading ? (
                 <tr><td colSpan={7} className="px-6 py-10 text-center text-gray-400">Chargement...</td></tr>
-              ) : bls.length === 0 ? (
+              ) : filteredBls.length === 0 ? (
                 <tr><td colSpan={7} className="px-6 py-10 text-center text-gray-400">Aucun bon de livraison trouvé.</td></tr>
               ) : (
-                bls.map((bl) => {
+                filteredBls.map((bl) => {
                   const clientName = bl.clientNom || (bl.utilisateur ? `${bl.utilisateur.nom || ""} ${bl.utilisateur.prenom || ""}`.trim() : "—");
                   const sCfg = statutConfig[bl.statut] ?? { label: bl.statut, cls: "bg-gray-100 text-gray-600" };
                   return (
@@ -546,13 +563,24 @@ export default function BonsLivraisonPage() {
                       </td>
                       <td className="px-5 py-3.5 text-gray-700 dark:text-gray-300 max-w-[160px] truncate">{clientName}</td>
                       <td className="px-5 py-3.5">
-                        {bl.commandeId ? (
-                          <Link href={`/orders/${bl.commandeId}`} className="text-amber-700 hover:underline font-medium text-xs">
-                            CMD-{bl.commandeId.toString().padStart(5, "0")}
-                          </Link>
-                        ) : (
-                          <span className="text-gray-400 italic text-xs">Aucune</span>
-                        )}
+                        <div className="flex flex-col gap-0.5">
+                          {bl.commandeId ? (
+                            <Link href={`/orders/${bl.commandeId}`} className="text-amber-700 hover:underline font-medium text-xs">
+                              CMD-{bl.commandeId.toString().padStart(5, "0")}
+                            </Link>
+                          ) : null}
+                          {(bl as any).bonSortie ? (
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 font-medium w-fit">
+                              {(bl as any).bonSortie.code}
+                            </span>
+                          ) : null}
+                          {(bl as any).commercial ? (
+                            <span className="text-xs text-gray-500">{(bl as any).commercial.prenom} {(bl as any).commercial.nom}</span>
+                          ) : null}
+                          {!bl.commandeId && !(bl as any).bonSortie && (
+                            <span className="text-gray-400 italic text-xs">Aucune</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-5 py-3.5">
                         {bl.factures.length > 0 ? (

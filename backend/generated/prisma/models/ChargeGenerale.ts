@@ -31,6 +31,8 @@ export type ChargeGeneraleAvgAggregateOutputType = {
   montantHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type ChargeGeneraleSumAggregateOutputType = {
@@ -38,6 +40,8 @@ export type ChargeGeneraleSumAggregateOutputType = {
   montantHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type ChargeGeneraleMinAggregateOutputType = {
@@ -52,11 +56,13 @@ export type ChargeGeneraleMinAggregateOutputType = {
   tauxTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   modePaiement: string | null
   datePaiement: Date | null
   referenceFacture: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -73,11 +79,13 @@ export type ChargeGeneraleMaxAggregateOutputType = {
   tauxTVA: runtime.Decimal | null
   montantTTC: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   modePaiement: string | null
   datePaiement: Date | null
   referenceFacture: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -94,11 +102,13 @@ export type ChargeGeneraleCountAggregateOutputType = {
   tauxTVA: number
   montantTTC: number
   statutPaiement: number
+  montantPaye: number
   modePaiement: number
   datePaiement: number
   referenceFacture: number
   pieceJustificativeUrl: number
   notes: number
+  commercialId: number
   creeLe: number
   misAJourLe: number
   _all: number
@@ -110,6 +120,8 @@ export type ChargeGeneraleAvgAggregateInputType = {
   montantHT?: true
   tauxTVA?: true
   montantTTC?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type ChargeGeneraleSumAggregateInputType = {
@@ -117,6 +129,8 @@ export type ChargeGeneraleSumAggregateInputType = {
   montantHT?: true
   tauxTVA?: true
   montantTTC?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type ChargeGeneraleMinAggregateInputType = {
@@ -131,11 +145,13 @@ export type ChargeGeneraleMinAggregateInputType = {
   tauxTVA?: true
   montantTTC?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   datePaiement?: true
   referenceFacture?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -152,11 +168,13 @@ export type ChargeGeneraleMaxAggregateInputType = {
   tauxTVA?: true
   montantTTC?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   datePaiement?: true
   referenceFacture?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -173,11 +191,13 @@ export type ChargeGeneraleCountAggregateInputType = {
   tauxTVA?: true
   montantTTC?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   datePaiement?: true
   referenceFacture?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
   _all?: true
@@ -281,11 +301,13 @@ export type ChargeGeneraleGroupByOutputType = {
   tauxTVA: runtime.Decimal
   montantTTC: runtime.Decimal
   statutPaiement: $Enums.StatutPaiementFournisseur
+  montantPaye: runtime.Decimal
   modePaiement: string | null
   datePaiement: Date | null
   referenceFacture: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date
   misAJourLe: Date
   _count: ChargeGeneraleCountAggregateOutputType | null
@@ -325,13 +347,16 @@ export type ChargeGeneraleWhereInput = {
   tauxTVA?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeGenerale"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   datePaiement?: Prisma.DateTimeNullableFilter<"ChargeGenerale"> | Date | string | null
   referenceFacture?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   notes?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeGenerale"> | number | null
   creeLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }
 
 export type ChargeGeneraleOrderByWithRelationInput = {
@@ -346,13 +371,16 @@ export type ChargeGeneraleOrderByWithRelationInput = {
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   datePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceFacture?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+  commercial?: Prisma.UtilisateurOrderByWithRelationInput
 }
 
 export type ChargeGeneraleWhereUniqueInput = Prisma.AtLeast<{
@@ -370,13 +398,16 @@ export type ChargeGeneraleWhereUniqueInput = Prisma.AtLeast<{
   tauxTVA?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeGenerale"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   datePaiement?: Prisma.DateTimeNullableFilter<"ChargeGenerale"> | Date | string | null
   referenceFacture?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
   notes?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeGenerale"> | number | null
   creeLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }, "id" | "numeroCharge">
 
 export type ChargeGeneraleOrderByWithAggregationInput = {
@@ -391,11 +422,13 @@ export type ChargeGeneraleOrderByWithAggregationInput = {
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   datePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceFacture?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.ChargeGeneraleCountOrderByAggregateInput
@@ -420,11 +453,13 @@ export type ChargeGeneraleScalarWhereWithAggregatesInput = {
   tauxTVA?: Prisma.DecimalWithAggregatesFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalWithAggregatesFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurWithAggregatesFilter<"ChargeGenerale"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalWithAggregatesFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableWithAggregatesFilter<"ChargeGenerale"> | string | null
   datePaiement?: Prisma.DateTimeNullableWithAggregatesFilter<"ChargeGenerale"> | Date | string | null
   referenceFacture?: Prisma.StringNullableWithAggregatesFilter<"ChargeGenerale"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableWithAggregatesFilter<"ChargeGenerale"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"ChargeGenerale"> | string | null
+  commercialId?: Prisma.IntNullableWithAggregatesFilter<"ChargeGenerale"> | number | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"ChargeGenerale"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"ChargeGenerale"> | Date | string
 }
@@ -440,6 +475,7 @@ export type ChargeGeneraleCreateInput = {
   tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   datePaiement?: Date | string | null
   referenceFacture?: string | null
@@ -447,6 +483,7 @@ export type ChargeGeneraleCreateInput = {
   notes?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutChargesGeneralesInput
 }
 
 export type ChargeGeneraleUncheckedCreateInput = {
@@ -461,11 +498,13 @@ export type ChargeGeneraleUncheckedCreateInput = {
   tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   datePaiement?: Date | string | null
   referenceFacture?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -481,6 +520,7 @@ export type ChargeGeneraleUpdateInput = {
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -488,6 +528,7 @@ export type ChargeGeneraleUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commercial?: Prisma.UtilisateurUpdateOneWithoutChargesGeneralesNestedInput
 }
 
 export type ChargeGeneraleUncheckedUpdateInput = {
@@ -502,11 +543,13 @@ export type ChargeGeneraleUncheckedUpdateInput = {
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -523,11 +566,13 @@ export type ChargeGeneraleCreateManyInput = {
   tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   datePaiement?: Date | string | null
   referenceFacture?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -543,6 +588,7 @@ export type ChargeGeneraleUpdateManyMutationInput = {
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -564,13 +610,25 @@ export type ChargeGeneraleUncheckedUpdateManyInput = {
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeGeneraleListRelationFilter = {
+  every?: Prisma.ChargeGeneraleWhereInput
+  some?: Prisma.ChargeGeneraleWhereInput
+  none?: Prisma.ChargeGeneraleWhereInput
+}
+
+export type ChargeGeneraleOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ChargeGeneraleCountOrderByAggregateInput = {
@@ -585,11 +643,13 @@ export type ChargeGeneraleCountOrderByAggregateInput = {
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   referenceFacture?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -599,6 +659,8 @@ export type ChargeGeneraleAvgOrderByAggregateInput = {
   montantHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
 }
 
 export type ChargeGeneraleMaxOrderByAggregateInput = {
@@ -613,11 +675,13 @@ export type ChargeGeneraleMaxOrderByAggregateInput = {
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   referenceFacture?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -634,11 +698,13 @@ export type ChargeGeneraleMinOrderByAggregateInput = {
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   datePaiement?: Prisma.SortOrder
   referenceFacture?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -648,6 +714,232 @@ export type ChargeGeneraleSumOrderByAggregateInput = {
   montantHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
   montantTTC?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+}
+
+export type ChargeGeneraleCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput> | Prisma.ChargeGeneraleCreateWithoutCommercialInput[] | Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput | Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.ChargeGeneraleCreateManyCommercialInputEnvelope
+  connect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+}
+
+export type ChargeGeneraleUncheckedCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput> | Prisma.ChargeGeneraleCreateWithoutCommercialInput[] | Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput | Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.ChargeGeneraleCreateManyCommercialInputEnvelope
+  connect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+}
+
+export type ChargeGeneraleUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput> | Prisma.ChargeGeneraleCreateWithoutCommercialInput[] | Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput | Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.ChargeGeneraleUpsertWithWhereUniqueWithoutCommercialInput | Prisma.ChargeGeneraleUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.ChargeGeneraleCreateManyCommercialInputEnvelope
+  set?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  disconnect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  delete?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  connect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  update?: Prisma.ChargeGeneraleUpdateWithWhereUniqueWithoutCommercialInput | Prisma.ChargeGeneraleUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.ChargeGeneraleUpdateManyWithWhereWithoutCommercialInput | Prisma.ChargeGeneraleUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.ChargeGeneraleScalarWhereInput | Prisma.ChargeGeneraleScalarWhereInput[]
+}
+
+export type ChargeGeneraleUncheckedUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput> | Prisma.ChargeGeneraleCreateWithoutCommercialInput[] | Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput | Prisma.ChargeGeneraleCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.ChargeGeneraleUpsertWithWhereUniqueWithoutCommercialInput | Prisma.ChargeGeneraleUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.ChargeGeneraleCreateManyCommercialInputEnvelope
+  set?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  disconnect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  delete?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  connect?: Prisma.ChargeGeneraleWhereUniqueInput | Prisma.ChargeGeneraleWhereUniqueInput[]
+  update?: Prisma.ChargeGeneraleUpdateWithWhereUniqueWithoutCommercialInput | Prisma.ChargeGeneraleUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.ChargeGeneraleUpdateManyWithWhereWithoutCommercialInput | Prisma.ChargeGeneraleUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.ChargeGeneraleScalarWhereInput | Prisma.ChargeGeneraleScalarWhereInput[]
+}
+
+export type ChargeGeneraleCreateWithoutCommercialInput = {
+  numeroCharge: string
+  date?: Date | string
+  nature: string
+  description?: string | null
+  periodeConcernee?: string | null
+  beneficiaire: string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  datePaiement?: Date | string | null
+  referenceFacture?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeGeneraleUncheckedCreateWithoutCommercialInput = {
+  id?: number
+  numeroCharge: string
+  date?: Date | string
+  nature: string
+  description?: string | null
+  periodeConcernee?: string | null
+  beneficiaire: string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  datePaiement?: Date | string | null
+  referenceFacture?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeGeneraleCreateOrConnectWithoutCommercialInput = {
+  where: Prisma.ChargeGeneraleWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput>
+}
+
+export type ChargeGeneraleCreateManyCommercialInputEnvelope = {
+  data: Prisma.ChargeGeneraleCreateManyCommercialInput | Prisma.ChargeGeneraleCreateManyCommercialInput[]
+  skipDuplicates?: boolean
+}
+
+export type ChargeGeneraleUpsertWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.ChargeGeneraleWhereUniqueInput
+  update: Prisma.XOR<Prisma.ChargeGeneraleUpdateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedUpdateWithoutCommercialInput>
+  create: Prisma.XOR<Prisma.ChargeGeneraleCreateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedCreateWithoutCommercialInput>
+}
+
+export type ChargeGeneraleUpdateWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.ChargeGeneraleWhereUniqueInput
+  data: Prisma.XOR<Prisma.ChargeGeneraleUpdateWithoutCommercialInput, Prisma.ChargeGeneraleUncheckedUpdateWithoutCommercialInput>
+}
+
+export type ChargeGeneraleUpdateManyWithWhereWithoutCommercialInput = {
+  where: Prisma.ChargeGeneraleScalarWhereInput
+  data: Prisma.XOR<Prisma.ChargeGeneraleUpdateManyMutationInput, Prisma.ChargeGeneraleUncheckedUpdateManyWithoutCommercialInput>
+}
+
+export type ChargeGeneraleScalarWhereInput = {
+  AND?: Prisma.ChargeGeneraleScalarWhereInput | Prisma.ChargeGeneraleScalarWhereInput[]
+  OR?: Prisma.ChargeGeneraleScalarWhereInput[]
+  NOT?: Prisma.ChargeGeneraleScalarWhereInput | Prisma.ChargeGeneraleScalarWhereInput[]
+  id?: Prisma.IntFilter<"ChargeGenerale"> | number
+  numeroCharge?: Prisma.StringFilter<"ChargeGenerale"> | string
+  date?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
+  nature?: Prisma.StringFilter<"ChargeGenerale"> | string
+  description?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  periodeConcernee?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  beneficiaire?: Prisma.StringFilter<"ChargeGenerale"> | string
+  montantHT?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"ChargeGenerale"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"ChargeGenerale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  datePaiement?: Prisma.DateTimeNullableFilter<"ChargeGenerale"> | Date | string | null
+  referenceFacture?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  pieceJustificativeUrl?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  notes?: Prisma.StringNullableFilter<"ChargeGenerale"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"ChargeGenerale"> | number | null
+  creeLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
+  misAJourLe?: Prisma.DateTimeFilter<"ChargeGenerale"> | Date | string
+}
+
+export type ChargeGeneraleCreateManyCommercialInput = {
+  id?: number
+  numeroCharge: string
+  date?: Date | string
+  nature: string
+  description?: string | null
+  periodeConcernee?: string | null
+  beneficiaire: string
+  montantHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA: runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  datePaiement?: Date | string | null
+  referenceFacture?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type ChargeGeneraleUpdateWithoutCommercialInput = {
+  numeroCharge?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nature?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  periodeConcernee?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeGeneraleUncheckedUpdateWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroCharge?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nature?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  periodeConcernee?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ChargeGeneraleUncheckedUpdateManyWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroCharge?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nature?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  periodeConcernee?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montantHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  montantTTC?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  datePaiement?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  referenceFacture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -664,13 +956,16 @@ export type ChargeGeneraleSelect<ExtArgs extends runtime.Types.Extensions.Intern
   tauxTVA?: boolean
   montantTTC?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   datePaiement?: boolean
   referenceFacture?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeGenerale"]>
 
 export type ChargeGeneraleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -685,13 +980,16 @@ export type ChargeGeneraleSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   tauxTVA?: boolean
   montantTTC?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   datePaiement?: boolean
   referenceFacture?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeGenerale"]>
 
 export type ChargeGeneraleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -706,13 +1004,16 @@ export type ChargeGeneraleSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   tauxTVA?: boolean
   montantTTC?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   datePaiement?: boolean
   referenceFacture?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["chargeGenerale"]>
 
 export type ChargeGeneraleSelectScalar = {
@@ -727,20 +1028,33 @@ export type ChargeGeneraleSelectScalar = {
   tauxTVA?: boolean
   montantTTC?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   datePaiement?: boolean
   referenceFacture?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type ChargeGeneraleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numeroCharge" | "date" | "nature" | "description" | "periodeConcernee" | "beneficiaire" | "montantHT" | "tauxTVA" | "montantTTC" | "statutPaiement" | "modePaiement" | "datePaiement" | "referenceFacture" | "pieceJustificativeUrl" | "notes" | "creeLe" | "misAJourLe", ExtArgs["result"]["chargeGenerale"]>
+export type ChargeGeneraleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numeroCharge" | "date" | "nature" | "description" | "periodeConcernee" | "beneficiaire" | "montantHT" | "tauxTVA" | "montantTTC" | "statutPaiement" | "montantPaye" | "modePaiement" | "datePaiement" | "referenceFacture" | "pieceJustificativeUrl" | "notes" | "commercialId" | "creeLe" | "misAJourLe", ExtArgs["result"]["chargeGenerale"]>
+export type ChargeGeneraleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
+}
+export type ChargeGeneraleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
+}
+export type ChargeGeneraleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.ChargeGenerale$commercialArgs<ExtArgs>
+}
 
 export type $ChargeGeneralePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ChargeGenerale"
-  objects: {}
+  objects: {
+    commercial: Prisma.$UtilisateurPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     numeroCharge: string
@@ -753,11 +1067,13 @@ export type $ChargeGeneralePayload<ExtArgs extends runtime.Types.Extensions.Inte
     tauxTVA: runtime.Decimal
     montantTTC: runtime.Decimal
     statutPaiement: $Enums.StatutPaiementFournisseur
+    montantPaye: runtime.Decimal
     modePaiement: string | null
     datePaiement: Date | null
     referenceFacture: string | null
     pieceJustificativeUrl: string | null
     notes: string | null
+    commercialId: number | null
     creeLe: Date
     misAJourLe: Date
   }, ExtArgs["result"]["chargeGenerale"]>
@@ -1154,6 +1470,7 @@ readonly fields: ChargeGeneraleFieldRefs;
  */
 export interface Prisma__ChargeGeneraleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  commercial<T extends Prisma.ChargeGenerale$commercialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChargeGenerale$commercialArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1194,11 +1511,13 @@ export interface ChargeGeneraleFieldRefs {
   readonly tauxTVA: Prisma.FieldRef<"ChargeGenerale", 'Decimal'>
   readonly montantTTC: Prisma.FieldRef<"ChargeGenerale", 'Decimal'>
   readonly statutPaiement: Prisma.FieldRef<"ChargeGenerale", 'StatutPaiementFournisseur'>
+  readonly montantPaye: Prisma.FieldRef<"ChargeGenerale", 'Decimal'>
   readonly modePaiement: Prisma.FieldRef<"ChargeGenerale", 'String'>
   readonly datePaiement: Prisma.FieldRef<"ChargeGenerale", 'DateTime'>
   readonly referenceFacture: Prisma.FieldRef<"ChargeGenerale", 'String'>
   readonly pieceJustificativeUrl: Prisma.FieldRef<"ChargeGenerale", 'String'>
   readonly notes: Prisma.FieldRef<"ChargeGenerale", 'String'>
+  readonly commercialId: Prisma.FieldRef<"ChargeGenerale", 'Int'>
   readonly creeLe: Prisma.FieldRef<"ChargeGenerale", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"ChargeGenerale", 'DateTime'>
 }
@@ -1218,6 +1537,10 @@ export type ChargeGeneraleFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeGenerale to fetch.
    */
   where: Prisma.ChargeGeneraleWhereUniqueInput
@@ -1236,6 +1559,10 @@ export type ChargeGeneraleFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeGenerale to fetch.
    */
   where: Prisma.ChargeGeneraleWhereUniqueInput
@@ -1253,6 +1580,10 @@ export type ChargeGeneraleFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the ChargeGenerale
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
   /**
    * Filter, which ChargeGenerale to fetch.
    */
@@ -1302,6 +1633,10 @@ export type ChargeGeneraleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  /**
    * Filter, which ChargeGenerale to fetch.
    */
   where?: Prisma.ChargeGeneraleWhereInput
@@ -1349,6 +1684,10 @@ export type ChargeGeneraleFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the ChargeGenerale
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
   /**
    * Filter, which ChargeGenerales to fetch.
    */
@@ -1398,6 +1737,10 @@ export type ChargeGeneraleCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  /**
    * The data needed to create a ChargeGenerale.
    */
   data: Prisma.XOR<Prisma.ChargeGeneraleCreateInput, Prisma.ChargeGeneraleUncheckedCreateInput>
@@ -1431,6 +1774,10 @@ export type ChargeGeneraleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.ChargeGeneraleCreateManyInput | Prisma.ChargeGeneraleCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1445,6 +1792,10 @@ export type ChargeGeneraleUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the ChargeGenerale
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
   /**
    * The data needed to update a ChargeGenerale.
    */
@@ -1497,6 +1848,10 @@ export type ChargeGeneraleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many ChargeGenerales to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1511,6 +1866,10 @@ export type ChargeGeneraleUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the ChargeGenerale
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
   /**
    * The filter to search for the ChargeGenerale to update in case it exists.
    */
@@ -1538,6 +1897,10 @@ export type ChargeGeneraleDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
+  /**
    * Filter which ChargeGenerale to delete.
    */
   where: Prisma.ChargeGeneraleWhereUniqueInput
@@ -1558,6 +1921,25 @@ export type ChargeGeneraleDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * ChargeGenerale.commercial
+ */
+export type ChargeGenerale$commercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
  * ChargeGenerale without action
  */
 export type ChargeGeneraleDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1569,4 +1951,8 @@ export type ChargeGeneraleDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the ChargeGenerale
    */
   omit?: Prisma.ChargeGeneraleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChargeGeneraleInclude<ExtArgs> | null
 }

@@ -1,10 +1,41 @@
+import path from 'path';
+import fs from 'fs';
 import PDFDocument from 'pdfkit';
 import prisma from '../../config/prisma';
 
 const round3 = (x: number) => Math.round(x * 1000) / 1000;
 
+function resolveLogoPath(logoUrl: string | null): string | null {
+  if (logoUrl) {
+    if (path.isAbsolute(logoUrl) && fs.existsSync(logoUrl)) return logoUrl;
+    const uploadDir = process.env.UPLOAD_DIR || 'uploads';
+    const relativePath = logoUrl.startsWith('/') ? logoUrl.slice(1) : logoUrl;
+    const resolvedFromUploads = path.resolve(process.cwd(), relativePath);
+    if (fs.existsSync(resolvedFromUploads)) return resolvedFromUploads;
+
+    const resolvedFromUploadDir = path.resolve(process.cwd(), uploadDir, path.basename(logoUrl));
+    if (fs.existsSync(resolvedFromUploadDir)) return resolvedFromUploadDir;
+  }
+
+  const candidates = [
+    path.resolve(__dirname, '../../../assets/logo-rzmedical.png'),
+    path.resolve(process.cwd(), 'assets/logo-rzmedical.png'),
+    path.resolve(process.cwd(), '../web/public/images/logo/logo-rzmedical.png'),
+    path.resolve(__dirname, '../../../../web/public/images/logo/logo-rzmedical.png'),
+    path.resolve('E:/rzmedical/backend/assets/logo-rzmedical.png'),
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return null;
+}
+
 const getCompanyInfo = async () => {
-  return prisma.infoSociete.findUnique({ where: { id: 1 } });
+  try {
+    return await prisma.infoSociete.findUnique({ where: { id: 1 } });
+  } catch {
+    return null;
+  }
 };
 
 export const generateBLPdf = async (blId: number): Promise<Buffer> => {
@@ -40,14 +71,29 @@ export const generateBLPdf = async (blId: number): Promise<Buffer> => {
     const pageW = doc.page.width - 100;
 
     // ── HEADER ────────────────────────────────────────────────────────────────
-    doc.fontSize(18).fillColor(COLORS.primary).font('Helvetica-Bold')
-       .text(company?.nomSociete || 'RZMedical', 50, 50);
+    let headerTextX = 50;
+    const logoPath = resolveLogoPath(company?.logoUrl ?? null);
+    if (logoPath) {
+      try {
+        doc.image(logoPath, 50, 45, { width: 55, height: 55, fit: [55, 55] });
+        headerTextX = 115;
+      } catch {}
+    }
 
+    doc.fontSize(16).fillColor(COLORS.primary).font('Helvetica-Bold')
+       .text(company?.nomSociete || '', headerTextX, 48);
+
+    let compY = 68;
+    if ((company as any)?.matriculeFiscale) {
+      doc.fontSize(8.5).fillColor(COLORS.muted).font('Helvetica').text(`MF: ${(company as any).matriculeFiscale}`, headerTextX, compY);
+      compY += 11;
+    }
     if (company?.adresse) {
-      doc.fontSize(9).fillColor(COLORS.muted).font('Helvetica').text(company.adresse, 50, 75);
+      doc.fontSize(8.5).fillColor(COLORS.muted).font('Helvetica').text(company.adresse, headerTextX, compY);
+      compY += 11;
     }
     if (company?.telephone) {
-      doc.fontSize(9).fillColor(COLORS.muted).text(`Tél: ${company.telephone}`, 50, 87);
+      doc.fontSize(8.5).fillColor(COLORS.muted).text(`Tél: ${company.telephone}`, headerTextX, compY);
     }
 
     // Right: BON DE LIVRAISON title box
@@ -196,11 +242,15 @@ if (bl.commande) {
     // Footer
     const footerY = doc.page.height - 55;
     doc.moveTo(50, footerY).lineTo(545, footerY).strokeColor(COLORS.border).lineWidth(0.5).stroke();
+    const footerParts = [
+      company?.nomSociete,
+      (company as any)?.matriculeFiscale ? `MF: ${(company as any).matriculeFiscale}` : null,
+      company?.adresse,
+      company?.telephone ? `Tél: ${company.telephone}` : null,
+      company?.email,
+    ].filter(Boolean);
     doc.fontSize(8).fillColor(COLORS.muted).font('Helvetica')
-       .text(
-         `${company?.nomSociete || 'RZMedical'}${company?.adresse ? ' — ' + company.adresse : ''}${company?.telephone ? ' — Tél: ' + company.telephone : ''}`,
-         50, footerY + 8, { width: pageW, align: 'center' }
-       );
+       .text(footerParts.join(' — '), 50, footerY + 8, { width: pageW, align: 'center' });
 
     doc.end();
   });

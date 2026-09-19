@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { pdf } from "@react-pdf/renderer";
 import { InvoicePdfDocument, InvoiceData, InvoiceLine } from "./InvoicePdfDocument";
 import { montantEnLettres, formatTND } from "@/utils/numberToFrenchWords";
-import { DEFAULT_TIMBRE_FISCAL, DEFAULT_TVA_RATE } from "@/utils/invoiceConfig";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import { getApiUrl } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -88,6 +88,7 @@ export default function InvoiceEditorModal({
   onSuccess,
 }: InvoiceEditorModalProps) {
   const { getToken } = useAuth();
+  const { companyInfo, defaultTimbre, defaultTva } = useCompanyInfo();
 
   // ── Form State ──
   const [numero, setNumero] = useState("");
@@ -105,7 +106,7 @@ export default function InvoiceEditorModal({
     order.utilisateur.telephone || ""
   );
   const [clientEmail, setClientEmail] = useState(order.utilisateur.email || "");
-  const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
+  const [timbreFiscal, setTimbreFiscal] = useState(defaultTimbre);
   const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([]);
   const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([]);
 
@@ -114,7 +115,7 @@ export default function InvoiceEditorModal({
     order.lignes.map((l) => {
       const qty = l.quantite;
       const pu = l.prixUnitaire;
-      const tva = DEFAULT_TVA_RATE;
+      const tva = defaultTva;
       return {
         designation: l.produit.nom,
         quantite: qty,
@@ -206,7 +207,7 @@ export default function InvoiceEditorModal({
         designation: "",
         quantite: 1,
         prixUnitaireHT: 0,
-        tauxTVA: companyTvaRates[0] ?? DEFAULT_TVA_RATE,
+        tauxTVA: defaultTva,
         totalHT: 0,
       },
     ]);
@@ -275,7 +276,7 @@ export default function InvoiceEditorModal({
   // ── Generate PDF Blob ──
   const generatePdfBlob = async (): Promise<Blob> => {
     const data = buildInvoiceData();
-    const blob = await pdf(<InvoicePdfDocument data={data} />).toBlob();
+    const blob = await pdf(<InvoicePdfDocument data={data} company={companyInfo} />).toBlob();
     return blob;
   };
 

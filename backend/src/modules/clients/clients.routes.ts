@@ -5,6 +5,33 @@ import { requireAuth } from '../auth/auth.middleware';
 
 const router = Router();
 
+// GET /api/clients/commerciaux — Liste tous les commerciaux (page dédiée)
+router.get('/commerciaux', requireAuth, async (req: Request, res: Response) => {
+  try {
+    const commerciaux = await prisma.utilisateur.findMany({
+      where: { typeUtilisateur: 'COMMERCIAL' },
+      select: {
+        id: true,
+        prenom: true,
+        nom: true,
+        email: true,
+        telephone: true,
+        adresse: true,
+        photo: true,
+        creeLe: true,
+        dernierLogin: true,
+        typeUtilisateur: true,
+        matriculeVoiture: true,
+      },
+      orderBy: [{ nom: 'asc' }, { prenom: 'asc' }],
+    });
+    res.json(commerciaux);
+  } catch (err: unknown) {
+    console.error('GET /api/clients/commerciaux error:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des commerciaux' });
+  }
+});
+
 // GET /api/clients/stats — Statistiques globales des clients
 router.get('/stats', requireAuth, async (req: Request, res: Response) => {
   try {
@@ -213,45 +240,57 @@ router.post('/quick', requireAuth, async (req: Request, res: Response) => {
 // POST /api/clients — Créer un nouveau client
 router.post('/', requireAuth, async (req: Request, res: Response) => {
   try {
-    const { email, motDePasse, prenom, nom, telephone, photo, adresse, dateNaissance, remise, matriculeFiscale, activite } = req.body;
+    const { email, motDePasse, prenom, nom, telephone, photo, adresse, dateNaissance, remise, matriculeFiscale, activite, matriculeVoiture } = req.body;
+    const isCommercial = req.body.typeUtilisateur === 'COMMERCIAL';
 
-    if (!email || !motDePasse) {
-      return res.status(400).json({ error: 'Email et mot de passe requis' });
+    if (!email) {
+      return res.status(400).json({ error: 'Email requis' });
+    }
+    if (!motDePasse && !isCommercial) {
+      return res.status(400).json({ error: 'Mot de passe requis' });
     }
 
-    const existing = await prisma.utilisateur.findUnique({ where: { email: email.trim().toLowerCase() } });
+    const existing = await prisma.utilisateur.findFirst({
+      where: {
+        email: email.trim().toLowerCase(),
+        typeUtilisateur: isCommercial ? 'COMMERCIAL' : 'CLIENT',
+      },
+    });
     if (existing) {
       return res.status(400).json({ error: 'Un compte avec cet email existe déjà' });
     }
 
-    const hash = await bcrypt.hash(motDePasse, 12);
-    const client = await prisma.utilisateur.create({
-      data: {
-        email: email.trim().toLowerCase(),
-        motDePasseHash: hash,
-        prenom: prenom?.trim() || null,
-        nom: nom?.trim() || null,
-        telephone: telephone?.trim() || null,
-        photo: photo?.trim() || null,
-        adresse: adresse?.trim() || null,
-        dateNaissance: dateNaissance ? new Date(dateNaissance) : null,
-        typeUtilisateur: 'CLIENT',
-        remise: Math.min(100, Math.max(0, Number(remise) || 0)),
-        matriculeFiscale: matriculeFiscale?.trim() || null,
-        activite: activite?.trim() || null,
-      },
-      select: {
-        id: true,
-        email: true,
-        prenom: true,
-        nom: true,
-        telephone: true,
-        photo: true,
-        adresse: true,
-        dateNaissance: true,
-        creeLe: true,
-      },
-    });
+    const hash = motDePasse ? await bcrypt.hash(motDePasse, 12) : null;
+      const client = await prisma.utilisateur.create({
+        data: {
+          email: email.trim().toLowerCase(),
+          motDePasseHash: hash,
+          prenom: prenom?.trim() || null,
+          nom: nom?.trim() || null,
+          telephone: telephone?.trim() || null,
+          photo: photo?.trim() || null,
+          adresse: adresse?.trim() || null,
+          dateNaissance: dateNaissance ? new Date(dateNaissance) : null,
+          typeUtilisateur: req.body.typeUtilisateur === 'COMMERCIAL' ? 'COMMERCIAL' : 'CLIENT',
+          remise: Math.min(100, Math.max(0, Number(remise) || 0)),
+          matriculeFiscale: matriculeFiscale?.trim() || null,
+          matriculeVoiture: matriculeVoiture?.trim() || null,
+          activite: activite?.trim() || null,
+        },
+        select: {
+          id: true,
+          email: true,
+          prenom: true,
+          nom: true,
+          telephone: true,
+          photo: true,
+          adresse: true,
+          dateNaissance: true,
+          typeUtilisateur: true,
+          creeLe: true,
+          matriculeVoiture: true,
+        },
+      });
 
     res.status(201).json(client);
   } catch (err: unknown) {
@@ -264,34 +303,37 @@ router.post('/', requireAuth, async (req: Request, res: Response) => {
 router.put('/:id', requireAuth, async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id as string, 10);
-    const { prenom, nom, telephone, email, photo, adresse, dateNaissance, remise, matriculeFiscale, activite } = req.body;
+      const { prenom, nom, telephone, email, photo, adresse, dateNaissance, remise, matriculeFiscale, activite, typeUtilisateur, matriculeVoiture } = req.body;
 
-    const updated = await prisma.utilisateur.update({
-      where: { id },
-      data: {
-        ...(prenom !== undefined && { prenom }),
-        ...(nom !== undefined && { nom }),
-        ...(telephone !== undefined && { telephone }),
-        ...(email && { email: email.trim().toLowerCase() }),
-        ...(photo !== undefined && { photo }),
-        ...(adresse !== undefined && { adresse }),
-        ...(dateNaissance !== undefined && { dateNaissance: dateNaissance ? new Date(dateNaissance) : null }),
-        ...(remise !== undefined && { remise: Math.min(100, Math.max(0, Number(remise) || 0)) }),
-        ...(matriculeFiscale !== undefined && { matriculeFiscale: matriculeFiscale?.trim() || null }),
-        ...(activite !== undefined && { activite: activite?.trim() || null }),
-      },
-      select: {
-        id: true,
-        email: true,
-        prenom: true,
-        nom: true,
-        telephone: true,
-        photo: true,
-        adresse: true,
-        dateNaissance: true,
-        creeLe: true,
-      },
-    });
+      const updated = await prisma.utilisateur.update({
+        where: { id },
+        data: {
+          ...(prenom !== undefined && { prenom }),
+          ...(nom !== undefined && { nom }),
+          ...(telephone !== undefined && { telephone }),
+          ...(email && { email: email.trim().toLowerCase() }),
+          ...(photo !== undefined && { photo }),
+          ...(adresse !== undefined && { adresse }),
+          ...(dateNaissance !== undefined && { dateNaissance: dateNaissance ? new Date(dateNaissance) : null }),
+          ...(remise !== undefined && { remise: Math.min(100, Math.max(0, Number(remise) || 0)) }),
+          ...(matriculeFiscale !== undefined && { matriculeFiscale: matriculeFiscale?.trim() || null }),
+          ...(matriculeVoiture !== undefined && { matriculeVoiture: matriculeVoiture?.trim() || null }),
+          ...(activite !== undefined && { activite: activite?.trim() || null }),
+          ...(typeUtilisateur !== undefined && { typeUtilisateur }),
+        },
+        select: {
+          id: true,
+          email: true,
+          prenom: true,
+          nom: true,
+          telephone: true,
+          photo: true,
+          adresse: true,
+          dateNaissance: true,
+          typeUtilisateur: true,
+          creeLe: true,
+        },
+      });
 
     res.json(updated);
   } catch (err: unknown) {

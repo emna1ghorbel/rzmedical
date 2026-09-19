@@ -71,5 +71,7 @@ router.post('/charges/document', chargeDocumentUpload.single('file'), (req, res)
 router.post('/charges/cnss/ocr', ocrUpload.single('file'), ctrl.analyzeCnssReceiptOCR);
 router.get('/charges/:categorie', ctrl.listSpecificCharges);
 router.post('/charges/:categorie', ctrl.createCharge);
+router.get('/charges/:categorie/:id', ctrl.getSpecificCharge);
+router.put('/charges/:categorie/:id', ctrl.updateSpecificCharge);
 
 export default router;

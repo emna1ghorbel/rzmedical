@@ -356,6 +356,8 @@ export const createManualInvoice = async (data: CreateManualInvoiceInput) => {
 
 export interface CreateManualWithBLInput extends CreateManualInvoiceInput {
   blCode?: string; // optionnel — généré si absent
+  commercialId?: number;
+  bonSortieId?: number;
 }
 
 export const createManualWithBL = async (data: CreateManualWithBLInput) => {
@@ -402,6 +404,8 @@ export const createManualWithBL = async (data: CreateManualWithBLInput) => {
         clientAdresse: data.clientAdresse || null,
         clientTel: data.clientTelephone || null,
         clientEmail: data.clientEmail || null,
+        commercialId: data.commercialId ? Number(data.commercialId) : null,
+        bonSortieId: data.bonSortieId ? Number(data.bonSortieId) : null,
         statut: 'LIVRE',
         stockMisAJour: true,
         lignes: {
@@ -425,18 +429,47 @@ export const createManualWithBL = async (data: CreateManualWithBLInput) => {
       const stockLines = existingBL?.lignes ?? lignesPrep;
       for (const [lineIndex, ligne] of stockLines.entries()) {
         if (ligne.produitId) {
-          await recordStockMovement(tx, {
-            productId: Number(ligne.produitId),
-            quantity: Math.ceil(Number('quantiteLivree' in ligne ? ligne.quantiteLivree : ligne.quantite)),
-            type: StockMovementType.SALE,
-            unitPrice: Number(ligne.prixUnitaireHT),
-            nature: 'SORTIE',
-            documentType: 'FACTURE',
-            reference: bl.code,
-            sourceType: 'BON_LIVRAISON',
-            sourceId: bl.id,
-            sourceLineId: 'id' in ligne ? ligne.id : lineIndex,
-          });
+          const quantiteALivrer = Math.ceil(Number('quantiteLivree' in ligne ? ligne.quantiteLivree : ligne.quantite));
+          
+          if (data.commercialId) {
+            // 1. Décrémenter le stock de la voiture du commercial
+            const stock = await tx.stockCommercial.findUnique({
+              where: { commercialId_produitId: { commercialId: data.commercialId, produitId: Number(ligne.produitId) } }
+            });
+            if (!stock || stock.quantite < quantiteALivrer) {
+              throw new InvoiceError(`Le commercial ne dispose pas d'assez de stock pour le produit ID ${ligne.produitId}`);
+            }
+            await tx.stockCommercial.update({
+              where: { id: stock.id },
+              data: { quantite: { decrement: quantiteALivrer } }
+            });
+            // 2. Enregistrer le mouvement de vente pour mettre à jour la qté vendue
+            await recordStockMovement(tx, {
+              productId: Number(ligne.produitId),
+              quantity: quantiteALivrer,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligne.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'FACTURE',
+              reference: bl.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: bl.id,
+              sourceLineId: 'id' in ligne ? ligne.id : lineIndex,
+            });
+          } else {
+            await recordStockMovement(tx, {
+              productId: Number(ligne.produitId),
+              quantity: quantiteALivrer,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligne.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'FACTURE',
+              reference: bl.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: bl.id,
+              sourceLineId: 'id' in ligne ? ligne.id : lineIndex,
+            });
+          }
         }
       }
     }

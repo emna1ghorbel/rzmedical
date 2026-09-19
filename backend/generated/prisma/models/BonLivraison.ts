@@ -31,6 +31,8 @@ export type BonLivraisonAvgAggregateOutputType = {
   commandeId: number | null
   utilisateurId: number | null
   devisId: number | null
+  commercialId: number | null
+  bonSortieId: number | null
 }
 
 export type BonLivraisonSumAggregateOutputType = {
@@ -38,6 +40,8 @@ export type BonLivraisonSumAggregateOutputType = {
   commandeId: number | null
   utilisateurId: number | null
   devisId: number | null
+  commercialId: number | null
+  bonSortieId: number | null
 }
 
 export type BonLivraisonMinAggregateOutputType = {
@@ -55,6 +59,8 @@ export type BonLivraisonMinAggregateOutputType = {
   statut: $Enums.StatutBonLivraison | null
   stockMisAJour: boolean | null
   commentaire: string | null
+  commercialId: number | null
+  bonSortieId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -74,6 +80,8 @@ export type BonLivraisonMaxAggregateOutputType = {
   statut: $Enums.StatutBonLivraison | null
   stockMisAJour: boolean | null
   commentaire: string | null
+  commercialId: number | null
+  bonSortieId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -93,6 +101,8 @@ export type BonLivraisonCountAggregateOutputType = {
   statut: number
   stockMisAJour: number
   commentaire: number
+  commercialId: number
+  bonSortieId: number
   creeLe: number
   misAJourLe: number
   _all: number
@@ -104,6 +114,8 @@ export type BonLivraisonAvgAggregateInputType = {
   commandeId?: true
   utilisateurId?: true
   devisId?: true
+  commercialId?: true
+  bonSortieId?: true
 }
 
 export type BonLivraisonSumAggregateInputType = {
@@ -111,6 +123,8 @@ export type BonLivraisonSumAggregateInputType = {
   commandeId?: true
   utilisateurId?: true
   devisId?: true
+  commercialId?: true
+  bonSortieId?: true
 }
 
 export type BonLivraisonMinAggregateInputType = {
@@ -128,6 +142,8 @@ export type BonLivraisonMinAggregateInputType = {
   statut?: true
   stockMisAJour?: true
   commentaire?: true
+  commercialId?: true
+  bonSortieId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -147,6 +163,8 @@ export type BonLivraisonMaxAggregateInputType = {
   statut?: true
   stockMisAJour?: true
   commentaire?: true
+  commercialId?: true
+  bonSortieId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -166,6 +184,8 @@ export type BonLivraisonCountAggregateInputType = {
   statut?: true
   stockMisAJour?: true
   commentaire?: true
+  commercialId?: true
+  bonSortieId?: true
   creeLe?: true
   misAJourLe?: true
   _all?: true
@@ -272,6 +292,8 @@ export type BonLivraisonGroupByOutputType = {
   statut: $Enums.StatutBonLivraison
   stockMisAJour: boolean
   commentaire: string | null
+  commercialId: number | null
+  bonSortieId: number | null
   creeLe: Date
   misAJourLe: Date
   _count: BonLivraisonCountAggregateOutputType | null
@@ -314,11 +336,15 @@ export type BonLivraisonWhereInput = {
   statut?: Prisma.EnumStatutBonLivraisonFilter<"BonLivraison"> | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFilter<"BonLivraison"> | boolean
   commentaire?: Prisma.StringNullableFilter<"BonLivraison"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
+  bonSortieId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
   creeLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
   commande?: Prisma.XOR<Prisma.CommandeNullableScalarRelationFilter, Prisma.CommandeWhereInput> | null
   utilisateur?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
   devis?: Prisma.XOR<Prisma.DevisNullableScalarRelationFilter, Prisma.DevisWhereInput> | null
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
+  bonSortie?: Prisma.XOR<Prisma.BonSortieNullableScalarRelationFilter, Prisma.BonSortieWhereInput> | null
   lignes?: Prisma.LigneBonLivraisonListRelationFilter
   factures?: Prisma.FactureListRelationFilter
   facturesJonction?: Prisma.FactureBonLivraisonListRelationFilter
@@ -339,11 +365,15 @@ export type BonLivraisonOrderByWithRelationInput = {
   statut?: Prisma.SortOrder
   stockMisAJour?: Prisma.SortOrder
   commentaire?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   commande?: Prisma.CommandeOrderByWithRelationInput
   utilisateur?: Prisma.UtilisateurOrderByWithRelationInput
   devis?: Prisma.DevisOrderByWithRelationInput
+  commercial?: Prisma.UtilisateurOrderByWithRelationInput
+  bonSortie?: Prisma.BonSortieOrderByWithRelationInput
   lignes?: Prisma.LigneBonLivraisonOrderByRelationAggregateInput
   factures?: Prisma.FactureOrderByRelationAggregateInput
   facturesJonction?: Prisma.FactureBonLivraisonOrderByRelationAggregateInput
@@ -367,11 +397,15 @@ export type BonLivraisonWhereUniqueInput = Prisma.AtLeast<{
   statut?: Prisma.EnumStatutBonLivraisonFilter<"BonLivraison"> | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFilter<"BonLivraison"> | boolean
   commentaire?: Prisma.StringNullableFilter<"BonLivraison"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
+  bonSortieId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
   creeLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
   commande?: Prisma.XOR<Prisma.CommandeNullableScalarRelationFilter, Prisma.CommandeWhereInput> | null
   utilisateur?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
   devis?: Prisma.XOR<Prisma.DevisNullableScalarRelationFilter, Prisma.DevisWhereInput> | null
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
+  bonSortie?: Prisma.XOR<Prisma.BonSortieNullableScalarRelationFilter, Prisma.BonSortieWhereInput> | null
   lignes?: Prisma.LigneBonLivraisonListRelationFilter
   factures?: Prisma.FactureListRelationFilter
   facturesJonction?: Prisma.FactureBonLivraisonListRelationFilter
@@ -392,6 +426,8 @@ export type BonLivraisonOrderByWithAggregationInput = {
   statut?: Prisma.SortOrder
   stockMisAJour?: Prisma.SortOrder
   commentaire?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.BonLivraisonCountOrderByAggregateInput
@@ -419,6 +455,8 @@ export type BonLivraisonScalarWhereWithAggregatesInput = {
   statut?: Prisma.EnumStatutBonLivraisonWithAggregatesFilter<"BonLivraison"> | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolWithAggregatesFilter<"BonLivraison"> | boolean
   commentaire?: Prisma.StringNullableWithAggregatesFilter<"BonLivraison"> | string | null
+  commercialId?: Prisma.IntNullableWithAggregatesFilter<"BonLivraison"> | number | null
+  bonSortieId?: Prisma.IntNullableWithAggregatesFilter<"BonLivraison"> | number | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"BonLivraison"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"BonLivraison"> | Date | string
 }
@@ -439,6 +477,8 @@ export type BonLivraisonCreateInput = {
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
@@ -459,6 +499,8 @@ export type BonLivraisonUncheckedCreateInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -482,6 +524,8 @@ export type BonLivraisonUpdateInput = {
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
@@ -502,6 +546,8 @@ export type BonLivraisonUncheckedUpdateInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
@@ -524,6 +570,8 @@ export type BonLivraisonCreateManyInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -558,6 +606,8 @@ export type BonLivraisonUncheckedUpdateManyInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -587,6 +637,8 @@ export type BonLivraisonCountOrderByAggregateInput = {
   statut?: Prisma.SortOrder
   stockMisAJour?: Prisma.SortOrder
   commentaire?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -596,6 +648,8 @@ export type BonLivraisonAvgOrderByAggregateInput = {
   commandeId?: Prisma.SortOrder
   utilisateurId?: Prisma.SortOrder
   devisId?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
 }
 
 export type BonLivraisonMaxOrderByAggregateInput = {
@@ -613,6 +667,8 @@ export type BonLivraisonMaxOrderByAggregateInput = {
   statut?: Prisma.SortOrder
   stockMisAJour?: Prisma.SortOrder
   commentaire?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -632,6 +688,8 @@ export type BonLivraisonMinOrderByAggregateInput = {
   statut?: Prisma.SortOrder
   stockMisAJour?: Prisma.SortOrder
   commentaire?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -641,6 +699,8 @@ export type BonLivraisonSumOrderByAggregateInput = {
   commandeId?: Prisma.SortOrder
   utilisateurId?: Prisma.SortOrder
   devisId?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
 }
 
 export type BonLivraisonScalarRelationFilter = {
@@ -660,10 +720,24 @@ export type BonLivraisonCreateNestedManyWithoutUtilisateurInput = {
   connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
 }
 
+export type BonLivraisonCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput> | Prisma.BonLivraisonCreateWithoutCommercialInput[] | Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput | Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.BonLivraisonCreateManyCommercialInputEnvelope
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+}
+
 export type BonLivraisonUncheckedCreateNestedManyWithoutUtilisateurInput = {
   create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutUtilisateurInput, Prisma.BonLivraisonUncheckedCreateWithoutUtilisateurInput> | Prisma.BonLivraisonCreateWithoutUtilisateurInput[] | Prisma.BonLivraisonUncheckedCreateWithoutUtilisateurInput[]
   connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutUtilisateurInput | Prisma.BonLivraisonCreateOrConnectWithoutUtilisateurInput[]
   createMany?: Prisma.BonLivraisonCreateManyUtilisateurInputEnvelope
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+}
+
+export type BonLivraisonUncheckedCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput> | Prisma.BonLivraisonCreateWithoutCommercialInput[] | Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput | Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.BonLivraisonCreateManyCommercialInputEnvelope
   connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
 }
 
@@ -681,6 +755,20 @@ export type BonLivraisonUpdateManyWithoutUtilisateurNestedInput = {
   deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
 }
 
+export type BonLivraisonUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput> | Prisma.BonLivraisonCreateWithoutCommercialInput[] | Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput | Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.BonLivraisonUpsertWithWhereUniqueWithoutCommercialInput | Prisma.BonLivraisonUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.BonLivraisonCreateManyCommercialInputEnvelope
+  set?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  delete?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  update?: Prisma.BonLivraisonUpdateWithWhereUniqueWithoutCommercialInput | Prisma.BonLivraisonUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.BonLivraisonUpdateManyWithWhereWithoutCommercialInput | Prisma.BonLivraisonUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
+}
+
 export type BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput = {
   create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutUtilisateurInput, Prisma.BonLivraisonUncheckedCreateWithoutUtilisateurInput> | Prisma.BonLivraisonCreateWithoutUtilisateurInput[] | Prisma.BonLivraisonUncheckedCreateWithoutUtilisateurInput[]
   connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutUtilisateurInput | Prisma.BonLivraisonCreateOrConnectWithoutUtilisateurInput[]
@@ -692,6 +780,20 @@ export type BonLivraisonUncheckedUpdateManyWithoutUtilisateurNestedInput = {
   connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
   update?: Prisma.BonLivraisonUpdateWithWhereUniqueWithoutUtilisateurInput | Prisma.BonLivraisonUpdateWithWhereUniqueWithoutUtilisateurInput[]
   updateMany?: Prisma.BonLivraisonUpdateManyWithWhereWithoutUtilisateurInput | Prisma.BonLivraisonUpdateManyWithWhereWithoutUtilisateurInput[]
+  deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
+}
+
+export type BonLivraisonUncheckedUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput> | Prisma.BonLivraisonCreateWithoutCommercialInput[] | Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput | Prisma.BonLivraisonCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.BonLivraisonUpsertWithWhereUniqueWithoutCommercialInput | Prisma.BonLivraisonUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.BonLivraisonCreateManyCommercialInputEnvelope
+  set?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  delete?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  update?: Prisma.BonLivraisonUpdateWithWhereUniqueWithoutCommercialInput | Prisma.BonLivraisonUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.BonLivraisonUpdateManyWithWhereWithoutCommercialInput | Prisma.BonLivraisonUpdateManyWithWhereWithoutCommercialInput[]
   deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
 }
 
@@ -827,6 +929,48 @@ export type BonLivraisonUpdateOneRequiredWithoutFacturesJonctionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BonLivraisonUpdateToOneWithWhereWithoutFacturesJonctionInput, Prisma.BonLivraisonUpdateWithoutFacturesJonctionInput>, Prisma.BonLivraisonUncheckedUpdateWithoutFacturesJonctionInput>
 }
 
+export type BonLivraisonCreateNestedManyWithoutBonSortieInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.BonLivraisonCreateWithoutBonSortieInput[] | Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  createMany?: Prisma.BonLivraisonCreateManyBonSortieInputEnvelope
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+}
+
+export type BonLivraisonUncheckedCreateNestedManyWithoutBonSortieInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.BonLivraisonCreateWithoutBonSortieInput[] | Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  createMany?: Prisma.BonLivraisonCreateManyBonSortieInputEnvelope
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+}
+
+export type BonLivraisonUpdateManyWithoutBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.BonLivraisonCreateWithoutBonSortieInput[] | Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  upsert?: Prisma.BonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput | Prisma.BonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput[]
+  createMany?: Prisma.BonLivraisonCreateManyBonSortieInputEnvelope
+  set?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  delete?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  update?: Prisma.BonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput | Prisma.BonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput[]
+  updateMany?: Prisma.BonLivraisonUpdateManyWithWhereWithoutBonSortieInput | Prisma.BonLivraisonUpdateManyWithWhereWithoutBonSortieInput[]
+  deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
+}
+
+export type BonLivraisonUncheckedUpdateManyWithoutBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.BonLivraisonCreateWithoutBonSortieInput[] | Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.BonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  upsert?: Prisma.BonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput | Prisma.BonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput[]
+  createMany?: Prisma.BonLivraisonCreateManyBonSortieInputEnvelope
+  set?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  delete?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  connect?: Prisma.BonLivraisonWhereUniqueInput | Prisma.BonLivraisonWhereUniqueInput[]
+  update?: Prisma.BonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput | Prisma.BonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput[]
+  updateMany?: Prisma.BonLivraisonUpdateManyWithWhereWithoutBonSortieInput | Prisma.BonLivraisonUpdateManyWithWhereWithoutBonSortieInput[]
+  deleteMany?: Prisma.BonLivraisonScalarWhereInput | Prisma.BonLivraisonScalarWhereInput[]
+}
+
 export type BonLivraisonCreateWithoutUtilisateurInput = {
   code: string
   clientNom?: string | null
@@ -842,6 +986,8 @@ export type BonLivraisonCreateWithoutUtilisateurInput = {
   misAJourLe?: Date | string
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
@@ -861,6 +1007,8 @@ export type BonLivraisonUncheckedCreateWithoutUtilisateurInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -875,6 +1023,61 @@ export type BonLivraisonCreateOrConnectWithoutUtilisateurInput = {
 
 export type BonLivraisonCreateManyUtilisateurInputEnvelope = {
   data: Prisma.BonLivraisonCreateManyUtilisateurInput | Prisma.BonLivraisonCreateManyUtilisateurInput[]
+  skipDuplicates?: boolean
+}
+
+export type BonLivraisonCreateWithoutCommercialInput = {
+  code: string
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
+  devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
+  lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
+  factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
+  facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
+}
+
+export type BonLivraisonUncheckedCreateWithoutCommercialInput = {
+  id?: number
+  code: string
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  bonSortieId?: number | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutBonLivraisonInput
+  facturesJonction?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutBonLivraisonInput
+}
+
+export type BonLivraisonCreateOrConnectWithoutCommercialInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  create: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput>
+}
+
+export type BonLivraisonCreateManyCommercialInputEnvelope = {
+  data: Prisma.BonLivraisonCreateManyCommercialInput | Prisma.BonLivraisonCreateManyCommercialInput[]
   skipDuplicates?: boolean
 }
 
@@ -912,8 +1115,26 @@ export type BonLivraisonScalarWhereInput = {
   statut?: Prisma.EnumStatutBonLivraisonFilter<"BonLivraison"> | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFilter<"BonLivraison"> | boolean
   commentaire?: Prisma.StringNullableFilter<"BonLivraison"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
+  bonSortieId?: Prisma.IntNullableFilter<"BonLivraison"> | number | null
   creeLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"BonLivraison"> | Date | string
+}
+
+export type BonLivraisonUpsertWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  update: Prisma.XOR<Prisma.BonLivraisonUpdateWithoutCommercialInput, Prisma.BonLivraisonUncheckedUpdateWithoutCommercialInput>
+  create: Prisma.XOR<Prisma.BonLivraisonCreateWithoutCommercialInput, Prisma.BonLivraisonUncheckedCreateWithoutCommercialInput>
+}
+
+export type BonLivraisonUpdateWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  data: Prisma.XOR<Prisma.BonLivraisonUpdateWithoutCommercialInput, Prisma.BonLivraisonUncheckedUpdateWithoutCommercialInput>
+}
+
+export type BonLivraisonUpdateManyWithWhereWithoutCommercialInput = {
+  where: Prisma.BonLivraisonScalarWhereInput
+  data: Prisma.XOR<Prisma.BonLivraisonUpdateManyMutationInput, Prisma.BonLivraisonUncheckedUpdateManyWithoutCommercialInput>
 }
 
 export type BonLivraisonCreateWithoutCommandeInput = {
@@ -931,6 +1152,8 @@ export type BonLivraisonCreateWithoutCommandeInput = {
   misAJourLe?: Date | string
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
@@ -950,6 +1173,8 @@ export type BonLivraisonUncheckedCreateWithoutCommandeInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -999,6 +1224,8 @@ export type BonLivraisonCreateWithoutLignesInput = {
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
 }
@@ -1018,6 +1245,8 @@ export type BonLivraisonUncheckedCreateWithoutLignesInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   factures?: Prisma.FactureUncheckedCreateNestedManyWithoutBonLivraisonInput
@@ -1056,6 +1285,8 @@ export type BonLivraisonUpdateWithoutLignesInput = {
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
 }
@@ -1075,6 +1306,8 @@ export type BonLivraisonUncheckedUpdateWithoutLignesInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   factures?: Prisma.FactureUncheckedUpdateManyWithoutBonLivraisonNestedInput
@@ -1097,6 +1330,8 @@ export type BonLivraisonCreateWithoutFacturesInput = {
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
 }
@@ -1116,6 +1351,8 @@ export type BonLivraisonUncheckedCreateWithoutFacturesInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -1154,6 +1391,8 @@ export type BonLivraisonUpdateWithoutFacturesInput = {
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
 }
@@ -1173,6 +1412,8 @@ export type BonLivraisonUncheckedUpdateWithoutFacturesInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
@@ -1194,6 +1435,8 @@ export type BonLivraisonCreateWithoutDevisInput = {
   misAJourLe?: Date | string
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
   facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
@@ -1213,6 +1456,8 @@ export type BonLivraisonUncheckedCreateWithoutDevisInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -1262,6 +1507,8 @@ export type BonLivraisonCreateWithoutFacturesJonctionInput = {
   commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
   utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
   devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutBonsLivraisonInput
   lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
   factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
 }
@@ -1281,6 +1528,8 @@ export type BonLivraisonUncheckedCreateWithoutFacturesJonctionInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
@@ -1319,6 +1568,8 @@ export type BonLivraisonUpdateWithoutFacturesJonctionInput = {
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
 }
@@ -1338,10 +1589,83 @@ export type BonLivraisonUncheckedUpdateWithoutFacturesJonctionInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUncheckedUpdateManyWithoutBonLivraisonNestedInput
+}
+
+export type BonLivraisonCreateWithoutBonSortieInput = {
+  code: string
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  commande?: Prisma.CommandeCreateNestedOneWithoutBonsLivraisonInput
+  utilisateur?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonInput
+  devis?: Prisma.DevisCreateNestedOneWithoutBonsLivraisonInput
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutBonsLivraisonAsCommInput
+  lignes?: Prisma.LigneBonLivraisonCreateNestedManyWithoutBonInput
+  factures?: Prisma.FactureCreateNestedManyWithoutBonLivraisonInput
+  facturesJonction?: Prisma.FactureBonLivraisonCreateNestedManyWithoutBonLivraisonInput
+}
+
+export type BonLivraisonUncheckedCreateWithoutBonSortieInput = {
+  id?: number
+  code: string
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  commercialId?: number | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  lignes?: Prisma.LigneBonLivraisonUncheckedCreateNestedManyWithoutBonInput
+  factures?: Prisma.FactureUncheckedCreateNestedManyWithoutBonLivraisonInput
+  facturesJonction?: Prisma.FactureBonLivraisonUncheckedCreateNestedManyWithoutBonLivraisonInput
+}
+
+export type BonLivraisonCreateOrConnectWithoutBonSortieInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  create: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput>
+}
+
+export type BonLivraisonCreateManyBonSortieInputEnvelope = {
+  data: Prisma.BonLivraisonCreateManyBonSortieInput | Prisma.BonLivraisonCreateManyBonSortieInput[]
+  skipDuplicates?: boolean
+}
+
+export type BonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  update: Prisma.XOR<Prisma.BonLivraisonUpdateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedUpdateWithoutBonSortieInput>
+  create: Prisma.XOR<Prisma.BonLivraisonCreateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedCreateWithoutBonSortieInput>
+}
+
+export type BonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput = {
+  where: Prisma.BonLivraisonWhereUniqueInput
+  data: Prisma.XOR<Prisma.BonLivraisonUpdateWithoutBonSortieInput, Prisma.BonLivraisonUncheckedUpdateWithoutBonSortieInput>
+}
+
+export type BonLivraisonUpdateManyWithWhereWithoutBonSortieInput = {
+  where: Prisma.BonLivraisonScalarWhereInput
+  data: Prisma.XOR<Prisma.BonLivraisonUpdateManyMutationInput, Prisma.BonLivraisonUncheckedUpdateManyWithoutBonSortieInput>
 }
 
 export type BonLivraisonCreateManyUtilisateurInput = {
@@ -1358,6 +1682,28 @@ export type BonLivraisonCreateManyUtilisateurInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type BonLivraisonCreateManyCommercialInput = {
+  id?: number
+  code: string
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -1377,6 +1723,8 @@ export type BonLivraisonUpdateWithoutUtilisateurInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
@@ -1396,6 +1744,8 @@ export type BonLivraisonUncheckedUpdateWithoutUtilisateurInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
@@ -1417,6 +1767,73 @@ export type BonLivraisonUncheckedUpdateManyWithoutUtilisateurInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BonLivraisonUpdateWithoutCommercialInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
+  lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
+  facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
+}
+
+export type BonLivraisonUncheckedUpdateWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutBonLivraisonNestedInput
+  facturesJonction?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutBonLivraisonNestedInput
+}
+
+export type BonLivraisonUncheckedUpdateManyWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1435,6 +1852,8 @@ export type BonLivraisonCreateManyCommandeInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -1454,6 +1873,8 @@ export type BonLivraisonUpdateWithoutCommandeInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
   devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
@@ -1473,6 +1894,8 @@ export type BonLivraisonUncheckedUpdateWithoutCommandeInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
@@ -1494,6 +1917,8 @@ export type BonLivraisonUncheckedUpdateManyWithoutCommandeInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1512,6 +1937,8 @@ export type BonLivraisonCreateManyDevisInput = {
   statut?: $Enums.StatutBonLivraison
   stockMisAJour?: boolean
   commentaire?: string | null
+  commercialId?: number | null
+  bonSortieId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -1531,6 +1958,8 @@ export type BonLivraisonUpdateWithoutDevisInput = {
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
   utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutBonsLivraisonNestedInput
   lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
   factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
   facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
@@ -1550,6 +1979,8 @@ export type BonLivraisonUncheckedUpdateWithoutDevisInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
@@ -1571,6 +2002,93 @@ export type BonLivraisonUncheckedUpdateManyWithoutDevisInput = {
   statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
   stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
   commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BonLivraisonCreateManyBonSortieInput = {
+  id?: number
+  code: string
+  commandeId?: number | null
+  utilisateurId?: number | null
+  devisId?: number | null
+  clientNom?: string | null
+  clientMF?: string | null
+  clientAdresse?: string | null
+  clientTel?: string | null
+  clientEmail?: string | null
+  dateLivraison?: Date | string | null
+  statut?: $Enums.StatutBonLivraison
+  stockMisAJour?: boolean
+  commentaire?: string | null
+  commercialId?: number | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type BonLivraisonUpdateWithoutBonSortieInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commande?: Prisma.CommandeUpdateOneWithoutBonsLivraisonNestedInput
+  utilisateur?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonNestedInput
+  devis?: Prisma.DevisUpdateOneWithoutBonsLivraisonNestedInput
+  commercial?: Prisma.UtilisateurUpdateOneWithoutBonsLivraisonAsCommNestedInput
+  lignes?: Prisma.LigneBonLivraisonUpdateManyWithoutBonNestedInput
+  factures?: Prisma.FactureUpdateManyWithoutBonLivraisonNestedInput
+  facturesJonction?: Prisma.FactureBonLivraisonUpdateManyWithoutBonLivraisonNestedInput
+}
+
+export type BonLivraisonUncheckedUpdateWithoutBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lignes?: Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput
+  factures?: Prisma.FactureUncheckedUpdateManyWithoutBonLivraisonNestedInput
+  facturesJonction?: Prisma.FactureBonLivraisonUncheckedUpdateManyWithoutBonLivraisonNestedInput
+}
+
+export type BonLivraisonUncheckedUpdateManyWithoutBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  commandeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  utilisateurId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  devisId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  clientNom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientMF?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientAdresse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientTel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateLivraison?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  statut?: Prisma.EnumStatutBonLivraisonFieldUpdateOperationsInput | $Enums.StatutBonLivraison
+  stockMisAJour?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commentaire?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1639,11 +2157,15 @@ export type BonLivraisonSelect<ExtArgs extends runtime.Types.Extensions.Internal
   statut?: boolean
   stockMisAJour?: boolean
   commentaire?: boolean
+  commercialId?: boolean
+  bonSortieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
   lignes?: boolean | Prisma.BonLivraison$lignesArgs<ExtArgs>
   factures?: boolean | Prisma.BonLivraison$facturesArgs<ExtArgs>
   facturesJonction?: boolean | Prisma.BonLivraison$facturesJonctionArgs<ExtArgs>
@@ -1665,11 +2187,15 @@ export type BonLivraisonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   statut?: boolean
   stockMisAJour?: boolean
   commentaire?: boolean
+  commercialId?: boolean
+  bonSortieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
 }, ExtArgs["result"]["bonLivraison"]>
 
 export type BonLivraisonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1687,11 +2213,15 @@ export type BonLivraisonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   statut?: boolean
   stockMisAJour?: boolean
   commentaire?: boolean
+  commercialId?: boolean
+  bonSortieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
 }, ExtArgs["result"]["bonLivraison"]>
 
 export type BonLivraisonSelectScalar = {
@@ -1709,15 +2239,19 @@ export type BonLivraisonSelectScalar = {
   statut?: boolean
   stockMisAJour?: boolean
   commentaire?: boolean
+  commercialId?: boolean
+  bonSortieId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type BonLivraisonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "commandeId" | "utilisateurId" | "devisId" | "clientNom" | "clientMF" | "clientAdresse" | "clientTel" | "clientEmail" | "dateLivraison" | "statut" | "stockMisAJour" | "commentaire" | "creeLe" | "misAJourLe", ExtArgs["result"]["bonLivraison"]>
+export type BonLivraisonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "commandeId" | "utilisateurId" | "devisId" | "clientNom" | "clientMF" | "clientAdresse" | "clientTel" | "clientEmail" | "dateLivraison" | "statut" | "stockMisAJour" | "commentaire" | "commercialId" | "bonSortieId" | "creeLe" | "misAJourLe", ExtArgs["result"]["bonLivraison"]>
 export type BonLivraisonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
   lignes?: boolean | Prisma.BonLivraison$lignesArgs<ExtArgs>
   factures?: boolean | Prisma.BonLivraison$facturesArgs<ExtArgs>
   facturesJonction?: boolean | Prisma.BonLivraison$facturesJonctionArgs<ExtArgs>
@@ -1727,11 +2261,15 @@ export type BonLivraisonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
 }
 export type BonLivraisonIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   commande?: boolean | Prisma.BonLivraison$commandeArgs<ExtArgs>
   utilisateur?: boolean | Prisma.BonLivraison$utilisateurArgs<ExtArgs>
   devis?: boolean | Prisma.BonLivraison$devisArgs<ExtArgs>
+  commercial?: boolean | Prisma.BonLivraison$commercialArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.BonLivraison$bonSortieArgs<ExtArgs>
 }
 
 export type $BonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1740,6 +2278,8 @@ export type $BonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.Intern
     commande: Prisma.$CommandePayload<ExtArgs> | null
     utilisateur: Prisma.$UtilisateurPayload<ExtArgs> | null
     devis: Prisma.$DevisPayload<ExtArgs> | null
+    commercial: Prisma.$UtilisateurPayload<ExtArgs> | null
+    bonSortie: Prisma.$BonSortiePayload<ExtArgs> | null
     lignes: Prisma.$LigneBonLivraisonPayload<ExtArgs>[]
     factures: Prisma.$FacturePayload<ExtArgs>[]
     facturesJonction: Prisma.$FactureBonLivraisonPayload<ExtArgs>[]
@@ -1759,6 +2299,8 @@ export type $BonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.Intern
     statut: $Enums.StatutBonLivraison
     stockMisAJour: boolean
     commentaire: string | null
+    commercialId: number | null
+    bonSortieId: number | null
     creeLe: Date
     misAJourLe: Date
   }, ExtArgs["result"]["bonLivraison"]>
@@ -2158,6 +2700,8 @@ export interface Prisma__BonLivraisonClient<T, Null = never, ExtArgs extends run
   commande<T extends Prisma.BonLivraison$commandeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$commandeArgs<ExtArgs>>): Prisma.Prisma__CommandeClient<runtime.Types.Result.GetResult<Prisma.$CommandePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   utilisateur<T extends Prisma.BonLivraison$utilisateurArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$utilisateurArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   devis<T extends Prisma.BonLivraison$devisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$devisArgs<ExtArgs>>): Prisma.Prisma__DevisClient<runtime.Types.Result.GetResult<Prisma.$DevisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  commercial<T extends Prisma.BonLivraison$commercialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$commercialArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  bonSortie<T extends Prisma.BonLivraison$bonSortieArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$bonSortieArgs<ExtArgs>>): Prisma.Prisma__BonSortieClient<runtime.Types.Result.GetResult<Prisma.$BonSortiePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   lignes<T extends Prisma.BonLivraison$lignesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$lignesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LigneBonLivraisonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   factures<T extends Prisma.BonLivraison$facturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$facturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FacturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   facturesJonction<T extends Prisma.BonLivraison$facturesJonctionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraison$facturesJonctionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FactureBonLivraisonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2204,6 +2748,8 @@ export interface BonLivraisonFieldRefs {
   readonly statut: Prisma.FieldRef<"BonLivraison", 'StatutBonLivraison'>
   readonly stockMisAJour: Prisma.FieldRef<"BonLivraison", 'Boolean'>
   readonly commentaire: Prisma.FieldRef<"BonLivraison", 'String'>
+  readonly commercialId: Prisma.FieldRef<"BonLivraison", 'Int'>
+  readonly bonSortieId: Prisma.FieldRef<"BonLivraison", 'Int'>
   readonly creeLe: Prisma.FieldRef<"BonLivraison", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"BonLivraison", 'DateTime'>
 }
@@ -2661,6 +3207,44 @@ export type BonLivraison$devisArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.DevisInclude<ExtArgs> | null
   where?: Prisma.DevisWhereInput
+}
+
+/**
+ * BonLivraison.commercial
+ */
+export type BonLivraison$commercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
+ * BonLivraison.bonSortie
+ */
+export type BonLivraison$bonSortieArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BonSortie
+   */
+  select?: Prisma.BonSortieSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BonSortie
+   */
+  omit?: Prisma.BonSortieOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BonSortieInclude<ExtArgs> | null
+  where?: Prisma.BonSortieWhereInput
 }
 
 /**

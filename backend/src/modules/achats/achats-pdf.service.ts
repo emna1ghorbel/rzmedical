@@ -79,7 +79,30 @@ export function amountToWordsTND(amount: number, devise = 'TND'): string {
   return parts.join(' ');
 }
 
-function getLogoPath(): string | null {
+interface CompanyConfig {
+  nomSociete: string;
+  matriculeFiscale: string;
+  adresse: string;
+  telephone: string;
+  fax: string;
+  email: string;
+  banque: string;
+  rib: string;
+  logoUrl: string | null;
+}
+
+function resolveLogoPath(logoUrl: string | null): string | null {
+  if (logoUrl) {
+    if (path.isAbsolute(logoUrl) && fs.existsSync(logoUrl)) return logoUrl;
+    const uploadDir = process.env.UPLOAD_DIR || 'uploads';
+    const relativePath = logoUrl.startsWith('/') ? logoUrl.slice(1) : logoUrl;
+    const resolvedFromUploads = path.resolve(process.cwd(), relativePath);
+    if (fs.existsSync(resolvedFromUploads)) return resolvedFromUploads;
+
+    const resolvedFromUploadDir = path.resolve(process.cwd(), uploadDir, path.basename(logoUrl));
+    if (fs.existsSync(resolvedFromUploadDir)) return resolvedFromUploadDir;
+  }
+
   const candidates = [
     path.resolve(__dirname, '../../../assets/logo-rzmedical.png'),
     path.resolve(process.cwd(), 'assets/logo-rzmedical.png'),
@@ -93,42 +116,33 @@ function getLogoPath(): string | null {
   return null;
 }
 
-interface CompanyConfig {
-  nomSociete: string;
-  matriculeFiscale: string;
-  adresse: string;
-  telephone: string;
-  fax: string;
-  email: string;
-  banque: string;
-  rib: string;
-}
-
 const getCompanyInfo = async (): Promise<CompanyConfig> => {
   try {
-    const info = await (prisma as any).infoSociete?.findUnique({ where: { id: 1 } });
+    const info = await prisma.infoSociete.findUnique({ where: { id: 1 } });
     if (info) {
       return {
-        nomSociete: info.nomSociete || 'R and Z Medical',
-        matriculeFiscale: info.matriculeFiscale || '1742623LAM000',
-        adresse: info.adresse || '23 Rue Salem harzallah, imm echafai 2ème étage 3000, Sfax Tunisie',
-        telephone: info.telephone || '28113131',
-        fax: info.fax || '-',
-        email: info.email || 'randzmedical@outlook.com',
-        banque: info.banque || 'UIB BANK',
-        rib: info.rib || '12023000003303530971',
+        nomSociete: info.nomSociete || '',
+        matriculeFiscale: (info as any).matriculeFiscale || '',
+        adresse: info.adresse || '',
+        telephone: info.telephone || '',
+        fax: (info as any).fax || '',
+        email: info.email || '',
+        banque: (info as any).banque || '',
+        rib: (info as any).rib || '',
+        logoUrl: info.logoUrl || null,
       };
     }
   } catch {}
   return {
-    nomSociete: 'R and Z Medical',
-    matriculeFiscale: '1742623LAM000',
-    adresse: '23 Rue Salem harzallah, imm echafai 2ème étage 3000, Sfax Tunisie',
-    telephone: '28113131',
-    fax: '-',
-    email: 'randzmedical@outlook.com',
-    banque: 'UIB BANK',
-    rib: '12023000003303530971',
+    nomSociete: '',
+    matriculeFiscale: '',
+    adresse: '',
+    telephone: '',
+    fax: '',
+    email: '',
+    banque: '',
+    rib: '',
+    logoUrl: null,
   };
 };
 
@@ -167,7 +181,7 @@ export async function generateBonCommandePdf(bcId: number): Promise<Buffer> {
     doc.on('error', reject);
 
     // Header Logo & Company
-    const logoPath = getLogoPath();
+    const logoPath = resolveLogoPath(company.logoUrl);
     if (logoPath) {
       try {
         doc.image(logoPath, 20, 16, { width: 75, height: 85, fit: [75, 85] });
@@ -347,7 +361,7 @@ export async function generateBonReceptionPdf(brId: number): Promise<Buffer> {
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    const logoPath = getLogoPath();
+    const logoPath = resolveLogoPath(company.logoUrl);
     if (logoPath) {
       try {
         doc.image(logoPath, 20, 16, { width: 75, height: 85, fit: [75, 85] });
@@ -513,7 +527,7 @@ export async function generateFactureFournisseurPdf(ffId: number): Promise<Buffe
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    const logoPath = getLogoPath();
+    const logoPath = resolveLogoPath(company.logoUrl);
     if (logoPath) {
       try {
         doc.image(logoPath, 20, 16, { width: 75, height: 85, fit: [75, 85] });

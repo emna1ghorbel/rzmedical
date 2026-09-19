@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState,useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
   {
     icon: (
       <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor" />
       </svg>
     ),
     name: "Accueil",
@@ -48,10 +48,16 @@ const navItems: NavItem[] = [
   },
   {
     icon: <GridIcon />,
-    name: "decouvrir stock",
-    path: "/ancien-dashboard",
+    name: "Stock",
+    path: "/stock",
   },
   {
+    icon: <GridIcon />,
+    name: "Mouvements de stock",
+    path: "/mouvements-stock",
+  },
+  {
+
     name: "Catalogue",
     icon: <BoxCubeIcon />,
     subItems: [
@@ -60,16 +66,18 @@ const navItems: NavItem[] = [
       { name: "Ordre sous-catégories", path: "/reorder-subcategories", pro: false },
       { name: "Marques", path: "/brands", pro: false },
       { name: "Produits", path: "/products", pro: false },
-      { name: "Mouvements de stock", path: "/mouvements-stock", pro: false, new: true },
+
     ],
   },
-  
+
+
   {
     name: "Ventes",
     icon: <ListIcon />,
     subItems: [
       { name: "Commandes", path: "/orders", pro: false },
       { name: "Bons de Livraison", path: "/bons-livraison", pro: false, new: true },
+      { name: "Bons de Sortie", path: "/bons-sortie", pro: false },
       { name: "Factures Clients", path: "/invoices", pro: false },
       { name: "Factures Annulées", path: "/invoices/annulees", pro: false },
       { name: "Avoirs Clients", path: "/avoirs", pro: false },
@@ -77,12 +85,12 @@ const navItems: NavItem[] = [
       { name: "Exercices Fiscaux", path: "/exercices", pro: false },
     ],
   },
-  
+
   {
     name: "Achats",
     icon: (
       <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0021.46 4H5.21L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7a.13.13 0 01-.13-.13l.1-.12z" fill="currentColor"/>
+        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0021.46 4H5.21L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7a.13.13 0 01-.13-.13l.1-.12z" fill="currentColor" />
       </svg>
     ),
     subItems: [
@@ -105,12 +113,30 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    name: "Stock Commerciaux",
+    icon: (
+      <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    subItems: [
+      { name: "Tableau de bord", path: "/stock-commercial", pro: false },
+      { name: "Inventaires", path: "/inventaires", pro: false },
+    ],
+  },
+  {
+    icon: <GridIcon />,
+    name: "exercice",
+    path: "/exercices",
+  },
+  {
     name: "Utilisateurs",
     icon: <UserCircleIcon />,
     subItems: [
       { name: "Mon Profil", path: "/profile", pro: false },
       { name: "Administrateurs", path: "/admins", pro: false },
       { name: "Comptes Clients", path: "/customers", pro: false },
+      { name: "Commerciaux", path: "/commerciaux", pro: false },
       { name: "Tiers", path: "/tiers", pro: false },
       { name: "Fournisseurs", path: "/fournisseurs", pro: false },
     ],
@@ -132,12 +158,12 @@ const othersItems: NavItem[] = [
   {
     icon: (
       <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/>
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor" />
       </svg>
     ),
     name: "Configuration",
     subItems: [
-      { name: "Paramètres fiscaux", path: "/configuration", pro: false },
+      { name: "Société & Fiscalité", path: "/configuration", pro: false },
       { name: "Services", path: "/configuration/services", pro: false },
     ]
   },
@@ -149,7 +175,7 @@ const othersItems: NavItem[] = [
   {
     icon: (
       <svg className="fill-current" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm16 2l-8 5-8-5v12h16V6zm-8 7l8-5v1.2l-8 5-8-5V6l8 5z" fill="currentColor"/>
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm16 2l-8 5-8-5v12h16V6zm-8 7l8-5v1.2l-8 5-8-5V6l8 5z" fill="currentColor" />
       </svg>
     ),
     name: "Inbox",
@@ -171,22 +197,19 @@ const AppSidebar: React.FC = () => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group  ${
-                openSubmenu?.type === menuType && openSubmenu?.index === index
-                  ? "menu-item-active"
-                  : "menu-item-inactive"
-              } cursor-pointer ${
-                !isExpanded && !isHovered
+              className={`menu-item group  ${openSubmenu?.type === menuType && openSubmenu?.index === index
+                ? "menu-item-active"
+                : "menu-item-inactive"
+                } cursor-pointer ${!isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "lg:justify-start"
-              }`}
+                }`}
             >
               <span
-                className={` ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
-                }`}
+                className={` ${openSubmenu?.type === menuType && openSubmenu?.index === index
+                  ? "menu-item-icon-active"
+                  : "menu-item-icon-inactive"
+                  }`}
               >
                 {nav.icon}
               </span>
@@ -195,12 +218,11 @@ const AppSidebar: React.FC = () => {
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
-                  className={`ml-auto w-5 h-5 transition-transform duration-200  ${
-                    openSubmenu?.type === menuType &&
+                  className={`ml-auto w-5 h-5 transition-transform duration-200  ${openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
-                      : ""
-                  }`}
+                    ? "rotate-180 text-brand-500"
+                    : ""
+                    }`}
                 />
               )}
             </button>
@@ -211,16 +233,14 @@ const AppSidebar: React.FC = () => {
                 onClick={() => {
                   if (isMobileOpen) toggleMobileSidebar();
                 }}
-                className={`menu-item group ${
-                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
-                }`}
+                className={`menu-item group ${isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
+                  }`}
               >
                 <span
-                  className={`${
-                    isActive(nav.path)
-                      ? "menu-item-icon-active"
-                      : "menu-item-icon-inactive"
-                  }`}
+                  className={`${isActive(nav.path)
+                    ? "menu-item-icon-active"
+                    : "menu-item-icon-inactive"
+                    }`}
                 >
                   {nav.icon}
                 </span>
@@ -251,32 +271,29 @@ const AppSidebar: React.FC = () => {
                       onClick={() => {
                         if (isMobileOpen) toggleMobileSidebar();
                       }}
-                      className={`menu-dropdown-item ${
-                        isActive(subItem.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
-                      }`}
+                      className={`menu-dropdown-item ${isActive(subItem.path)
+                        ? "menu-dropdown-item-active"
+                        : "menu-dropdown-item-inactive"
+                        }`}
                     >
                       {subItem.name}
                       <span className="flex items-center gap-1 ml-auto">
                         {subItem.new && (
                           <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
+                            className={`ml-auto ${isActive(subItem.path)
+                              ? "menu-dropdown-badge-active"
+                              : "menu-dropdown-badge-inactive"
+                              } menu-dropdown-badge `}
                           >
                             new
                           </span>
                         )}
                         {subItem.pro && (
                           <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
+                            className={`ml-auto ${isActive(subItem.path)
+                              ? "menu-dropdown-badge-active"
+                              : "menu-dropdown-badge-inactive"
+                              } menu-dropdown-badge `}
                           >
                             pro
                           </span>
@@ -331,7 +348,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
@@ -362,10 +379,9 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
-        ${
-          isExpanded || isMobileOpen
-            ? "w-[290px]"
-            : isHovered
+        ${isExpanded || isMobileOpen
+          ? "w-[290px]"
+          : isHovered
             ? "w-[290px]"
             : "w-[90px]"
         }
@@ -375,9 +391,8 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex  ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
-        }`}
+        className={`py-8 flex  ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+          }`}
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
@@ -412,11 +427,10 @@ const AppSidebar: React.FC = () => {
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
+                  ? "lg:justify-center"
+                  : "justify-start"
+                  }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Menu"
@@ -429,11 +443,10 @@ const AppSidebar: React.FC = () => {
 
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
+                  ? "lg:justify-center"
+                  : "justify-start"
+                  }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Others"

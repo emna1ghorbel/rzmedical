@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
@@ -18,9 +18,9 @@ const metadata = {
 
 const initialValues = {
   numeroCharge: "", numeroDeclaration: "", numero: "", date: new Date().toISOString().slice(0, 10),
-  nature: "", description: "", periodeConcernee: "", periodeDeclaration: "", beneficiaire: "", matriculeEmployeur: "",
+  nature: "", natureAutre: "", description: "", periodeConcernee: "", periodeDeclaration: "", beneficiaire: "", matriculeEmployeur: "",
   nombreSalaries: "", masseSalariale: "", partPatronale: "", partSalariale: "", montantHT: "", tauxTVA: "19", montantTTC: "", montant: "",
-  dateLimitePaiement: "", datePaiement: "", modePaiement: "Virement", statutPaiement: "NON_PAYEE", referenceFacture: "", referencePaiement: "", notes: "", devise: "TND",
+  dateLimitePaiement: "", datePaiement: "", modePaiement: "Virement", statutPaiement: "NON_PAYEE", montantPaye: "", referenceFacture: "", referencePaiement: "", notes: "", devise: "TND", commercialId: "",
 };
 
 // Confidence badge for auto-filled fields
@@ -84,7 +84,7 @@ interface CnssOcrData {
   warnings?: string[];
 }
 
-export default function SpecificChargeForm({ categorie }: { categorie: ChargeFormCategory }) {
+export default function SpecificChargeForm({ categorie, id }: { categorie: ChargeFormCategory; id?: number }) {
   const router = useRouter();
   const { getToken } = useAuth();
   const meta = metadata[categorie];
@@ -104,7 +104,50 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
   const dropZoneRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // ── Commerciaux ──────────────────────────────────────────────────────────────
+  const [commerciaux, setCommerciaux] = useState<{ id: number; prenom: string | null; nom: string | null; email: string }[]>([]);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) return;
+    fetch(`${API_URL}/clients/commerciaux`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setCommerciaux(data); })
+      .catch(() => {});
+  }, [getToken]);
+
+  useEffect(() => {
+    if (!id) return;
+    const token = getToken();
+    if (!token) return;
+    fetch(`${API_URL}/achats/charges/${categorie}/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.error) {
+          const fetchedValues = { ...initialValues };
+          for (const key in initialValues) {
+             if (data[key] !== null && data[key] !== undefined) {
+                 fetchedValues[key as keyof typeof initialValues] = String(data[key]);
+             }
+          }
+          
+          if (data.date) fetchedValues.date = new Date(data.date).toISOString().slice(0, 10);
+          if (data.dateLimitePaiement) fetchedValues.dateLimitePaiement = new Date(data.dateLimitePaiement).toISOString().slice(0, 10);
+          if (data.datePaiement) fetchedValues.datePaiement = new Date(data.datePaiement).toISOString().slice(0, 10);
+          
+          if (categorie === "CHARGES" && data.nature && !['Loyer', 'Électricité', 'Téléphone', 'Transport', 'Eau', 'Maintenance'].includes(data.nature)) {
+             fetchedValues.natureAutre = data.nature;
+             fetchedValues.nature = "Autre";
+          }
+          setValues(fetchedValues);
+          if (data.pieceJustificativeUrl) setPieceJustificativeUrl(data.pieceJustificativeUrl);
+        }
+      })
+      .catch(() => {});
+  }, [id, categorie, getToken]);
+
   const totalCnss = (Number(values.partPatronale) || 0) + (Number(values.partSalariale) || 0);
+
 
   const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -112,6 +155,26 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
     // Once user manually edits an auto-filled field, clear its badge
     setFieldStates((prev) => ({ ...prev, [name]: "manual" }));
   };
+
+  const commercialSelect = (
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+      Commercial assigné
+      <select
+        name="commercialId"
+        value={values.commercialId}
+        onChange={onChange}
+        className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+      >
+        <option value="">— Aucun commercial —</option>
+        {commerciaux.map((c) => (
+          <option key={c.id} value={c.id}>
+            {[c.prenom, c.nom].filter(Boolean).join(" ") || c.email}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+
 
   const setField = (name: keyof typeof initialValues, value: string, confidence: number) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -240,7 +303,13 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
     event.preventDefault(); setSaving(true); setError("");
     try {
       const documentUrl = await uploadDocument();
-      const response = await fetch(`${API_URL}/achats/charges/${categorie}`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` }, body: JSON.stringify({ ...values, pieceJustificativeUrl: documentUrl || null }) });
+      const payloadToSubmit = { ...values, pieceJustificativeUrl: documentUrl || null };
+      if (payloadToSubmit.nature === "Autre") {
+        payloadToSubmit.nature = payloadToSubmit.natureAutre || "Autre";
+      }
+      const method = id ? "PUT" : "POST";
+      const url = id ? `${API_URL}/achats/charges/${categorie}/${id}` : `${API_URL}/achats/charges/${categorie}`;
+      const response = await fetch(url, { method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` }, body: JSON.stringify(payloadToSubmit) });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Impossible d'enregistrer la charge");
       router.push(meta.path);
@@ -264,6 +333,9 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
           <option value="NON_PAYEE">Impayée</option><option value="PARTIELLEMENT_PAYEE">Partielle</option><option value="PAYEE">Payée</option>
         </select>
       </label>
+      {values.statutPaiement === "PARTIELLEMENT_PAYEE" && (
+        <Field label="Montant payé" name="montantPaye" type="number" value={values.montantPaye} onChange={onChange} required />
+      )}
     </>
   );
 
@@ -449,17 +521,23 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
             <Field label="Numéro de charge" name="numeroCharge" value={values.numeroCharge} onChange={onChange} required />
             <Field label="Date" name="date" type="date" value={values.date} onChange={onChange} required />
             <Field label="Période concernée" name="periodeConcernee" value={values.periodeConcernee} onChange={onChange} placeholder="Ex. septembre 2026" />
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nature *
-              <select name="nature" value={values.nature} onChange={onChange} required className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white">
-                <option value="">Sélectionner</option><option>Loyer</option><option>Électricité</option><option>Téléphone</option><option>Transport</option><option>Eau</option><option>Maintenance</option><option>Autre</option>
-              </select>
-            </label>
+            <div className="space-y-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nature *
+                <select name="nature" value={values.nature} onChange={onChange} required className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+                  <option value="">Sélectionner</option><option>Loyer</option><option>Électricité</option><option>Téléphone</option><option>Transport</option><option>Eau</option><option>Maintenance</option><option>Autre</option>
+                </select>
+              </label>
+              {values.nature === "Autre" && (
+                <Field label="Préciser la nature" name="natureAutre" value={values.natureAutre} onChange={onChange} required />
+              )}
+            </div>
             <Field label="Bénéficiaire" name="beneficiaire" value={values.beneficiaire} onChange={onChange} required />
             <Field label="Référence de facture" name="referenceFacture" value={values.referenceFacture} onChange={onChange} />
             <Field label="Montant HT" name="montantHT" type="number" value={values.montantHT} onChange={onChange} required />
             <Field label="TVA (%)" name="tauxTVA" type="number" value={values.tauxTVA} onChange={onChange} required />
             <Field label="Montant TTC" name="montantTTC" type="number" value={values.montantTTC} onChange={onChange} />
             {paymentFields}
+            {commercialSelect}
             <label className="col-span-full block text-sm font-medium">Description
               <textarea name="description" value={values.description} onChange={onChange} className="mt-1 w-full rounded-lg border p-3 dark:bg-gray-800" rows={3} />
             </label>
@@ -484,6 +562,7 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
             <Field label="Date limite de paiement" name="dateLimitePaiement" type="date" value={values.dateLimitePaiement} onChange={onChange} />
             <Field label="Référence de paiement / Transaction" name="referencePaiement" value={values.referencePaiement} onChange={onChange} fieldState={fieldStates.referencePaiement ?? "manual"} />
             {paymentFields}
+            {commercialSelect}
           </section>
         )}
 
@@ -496,6 +575,7 @@ export default function SpecificChargeForm({ categorie }: { categorie: ChargeFor
             <Field label="Bénéficiaire" name="beneficiaire" value={values.beneficiaire} onChange={onChange} required />
             <Field label="Montant" name="montant" type="number" value={values.montant} onChange={onChange} required />
             {paymentFields}
+            {commercialSelect}
             <label className="col-span-full block text-sm font-medium">Description *
               <textarea name="description" value={values.description} onChange={onChange} required className="mt-1 w-full rounded-lg border p-3 dark:bg-gray-800" rows={3} />
             </label>

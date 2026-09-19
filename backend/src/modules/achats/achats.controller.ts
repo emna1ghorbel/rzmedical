@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import * as AchatsService from './achats.service';
 import { analyzeSupplierInvoice, analyzeCnssReceipt } from './ocr.service';
+import * as chargesService from './charges.service';
 import { createCharge as createSpecificCharge, listCharges } from './charges.service';
 
 // ─── Bons de Commande ─────────────────────────────────────────────────────────
@@ -196,6 +197,10 @@ export async function createCharge(req: Request, res: Response) {
     const data = await createSpecificCharge(categorie as 'CHARGES' | 'CNSS' | 'NEUF_BA4A', req.body);
     res.status(201).json(data);
   } catch (err: any) {
+    if (err.code === 'P2002') {
+      const target = err.meta?.target;
+      return res.status(400).json({ error: `La valeur renseignée existe déjà (${target ? target.join(', ') : 'champ unique'}).` });
+    }
     res.status(400).json({ error: err.message });
   }
 }
@@ -332,5 +337,32 @@ export async function downloadFactureFournisseurPdf(req: Request, res: Response)
     res.send(pdfBuffer);
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Erreur génération PDF' });
+  }
+}
+
+export async function getSpecificCharge(req: Request, res: Response) {
+  try {
+    const categorie = String(req.params.categorie).toUpperCase() as any;
+    if (!['CHARGES', 'CNSS', 'NEUF_BA4A'].includes(categorie)) return res.status(400).json({ error: 'Catégorie invalide' });
+    const charge = await chargesService.getCharge(categorie, Number(req.params.id));
+    if (!charge) return res.status(404).json({ error: 'Charge non trouvée' });
+    res.json(charge);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Erreur' });
+  }
+}
+
+export async function updateSpecificCharge(req: Request, res: Response) {
+  try {
+    const categorie = String(req.params.categorie).toUpperCase() as any;
+    if (!['CHARGES', 'CNSS', 'NEUF_BA4A'].includes(categorie)) return res.status(400).json({ error: 'Catégorie invalide' });
+    const charge = await chargesService.updateCharge(categorie, Number(req.params.id), req.body);
+    res.json(charge);
+  } catch (err: any) {
+    if (err.code === 'P2002') {
+      const target = err.meta?.target;
+      return res.status(400).json({ error: `La valeur renseignée existe déjà (${target ? target.join(', ') : 'champ unique'}).` });
+    }
+    res.status(500).json({ error: err.message || 'Erreur lors de la mise à jour' });
   }
 }

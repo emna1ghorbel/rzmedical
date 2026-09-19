@@ -8,7 +8,7 @@ router.get('/public', async (_req: Request, res: Response) => {
   try {
     const [totalProduits, totalClients, totalCommandes] = await Promise.all([
       prisma.produit.count({ where: { disponible: true } }),
-      prisma.utilisateur.count({ where: { type: 'CLIENT' } }),
+      prisma.utilisateur.count({ where: { typeUtilisateur: 'CLIENT' } }),
       prisma.commande.count(),
     ]);
     res.json({ totalProduits, totalClients, totalCommandes });

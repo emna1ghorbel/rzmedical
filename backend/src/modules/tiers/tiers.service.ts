@@ -218,8 +218,8 @@ export const createTiers = async (data: TiersInput) => {
     : `tiers.${timestamp}@rzmedical.local`;
 
   // Vérifier si l'email existe déjà
-  const existingEmail = await prisma.utilisateur.findUnique({
-    where: { email: syntheticEmail },
+  const existingEmail = await prisma.utilisateur.findFirst({
+    where: { email: syntheticEmail, typeUtilisateur: 'CLIENT' },
   });
   const finalEmail = existingEmail
     ? `tiers.${timestamp}.${Math.floor(Math.random() * 1000)}@rzmedical.local`

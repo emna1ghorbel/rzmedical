@@ -31,15 +31,12 @@ function generateOtp(): string {
 // Step 1: Validate credentials and send OTP
 export async function login(emailInput: string, password: string) {
   const email = emailInput.trim().toLowerCase();
-  const user = await prisma.utilisateur.findUnique({ where: { email } });
+  const user = await prisma.utilisateur.findFirst({ where: { email, typeUtilisateur: 'ADMIN' } });
 
   if (!user) {
     throw new Error("L'adresse email n'existe pas dans la base de données.");
   }
 
-  if (user.typeUtilisateur !== 'ADMIN') {
-    throw new Error("Ce compte n'a pas les droits d'administration.");
-  }
 
   const valid = await bcrypt.compare(password, user.motDePasseHash);
   if (!valid) {
@@ -65,9 +62,9 @@ export async function login(emailInput: string, password: string) {
 // Step 2: Verify OTP and return JWT
 export async function verifyOtp(emailInput: string, otp: string) {
   const email = emailInput.trim().toLowerCase();
-  const user = await prisma.utilisateur.findUnique({ where: { email } });
+  const user = await prisma.utilisateur.findFirst({ where: { email, typeUtilisateur: 'ADMIN' } });
 
-  if (!user || user.typeUtilisateur !== 'ADMIN') {
+  if (!user) {
     throw new Error('Utilisateur non trouvé');
   }
 
@@ -141,7 +138,7 @@ async function sendOtpEmail(email: string, otp: string, prenom: string) {
 
 // Create a new admin (only callable by existing admin)
 export async function createAdmin(email: string, password: string, prenom?: string, nom?: string) {
-  const existing = await prisma.utilisateur.findUnique({ where: { email } });
+  const existing = await prisma.utilisateur.findFirst({ where: { email, typeUtilisateur: 'ADMIN' } });
   if (existing) {
     throw new Error('Un utilisateur avec cet email existe déjà');
   }
@@ -192,8 +189,8 @@ export async function getUserProfile(userId: number, emailFallback?: string) {
   });
 
   if (!user && emailFallback) {
-    user = await prisma.utilisateur.findUnique({
-      where: { email: emailFallback.trim().toLowerCase() },
+    user = await prisma.utilisateur.findFirst({
+      where: { email: emailFallback.trim().toLowerCase(), typeUtilisateur: 'ADMIN' },
       select: {
         id: true,
         email: true,
@@ -227,7 +224,7 @@ export async function updateProfile(
 ) {
   let user = await prisma.utilisateur.findUnique({ where: { id: userId } });
   if (!user && emailFallback) {
-    user = await prisma.utilisateur.findUnique({ where: { email: emailFallback.trim().toLowerCase() } });
+    user = await prisma.utilisateur.findFirst({ where: { email: emailFallback.trim().toLowerCase(), typeUtilisateur: 'ADMIN' } });
   }
 
   if (!user) throw new Error('Utilisateur non trouvé');

@@ -13,6 +13,7 @@ datasource db {
 enum TypeUtilisateur {
   ADMIN
   CLIENT
+  COMMERCIAL
 }
 
 enum StatutCommande {
@@ -72,6 +73,13 @@ enum DocumentSequenceType {
   BON_RECEPTION
   AVOIR_VENTE
   AVOIR_ACHAT
+  BON_SORTIE
+  INVENTAIRE_COMMERCIAL
+}
+
+enum StatutInventaire {
+  BROUILLON
+  VALIDE
 }
 
 enum StatutSupport {
@@ -92,12 +100,18 @@ enum AuteurSupport {
   ADMIN
 }
 
+enum StatutBonCommercial {
+  BROUILLON
+  VALIDE
+  ANNULE
+}
+
 // ─── Utilisateur ─────────────────────────────────────────────────────────────
 
 model Utilisateur {
   id                 Int             @id @default(autoincrement())
-  email              String          @unique
-  motDePasseHash     String
+  email              String
+  motDePasseHash     String?
   prenom             String?
   nom                String?
   telephone          String?
@@ -107,6 +121,7 @@ model Utilisateur {
   typeUtilisateur    TypeUtilisateur @default(CLIENT)
   remise             Decimal         @default(0) @db.Decimal(5, 2)
   matriculeFiscale   String?
+  matriculeVoiture   String?
   activite           String?
   activiteCategoryId Int?
   activiteCategorie  Categorie?      @relation("UtilisateurActivite", fields: [activiteCategoryId], references: [id])
@@ -124,6 +139,19 @@ model Utilisateur {
   ticketsSupport  TicketSupport[]
   tokenReset      TokenReset?
 
+  // Charges assignées à ce commercial
+  chargesGenerales ChargeGenerale[]
+  chargesCnss      ChargeCnss[]
+  charges9ba4a     Charge9ba4a[]
+
+  // Stock commercial
+  stockCommercial      StockCommercial[]
+  bonsEntree           BonSortie[]                   @relation("CommercialBonSortie")
+  bonsLivraisonAsComm  BonLivraison[]                @relation("CommercialBonLivraison")
+  inventaires          InventaireCommercial[]         @relation("CommercialInventaire")
+  inventairesValides   InventaireCommercial[]         @relation("ValidateurInventaire")
+
+  @@unique([email, typeUtilisateur])
   @@map("utilisateurs")
 }
 
@@ -246,6 +274,11 @@ model Produit {
   mouvementsStock    StockMovement[]
   historiquesPrixAchat PurchasePriceHistory[]
 
+  // Stock commercial relations
+  stockCommercial             StockCommercial[]
+  lignesBonSortie             LigneBonSortie[]
+  lignesInventaire            LigneInventaire[]
+
   @@index([sousCategorieId])
   @@index([marqueId])
   @@map("produits")
@@ -259,6 +292,8 @@ enum StockMovementType {
   ADJUSTMENT
   TRANSFER
   INVENTORY
+  DELIVERY
+  RETURN
 }
 
 model StockMovement {
@@ -363,6 +398,12 @@ model BonLivraison {
   statut        StatutBonLivraison @default(BROUILLON)
   stockMisAJour Boolean            @default(false)
   commentaire   String?
+  // Livraison par un commercial (optionnel)
+  commercialId  Int?
+  commercial    Utilisateur?       @relation("CommercialBonLivraison", fields: [commercialId], references: [id])
+  // BS source (optionnel — pour les livraisons commerciales)
+  bonSortieId   Int?
+  bonSortie     BonSortie?         @relation("BLFromBonSortie", fields: [bonSortieId], references: [id])
   creeLe        DateTime           @default(now())
   misAJourLe    DateTime           @updatedAt
 
@@ -373,6 +414,7 @@ model BonLivraison {
   @@index([commandeId])
   @@index([utilisateurId])
   @@index([devisId])
+  @@index([commercialId])
   @@map("bons_livraison")
 }
 
@@ -387,9 +429,15 @@ model LigneBonLivraison {
   quantiteLivree Int          @default(0)
   prixUnitaireHT Decimal      @db.Decimal(10, 3)
   tauxTVA        Decimal      @default(0) @db.Decimal(5, 2)
+  // Traçabilité vers BS source (optionnel — pour BL commerciaux)
+  bonSortieId        Int?
+  bonSortie          BonSortie?     @relation("LigneBLFromBS", fields: [bonSortieId], references: [id])
+  ligneBonSortieId   Int?
+  ligneBonSortie     LigneBonSortie? @relation("LigneBLFromLigneBS", fields: [ligneBonSortieId], references: [id])
 
   @@index([bonId])
   @@index([produitId])
+  @@index([bonSortieId])
   @@map("lignes_bon_livraison")
 }
 
@@ -672,18 +720,22 @@ model NewsletterAbonne {
 // ─── Informations de la société (singleton — id toujours 1) ──────────────────
 
 model InfoSociete {
-  id            Int       @id @default(1)
-  nomSociete    String    @default("RZMedical")
-  logoUrl       String?
-  telephone     String?
-  email         String?
-  adresse       String?
-  siteWeb       String?
-  valeursTva    Decimal[] @db.Decimal(5, 2)
-  valeursTimbre Decimal[] @db.Decimal(10, 3)
-  tauxFrais     Decimal?  @default(0) @db.Decimal(10, 3)
-  timbreFiscal  Decimal?  @default(1) @db.Decimal(10, 3)
-  misAJourLe    DateTime  @updatedAt
+  id               Int       @id @default(1)
+  nomSociete       String    @default("RZMedical")
+  logoUrl          String?
+  matriculeFiscale String?
+  telephone        String?
+  fax              String?
+  email            String?
+  adresse          String?
+  siteWeb          String?
+  banque           String?
+  rib              String?
+  valeursTva       Decimal[] @db.Decimal(5, 2)
+  valeursTimbre    Decimal[] @db.Decimal(10, 3)
+  tauxFrais        Decimal?  @default(0) @db.Decimal(10, 3)
+  timbreFiscal     Decimal?  @default(1) @db.Decimal(10, 3)
+  misAJourLe       DateTime  @updatedAt
 
   @@map("info_societe")
 }
@@ -966,14 +1018,18 @@ model ChargeGenerale {
   tauxTVA              Decimal  @db.Decimal(5, 2)
   montantTTC           Decimal  @db.Decimal(12, 3)
   statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  montantPaye          Decimal  @default(0) @db.Decimal(12, 3)
   modePaiement         String?
   datePaiement         DateTime?
   referenceFacture     String?
   pieceJustificativeUrl String?
   notes                String?
+  commercialId         Int?
+  commercial           Utilisateur? @relation(fields: [commercialId], references: [id])
   creeLe               DateTime           @default(now())
   misAJourLe           DateTime           @updatedAt
 
+  @@index([commercialId])
   @@map("charges_generales")
 }
 
@@ -988,15 +1044,19 @@ model ChargeCnss {
   partSalariale        Decimal            @db.Decimal(12, 3)
   totalCnss            Decimal            @db.Decimal(12, 3)
   statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  montantPaye          Decimal            @default(0) @db.Decimal(12, 3)
   dateLimitePaiement   DateTime?
   datePaiement         DateTime?
   modePaiement         String?
   referencePaiement    String?
   pieceJustificativeUrl String?
   notes                String?
+  commercialId         Int?
+  commercial           Utilisateur? @relation(fields: [commercialId], references: [id])
   creeLe               DateTime           @default(now())
   misAJourLe           DateTime           @updatedAt
 
+  @@index([commercialId])
   @@map("charges_cnss")
 }
 
@@ -1008,12 +1068,16 @@ model Charge9ba4a {
   beneficiaire         String
   montant              Decimal  @db.Decimal(12, 3)
   statutPaiement       StatutPaiementFournisseur @default(NON_PAYEE)
+  montantPaye          Decimal  @default(0) @db.Decimal(12, 3)
   modePaiement         String?
   pieceJustificativeUrl String?
   notes                String?
+  commercialId         Int?
+  commercial           Utilisateur? @relation(fields: [commercialId], references: [id])
   creeLe               DateTime           @default(now())
   misAJourLe           DateTime           @updatedAt
 
+  @@index([commercialId])
   @@map("charges_9ba4a")
 }
 
@@ -1049,3 +1113,108 @@ model PaiementFactureFournisseur {
 
   @@map("paiements_factures_fournisseurs")
 }
+
+// ─── Stock Commerciaux ──────────────────────────────────────────────────────────────────
+
+// Stock actuel d'un commercial pour un produit donné
+model StockCommercial {
+  id           Int         @id @default(autoincrement())
+  commercialId Int
+  commercial   Utilisateur @relation(fields: [commercialId], references: [id], onDelete: Cascade)
+  produitId    Int
+  produit      Produit     @relation(fields: [produitId], references: [id], onDelete: Cascade)
+  quantite     Int         @default(0)
+  misAJourLe   DateTime    @updatedAt
+
+  @@unique([commercialId, produitId])
+  @@index([commercialId])
+  @@index([produitId])
+  @@map("stock_commerciaux")
+}
+
+// Bon de sortie : dépôt → commercial
+model BonSortie {
+  id           Int                  @id @default(autoincrement())
+  code         String               @unique // BS-2026-0001
+  commercialId Int
+  commercial   Utilisateur          @relation("CommercialBonSortie", fields: [commercialId], references: [id])
+  depotNom     String?              // Nom du dépôt source (snapshot)
+  statut       StatutBonCommercial  @default(BROUILLON)
+  commentaire  String?
+  valideLe     DateTime?
+  creeLe       DateTime             @default(now())
+  misAJourLe   DateTime             @updatedAt
+
+  lignes       LigneBonSortie[]
+  inventaires  InventaireCommercial[]
+  bonsLivraison BonLivraison[]       @relation("BLFromBonSortie")
+  lignesBL      LigneBonLivraison[]  @relation("LigneBLFromBS")
+
+  @@index([commercialId])
+  @@map("bons_sortie")
+}
+
+model LigneBonSortie {
+  id        Int       @id @default(autoincrement())
+  bonId     Int
+  bon       BonSortie @relation(fields: [bonId], references: [id], onDelete: Cascade)
+  produitId Int
+  produit   Produit   @relation(fields: [produitId], references: [id])
+  quantite  Int
+
+  lignesBL  LigneBonLivraison[] @relation("LigneBLFromLigneBS")
+
+  @@index([bonId])
+  @@index([produitId])
+  @@map("lignes_bon_sortie")
+}
+
+// ─── Inventaire Commercial ────────────────────────────────────────────────────
+
+model InventaireCommercial {
+  id           Int              @id @default(autoincrement())
+  code         String           @unique // INV-2026-0001
+  bonSortieId  Int
+  bonSortie    BonSortie        @relation(fields: [bonSortieId], references: [id])
+  commercialId Int
+  commercial   Utilisateur      @relation("CommercialInventaire", fields: [commercialId], references: [id])
+  statut       StatutInventaire @default(BROUILLON)
+  commentaire  String?
+  // Résumé calculé au moment de la validation
+  totalEcartQte    Int?     // somme des écarts
+  totalValeurEcart Decimal? @db.Decimal(14, 3) // valeur totale des écarts
+  valideParId  Int?
+  validePar    Utilisateur?     @relation("ValidateurInventaire", fields: [valideParId], references: [id])
+  valideLe     DateTime?
+  creeLe       DateTime         @default(now())
+  misAJourLe   DateTime         @updatedAt
+
+  lignes LigneInventaire[]
+
+  @@index([bonSortieId])
+  @@index([commercialId])
+  @@map("inventaires_commerciaux")
+}
+
+model LigneInventaire {
+  id             Int                  @id @default(autoincrement())
+  inventaireId   Int
+  inventaire     InventaireCommercial @relation(fields: [inventaireId], references: [id], onDelete: Cascade)
+  produitId      Int
+  produit        Produit              @relation(fields: [produitId], references: [id])
+  // Valeurs calculées (snapshot au moment de la création de l'inventaire)
+  quantiteSortie  Int  // depuis BS
+  quantiteVendue  Int  // depuis BL liés
+  quantiteRestante Int // = sortie - vendue
+  // Valeur saisie manuellement par le commercial/admin
+  quantiteVoiture Int  @default(0)
+  // Valeurs calculées
+  ecart           Int  @default(0) // = voiture - restante
+  pmpSnapshot     Decimal @default(0) @db.Decimal(12, 3) // PMP au moment de l'inventaire
+  valeurEcart     Decimal @default(0) @db.Decimal(14, 3) // ecart × pmp
+
+  @@index([inventaireId])
+  @@index([produitId])
+  @@map("lignes_inventaire")
+}
+

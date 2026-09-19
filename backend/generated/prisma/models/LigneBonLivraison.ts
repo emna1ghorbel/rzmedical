@@ -34,6 +34,8 @@ export type LigneBonLivraisonAvgAggregateOutputType = {
   quantiteLivree: number | null
   prixUnitaireHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
+  bonSortieId: number | null
+  ligneBonSortieId: number | null
 }
 
 export type LigneBonLivraisonSumAggregateOutputType = {
@@ -44,6 +46,8 @@ export type LigneBonLivraisonSumAggregateOutputType = {
   quantiteLivree: number | null
   prixUnitaireHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
+  bonSortieId: number | null
+  ligneBonSortieId: number | null
 }
 
 export type LigneBonLivraisonMinAggregateOutputType = {
@@ -55,6 +59,8 @@ export type LigneBonLivraisonMinAggregateOutputType = {
   quantiteLivree: number | null
   prixUnitaireHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
+  bonSortieId: number | null
+  ligneBonSortieId: number | null
 }
 
 export type LigneBonLivraisonMaxAggregateOutputType = {
@@ -66,6 +72,8 @@ export type LigneBonLivraisonMaxAggregateOutputType = {
   quantiteLivree: number | null
   prixUnitaireHT: runtime.Decimal | null
   tauxTVA: runtime.Decimal | null
+  bonSortieId: number | null
+  ligneBonSortieId: number | null
 }
 
 export type LigneBonLivraisonCountAggregateOutputType = {
@@ -77,6 +85,8 @@ export type LigneBonLivraisonCountAggregateOutputType = {
   quantiteLivree: number
   prixUnitaireHT: number
   tauxTVA: number
+  bonSortieId: number
+  ligneBonSortieId: number
   _all: number
 }
 
@@ -89,6 +99,8 @@ export type LigneBonLivraisonAvgAggregateInputType = {
   quantiteLivree?: true
   prixUnitaireHT?: true
   tauxTVA?: true
+  bonSortieId?: true
+  ligneBonSortieId?: true
 }
 
 export type LigneBonLivraisonSumAggregateInputType = {
@@ -99,6 +111,8 @@ export type LigneBonLivraisonSumAggregateInputType = {
   quantiteLivree?: true
   prixUnitaireHT?: true
   tauxTVA?: true
+  bonSortieId?: true
+  ligneBonSortieId?: true
 }
 
 export type LigneBonLivraisonMinAggregateInputType = {
@@ -110,6 +124,8 @@ export type LigneBonLivraisonMinAggregateInputType = {
   quantiteLivree?: true
   prixUnitaireHT?: true
   tauxTVA?: true
+  bonSortieId?: true
+  ligneBonSortieId?: true
 }
 
 export type LigneBonLivraisonMaxAggregateInputType = {
@@ -121,6 +137,8 @@ export type LigneBonLivraisonMaxAggregateInputType = {
   quantiteLivree?: true
   prixUnitaireHT?: true
   tauxTVA?: true
+  bonSortieId?: true
+  ligneBonSortieId?: true
 }
 
 export type LigneBonLivraisonCountAggregateInputType = {
@@ -132,6 +150,8 @@ export type LigneBonLivraisonCountAggregateInputType = {
   quantiteLivree?: true
   prixUnitaireHT?: true
   tauxTVA?: true
+  bonSortieId?: true
+  ligneBonSortieId?: true
   _all?: true
 }
 
@@ -230,6 +250,8 @@ export type LigneBonLivraisonGroupByOutputType = {
   quantiteLivree: number
   prixUnitaireHT: runtime.Decimal
   tauxTVA: runtime.Decimal
+  bonSortieId: number | null
+  ligneBonSortieId: number | null
   _count: LigneBonLivraisonCountAggregateOutputType | null
   _avg: LigneBonLivraisonAvgAggregateOutputType | null
   _sum: LigneBonLivraisonSumAggregateOutputType | null
@@ -264,8 +286,12 @@ export type LigneBonLivraisonWhereInput = {
   quantiteLivree?: Prisma.IntFilter<"LigneBonLivraison"> | number
   prixUnitaireHT?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
+  ligneBonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
   bon?: Prisma.XOR<Prisma.BonLivraisonScalarRelationFilter, Prisma.BonLivraisonWhereInput>
   produit?: Prisma.XOR<Prisma.ProduitNullableScalarRelationFilter, Prisma.ProduitWhereInput> | null
+  bonSortie?: Prisma.XOR<Prisma.BonSortieNullableScalarRelationFilter, Prisma.BonSortieWhereInput> | null
+  ligneBonSortie?: Prisma.XOR<Prisma.LigneBonSortieNullableScalarRelationFilter, Prisma.LigneBonSortieWhereInput> | null
 }
 
 export type LigneBonLivraisonOrderByWithRelationInput = {
@@ -277,8 +303,12 @@ export type LigneBonLivraisonOrderByWithRelationInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
   bon?: Prisma.BonLivraisonOrderByWithRelationInput
   produit?: Prisma.ProduitOrderByWithRelationInput
+  bonSortie?: Prisma.BonSortieOrderByWithRelationInput
+  ligneBonSortie?: Prisma.LigneBonSortieOrderByWithRelationInput
 }
 
 export type LigneBonLivraisonWhereUniqueInput = Prisma.AtLeast<{
@@ -293,8 +323,12 @@ export type LigneBonLivraisonWhereUniqueInput = Prisma.AtLeast<{
   quantiteLivree?: Prisma.IntFilter<"LigneBonLivraison"> | number
   prixUnitaireHT?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
+  ligneBonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
   bon?: Prisma.XOR<Prisma.BonLivraisonScalarRelationFilter, Prisma.BonLivraisonWhereInput>
   produit?: Prisma.XOR<Prisma.ProduitNullableScalarRelationFilter, Prisma.ProduitWhereInput> | null
+  bonSortie?: Prisma.XOR<Prisma.BonSortieNullableScalarRelationFilter, Prisma.BonSortieWhereInput> | null
+  ligneBonSortie?: Prisma.XOR<Prisma.LigneBonSortieNullableScalarRelationFilter, Prisma.LigneBonSortieWhereInput> | null
 }, "id">
 
 export type LigneBonLivraisonOrderByWithAggregationInput = {
@@ -306,6 +340,8 @@ export type LigneBonLivraisonOrderByWithAggregationInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LigneBonLivraisonCountOrderByAggregateInput
   _avg?: Prisma.LigneBonLivraisonAvgOrderByAggregateInput
   _max?: Prisma.LigneBonLivraisonMaxOrderByAggregateInput
@@ -325,6 +361,8 @@ export type LigneBonLivraisonScalarWhereWithAggregatesInput = {
   quantiteLivree?: Prisma.IntWithAggregatesFilter<"LigneBonLivraison"> | number
   prixUnitaireHT?: Prisma.DecimalWithAggregatesFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalWithAggregatesFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.IntNullableWithAggregatesFilter<"LigneBonLivraison"> | number | null
+  ligneBonSortieId?: Prisma.IntNullableWithAggregatesFilter<"LigneBonLivraison"> | number | null
 }
 
 export type LigneBonLivraisonCreateInput = {
@@ -335,6 +373,8 @@ export type LigneBonLivraisonCreateInput = {
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
   bon: Prisma.BonLivraisonCreateNestedOneWithoutLignesInput
   produit?: Prisma.ProduitCreateNestedOneWithoutLignesBonLivraisonInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutLignesBLInput
+  ligneBonSortie?: Prisma.LigneBonSortieCreateNestedOneWithoutLignesBLInput
 }
 
 export type LigneBonLivraisonUncheckedCreateInput = {
@@ -346,6 +386,8 @@ export type LigneBonLivraisonUncheckedCreateInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonUpdateInput = {
@@ -356,6 +398,8 @@ export type LigneBonLivraisonUpdateInput = {
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   bon?: Prisma.BonLivraisonUpdateOneRequiredWithoutLignesNestedInput
   produit?: Prisma.ProduitUpdateOneWithoutLignesBonLivraisonNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutLignesBLNestedInput
+  ligneBonSortie?: Prisma.LigneBonSortieUpdateOneWithoutLignesBLNestedInput
 }
 
 export type LigneBonLivraisonUncheckedUpdateInput = {
@@ -367,6 +411,8 @@ export type LigneBonLivraisonUncheckedUpdateInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LigneBonLivraisonCreateManyInput = {
@@ -378,6 +424,8 @@ export type LigneBonLivraisonCreateManyInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonUpdateManyMutationInput = {
@@ -397,6 +445,8 @@ export type LigneBonLivraisonUncheckedUpdateManyInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LigneBonLivraisonListRelationFilter = {
@@ -418,6 +468,8 @@ export type LigneBonLivraisonCountOrderByAggregateInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrder
 }
 
 export type LigneBonLivraisonAvgOrderByAggregateInput = {
@@ -428,6 +480,8 @@ export type LigneBonLivraisonAvgOrderByAggregateInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrder
 }
 
 export type LigneBonLivraisonMaxOrderByAggregateInput = {
@@ -439,6 +493,8 @@ export type LigneBonLivraisonMaxOrderByAggregateInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrder
 }
 
 export type LigneBonLivraisonMinOrderByAggregateInput = {
@@ -450,6 +506,8 @@ export type LigneBonLivraisonMinOrderByAggregateInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrder
 }
 
 export type LigneBonLivraisonSumOrderByAggregateInput = {
@@ -460,6 +518,8 @@ export type LigneBonLivraisonSumOrderByAggregateInput = {
   quantiteLivree?: Prisma.SortOrder
   prixUnitaireHT?: Prisma.SortOrder
   tauxTVA?: Prisma.SortOrder
+  bonSortieId?: Prisma.SortOrder
+  ligneBonSortieId?: Prisma.SortOrder
 }
 
 export type LigneBonLivraisonCreateNestedManyWithoutProduitInput = {
@@ -546,6 +606,90 @@ export type LigneBonLivraisonUncheckedUpdateManyWithoutBonNestedInput = {
   deleteMany?: Prisma.LigneBonLivraisonScalarWhereInput | Prisma.LigneBonLivraisonScalarWhereInput[]
 }
 
+export type LigneBonLivraisonCreateNestedManyWithoutBonSortieInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyBonSortieInputEnvelope
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+}
+
+export type LigneBonLivraisonUncheckedCreateNestedManyWithoutBonSortieInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyBonSortieInputEnvelope
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+}
+
+export type LigneBonLivraisonUpdateManyWithoutBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  upsert?: Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput | Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyBonSortieInputEnvelope
+  set?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  delete?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  update?: Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput | Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput[]
+  updateMany?: Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutBonSortieInput | Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutBonSortieInput[]
+  deleteMany?: Prisma.LigneBonLivraisonScalarWhereInput | Prisma.LigneBonLivraisonScalarWhereInput[]
+}
+
+export type LigneBonLivraisonUncheckedUpdateManyWithoutBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutBonSortieInput[]
+  upsert?: Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput | Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyBonSortieInputEnvelope
+  set?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  delete?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  update?: Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput | Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput[]
+  updateMany?: Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutBonSortieInput | Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutBonSortieInput[]
+  deleteMany?: Prisma.LigneBonLivraisonScalarWhereInput | Prisma.LigneBonLivraisonScalarWhereInput[]
+}
+
+export type LigneBonLivraisonCreateNestedManyWithoutLigneBonSortieInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyLigneBonSortieInputEnvelope
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+}
+
+export type LigneBonLivraisonUncheckedCreateNestedManyWithoutLigneBonSortieInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyLigneBonSortieInputEnvelope
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+}
+
+export type LigneBonLivraisonUpdateManyWithoutLigneBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput[]
+  upsert?: Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutLigneBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyLigneBonSortieInputEnvelope
+  set?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  delete?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  update?: Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutLigneBonSortieInput[]
+  updateMany?: Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutLigneBonSortieInput[]
+  deleteMany?: Prisma.LigneBonLivraisonScalarWhereInput | Prisma.LigneBonLivraisonScalarWhereInput[]
+}
+
+export type LigneBonLivraisonUncheckedUpdateManyWithoutLigneBonSortieNestedInput = {
+  create?: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput> | Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput[] | Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput[]
+  connectOrCreate?: Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput[]
+  upsert?: Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpsertWithWhereUniqueWithoutLigneBonSortieInput[]
+  createMany?: Prisma.LigneBonLivraisonCreateManyLigneBonSortieInputEnvelope
+  set?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  disconnect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  delete?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  connect?: Prisma.LigneBonLivraisonWhereUniqueInput | Prisma.LigneBonLivraisonWhereUniqueInput[]
+  update?: Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpdateWithWhereUniqueWithoutLigneBonSortieInput[]
+  updateMany?: Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutLigneBonSortieInput | Prisma.LigneBonLivraisonUpdateManyWithWhereWithoutLigneBonSortieInput[]
+  deleteMany?: Prisma.LigneBonLivraisonScalarWhereInput | Prisma.LigneBonLivraisonScalarWhereInput[]
+}
+
 export type LigneBonLivraisonCreateWithoutProduitInput = {
   designation: string
   quantiteCmd?: number
@@ -553,6 +697,8 @@ export type LigneBonLivraisonCreateWithoutProduitInput = {
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
   bon: Prisma.BonLivraisonCreateNestedOneWithoutLignesInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutLignesBLInput
+  ligneBonSortie?: Prisma.LigneBonSortieCreateNestedOneWithoutLignesBLInput
 }
 
 export type LigneBonLivraisonUncheckedCreateWithoutProduitInput = {
@@ -563,6 +709,8 @@ export type LigneBonLivraisonUncheckedCreateWithoutProduitInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonCreateOrConnectWithoutProduitInput = {
@@ -603,6 +751,8 @@ export type LigneBonLivraisonScalarWhereInput = {
   quantiteLivree?: Prisma.IntFilter<"LigneBonLivraison"> | number
   prixUnitaireHT?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFilter<"LigneBonLivraison"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
+  ligneBonSortieId?: Prisma.IntNullableFilter<"LigneBonLivraison"> | number | null
 }
 
 export type LigneBonLivraisonCreateWithoutBonInput = {
@@ -612,6 +762,8 @@ export type LigneBonLivraisonCreateWithoutBonInput = {
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
   produit?: Prisma.ProduitCreateNestedOneWithoutLignesBonLivraisonInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutLignesBLInput
+  ligneBonSortie?: Prisma.LigneBonSortieCreateNestedOneWithoutLignesBLInput
 }
 
 export type LigneBonLivraisonUncheckedCreateWithoutBonInput = {
@@ -622,6 +774,8 @@ export type LigneBonLivraisonUncheckedCreateWithoutBonInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonCreateOrConnectWithoutBonInput = {
@@ -650,6 +804,104 @@ export type LigneBonLivraisonUpdateManyWithWhereWithoutBonInput = {
   data: Prisma.XOR<Prisma.LigneBonLivraisonUpdateManyMutationInput, Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonInput>
 }
 
+export type LigneBonLivraisonCreateWithoutBonSortieInput = {
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bon: Prisma.BonLivraisonCreateNestedOneWithoutLignesInput
+  produit?: Prisma.ProduitCreateNestedOneWithoutLignesBonLivraisonInput
+  ligneBonSortie?: Prisma.LigneBonSortieCreateNestedOneWithoutLignesBLInput
+}
+
+export type LigneBonLivraisonUncheckedCreateWithoutBonSortieInput = {
+  id?: number
+  bonId: number
+  produitId?: number | null
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ligneBonSortieId?: number | null
+}
+
+export type LigneBonLivraisonCreateOrConnectWithoutBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  create: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput>
+}
+
+export type LigneBonLivraisonCreateManyBonSortieInputEnvelope = {
+  data: Prisma.LigneBonLivraisonCreateManyBonSortieInput | Prisma.LigneBonLivraisonCreateManyBonSortieInput[]
+  skipDuplicates?: boolean
+}
+
+export type LigneBonLivraisonUpsertWithWhereUniqueWithoutBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  update: Prisma.XOR<Prisma.LigneBonLivraisonUpdateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedUpdateWithoutBonSortieInput>
+  create: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutBonSortieInput>
+}
+
+export type LigneBonLivraisonUpdateWithWhereUniqueWithoutBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  data: Prisma.XOR<Prisma.LigneBonLivraisonUpdateWithoutBonSortieInput, Prisma.LigneBonLivraisonUncheckedUpdateWithoutBonSortieInput>
+}
+
+export type LigneBonLivraisonUpdateManyWithWhereWithoutBonSortieInput = {
+  where: Prisma.LigneBonLivraisonScalarWhereInput
+  data: Prisma.XOR<Prisma.LigneBonLivraisonUpdateManyMutationInput, Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutBonSortieInput>
+}
+
+export type LigneBonLivraisonCreateWithoutLigneBonSortieInput = {
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bon: Prisma.BonLivraisonCreateNestedOneWithoutLignesInput
+  produit?: Prisma.ProduitCreateNestedOneWithoutLignesBonLivraisonInput
+  bonSortie?: Prisma.BonSortieCreateNestedOneWithoutLignesBLInput
+}
+
+export type LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput = {
+  id?: number
+  bonId: number
+  produitId?: number | null
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+}
+
+export type LigneBonLivraisonCreateOrConnectWithoutLigneBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  create: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput>
+}
+
+export type LigneBonLivraisonCreateManyLigneBonSortieInputEnvelope = {
+  data: Prisma.LigneBonLivraisonCreateManyLigneBonSortieInput | Prisma.LigneBonLivraisonCreateManyLigneBonSortieInput[]
+  skipDuplicates?: boolean
+}
+
+export type LigneBonLivraisonUpsertWithWhereUniqueWithoutLigneBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  update: Prisma.XOR<Prisma.LigneBonLivraisonUpdateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedUpdateWithoutLigneBonSortieInput>
+  create: Prisma.XOR<Prisma.LigneBonLivraisonCreateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedCreateWithoutLigneBonSortieInput>
+}
+
+export type LigneBonLivraisonUpdateWithWhereUniqueWithoutLigneBonSortieInput = {
+  where: Prisma.LigneBonLivraisonWhereUniqueInput
+  data: Prisma.XOR<Prisma.LigneBonLivraisonUpdateWithoutLigneBonSortieInput, Prisma.LigneBonLivraisonUncheckedUpdateWithoutLigneBonSortieInput>
+}
+
+export type LigneBonLivraisonUpdateManyWithWhereWithoutLigneBonSortieInput = {
+  where: Prisma.LigneBonLivraisonScalarWhereInput
+  data: Prisma.XOR<Prisma.LigneBonLivraisonUpdateManyMutationInput, Prisma.LigneBonLivraisonUncheckedUpdateManyWithoutLigneBonSortieInput>
+}
+
 export type LigneBonLivraisonCreateManyProduitInput = {
   id?: number
   bonId: number
@@ -658,6 +910,8 @@ export type LigneBonLivraisonCreateManyProduitInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonUpdateWithoutProduitInput = {
@@ -667,6 +921,8 @@ export type LigneBonLivraisonUpdateWithoutProduitInput = {
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   bon?: Prisma.BonLivraisonUpdateOneRequiredWithoutLignesNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutLignesBLNestedInput
+  ligneBonSortie?: Prisma.LigneBonSortieUpdateOneWithoutLignesBLNestedInput
 }
 
 export type LigneBonLivraisonUncheckedUpdateWithoutProduitInput = {
@@ -677,6 +933,8 @@ export type LigneBonLivraisonUncheckedUpdateWithoutProduitInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LigneBonLivraisonUncheckedUpdateManyWithoutProduitInput = {
@@ -687,6 +945,8 @@ export type LigneBonLivraisonUncheckedUpdateManyWithoutProduitInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LigneBonLivraisonCreateManyBonInput = {
@@ -697,6 +957,8 @@ export type LigneBonLivraisonCreateManyBonInput = {
   quantiteLivree?: number
   prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+  ligneBonSortieId?: number | null
 }
 
 export type LigneBonLivraisonUpdateWithoutBonInput = {
@@ -706,6 +968,8 @@ export type LigneBonLivraisonUpdateWithoutBonInput = {
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   produit?: Prisma.ProduitUpdateOneWithoutLignesBonLivraisonNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutLignesBLNestedInput
+  ligneBonSortie?: Prisma.LigneBonSortieUpdateOneWithoutLignesBLNestedInput
 }
 
 export type LigneBonLivraisonUncheckedUpdateWithoutBonInput = {
@@ -716,6 +980,8 @@ export type LigneBonLivraisonUncheckedUpdateWithoutBonInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LigneBonLivraisonUncheckedUpdateManyWithoutBonInput = {
@@ -726,6 +992,102 @@ export type LigneBonLivraisonUncheckedUpdateManyWithoutBonInput = {
   quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
   prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type LigneBonLivraisonCreateManyBonSortieInput = {
+  id?: number
+  bonId: number
+  produitId?: number | null
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ligneBonSortieId?: number | null
+}
+
+export type LigneBonLivraisonUpdateWithoutBonSortieInput = {
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bon?: Prisma.BonLivraisonUpdateOneRequiredWithoutLignesNestedInput
+  produit?: Prisma.ProduitUpdateOneWithoutLignesBonLivraisonNestedInput
+  ligneBonSortie?: Prisma.LigneBonSortieUpdateOneWithoutLignesBLNestedInput
+}
+
+export type LigneBonLivraisonUncheckedUpdateWithoutBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  bonId?: Prisma.IntFieldUpdateOperationsInput | number
+  produitId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type LigneBonLivraisonUncheckedUpdateManyWithoutBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  bonId?: Prisma.IntFieldUpdateOperationsInput | number
+  produitId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ligneBonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type LigneBonLivraisonCreateManyLigneBonSortieInput = {
+  id?: number
+  bonId: number
+  produitId?: number | null
+  designation: string
+  quantiteCmd?: number
+  quantiteLivree?: number
+  prixUnitaireHT: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: number | null
+}
+
+export type LigneBonLivraisonUpdateWithoutLigneBonSortieInput = {
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bon?: Prisma.BonLivraisonUpdateOneRequiredWithoutLignesNestedInput
+  produit?: Prisma.ProduitUpdateOneWithoutLignesBonLivraisonNestedInput
+  bonSortie?: Prisma.BonSortieUpdateOneWithoutLignesBLNestedInput
+}
+
+export type LigneBonLivraisonUncheckedUpdateWithoutLigneBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  bonId?: Prisma.IntFieldUpdateOperationsInput | number
+  produitId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type LigneBonLivraisonUncheckedUpdateManyWithoutLigneBonSortieInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  bonId?: Prisma.IntFieldUpdateOperationsInput | number
+  produitId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  quantiteCmd?: Prisma.IntFieldUpdateOperationsInput | number
+  quantiteLivree?: Prisma.IntFieldUpdateOperationsInput | number
+  prixUnitaireHT?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tauxTVA?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bonSortieId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -739,8 +1101,12 @@ export type LigneBonLivraisonSelect<ExtArgs extends runtime.Types.Extensions.Int
   quantiteLivree?: boolean
   prixUnitaireHT?: boolean
   tauxTVA?: boolean
+  bonSortieId?: boolean
+  ligneBonSortieId?: boolean
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }, ExtArgs["result"]["ligneBonLivraison"]>
 
 export type LigneBonLivraisonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -752,8 +1118,12 @@ export type LigneBonLivraisonSelectCreateManyAndReturn<ExtArgs extends runtime.T
   quantiteLivree?: boolean
   prixUnitaireHT?: boolean
   tauxTVA?: boolean
+  bonSortieId?: boolean
+  ligneBonSortieId?: boolean
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }, ExtArgs["result"]["ligneBonLivraison"]>
 
 export type LigneBonLivraisonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -765,8 +1135,12 @@ export type LigneBonLivraisonSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   quantiteLivree?: boolean
   prixUnitaireHT?: boolean
   tauxTVA?: boolean
+  bonSortieId?: boolean
+  ligneBonSortieId?: boolean
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }, ExtArgs["result"]["ligneBonLivraison"]>
 
 export type LigneBonLivraisonSelectScalar = {
@@ -778,20 +1152,28 @@ export type LigneBonLivraisonSelectScalar = {
   quantiteLivree?: boolean
   prixUnitaireHT?: boolean
   tauxTVA?: boolean
+  bonSortieId?: boolean
+  ligneBonSortieId?: boolean
 }
 
-export type LigneBonLivraisonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bonId" | "produitId" | "designation" | "quantiteCmd" | "quantiteLivree" | "prixUnitaireHT" | "tauxTVA", ExtArgs["result"]["ligneBonLivraison"]>
+export type LigneBonLivraisonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bonId" | "produitId" | "designation" | "quantiteCmd" | "quantiteLivree" | "prixUnitaireHT" | "tauxTVA" | "bonSortieId" | "ligneBonSortieId", ExtArgs["result"]["ligneBonLivraison"]>
 export type LigneBonLivraisonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }
 export type LigneBonLivraisonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }
 export type LigneBonLivraisonIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bon?: boolean | Prisma.BonLivraisonDefaultArgs<ExtArgs>
   produit?: boolean | Prisma.LigneBonLivraison$produitArgs<ExtArgs>
+  bonSortie?: boolean | Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>
+  ligneBonSortie?: boolean | Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>
 }
 
 export type $LigneBonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -799,6 +1181,8 @@ export type $LigneBonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.I
   objects: {
     bon: Prisma.$BonLivraisonPayload<ExtArgs>
     produit: Prisma.$ProduitPayload<ExtArgs> | null
+    bonSortie: Prisma.$BonSortiePayload<ExtArgs> | null
+    ligneBonSortie: Prisma.$LigneBonSortiePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -809,6 +1193,8 @@ export type $LigneBonLivraisonPayload<ExtArgs extends runtime.Types.Extensions.I
     quantiteLivree: number
     prixUnitaireHT: runtime.Decimal
     tauxTVA: runtime.Decimal
+    bonSortieId: number | null
+    ligneBonSortieId: number | null
   }, ExtArgs["result"]["ligneBonLivraison"]>
   composites: {}
 }
@@ -1205,6 +1591,8 @@ export interface Prisma__LigneBonLivraisonClient<T, Null = never, ExtArgs extend
   readonly [Symbol.toStringTag]: "PrismaPromise"
   bon<T extends Prisma.BonLivraisonDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BonLivraisonDefaultArgs<ExtArgs>>): Prisma.Prisma__BonLivraisonClient<runtime.Types.Result.GetResult<Prisma.$BonLivraisonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   produit<T extends Prisma.LigneBonLivraison$produitArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LigneBonLivraison$produitArgs<ExtArgs>>): Prisma.Prisma__ProduitClient<runtime.Types.Result.GetResult<Prisma.$ProduitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  bonSortie<T extends Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LigneBonLivraison$bonSortieArgs<ExtArgs>>): Prisma.Prisma__BonSortieClient<runtime.Types.Result.GetResult<Prisma.$BonSortiePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  ligneBonSortie<T extends Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LigneBonLivraison$ligneBonSortieArgs<ExtArgs>>): Prisma.Prisma__LigneBonSortieClient<runtime.Types.Result.GetResult<Prisma.$LigneBonSortiePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1242,6 +1630,8 @@ export interface LigneBonLivraisonFieldRefs {
   readonly quantiteLivree: Prisma.FieldRef<"LigneBonLivraison", 'Int'>
   readonly prixUnitaireHT: Prisma.FieldRef<"LigneBonLivraison", 'Decimal'>
   readonly tauxTVA: Prisma.FieldRef<"LigneBonLivraison", 'Decimal'>
+  readonly bonSortieId: Prisma.FieldRef<"LigneBonLivraison", 'Int'>
+  readonly ligneBonSortieId: Prisma.FieldRef<"LigneBonLivraison", 'Int'>
 }
     
 
@@ -1659,6 +2049,44 @@ export type LigneBonLivraison$produitArgs<ExtArgs extends runtime.Types.Extensio
    */
   include?: Prisma.ProduitInclude<ExtArgs> | null
   where?: Prisma.ProduitWhereInput
+}
+
+/**
+ * LigneBonLivraison.bonSortie
+ */
+export type LigneBonLivraison$bonSortieArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BonSortie
+   */
+  select?: Prisma.BonSortieSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BonSortie
+   */
+  omit?: Prisma.BonSortieOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BonSortieInclude<ExtArgs> | null
+  where?: Prisma.BonSortieWhereInput
+}
+
+/**
+ * LigneBonLivraison.ligneBonSortie
+ */
+export type LigneBonLivraison$ligneBonSortieArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LigneBonSortie
+   */
+  select?: Prisma.LigneBonSortieSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LigneBonSortie
+   */
+  omit?: Prisma.LigneBonSortieOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LigneBonSortieInclude<ExtArgs> | null
+  where?: Prisma.LigneBonSortieWhereInput
 }
 
 /**

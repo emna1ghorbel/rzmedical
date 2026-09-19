@@ -29,11 +29,15 @@ export type AggregateCharge9ba4a = {
 export type Charge9ba4aAvgAggregateOutputType = {
   id: number | null
   montant: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type Charge9ba4aSumAggregateOutputType = {
   id: number | null
   montant: runtime.Decimal | null
+  montantPaye: runtime.Decimal | null
+  commercialId: number | null
 }
 
 export type Charge9ba4aMinAggregateOutputType = {
@@ -44,9 +48,11 @@ export type Charge9ba4aMinAggregateOutputType = {
   beneficiaire: string | null
   montant: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   modePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -59,9 +65,11 @@ export type Charge9ba4aMaxAggregateOutputType = {
   beneficiaire: string | null
   montant: runtime.Decimal | null
   statutPaiement: $Enums.StatutPaiementFournisseur | null
+  montantPaye: runtime.Decimal | null
   modePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -74,9 +82,11 @@ export type Charge9ba4aCountAggregateOutputType = {
   beneficiaire: number
   montant: number
   statutPaiement: number
+  montantPaye: number
   modePaiement: number
   pieceJustificativeUrl: number
   notes: number
+  commercialId: number
   creeLe: number
   misAJourLe: number
   _all: number
@@ -86,11 +96,15 @@ export type Charge9ba4aCountAggregateOutputType = {
 export type Charge9ba4aAvgAggregateInputType = {
   id?: true
   montant?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type Charge9ba4aSumAggregateInputType = {
   id?: true
   montant?: true
+  montantPaye?: true
+  commercialId?: true
 }
 
 export type Charge9ba4aMinAggregateInputType = {
@@ -101,9 +115,11 @@ export type Charge9ba4aMinAggregateInputType = {
   beneficiaire?: true
   montant?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -116,9 +132,11 @@ export type Charge9ba4aMaxAggregateInputType = {
   beneficiaire?: true
   montant?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -131,9 +149,11 @@ export type Charge9ba4aCountAggregateInputType = {
   beneficiaire?: true
   montant?: true
   statutPaiement?: true
+  montantPaye?: true
   modePaiement?: true
   pieceJustificativeUrl?: true
   notes?: true
+  commercialId?: true
   creeLe?: true
   misAJourLe?: true
   _all?: true
@@ -233,9 +253,11 @@ export type Charge9ba4aGroupByOutputType = {
   beneficiaire: string
   montant: runtime.Decimal
   statutPaiement: $Enums.StatutPaiementFournisseur
+  montantPaye: runtime.Decimal
   modePaiement: string | null
   pieceJustificativeUrl: string | null
   notes: string | null
+  commercialId: number | null
   creeLe: Date
   misAJourLe: Date
   _count: Charge9ba4aCountAggregateOutputType | null
@@ -271,11 +293,14 @@ export type Charge9ba4aWhereInput = {
   beneficiaire?: Prisma.StringFilter<"Charge9ba4a"> | string
   montant?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"Charge9ba4a"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
   notes?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"Charge9ba4a"> | number | null
   creeLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }
 
 export type Charge9ba4aOrderByWithRelationInput = {
@@ -286,11 +311,14 @@ export type Charge9ba4aOrderByWithRelationInput = {
   beneficiaire?: Prisma.SortOrder
   montant?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+  commercial?: Prisma.UtilisateurOrderByWithRelationInput
 }
 
 export type Charge9ba4aWhereUniqueInput = Prisma.AtLeast<{
@@ -304,11 +332,14 @@ export type Charge9ba4aWhereUniqueInput = Prisma.AtLeast<{
   beneficiaire?: Prisma.StringFilter<"Charge9ba4a"> | string
   montant?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"Charge9ba4a"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
   notes?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"Charge9ba4a"> | number | null
   creeLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
+  commercial?: Prisma.XOR<Prisma.UtilisateurNullableScalarRelationFilter, Prisma.UtilisateurWhereInput> | null
 }, "id" | "numero">
 
 export type Charge9ba4aOrderByWithAggregationInput = {
@@ -319,9 +350,11 @@ export type Charge9ba4aOrderByWithAggregationInput = {
   beneficiaire?: Prisma.SortOrder
   montant?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrderInput | Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commercialId?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.Charge9ba4aCountOrderByAggregateInput
@@ -342,9 +375,11 @@ export type Charge9ba4aScalarWhereWithAggregatesInput = {
   beneficiaire?: Prisma.StringWithAggregatesFilter<"Charge9ba4a"> | string
   montant?: Prisma.DecimalWithAggregatesFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurWithAggregatesFilter<"Charge9ba4a"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalWithAggregatesFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.StringNullableWithAggregatesFilter<"Charge9ba4a"> | string | null
   pieceJustificativeUrl?: Prisma.StringNullableWithAggregatesFilter<"Charge9ba4a"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Charge9ba4a"> | string | null
+  commercialId?: Prisma.IntNullableWithAggregatesFilter<"Charge9ba4a"> | number | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"Charge9ba4a"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"Charge9ba4a"> | Date | string
 }
@@ -356,11 +391,13 @@ export type Charge9ba4aCreateInput = {
   beneficiaire: string
   montant: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
   creeLe?: Date | string
   misAJourLe?: Date | string
+  commercial?: Prisma.UtilisateurCreateNestedOneWithoutCharges9ba4aInput
 }
 
 export type Charge9ba4aUncheckedCreateInput = {
@@ -371,9 +408,11 @@ export type Charge9ba4aUncheckedCreateInput = {
   beneficiaire: string
   montant: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -385,11 +424,13 @@ export type Charge9ba4aUpdateInput = {
   beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
   montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commercial?: Prisma.UtilisateurUpdateOneWithoutCharges9ba4aNestedInput
 }
 
 export type Charge9ba4aUncheckedUpdateInput = {
@@ -400,9 +441,11 @@ export type Charge9ba4aUncheckedUpdateInput = {
   beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
   montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -415,9 +458,11 @@ export type Charge9ba4aCreateManyInput = {
   beneficiaire: string
   montant: runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: string | null
   pieceJustificativeUrl?: string | null
   notes?: string | null
+  commercialId?: number | null
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -429,6 +474,7 @@ export type Charge9ba4aUpdateManyMutationInput = {
   beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
   montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -444,11 +490,23 @@ export type Charge9ba4aUncheckedUpdateManyInput = {
   beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
   montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commercialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type Charge9ba4aListRelationFilter = {
+  every?: Prisma.Charge9ba4aWhereInput
+  some?: Prisma.Charge9ba4aWhereInput
+  none?: Prisma.Charge9ba4aWhereInput
+}
+
+export type Charge9ba4aOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type Charge9ba4aCountOrderByAggregateInput = {
@@ -459,9 +517,11 @@ export type Charge9ba4aCountOrderByAggregateInput = {
   beneficiaire?: Prisma.SortOrder
   montant?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -469,6 +529,8 @@ export type Charge9ba4aCountOrderByAggregateInput = {
 export type Charge9ba4aAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   montant?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
 }
 
 export type Charge9ba4aMaxOrderByAggregateInput = {
@@ -479,9 +541,11 @@ export type Charge9ba4aMaxOrderByAggregateInput = {
   beneficiaire?: Prisma.SortOrder
   montant?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -494,9 +558,11 @@ export type Charge9ba4aMinOrderByAggregateInput = {
   beneficiaire?: Prisma.SortOrder
   montant?: Prisma.SortOrder
   statutPaiement?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
   modePaiement?: Prisma.SortOrder
   pieceJustificativeUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -504,6 +570,190 @@ export type Charge9ba4aMinOrderByAggregateInput = {
 export type Charge9ba4aSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   montant?: Prisma.SortOrder
+  montantPaye?: Prisma.SortOrder
+  commercialId?: Prisma.SortOrder
+}
+
+export type Charge9ba4aCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput> | Prisma.Charge9ba4aCreateWithoutCommercialInput[] | Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput | Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.Charge9ba4aCreateManyCommercialInputEnvelope
+  connect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+}
+
+export type Charge9ba4aUncheckedCreateNestedManyWithoutCommercialInput = {
+  create?: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput> | Prisma.Charge9ba4aCreateWithoutCommercialInput[] | Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput | Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput[]
+  createMany?: Prisma.Charge9ba4aCreateManyCommercialInputEnvelope
+  connect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+}
+
+export type Charge9ba4aUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput> | Prisma.Charge9ba4aCreateWithoutCommercialInput[] | Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput | Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.Charge9ba4aUpsertWithWhereUniqueWithoutCommercialInput | Prisma.Charge9ba4aUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.Charge9ba4aCreateManyCommercialInputEnvelope
+  set?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  disconnect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  delete?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  connect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  update?: Prisma.Charge9ba4aUpdateWithWhereUniqueWithoutCommercialInput | Prisma.Charge9ba4aUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.Charge9ba4aUpdateManyWithWhereWithoutCommercialInput | Prisma.Charge9ba4aUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.Charge9ba4aScalarWhereInput | Prisma.Charge9ba4aScalarWhereInput[]
+}
+
+export type Charge9ba4aUncheckedUpdateManyWithoutCommercialNestedInput = {
+  create?: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput> | Prisma.Charge9ba4aCreateWithoutCommercialInput[] | Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput[]
+  connectOrCreate?: Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput | Prisma.Charge9ba4aCreateOrConnectWithoutCommercialInput[]
+  upsert?: Prisma.Charge9ba4aUpsertWithWhereUniqueWithoutCommercialInput | Prisma.Charge9ba4aUpsertWithWhereUniqueWithoutCommercialInput[]
+  createMany?: Prisma.Charge9ba4aCreateManyCommercialInputEnvelope
+  set?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  disconnect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  delete?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  connect?: Prisma.Charge9ba4aWhereUniqueInput | Prisma.Charge9ba4aWhereUniqueInput[]
+  update?: Prisma.Charge9ba4aUpdateWithWhereUniqueWithoutCommercialInput | Prisma.Charge9ba4aUpdateWithWhereUniqueWithoutCommercialInput[]
+  updateMany?: Prisma.Charge9ba4aUpdateManyWithWhereWithoutCommercialInput | Prisma.Charge9ba4aUpdateManyWithWhereWithoutCommercialInput[]
+  deleteMany?: Prisma.Charge9ba4aScalarWhereInput | Prisma.Charge9ba4aScalarWhereInput[]
+}
+
+export type Charge9ba4aCreateWithoutCommercialInput = {
+  numero: string
+  date?: Date | string
+  description: string
+  beneficiaire: string
+  montant: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type Charge9ba4aUncheckedCreateWithoutCommercialInput = {
+  id?: number
+  numero: string
+  date?: Date | string
+  description: string
+  beneficiaire: string
+  montant: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type Charge9ba4aCreateOrConnectWithoutCommercialInput = {
+  where: Prisma.Charge9ba4aWhereUniqueInput
+  create: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput>
+}
+
+export type Charge9ba4aCreateManyCommercialInputEnvelope = {
+  data: Prisma.Charge9ba4aCreateManyCommercialInput | Prisma.Charge9ba4aCreateManyCommercialInput[]
+  skipDuplicates?: boolean
+}
+
+export type Charge9ba4aUpsertWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.Charge9ba4aWhereUniqueInput
+  update: Prisma.XOR<Prisma.Charge9ba4aUpdateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedUpdateWithoutCommercialInput>
+  create: Prisma.XOR<Prisma.Charge9ba4aCreateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedCreateWithoutCommercialInput>
+}
+
+export type Charge9ba4aUpdateWithWhereUniqueWithoutCommercialInput = {
+  where: Prisma.Charge9ba4aWhereUniqueInput
+  data: Prisma.XOR<Prisma.Charge9ba4aUpdateWithoutCommercialInput, Prisma.Charge9ba4aUncheckedUpdateWithoutCommercialInput>
+}
+
+export type Charge9ba4aUpdateManyWithWhereWithoutCommercialInput = {
+  where: Prisma.Charge9ba4aScalarWhereInput
+  data: Prisma.XOR<Prisma.Charge9ba4aUpdateManyMutationInput, Prisma.Charge9ba4aUncheckedUpdateManyWithoutCommercialInput>
+}
+
+export type Charge9ba4aScalarWhereInput = {
+  AND?: Prisma.Charge9ba4aScalarWhereInput | Prisma.Charge9ba4aScalarWhereInput[]
+  OR?: Prisma.Charge9ba4aScalarWhereInput[]
+  NOT?: Prisma.Charge9ba4aScalarWhereInput | Prisma.Charge9ba4aScalarWhereInput[]
+  id?: Prisma.IntFilter<"Charge9ba4a"> | number
+  numero?: Prisma.StringFilter<"Charge9ba4a"> | string
+  date?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
+  description?: Prisma.StringFilter<"Charge9ba4a"> | string
+  beneficiaire?: Prisma.StringFilter<"Charge9ba4a"> | string
+  montant?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFilter<"Charge9ba4a"> | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFilter<"Charge9ba4a"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
+  pieceJustificativeUrl?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
+  notes?: Prisma.StringNullableFilter<"Charge9ba4a"> | string | null
+  commercialId?: Prisma.IntNullableFilter<"Charge9ba4a"> | number | null
+  creeLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
+  misAJourLe?: Prisma.DateTimeFilter<"Charge9ba4a"> | Date | string
+}
+
+export type Charge9ba4aCreateManyCommercialInput = {
+  id?: number
+  numero: string
+  date?: Date | string
+  description: string
+  beneficiaire: string
+  montant: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: $Enums.StatutPaiementFournisseur
+  montantPaye?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: string | null
+  pieceJustificativeUrl?: string | null
+  notes?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+}
+
+export type Charge9ba4aUpdateWithoutCommercialInput = {
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type Charge9ba4aUncheckedUpdateWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type Charge9ba4aUncheckedUpdateManyWithoutCommercialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  numero?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  beneficiaire?: Prisma.StringFieldUpdateOperationsInput | string
+  montant?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statutPaiement?: Prisma.EnumStatutPaiementFournisseurFieldUpdateOperationsInput | $Enums.StatutPaiementFournisseur
+  montantPaye?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  modePaiement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pieceJustificativeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -516,11 +766,14 @@ export type Charge9ba4aSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   beneficiaire?: boolean
   montant?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["charge9ba4a"]>
 
 export type Charge9ba4aSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -531,11 +784,14 @@ export type Charge9ba4aSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   beneficiaire?: boolean
   montant?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["charge9ba4a"]>
 
 export type Charge9ba4aSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,11 +802,14 @@ export type Charge9ba4aSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   beneficiaire?: boolean
   montant?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
 }, ExtArgs["result"]["charge9ba4a"]>
 
 export type Charge9ba4aSelectScalar = {
@@ -561,18 +820,31 @@ export type Charge9ba4aSelectScalar = {
   beneficiaire?: boolean
   montant?: boolean
   statutPaiement?: boolean
+  montantPaye?: boolean
   modePaiement?: boolean
   pieceJustificativeUrl?: boolean
   notes?: boolean
+  commercialId?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type Charge9ba4aOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numero" | "date" | "description" | "beneficiaire" | "montant" | "statutPaiement" | "modePaiement" | "pieceJustificativeUrl" | "notes" | "creeLe" | "misAJourLe", ExtArgs["result"]["charge9ba4a"]>
+export type Charge9ba4aOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "numero" | "date" | "description" | "beneficiaire" | "montant" | "statutPaiement" | "montantPaye" | "modePaiement" | "pieceJustificativeUrl" | "notes" | "commercialId" | "creeLe" | "misAJourLe", ExtArgs["result"]["charge9ba4a"]>
+export type Charge9ba4aInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
+}
+export type Charge9ba4aIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
+}
+export type Charge9ba4aIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  commercial?: boolean | Prisma.Charge9ba4a$commercialArgs<ExtArgs>
+}
 
 export type $Charge9ba4aPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Charge9ba4a"
-  objects: {}
+  objects: {
+    commercial: Prisma.$UtilisateurPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     numero: string
@@ -581,9 +853,11 @@ export type $Charge9ba4aPayload<ExtArgs extends runtime.Types.Extensions.Interna
     beneficiaire: string
     montant: runtime.Decimal
     statutPaiement: $Enums.StatutPaiementFournisseur
+    montantPaye: runtime.Decimal
     modePaiement: string | null
     pieceJustificativeUrl: string | null
     notes: string | null
+    commercialId: number | null
     creeLe: Date
     misAJourLe: Date
   }, ExtArgs["result"]["charge9ba4a"]>
@@ -980,6 +1254,7 @@ readonly fields: Charge9ba4aFieldRefs;
  */
 export interface Prisma__Charge9ba4aClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  commercial<T extends Prisma.Charge9ba4a$commercialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Charge9ba4a$commercialArgs<ExtArgs>>): Prisma.Prisma__UtilisateurClient<runtime.Types.Result.GetResult<Prisma.$UtilisateurPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1016,9 +1291,11 @@ export interface Charge9ba4aFieldRefs {
   readonly beneficiaire: Prisma.FieldRef<"Charge9ba4a", 'String'>
   readonly montant: Prisma.FieldRef<"Charge9ba4a", 'Decimal'>
   readonly statutPaiement: Prisma.FieldRef<"Charge9ba4a", 'StatutPaiementFournisseur'>
+  readonly montantPaye: Prisma.FieldRef<"Charge9ba4a", 'Decimal'>
   readonly modePaiement: Prisma.FieldRef<"Charge9ba4a", 'String'>
   readonly pieceJustificativeUrl: Prisma.FieldRef<"Charge9ba4a", 'String'>
   readonly notes: Prisma.FieldRef<"Charge9ba4a", 'String'>
+  readonly commercialId: Prisma.FieldRef<"Charge9ba4a", 'Int'>
   readonly creeLe: Prisma.FieldRef<"Charge9ba4a", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"Charge9ba4a", 'DateTime'>
 }
@@ -1038,6 +1315,10 @@ export type Charge9ba4aFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  /**
    * Filter, which Charge9ba4a to fetch.
    */
   where: Prisma.Charge9ba4aWhereUniqueInput
@@ -1056,6 +1337,10 @@ export type Charge9ba4aFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  /**
    * Filter, which Charge9ba4a to fetch.
    */
   where: Prisma.Charge9ba4aWhereUniqueInput
@@ -1073,6 +1358,10 @@ export type Charge9ba4aFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the Charge9ba4a
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
   /**
    * Filter, which Charge9ba4a to fetch.
    */
@@ -1122,6 +1411,10 @@ export type Charge9ba4aFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  /**
    * Filter, which Charge9ba4a to fetch.
    */
   where?: Prisma.Charge9ba4aWhereInput
@@ -1169,6 +1462,10 @@ export type Charge9ba4aFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the Charge9ba4a
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
   /**
    * Filter, which Charge9ba4as to fetch.
    */
@@ -1218,6 +1515,10 @@ export type Charge9ba4aCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  /**
    * The data needed to create a Charge9ba4a.
    */
   data: Prisma.XOR<Prisma.Charge9ba4aCreateInput, Prisma.Charge9ba4aUncheckedCreateInput>
@@ -1251,6 +1552,10 @@ export type Charge9ba4aCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.Charge9ba4aCreateManyInput | Prisma.Charge9ba4aCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1265,6 +1570,10 @@ export type Charge9ba4aUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Charge9ba4a
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
   /**
    * The data needed to update a Charge9ba4a.
    */
@@ -1317,6 +1626,10 @@ export type Charge9ba4aUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many Charge9ba4as to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1331,6 +1644,10 @@ export type Charge9ba4aUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Charge9ba4a
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
   /**
    * The filter to search for the Charge9ba4a to update in case it exists.
    */
@@ -1358,6 +1675,10 @@ export type Charge9ba4aDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
+  /**
    * Filter which Charge9ba4a to delete.
    */
   where: Prisma.Charge9ba4aWhereUniqueInput
@@ -1378,6 +1699,25 @@ export type Charge9ba4aDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * Charge9ba4a.commercial
+ */
+export type Charge9ba4a$commercialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Utilisateur
+   */
+  select?: Prisma.UtilisateurSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Utilisateur
+   */
+  omit?: Prisma.UtilisateurOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UtilisateurInclude<ExtArgs> | null
+  where?: Prisma.UtilisateurWhereInput
+}
+
+/**
  * Charge9ba4a without action
  */
 export type Charge9ba4aDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1389,4 +1729,8 @@ export type Charge9ba4aDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the Charge9ba4a
    */
   omit?: Prisma.Charge9ba4aOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Charge9ba4aInclude<ExtArgs> | null
 }

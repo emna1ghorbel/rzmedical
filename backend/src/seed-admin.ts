@@ -12,7 +12,7 @@ async function main() {
   const prenom = 'Super';
   const nom = 'Admin';
 
-  const existing = await prisma.utilisateur.findUnique({ where: { email } });
+  const existing = await prisma.utilisateur.findFirst({ where: { email, typeUtilisateur: 'ADMIN' } });
   if (existing) {
     console.log(`✅ Admin déjà existant : ${email}`);
     return;

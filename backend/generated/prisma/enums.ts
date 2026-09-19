@@ -11,7 +11,8 @@
 
 export const TypeUtilisateur = {
   ADMIN: 'ADMIN',
-  CLIENT: 'CLIENT'
+  CLIENT: 'CLIENT',
+  COMMERCIAL: 'COMMERCIAL'
 } as const
 
 export type TypeUtilisateur = (typeof TypeUtilisateur)[keyof typeof TypeUtilisateur]
@@ -86,10 +87,20 @@ export const DocumentSequenceType = {
   BON_LIVRAISON: 'BON_LIVRAISON',
   BON_RECEPTION: 'BON_RECEPTION',
   AVOIR_VENTE: 'AVOIR_VENTE',
-  AVOIR_ACHAT: 'AVOIR_ACHAT'
+  AVOIR_ACHAT: 'AVOIR_ACHAT',
+  BON_SORTIE: 'BON_SORTIE',
+  INVENTAIRE_COMMERCIAL: 'INVENTAIRE_COMMERCIAL'
 } as const
 
 export type DocumentSequenceType = (typeof DocumentSequenceType)[keyof typeof DocumentSequenceType]
+
+
+export const StatutInventaire = {
+  BROUILLON: 'BROUILLON',
+  VALIDE: 'VALIDE'
+} as const
+
+export type StatutInventaire = (typeof StatutInventaire)[keyof typeof StatutInventaire]
 
 
 export const StatutSupport = {
@@ -119,6 +130,15 @@ export const AuteurSupport = {
 export type AuteurSupport = (typeof AuteurSupport)[keyof typeof AuteurSupport]
 
 
+export const StatutBonCommercial = {
+  BROUILLON: 'BROUILLON',
+  VALIDE: 'VALIDE',
+  ANNULE: 'ANNULE'
+} as const
+
+export type StatutBonCommercial = (typeof StatutBonCommercial)[keyof typeof StatutBonCommercial]
+
+
 export const StockMovementType = {
   PURCHASE: 'PURCHASE',
   SALE: 'SALE',
@@ -126,7 +146,9 @@ export const StockMovementType = {
   RETURN_SUPPLIER: 'RETURN_SUPPLIER',
   ADJUSTMENT: 'ADJUSTMENT',
   TRANSFER: 'TRANSFER',
-  INVENTORY: 'INVENTORY'
+  INVENTORY: 'INVENTORY',
+  DELIVERY: 'DELIVERY',
+  RETURN: 'RETURN'
 } as const
 
 export type StockMovementType = (typeof StockMovementType)[keyof typeof StockMovementType]

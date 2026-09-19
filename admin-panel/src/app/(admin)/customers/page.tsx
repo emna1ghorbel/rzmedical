@@ -50,6 +50,7 @@ interface Client {
   remise: number;
   matriculeFiscale: string | null;
   activite: string | null;
+  typeUtilisateur: "CLIENT" | "COMMERCIAL";
   creeLe: string;
   dernierLogin: string | null;
   _count: { commandes: number };
@@ -101,6 +102,7 @@ export default function CustomersPage() {
   const [formMatriculeFiscale, setFormMatriculeFiscale] = useState("");
   const [formActivite, setFormActivite] = useState("");
   const [formActiviteAutre, setFormActiviteAutre] = useState("");
+  const [formTypeUtilisateur, setFormTypeUtilisateur] = useState<"CLIENT" | "COMMERCIAL">("CLIENT");
 
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -169,6 +171,7 @@ export default function CustomersPage() {
   const resetForm = () => {
     setFormEmail(""); setFormPassword(""); setFormPrenom(""); setFormNom("");
     setFormTelephone(""); setFormPhoto(""); setFormAdresse(""); setFormDateNaissance(""); setFormRemise("0"); setFormMatriculeFiscale(""); setFormActivite(""); setFormActiviteAutre("");
+    setFormTypeUtilisateur("CLIENT");
     setFormError(null);
   };
 
@@ -195,6 +198,7 @@ export default function CustomersPage() {
     const knownActivity = ACTIVITES_CLIENT.includes(client.activite || "");
     setFormActivite(client.activite ? (knownActivity ? client.activite : "Autre") : "");
     setFormActiviteAutre(client.activite && !knownActivity ? client.activite : "");
+    setFormTypeUtilisateur(client.typeUtilisateur || "CLIENT");
     setFormError(null);
     setShowModal(true);
   };
@@ -246,6 +250,7 @@ export default function CustomersPage() {
         matriculeFiscale: formMatriculeFiscale.trim() || null,
         activite: (formActivite === "Autre" ? formActiviteAutre : formActivite).trim() || null,
         email: formEmail,
+        typeUtilisateur: formTypeUtilisateur,
       };
 
       if (editClient) {
@@ -586,9 +591,14 @@ export default function CustomersPage() {
                             )}
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-brand-500 transition-colors">
-                              {[client.prenom, client.nom].filter(Boolean).join(" ") || "Client #" + client.id}
-                            </p>
+                            <div className="flex items-center gap-2">
+                              <p className="font-semibold text-gray-900 dark:text-white group-hover:text-brand-500 transition-colors">
+                                {[client.prenom, client.nom].filter(Boolean).join(" ") || "Client #" + client.id}
+                              </p>
+                              {client.typeUtilisateur === "COMMERCIAL" && (
+                                <Badge color="indigo" size="sm">Commercial</Badge>
+                              )}
+                            </div>
                             <p className="text-xs text-gray-400">ID #{client.id}</p>
                           </div>
                         </div>
@@ -731,9 +741,14 @@ export default function CustomersPage() {
                   )}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">
-                    {[detailClient.prenom, detailClient.nom].filter(Boolean).join(" ") || "Client #" + detailClient.id}
-                  </h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold">
+                      {[detailClient.prenom, detailClient.nom].filter(Boolean).join(" ") || "Client #" + detailClient.id}
+                    </h3>
+                    {detailClient.typeUtilisateur === "COMMERCIAL" && (
+                      <span className="px-2 py-0.5 rounded-full bg-indigo-500 text-white text-[10px] font-bold uppercase">Commercial</span>
+                    )}
+                  </div>
                   <p className="text-xs text-white/80 mt-0.5">{detailClient.email}</p>
                   <p className="text-[11px] text-white/60 mt-1">Inscrit le {new Date(detailClient.creeLe).toLocaleDateString("fr-FR")}</p>
                 </div>
@@ -1071,12 +1086,22 @@ export default function CustomersPage() {
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Email *</label>
-                  <input type="email" value={formEmail} onChange={e => setFormEmail(e.target.value)}
-                    className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                    placeholder="client@exemple.com" required />
+                {/* Email et Type Utilisateur */}
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Email *</label>
+                    <input type="email" value={formEmail} onChange={e => setFormEmail(e.target.value)}
+                      className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                      placeholder="client@exemple.com" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-gray-500 mb-1.5">Rôle (Type)</label>
+                    <select value={formTypeUtilisateur} onChange={e => setFormTypeUtilisateur(e.target.value as "CLIENT" | "COMMERCIAL")}
+                      className="w-full rounded-xl border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+                      <option value="CLIENT">Client</option>
+                      <option value="COMMERCIAL">Commercial</option>
+                    </select>
+                  </div>
                 </div>
 
                 {/* Mot de passe (ajout uniquement) */}

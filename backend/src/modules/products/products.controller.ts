@@ -124,3 +124,13 @@ export const remove = async (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const getStockRepartition = async (req: Request, res: Response) => {
+  try {
+    const { getStockRepartition } = await import('../stock-commercial/stock-commercial.service');
+    const data = await getStockRepartition(Number(req.params.id));
+    res.json(data);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+};

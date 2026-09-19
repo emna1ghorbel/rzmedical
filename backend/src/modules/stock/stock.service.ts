@@ -34,6 +34,7 @@ export async function recordStockMovement(
     nature?: string;
     operationKey?: string;
     sourceLineId?: number;
+    skipStockUpdate?: boolean;
   },
 ) {
   const quantity = Math.trunc(Number(input.quantity));
@@ -79,7 +80,7 @@ export async function recordStockMovement(
   await tx.produit.update({
     where: { id: input.productId },
     data: {
-      stock: { increment: stockDelta },
+      ...(input.skipStockUpdate ? {} : { stock: { increment: stockDelta } }),
       ...(input.type === StockMovementType.PURCHASE ? { cump: nextCump, prixAchat: unitPrice } : {}),
       ...counters,
     },

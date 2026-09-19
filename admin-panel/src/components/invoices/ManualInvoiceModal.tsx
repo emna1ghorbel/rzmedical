@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { pdf } from "@react-pdf/renderer";
 import { InvoicePdfDocument, InvoiceData } from "./InvoicePdfDocument";
 import { montantEnLettres } from "@/utils/numberToFrenchWords";
-import { DEFAULT_TIMBRE_FISCAL, DEFAULT_TVA_RATE } from "@/utils/invoiceConfig";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import { getApiUrl } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -89,6 +89,7 @@ export default function ManualInvoiceModal({
   onSuccess,
 }: ManualInvoiceModalProps) {
   const { getToken } = useAuth();
+  const { companyInfo, defaultTimbre, defaultTva } = useCompanyInfo();
 
   // ── Database Data ──
   const [clients, setClients] = useState<Client[]>([]);
@@ -105,7 +106,7 @@ export default function ManualInvoiceModal({
   const [clientAdresse, setClientAdresse] = useState("");
   const [clientTelephone, setClientTelephone] = useState("");
   const [clientEmail, setClientEmail] = useState("");
-  const [timbreFiscal, setTimbreFiscal] = useState(DEFAULT_TIMBRE_FISCAL);
+  const [timbreFiscal, setTimbreFiscal] = useState(defaultTimbre);
   const [lignes, setLignes] = useState<InvoiceLineForm[]>([]);
   const [companyTvaRates, setCompanyTvaRates] = useState<number[]>([]);
   const [companyTimbreRates, setCompanyTimbreRates] = useState<number[]>([]);
@@ -252,7 +253,7 @@ export default function ManualInvoiceModal({
         designation: "",
         quantite: 1,
         prixUnitaireHT: 0,
-        tauxTVA: companyTvaRates[0] ?? DEFAULT_TVA_RATE,
+        tauxTVA: defaultTva,
         totalHT: 0,
       },
     ]);
@@ -319,7 +320,7 @@ export default function ManualInvoiceModal({
   // ── Generate PDF Blob ──
   const generatePdfBlob = async (): Promise<Blob> => {
     const data = buildInvoiceData();
-    const blob = await pdf(<InvoicePdfDocument data={data} />).toBlob();
+    const blob = await pdf(<InvoicePdfDocument data={data} company={companyInfo} />).toBlob();
     return blob;
   };
 

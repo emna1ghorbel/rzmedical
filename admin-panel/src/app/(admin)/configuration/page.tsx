@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "@/utils/api";
 import { useAuth } from "@/hooks/useAuth";
+import { useCompanyInfo } from "@/context/CompanyInfoContext";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 
 const INPUT_CLS = "w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none";
@@ -10,6 +11,7 @@ const LABEL_CLS = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb
 
 export default function ConfigurationPage() {
   const { getToken } = useAuth();
+  const { refresh: refreshContext } = useCompanyInfo();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -17,10 +19,14 @@ export default function ConfigurationPage() {
   // Infos Société
   const [formData, setFormData] = useState({
     nomSociete: "",
+    matriculeFiscale: "",
     telephone: "",
+    fax: "",
     email: "",
     adresse: "",
     siteWeb: "",
+    banque: "",
+    rib: "",
   });
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -49,10 +55,14 @@ export default function ConfigurationPage() {
         
         setFormData({
           nomSociete: data.nomSociete || "",
+          matriculeFiscale: data.matriculeFiscale || "",
           telephone: data.telephone || "",
+          fax: data.fax || "",
           email: data.email || "",
           adresse: data.adresse || "",
           siteWeb: data.siteWeb || "",
+          banque: data.banque || "",
+          rib: data.rib || "",
         });
         setLogoUrl(data.logoUrl);
 
@@ -150,6 +160,7 @@ export default function ConfigurationPage() {
         const body = await res.json().catch(() => ({}));
         throw new Error(body?.error || `Erreur ${res.status}`);
       }
+      await refreshContext();
       setMessage({ type: "success", text: "Configuration enregistrée avec succès !" });
     } catch (err) {
       console.error(err);
@@ -208,8 +219,16 @@ export default function ConfigurationPage() {
               <input type="text" value={formData.nomSociete} onChange={e => setFormData({ ...formData, nomSociete: e.target.value })} className={INPUT_CLS} required />
             </div>
             <div>
+              <label className={LABEL_CLS}>Matricule Fiscale (M.F)</label>
+              <input type="text" value={formData.matriculeFiscale} onChange={e => setFormData({ ...formData, matriculeFiscale: e.target.value })} placeholder="Ex : 1742623LAM000" className={INPUT_CLS} />
+            </div>
+            <div>
               <label className={LABEL_CLS}>Téléphone</label>
               <input type="text" value={formData.telephone} onChange={e => setFormData({ ...formData, telephone: e.target.value })} className={INPUT_CLS} />
+            </div>
+            <div>
+              <label className={LABEL_CLS}>Fax</label>
+              <input type="text" value={formData.fax} onChange={e => setFormData({ ...formData, fax: e.target.value })} className={INPUT_CLS} />
             </div>
             <div>
               <label className={LABEL_CLS}>Email de contact</label>
@@ -222,6 +241,18 @@ export default function ConfigurationPage() {
             <div className="md:col-span-2">
               <label className={LABEL_CLS}>Adresse</label>
               <textarea value={formData.adresse} onChange={e => setFormData({ ...formData, adresse: e.target.value })} rows={3} className={INPUT_CLS} />
+            </div>
+          </div>
+
+          <h3 className="text-base font-semibold text-gray-800 dark:text-white mt-8 mb-4">Coordonnées Bancaires</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label className={LABEL_CLS}>Nom de la Banque</label>
+              <input type="text" value={formData.banque} onChange={e => setFormData({ ...formData, banque: e.target.value })} placeholder="Ex : UIB BANK" className={INPUT_CLS} />
+            </div>
+            <div>
+              <label className={LABEL_CLS}>RIB / N° de Compte</label>
+              <input type="text" value={formData.rib} onChange={e => setFormData({ ...formData, rib: e.target.value })} placeholder="Ex : 12023000003303530971" className={INPUT_CLS} />
             </div>
           </div>
         </div>

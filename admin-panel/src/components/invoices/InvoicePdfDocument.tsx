@@ -10,8 +10,19 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import { COMPANY_INFO } from "@/utils/invoiceConfig";
 import { montantEnLettres, formatTND } from "@/utils/numberToFrenchWords";
+
+export interface CompanyPdfData {
+  nomSociete?: string | null;
+  matriculeFiscale?: string | null;
+  adresse?: string | null;
+  telephone?: string | null;
+  fax?: string | null;
+  email?: string | null;
+  banque?: string | null;
+  rib?: string | null;
+  logoUrl?: string | null;
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -285,22 +296,30 @@ const TableCell = ({
 
 // ─── Main Document ─────────────────────────────────────────────────────────────
 
-export function InvoicePdfDocument({ data }: { data: InvoiceData }) {
+export function InvoicePdfDocument({
+  data,
+  company,
+}: {
+  data: InvoiceData;
+  company?: CompanyPdfData | null;
+}) {
   const words = montantEnLettres(data.montantTTC);
+  const nomSociete = company?.nomSociete || "RZMedical";
+  const logoSrc = company?.logoUrl || "/images/logo/logo-rzmedical.png";
 
   return (
     <Document
       title={`Facture ${data.numero}`}
-      author="R and Z Medical"
-      creator="RZMedical Admin"
+      author={nomSociete}
+      creator={`${nomSociete} Admin`}
     >
       <Page size="A4" style={styles.page}>
         {/* ── Top Row: Billing Info | Client Info ── */}
         <View style={styles.topRow}>
           {/* Left: company identity */}
           <View style={[styles.brandColumn, styles.titleSection]}>
-            <Image src="/images/logo/logo-rzmedical.png" style={styles.logo} />
-            <Text style={styles.companyName}>{COMPANY_INFO.nom}</Text>
+            <Image src={logoSrc} style={styles.logo} />
+            <Text style={styles.companyName}>{nomSociete}</Text>
             <Text style={styles.invoiceTitle}>Facture N° {data.numero}</Text>
           </View>
 
@@ -431,32 +450,42 @@ export function InvoicePdfDocument({ data }: { data: InvoiceData }) {
         {/* ── Footer ── */}
         <View style={styles.footer} fixed>
           <View style={styles.footerCol}>
-            <Text style={styles.footerTitle}>{COMPANY_INFO.nom}</Text>
-            <Text style={styles.footerText}>
-              M.F {COMPANY_INFO.matriculeFiscale}
-            </Text>
-            <Text style={styles.footerText}>{COMPANY_INFO.adresse}</Text>
-            <Text style={styles.footerText}>{COMPANY_INFO.adresseSuite}</Text>
-            <Text style={styles.footerText}>
-              {COMPANY_INFO.codePostalVille}
-            </Text>
+            <Text style={styles.footerTitle}>{nomSociete}</Text>
+            {company?.matriculeFiscale ? (
+              <Text style={styles.footerText}>
+                M.F {company.matriculeFiscale}
+              </Text>
+            ) : null}
+            {company?.adresse ? (
+              <Text style={styles.footerText}>{company.adresse}</Text>
+            ) : null}
           </View>
           <View style={styles.footerCol}>
             <Text style={styles.footerTitle}>Contact</Text>
-            <Text style={styles.footerText}>
-              Téléphone {COMPANY_INFO.telephone}
-            </Text>
-            <Text style={styles.footerText}>Fax {COMPANY_INFO.fax}</Text>
-            <Text style={styles.footerText}>
-              Email {COMPANY_INFO.email}
-            </Text>
+            {company?.telephone ? (
+              <Text style={styles.footerText}>
+                Téléphone {company.telephone}
+              </Text>
+            ) : null}
+            {company?.fax ? (
+              <Text style={styles.footerText}>Fax {company.fax}</Text>
+            ) : null}
+            {company?.email ? (
+              <Text style={styles.footerText}>
+                Email {company.email}
+              </Text>
+            ) : null}
           </View>
           <View style={styles.footerCol}>
             <Text style={styles.footerTitle}>Détails bancaires</Text>
-            <Text style={styles.footerText}>Banque {COMPANY_INFO.banque}</Text>
-            <Text style={styles.footerText}>
-              N° de compte{"\n"}{COMPANY_INFO.numeroCompte}
-            </Text>
+            {company?.banque ? (
+              <Text style={styles.footerText}>Banque {company.banque}</Text>
+            ) : null}
+            {company?.rib ? (
+              <Text style={styles.footerText}>
+                N° de compte{"\n"}{company.rib}
+              </Text>
+            ) : null}
           </View>
         </View>
       </Page>

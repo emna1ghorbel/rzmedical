@@ -5,14 +5,16 @@ import { useEffect, useCallback } from "react";
 // ── Global 401 interceptor ────────────────────────────────────────────────────
 // Any API response with status 401 (token expired/invalid) triggers a forced
 // logout + redirect to /signin, regardless of which page made the request.
-let interceptorInstalled = false;
 let redirected = false;
 
 function installAuthInterceptor() {
-  if (interceptorInstalled || typeof window === "undefined") return;
-  interceptorInstalled = true;
+  if (typeof window === "undefined" || (window as any).__authInterceptorInstalled_v2) return;
+  (window as any).__authInterceptorInstalled_v2 = true;
 
-  const originalFetch = window.fetch.bind(window);
+  if (!(window as any).__originalFetch) {
+    (window as any).__originalFetch = window.fetch;
+  }
+  const originalFetch = (window as any).__originalFetch.bind(window);
 
   window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
     const response = await originalFetch(input, init);

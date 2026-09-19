@@ -11,8 +11,7 @@ async function getOrCreate() {
     const valeursTva = Array.isArray(existing.valeursTva) ? existing.valeursTva : [];
     const valeursTimbre = Array.isArray(existing.valeursTimbre) ? existing.valeursTimbre : [];
 
-    // Les formulaires de facture n'affichent que les valeurs sauvegardées ici.
-    // Initialiser une configuration vide évite des listes de sélection inutilisables.
+    // Initialiser les listes fiscales vides avec des valeurs par défaut neutres
     if (valeursTva.length > 0 && valeursTimbre.length > 0) return existing;
 
     return prisma.infoSociete.update({
@@ -23,10 +22,11 @@ async function getOrCreate() {
       },
     });
   }
+
+  // Création initiale : aucune donnée réelle codée en dur
   return prisma.infoSociete.create({
     data: {
       id: 1,
-      nomSociete: 'RZMedical',
       valeursTva: [0, 7, 13, 19],
       valeursTimbre: [1],
     },
@@ -47,7 +47,22 @@ router.get('/', async (_req: Request, res: Response) => {
 // PUT /api/company-info — Admin seulement
 router.put('/', requireAuth, async (req: Request, res: Response) => {
   try {
-    const { nomSociete, logoUrl, telephone, email, adresse, siteWeb, valeursTva, valeursTimbre, tauxFrais, timbreFiscal } = req.body;
+    const {
+      nomSociete,
+      logoUrl,
+      matriculeFiscale,
+      telephone,
+      fax,
+      email,
+      adresse,
+      siteWeb,
+      banque,
+      rib,
+      valeursTva,
+      valeursTimbre,
+      tauxFrais,
+      timbreFiscal,
+    } = req.body;
 
     // S'assurer que le singleton existe
     await getOrCreate();
@@ -57,10 +72,14 @@ router.put('/', requireAuth, async (req: Request, res: Response) => {
       data: {
         ...(nomSociete !== undefined && { nomSociete: String(nomSociete).trim() || 'RZMedical' }),
         ...(logoUrl !== undefined && { logoUrl: logoUrl?.trim() || null }),
+        ...(matriculeFiscale !== undefined && { matriculeFiscale: matriculeFiscale?.trim() || null }),
         ...(telephone !== undefined && { telephone: telephone?.trim() || null }),
+        ...(fax !== undefined && { fax: fax?.trim() || null }),
         ...(email !== undefined && { email: email?.trim() || null }),
         ...(adresse !== undefined && { adresse: adresse?.trim() || null }),
         ...(siteWeb !== undefined && { siteWeb: siteWeb?.trim() || null }),
+        ...(banque !== undefined && { banque: banque?.trim() || null }),
+        ...(rib !== undefined && { rib: rib?.trim() || null }),
         ...(valeursTva !== undefined && {
           valeursTva: Array.isArray(valeursTva)
             ? valeursTva.map((v: unknown) => Number(v)).filter((v: number) => !isNaN(v))
@@ -84,5 +103,3 @@ router.put('/', requireAuth, async (req: Request, res: Response) => {
 });
 
 export default router;
-
-// Trigger nodemon restart

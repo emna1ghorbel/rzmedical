@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "info_societe" ADD COLUMN IF NOT EXISTS "matriculeFiscale" TEXT,
+ADD COLUMN IF NOT EXISTS "fax" TEXT,
+ADD COLUMN IF NOT EXISTS "banque" TEXT,
+ADD COLUMN IF NOT EXISTS "rib" TEXT;

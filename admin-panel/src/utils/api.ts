@@ -117,6 +117,20 @@ export const downloadFactureFournisseurPdf = async (ffId: number, numero?: strin
   window.URL.revokeObjectURL(url);
 };
 
+export const downloadBonSortiePdf = async (bonId: number, code?: string) => {
+  const token = typeof window !== "undefined" ? (localStorage.getItem("token") || localStorage.getItem("rzm_token")) : null;
+  const res = await fetch(`${getApiUrl()}/stock-commercial/bons-sortie/${bonId}/pdf`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  if (!res.ok) throw new Error("Erreur lors de la génération du PDF du bon de sortie");
+  const url = window.URL.createObjectURL(await res.blob());
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `bon-sortie-${code || bonId}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+};
+
 /** Utility for exporting data to CSV compatible with Excel */
 export const exportToCsv = (filename: string, headers: string[], rows: (string | number)[][]) => {
   const bom = "\uFEFF"; // UTF-8 BOM for Excel

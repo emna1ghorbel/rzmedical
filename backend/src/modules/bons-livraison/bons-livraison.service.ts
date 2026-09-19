@@ -35,6 +35,8 @@ const BL_INCLUDE = {
   lignes: { include: { produit: { select: { id: true, nom: true, reference: true, stock: true } } } },
   commande: { select: { id: true, numero: true, statut: true } },
   utilisateur: { select: { id: true, nom: true, prenom: true, email: true, telephone: true, matriculeFiscale: true, adresse: true } },
+  commercial: { select: { id: true, nom: true, prenom: true } },
+  bonSortie: { select: { id: true, code: true, statut: true } },
   factures: { select: { id: true, numero: true, statut: true } },
   facturesJonction: { select: { factureId: true } },
 };
@@ -104,18 +106,46 @@ export const createBLFromOrder = async (orderId: number) => {
   await prisma.$transaction(async (tx) => {
     for (const ligne of bl.lignes) {
       if (!ligne.produitId) continue;
-      await recordStockMovement(tx, {
-        productId: ligne.produitId,
-        quantity: ligne.quantiteLivree,
-        type: StockMovementType.SALE,
-        unitPrice: Number(ligne.prixUnitaireHT),
-        nature: 'SORTIE',
-        documentType: 'BON_LIVRAISON',
-        reference: bl.code,
-        sourceType: 'BON_LIVRAISON',
-        sourceId: bl.id,
-        sourceLineId: ligne.id,
-      });
+      
+      if (bl.commercialId) {
+        // 1. Décrémenter le stock de la voiture du commercial
+        const stock = await tx.stockCommercial.findUnique({
+          where: { commercialId_produitId: { commercialId: bl.commercialId, produitId: ligne.produitId } }
+        });
+        if (!stock || stock.quantite < ligne.quantiteLivree) {
+          throw new BLError(`Le commercial ne dispose pas d'assez de stock pour le produit ID ${ligne.produitId}`);
+        }
+        await tx.stockCommercial.update({
+          where: { id: stock.id },
+          data: { quantite: { decrement: ligne.quantiteLivree } }
+        });
+        // 2. Enregistrer le mouvement de vente pour mettre à jour la qté vendue
+        await recordStockMovement(tx, {
+          productId: ligne.produitId,
+          quantity: ligne.quantiteLivree,
+          type: StockMovementType.SALE,
+          unitPrice: Number(ligne.prixUnitaireHT),
+          nature: 'SORTIE',
+          documentType: 'BON_LIVRAISON',
+          reference: bl.code,
+          sourceType: 'BON_LIVRAISON',
+          sourceId: bl.id,
+          sourceLineId: ligne.id,
+        });
+      } else {
+        await recordStockMovement(tx, {
+          productId: ligne.produitId,
+          quantity: ligne.quantiteLivree,
+          type: StockMovementType.SALE,
+          unitPrice: Number(ligne.prixUnitaireHT),
+          nature: 'SORTIE',
+          documentType: 'BON_LIVRAISON',
+          reference: bl.code,
+          sourceType: 'BON_LIVRAISON',
+          sourceId: bl.id,
+          sourceLineId: ligne.id,
+        });
+      }
     }
     await tx.bonLivraison.update({ where: { id: bl.id }, data: { stockMisAJour: true } });
   });
@@ -129,6 +159,8 @@ export const createBLFromOrder = async (orderId: number) => {
 export interface CreateBLInput {
   commandeId?: number;
   utilisateurId?: number;
+  commercialId?: number;
+  bonSortieId?: number;
   clientNom?: string;
   clientMF?: string;
   clientAdresse?: string;
@@ -146,6 +178,8 @@ export interface CreateBLInput {
     prixUnitaireHT: number;
     remise?: number;
     tauxTVA: number;
+    bonSortieId?: number;
+    ligneBonSortieId?: number;
   }[];
 }
 
@@ -182,6 +216,8 @@ export const createBL = async (data: CreateBLInput) => {
       quantiteLivree: qty,
       prixUnitaireHT: puApres,
       tauxTVA: Number(l.tauxTVA) || 0,
+      bonSortieId: l.bonSortieId ? Number(l.bonSortieId) : null,
+      ligneBonSortieId: l.ligneBonSortieId ? Number(l.ligneBonSortieId) : null,
     };
   });
 
@@ -215,6 +251,8 @@ export const createBL = async (data: CreateBLInput) => {
         code,
         commandeId,
         utilisateurId: data.utilisateurId || null,
+        commercialId: data.commercialId || null,
+        bonSortieId: data.bonSortieId || null,
         clientNom: data.clientNom || null,
         clientMF: data.clientMF || null,
         clientAdresse: data.clientAdresse || null,
@@ -234,18 +272,51 @@ export const createBL = async (data: CreateBLInput) => {
       // Utiliser les IDs DB réels des lignes (pas lineIndex) pour garantir l'idempotence de operationKey
       for (const ligneBL of bl.lignes) {
         if (ligneBL.produitId) {
-          await recordStockMovement(tx, {
-            productId: ligneBL.produitId,
-            quantity: ligneBL.quantiteLivree,
-            type: StockMovementType.SALE,
-            unitPrice: Number(ligneBL.prixUnitaireHT),
-            nature: 'SORTIE',
-            documentType: 'BON_LIVRAISON',
-            reference: bl.code,
-            sourceType: 'BON_LIVRAISON',
-            sourceId: bl.id,
-            sourceLineId: ligneBL.id,
-          });
+          if (bl.commercialId) {
+            // Utilisation du stock dynamique
+            const { getStockDynamiqueCommercial } = await import('../stock-commercial/stock-commercial.service');
+            const stock = await getStockDynamiqueCommercial(bl.commercialId);
+            const produitStock = stock.find((s: any) => s.id === ligneBL.produitId);
+            if (!produitStock || produitStock.quantite < ligneBL.quantiteLivree) {
+              throw new BLError(`Le commercial ne dispose pas d'assez de stock pour le produit ID ${ligneBL.produitId}`);
+            }
+            // 1. Décrémenter stock commercial
+            const stockStat = await tx.stockCommercial.findUnique({
+              where: { commercialId_produitId: { commercialId: bl.commercialId, produitId: ligneBL.produitId } }
+            });
+            if (stockStat) {
+              await tx.stockCommercial.update({
+                where: { id: stockStat.id },
+                data: { quantite: { decrement: ligneBL.quantiteLivree } }
+              });
+            }
+            // 2. Enregistrer le mouvement pour qté vendue
+            await recordStockMovement(tx, {
+              productId: ligneBL.produitId,
+              quantity: ligneBL.quantiteLivree,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligneBL.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'BON_LIVRAISON',
+              reference: bl.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: bl.id,
+              sourceLineId: ligneBL.id,
+            });
+          } else {
+            await recordStockMovement(tx, {
+              productId: ligneBL.produitId,
+              quantity: ligneBL.quantiteLivree,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligneBL.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'BON_LIVRAISON',
+              reference: bl.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: bl.id,
+              sourceLineId: ligneBL.id,
+            });
+          }
         }
       }
       await tx.bonLivraison.update({ where: { id: bl.id }, data: { stockMisAJour: true } });
@@ -284,18 +355,45 @@ export const updateBL = async (id: number, data: Partial<CreateBLInput> & { stat
     if (shouldUpdateStock) {
       for (const ligne of existing.lignes) {
         if (ligne.produitId) {
-          await recordStockMovement(tx, {
-            productId: ligne.produitId,
-            quantity: ligne.quantiteLivree,
-            type: StockMovementType.SALE,
-            unitPrice: Number(ligne.prixUnitaireHT),
-            nature: 'SORTIE',
-            documentType: 'BON_LIVRAISON',
-            reference: updated.code,
-            sourceType: 'BON_LIVRAISON',
-            sourceId: id,
-            sourceLineId: ligne.id,
-          });
+          if (updated.commercialId) {
+            const stock = await tx.stockCommercial.findUnique({
+              where: { commercialId_produitId: { commercialId: updated.commercialId, produitId: ligne.produitId } }
+            });
+            if (!stock || stock.quantite < ligne.quantiteLivree) {
+              throw new BLError(`Le commercial ne dispose pas d'assez de stock pour le produit ID ${ligne.produitId}`);
+            }
+            // 1. Décrémenter stock commercial
+            await tx.stockCommercial.update({
+              where: { id: stock.id },
+              data: { quantite: { decrement: ligne.quantiteLivree } }
+            });
+            // 2. Enregistrer le mouvement pour qté vendue
+            await recordStockMovement(tx, {
+              productId: ligne.produitId,
+              quantity: ligne.quantiteLivree,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligne.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'BON_LIVRAISON',
+              reference: updated.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: updated.id,
+              sourceLineId: ligne.id,
+            });
+          } else {
+            await recordStockMovement(tx, {
+              productId: ligne.produitId,
+              quantity: ligne.quantiteLivree,
+              type: StockMovementType.SALE,
+              unitPrice: Number(ligne.prixUnitaireHT),
+              nature: 'SORTIE',
+              documentType: 'BON_LIVRAISON',
+              reference: updated.code,
+              sourceType: 'BON_LIVRAISON',
+              sourceId: id,
+              sourceLineId: ligne.id,
+            });
+          }
         }
       }
     }

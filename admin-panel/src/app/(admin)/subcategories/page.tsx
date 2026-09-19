@@ -38,6 +38,7 @@ export default function SubcategoriesPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -131,9 +132,18 @@ export default function SubcategoriesPage() {
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">Gestion des sous-catégories</h3>
           <p className="text-sm text-gray-500">{items.length} sous-catégorie(s)</p>
         </div>
-        <button onClick={() => openAdd()} className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors">
-          Ajouter
-        </button>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Rechercher une sous-catégorie..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-52 px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500"
+          />
+          <button onClick={() => openAdd()} className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors">
+            Ajouter
+          </button>
+        </div>
       </div>
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -150,7 +160,7 @@ export default function SubcategoriesPage() {
           <div className="flex items-center justify-center py-20"><div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent" /></div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3"><p className="text-red-500">{error}</p><button onClick={fetchData} className="text-sm text-brand-500 underline">Réessayer</button></div>
-        ) : items.length === 0 ? (
+        ) : items.filter(item => !searchQuery.trim() || item.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3"><p className="text-gray-500">Aucune sous-catégorie</p><button onClick={() => openAdd()} className="text-sm text-brand-500 underline">Créer</button></div>
         ) : (
           <div className="max-w-full overflow-x-auto">
@@ -165,7 +175,7 @@ export default function SubcategoriesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {items.map((item) => (
+                {items.filter(item => !searchQuery.trim() || item.nom.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => (
                   <TableRow key={item.id}>
                     <TableCell className="px-6 py-4 font-medium text-gray-800 dark:text-white/90">{item.nom}</TableCell>
                     <TableCell className="px-6 py-4">{item.image ? <img src={item.image} alt={item.nom} className="h-12 w-12 rounded-lg object-cover" /> : <span className="text-xs text-gray-400">Aucune image</span>}</TableCell>

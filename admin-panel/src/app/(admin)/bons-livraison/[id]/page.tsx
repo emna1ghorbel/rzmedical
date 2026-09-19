@@ -144,15 +144,18 @@ export default function BonLivraisonDetailPage() {
 
         {/* Info Commande */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider mb-4">Lien de Commande</h3>
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider mb-4">Liens & Sources</h3>
           <div className="space-y-3 text-sm">
             {bl.commandeId ? (
-              <>
-                <p><span className="text-gray-500">Commande :</span> <Link href={`/orders/${bl.commandeId}`} className="font-medium text-brand-500 hover:underline">CMD-{bl.commandeId.toString().padStart(5, '0')}</Link></p>
-                <p><span className="text-gray-500">Statut de la commande :</span> <span className="dark:text-white">{bl.commande?.statut}</span></p>
-              </>
+              <p><span className="text-gray-500">Commande :</span> <Link href={`/orders/${bl.commandeId}`} className="font-medium text-brand-500 hover:underline">CMD-{bl.commandeId.toString().padStart(5, '0')}</Link></p>
             ) : (
-              <p className="text-gray-500 italic">Ce bon de livraison n'est lié à aucune commande.</p>
+              <p className="text-gray-500 italic">Pas de commande liée.</p>
+            )}
+            {bl.bonSortie && (
+              <p><span className="text-gray-500">Bon de Sortie :</span> <span className="font-medium text-amber-700 dark:text-amber-400">{bl.bonSortie.code}</span> <span className="text-xs px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300">{bl.bonSortie.statut}</span></p>
+            )}
+            {bl.commercial && (
+              <p><span className="text-gray-500">Commercial :</span> <span className="font-medium dark:text-white">{bl.commercial.prenom} {bl.commercial.nom}</span></p>
             )}
             {bl.dateLivraison && (
               <p><span className="text-gray-500">Date de livraison prévue :</span> <span className="dark:text-white">{new Date(bl.dateLivraison).toLocaleDateString()}</span></p>
@@ -160,6 +163,7 @@ export default function BonLivraisonDetailPage() {
           </div>
         </div>
       </div>
+
 
       {/* Lignes */}
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
