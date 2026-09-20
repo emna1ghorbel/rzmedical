@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: e2e\auth\logout.spec.ts >> déconnecte une session existante et interdit le retour à une page protégée
-- Location: tests\e2e\auth\logout.spec.ts:11:5
+- Name: e2e\auth\logout.spec.ts >> redirige une session absente vers la connexion
+- Location: tests\e2e\auth\logout.spec.ts:4:5
 
 # Error details
 

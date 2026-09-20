@@ -5,7 +5,6 @@ import AppHeader from "@/layout/AppHeader";
 import AppSidebar from "@/layout/AppSidebar";
 import Backdrop from "@/layout/Backdrop";
 import React from "react";
-import { useAuth } from "@/hooks/useAuth";
 import { ExerciceProvider } from "@/context/ExerciceContext";
 import { CompanyInfoProvider } from "@/context/CompanyInfoContext";
 
@@ -15,8 +14,6 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
-  useAuth(); // Redirects to /signin if not authenticated
-
   const mainContentMargin = isMobileOpen
     ? "ml-0"
     : isExpanded || isHovered

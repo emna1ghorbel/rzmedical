@@ -221,8 +221,9 @@ export default function BonsSortiePage() {
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Créer un Bon de Sortie</h3>
             
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Commercial *</label>
+              <label htmlFor="bon-sortie-commercial" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Commercial *</label>
               <select 
+                id="bon-sortie-commercial"
                 value={formCommercialId} 
                 onChange={(e) => setFormCommercialId(e.target.value)}
                 className="w-full rounded-lg border border-gray-300 p-2.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"

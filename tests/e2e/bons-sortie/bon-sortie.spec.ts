@@ -12,5 +12,7 @@ test('bon de sortie : les référentiels sont chargés sans dépendre de donnée
   await page.getByRole('button', { name: '+ Nouveau Bon' }).click();
   await expect(page.getByRole('heading', { name: 'Créer un Bon de Sortie' })).toBeVisible();
   await expect(page.getByText(productFixture.nom)).toBeAttached();
-  await expect(page.getByText('-- Sélectionner un commercial --')).toBeVisible();
+  // Native <option> elements are not individually visible in Chromium until
+  // their select is opened. Assert the visible form control and its default.
+  await expect(page.getByLabel('Commercial *')).toHaveValue('');
 });

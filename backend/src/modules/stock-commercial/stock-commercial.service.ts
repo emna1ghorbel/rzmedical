@@ -211,7 +211,7 @@ export async function getInventaireByBonSortie(bonSortieId: number) {
   const inv = await prisma.inventaireCommercial.findFirst({
     where: { bonSortieId },
     include: {
-      lignes: { include: { produit: { select: { id: true, nom: true, reference: true, cump: true } } } },
+      lignes: { include: { produit: { select: { id: true, nom: true, reference: true, cump: true, prixAchat: true } } } },
       bonSortie: true,
       commercial: true
     }
@@ -243,7 +243,8 @@ export async function getInventaireByBonSortie(bonSortieId: number) {
     let totalEcartQte = 0;
     let totalValeurEcart = 0;
     for (const ligne of inv.lignes) {
-      const pmp = Number(ligne.produit.cump) || 0;
+      // CUMP en priorité, prixAchat en fallback
+      const pmp = Number(ligne.produit.cump) || Number((ligne.produit as any).prixAchat) || 0;
       // Mettre à jour la qté vendue en temps réel
       const venteDynamique = venteParProduit.get(ligne.produitId) ?? ligne.quantiteVendue;
       const restanteDynamique = ligne.quantiteSortie - venteDynamique;
@@ -324,7 +325,7 @@ export async function createInventaireFromBS(bonSortieId: number) {
               quantiteRestante: restante,
               quantiteVoiture: restante, // par défaut
               ecart: 0,
-              pmpSnapshot: l.produit.cump ?? 0,
+              pmpSnapshot: Number(l.produit.cump) || Number(l.produit.prixAchat) || 0,
               valeurEcart: 0
             };
           })
@@ -339,14 +340,15 @@ export async function createInventaireFromBS(bonSortieId: number) {
 export async function updateLigneInventaire(ligneId: number, quantiteVoiture: number) {
   const ligne = await prisma.ligneInventaire.findUnique({
     where: { id: ligneId },
-    include: { inventaire: true, produit: true }
+    include: { inventaire: true, produit: { select: { id: true, cump: true, prixAchat: true } } }
   });
   
   if (!ligne) throw new Error('Ligne introuvable');
   if (ligne.inventaire.statut === StatutInventaire.VALIDE) throw new Error('Inventaire déjà validé');
 
   const ecart = quantiteVoiture - ligne.quantiteRestante;
-  const pmp = Number(ligne.produit.cump) || 0;
+  // CUMP en priorité, prixAchat en fallback
+  const pmp = Number(ligne.produit.cump) || Number((ligne.produit as any).prixAchat) || 0;
   const valeurEcart = ecart * pmp;
 
   return prisma.ligneInventaire.update({

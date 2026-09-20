@@ -8,7 +8,9 @@ export type DocumentType =
   | 'BON_LIVRAISON'
   | 'BON_RECEPTION'
   | 'AVOIR_VENTE'
-  | 'AVOIR_ACHAT';
+  | 'AVOIR_ACHAT'
+  | 'BON_SORTIE'
+  | 'INVENTAIRE_COMMERCIAL';
 
 const PREFIXES: Record<DocumentType, string> = {
   FACTURE_VENTE: 'FV',
@@ -19,6 +21,8 @@ const PREFIXES: Record<DocumentType, string> = {
   BON_RECEPTION: 'BR',
   AVOIR_VENTE: 'AV',
   AVOIR_ACHAT: 'AA',
+  BON_SORTIE: 'BS',
+  INVENTAIRE_COMMERCIAL: 'INV',
 };
 
 type DatabaseClient = PrismaClient | Prisma.TransactionClient;
