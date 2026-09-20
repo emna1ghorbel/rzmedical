@@ -59,7 +59,7 @@ export function useAuth() {
     const isAuthPage = pathname?.startsWith("/signin") || pathname?.startsWith("/signup");
 
     if (!token && !isAuthPage) {
-      router.replace("/signin");
+      window.location.href = "/signin";
     }
   }, [pathname, router]);
 

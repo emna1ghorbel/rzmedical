@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Allow Playwright (and other tools) connecting via 127.0.0.1 to load
+  // /_next/* assets without being blocked by Next.js cross-origin protection.
+  allowedDevOrigins: ["127.0.0.1"],
   async rewrites() {
     return [
       {
