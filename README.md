@@ -217,7 +217,7 @@ Les commandes doivent être exécutées depuis le dossier de l'application conce
 - notifications et boîte de réception ;
 - tickets de support et messages ;
 - téléversement de fichiers via `/api/upload`.
-
+hello 
 ### Assistant conversationnel
 
 Le site expose la route Next.js `POST /api/chat`. Cette route appelle Groq côté serveur ; la clé `GROQ_API_KEY` ne doit donc jamais être préfixée par `NEXT_PUBLIC_` ni exposée au navigateur.
